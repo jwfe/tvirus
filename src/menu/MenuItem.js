@@ -22,7 +22,7 @@ export default class Menu extends Component {
     }
     handleClick(){
         const { onClick } = this.context;
-        onClick(this.props.index)
+        onClick(this, this.props.index)
     }
     render(){
         const { children, mode } = this.props;

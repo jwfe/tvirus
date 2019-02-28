@@ -52,7 +52,10 @@ const tvirus = {};
 [
     'button',
     'grid',
-    'menu'
+    'menu',
+    'icon',
+    'tabs',
+    'input'
 ].map((item) => {
     tvirus[`@${item}`] = path.resolve(`./components/`, item);
 });
@@ -68,6 +71,7 @@ module.exports = {
         open: false
     },
     resolve: {
+        extensions: [".js", ".json", ".less"],
         alias: Object.assign({
             '@Libs': `../../libs`
         }, tvirus)
@@ -79,6 +83,47 @@ module.exports = {
                 use: [{
                     loader: "babel-loader"
                 }]
+            },
+            {
+                test: /\.svg$/,
+                include: [
+                    path.resolve(__dirname, './components/icon/svg/'),
+                ],
+                use: [
+                    {
+                        loader: 'svg-sprite-loader',
+                        options: {
+                            symbolId: 'icon-[name]'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    {
+                        loader: 'style-loader' // creates style nodes from JS strings
+                    },
+
+                    {
+                        loader: 'css-loader' // translates CSS into CommonJS
+                    },
+
+                    {
+                        loader: 'less-loader' // compiles Less to CSS
+                    }
+                ]
             }
         ]
     },

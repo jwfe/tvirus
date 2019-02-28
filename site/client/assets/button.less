@@ -1,0 +1,138 @@
+.tv-button{
+    position: relative;
+    display: inline-block;
+
+    border: 1px solid #acacac;
+    border-radius: 1px;
+
+    padding: 0 15px;
+
+    height: 32px;
+
+    font-size: 14px;
+    line-height: 1.499;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+
+    color: #333;
+
+    box-shadow: 0 2px 0 rgba(0,0,0,0.015);
+    background-color: #fff;
+
+    cursor: pointer;
+
+    user-select: none;
+    touch-action: manipulation;
+
+    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    &-primary{
+        border-color: #ff8b3d; 
+        color: #fff;
+        background-color: #ff8b3d;
+        &.tv-button-circle{
+            border-radius: 50%;
+            padding: 0;
+            width: 32px;
+            .tv-icon{
+                color: #fff;
+            }
+        }
+
+        &.tv-button-plain{
+            color: #ff8b3d;
+            background-color: transparent;
+            .tv-icon{
+                color: #ff8b3d;
+            }
+        }
+    }
+
+    &-dashed{
+        border-radius: 30px;
+        border-style: dashed;
+        border-color: #b3b3b3; 
+        color: #acacac;
+        background-color: transparent;
+    }
+
+    &-danger{
+        border-color: #f41e29; 
+        color: #fff;
+        background-color: #f41e29;
+        &.tv-button-circle{
+            border-radius: 50%;
+            padding: 0;
+            width: 32px;
+            .tv-icon{
+                color: #fff;
+            }
+        }
+
+        &.tv-button-plain{
+            color: #f41e29;
+            background-color: transparent;
+            .tv-icon{
+                color: #f41e29;
+            }
+        }
+    }
+
+    &-success{
+        border-color: #49bc19; 
+        color: #fff;
+        background-color: #49bc19;
+        &.tv-button-circle{
+            border-radius: 50%;
+            padding: 0;
+            width: 32px;
+            .tv-icon{
+                color: #fff;
+            }
+        }
+        &.tv-button-plain{
+            color: #49bc19;
+            background-color: transparent;
+            .tv-icon{
+                color: #49bc19;
+            }
+        }
+    }
+
+    &-warning{
+        border-color: #f9a314; 
+        color: #fff;
+        background-color: #f9a314;
+        &.tv-button-circle{
+            border-radius: 50%;
+            padding: 0;
+            width: 32px;
+            .tv-icon{
+                color: #fff;
+            }
+        }
+        &.tv-button-plain{
+            color: #f9a314;
+            background-color: transparent;
+            .tv-icon{
+                color: #f9a314;
+            }
+        }
+    }
+
+    &-large{
+        height: 40px;
+        font-size: 16px;
+        &.tv-button-circle{
+            width: 40px;
+        }
+    }
+    &-small{
+        height: 24px;
+        font-size: 12px;
+
+        &.tv-button-circle{
+            width: 24px;
+        }
+    }
+}

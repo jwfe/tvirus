@@ -4,7 +4,7 @@ import { Route, HashRouter as Router } from 'react-router-dom';
 import Layout from './layout';
 import Index from './pages/index';
 import SpecIntroduce from './pages/spec/introduce';
-import CompIntroduce from './pages/component/introduce';
+import CompInstall from './pages/component/install';
 import Button from './pages/component/button';
 
 export default (
@@ -15,7 +15,7 @@ export default (
             <Route path="/spec/introduce" component={SpecIntroduce} />
 
             {/* 组件 */}
-            <Route path="/component/introduce" component={CompIntroduce} />
+            <Route path="/component/install" component={CompInstall} />
             <Route path="/component/button" component={Button} />
         </Layout>
     </Router>

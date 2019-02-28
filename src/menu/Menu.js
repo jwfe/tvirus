@@ -14,6 +14,7 @@ export default class Menu extends Component {
         className: PropTypes.string,
         indent: PropTypes.number,
         theme: PropTypes.string,
+        mode: PropTypes.string,
         onClick: PropTypes.func,
         onOpenChange: PropTypes.func,
 
@@ -24,8 +25,8 @@ export default class Menu extends Component {
         //todo: 定义主题名称
         // theme: '',
     };
-    onClick(index){
-        this.props.onClick(this, index);
+    onClick(item, index){
+        this.props.onClick(item, index);
         this.setState({
             activeIndex: index
         })
@@ -76,7 +77,8 @@ export default class Menu extends Component {
                 <ul 
                     style={this.style()}
                     className={this.className('tv-menu', {
-                        'tv-menu-horizontal': isHorizontal
+                        'tv-menu-horizontal': isHorizontal,
+                        'tv-menu-vertical': !isHorizontal
                     })}
                 >
                     {childrenWithProps}

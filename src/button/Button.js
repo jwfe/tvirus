@@ -1,20 +1,27 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
+import Icon from '../icon'
 
-export default class Group extends Component {
+export default class Button extends Component {
     static propTypes = {
-        type: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'link']),
+        type: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning']),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         htmlType: PropTypes.oneOf(['button', 'submit', 'reset']),
         className: PropTypes.string,
+        shape: PropTypes.string,
         icon: PropTypes.string,
         block: PropTypes.bool,
         component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         disabled: PropTypes.bool,
         loading: PropTypes.bool,
-        outline: PropTypes.bool,
-        bordered: PropTypes.bool
+        plain: PropTypes.bool,
     };
+    
+    static defaultProps = {
+        type: 'default',
+        htmlType: 'button',
+    }
+
     render(){
         return (
             <button 
@@ -25,16 +32,16 @@ export default class Group extends Component {
                 {
                     'tv-button-disabled': this.props.disabled,
                     'tv-button-loading': this.props.loading,
-                    'tv-button-outline': this.props.outline,
+                    'tv-button-plain': this.props.plain,
                     'tv-button-block': this.props.block,
-                    'tv-button-bordered': this.props.bordered,
+                    [`tv-button-${this.props.shape}`]: this.props.shape,
                 }
                 )
             } 
             style={this.style()}
             >
-                { this.props.loading && <i className="tv-icon-loading" /> }
-                { this.props.icon && !this.props.loading && <i className={`tv-icon-${this.props.icon}`} /> }
+                { this.props.loading && <Icon type="loading" /> }
+                { this.props.icon && !this.props.loading && <Icon type={this.props.icon} /> }
                 <span>{this.props.children}</span>
             </button>
         )

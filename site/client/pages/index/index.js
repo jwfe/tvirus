@@ -5,12 +5,7 @@ export default class Introduce extends Component{
     render() {
         return (
             <div>
-                <div>
-                    <Link to="/spec/introduce">设计语言</Link>
-                </div>
-                <div>
-                    <Link to="/component/introduce">组件</Link>
-                </div>
+                首页展示
             </div>
         )
     }

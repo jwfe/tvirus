@@ -29,7 +29,7 @@ export default class Menu extends Component {
                     [`tv-menu-theme-${theme}`]: theme
                 })}
             >
-                <div className={this.className('tv-menu-item-group-title', className)}>
+                <div className={this.className('tv-menu-item-group-title')}>
                     {title}
                     <i className={this.className('tv-menu-submenu-arrow')}></i>
                 </div>

@@ -1,0 +1,24 @@
+.tv-row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tv-col{
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+each(range(24), {
+    .tv-col-span-@{value} {
+        flex-basis: unit((100/(24/@value)), %)
+    }
+
+    .tv-col-order-@{value} {
+        order: @value
+    }
+
+    .tv-col-offset-@{value} {
+        margin-left: unit((100/(24/@value)), %)
+    }
+});

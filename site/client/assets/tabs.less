@@ -1,0 +1,35 @@
+.tv-tabs{
+    position: relative;
+    display: inline-block;
+
+    box-sizing: border-box;
+    margin: 0;
+    &-nav{
+        border-bottom: 1px solid #dadada; 
+    }
+    &-item{
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+
+        margin: 0 32px 0 0;
+        padding: 12px 16px;
+
+        height: 100%;
+
+        text-decoration: none;
+        cursor: pointer;
+        &-active{
+            border-bottom: 2px solid #FF8B3D; 
+        }
+    }
+    &-content{
+        
+    }
+    &-tabpanel{
+        display: none;
+        &-active{
+            display: block;
+        }
+    }
+}
