@@ -1,11 +1,27 @@
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .tv-icon{
-    
     &-item{
         width: 1em;
         height: 1em;
         vertical-align: -0.15em;
         fill: currentColor;
         overflow: hidden;
+    }
+    &-loading {
+        display: inline-block;
+        border-radius: 50%;
+        animation-name: spin;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
     }
     &-search{
         font-size: 16px;

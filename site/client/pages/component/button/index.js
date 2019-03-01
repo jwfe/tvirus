@@ -92,6 +92,93 @@ export default class ButtonDemo extends Component{
                                 }
                             </Tabs>
                         </div>
+                        <h2>加载状态</h2>
+                        <div className="code-wraper">
+                            <div className="code-demo">
+                                <Button type="primary" loading={true}>Loading</Button>
+                            </div>
+                            <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                                <Highlight>
+                                    {`
+    improt React from 'react';
+    import { Button } from 'tvirus';
+    React.render(
+        <div>
+            <Button type="primary" loading={true}>Loading</Button>  
+        </div>
+    )
+                                    `}
+                                </Highlight>
+                            </div>
+                            <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+                        </div>
+
+
+                        <h2>禁用状态</h2>
+                        <div className="code-wraper">
+                            <div className="code-demo">
+                                <Button type="primary" disabled={true}>Primary</Button>
+                                <Button type="default" disabled={true}>Default</Button>
+                                <Button type="dashed" disabled={true}>Dashed</Button>
+                                <Button type="danger" disabled={true}>Danger</Button>
+                                <Button type="success" disabled={true}>Success</Button>
+                                <Button type="warning" disabled={true}>Warning</Button>
+                            </div>
+                            <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                                <Highlight>
+                                    {`
+    improt React from 'react';
+    import { Button } from 'tvirus';
+    React.render(
+        <div>
+            <Button type="primary" loading={true}>Loading</Button>  
+        </div>
+    )
+                                    `}
+                                </Highlight>
+                            </div>
+                            <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+                        </div>
+
+                        <h2>按钮组合</h2>
+                        <div className="code-wraper">
+                            <div className="code-demo">
+                                <Button.Group>
+                                    <Button>1号位</Button>
+                                    <Button>2号位</Button>
+                                    <Button>3号位</Button>
+                                </Button.Group>
+                                <Button.Group>
+                                    <Button type="primary">1号位</Button>
+                                    <Button type="primary">2号位</Button>
+                                    <Button type="primary">3号位</Button>
+                                </Button.Group>
+                            </div>
+                            <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                                <Highlight>
+                                    {`
+    improt React from 'react';
+    import { Button } from 'tvirus';
+    React.render(
+        <div>
+            <Button.Group>
+                <Button>1号位</Button>
+                <Button>2号位</Button>
+                <Button>3号位</Button>
+            </Button.Group>
+            <Button.Group>
+                <Button type="primary">1号位</Button>
+                <Button type="primary">2号位</Button>
+                <Button type="primary">3号位</Button>
+            </Button.Group>
+        </div>
+        )
+                                    `}
+                                </Highlight>
+                            </div>
+                            <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+                        </div>
+
                     </section>
                 </article>
             </Layout>
