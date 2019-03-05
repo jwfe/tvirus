@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
+import { Link } from 'react-router-dom';
 
 import Breadcrumb from '@breadcrumb';
 import './index.less'
@@ -36,6 +37,29 @@ export default class BreadcrumbDemo extends Component{
                     </Breadcrumb>
                 </div>
             )
+        });
+
+
+        childs.push({
+            title: '结合React-router@4',
+            children: (
+                <div className="code-demo">
+                    <Breadcrumb separator="/">
+                        <Breadcrumb.Item><Link to='/'>1</Link></Breadcrumb.Item>
+                        <Breadcrumb.Item>2</Breadcrumb.Item>
+                        <Breadcrumb.Item>3</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+            ),
+            jsx: `
+<div className="code-demo">
+    <Breadcrumb separator="/">
+        <Breadcrumb.Item><Link to='/'>1</Link></Breadcrumb.Item>
+        <Breadcrumb.Item>2</Breadcrumb.Item>
+        <Breadcrumb.Item>3</Breadcrumb.Item>
+    </Breadcrumb>
+</div>
+            `
         });
 
         this.setState({childs})

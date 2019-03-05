@@ -9,6 +9,10 @@ import Button from './pages/component/button';
 import Icon from './pages/component/icon';
 import Menu from './pages/component/menu';
 import Breadcrumb from './pages/component/breadcrumb';
+import Grid from './pages/component/grid';
+import Input from './pages/component/input';
+import Pagination from './pages/component/pagination';
+import Tabs from './pages/component/tabs';
 
 export default (
     <Router>
@@ -23,6 +27,10 @@ export default (
             <Route path="/component/icon" component={Icon} />
             <Route path="/component/menu" component={Menu} />
             <Route path="/component/breadcrumb" component={Breadcrumb} />
+            <Route path="/component/grid" component={Grid} />
+            <Route path="/component/input" component={Input} />
+            <Route path="/component/pagination" component={Pagination} />
+            <Route path="/component/tabs" component={Tabs} />
         </Layout>
     </Router>
 )

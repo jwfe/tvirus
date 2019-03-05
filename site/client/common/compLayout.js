@@ -81,6 +81,10 @@ export default class Layout extends Component{
                 title: '基础',
                 child: [
                     {
+                        title: 'Grid 栅格',
+                        query: 'grid'
+                    },
+                    {
                         title: 'Button 按钮',
                         query: 'button'
                     },
@@ -110,7 +114,18 @@ export default class Layout extends Component{
                     {
                         title: 'Breadcrumb 面包屑',
                         query: 'breadcrumb'
+                    },
+
+                    {
+                        title: 'Pagination 分页',
+                        query: 'pagination'
+                    },
+
+                    {
+                        title: 'Tabs 选项卡',
+                        query: 'tabs'
                     }
+                    
                 ]
             }
         ].map((item) => {
@@ -150,7 +165,7 @@ export default class Layout extends Component{
             {child.children}
             <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
                 <Highlight>
-                    {reactElementToJSXString(child.children, {tabStop: 4})}
+                    {child.jsx || reactElementToJSXString(child.children, {tabStop: 4})}
                 </Highlight>
             </div>
             <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>

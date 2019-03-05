@@ -15,9 +15,9 @@ function fsExistsSync(path) {
     return true;
 }
 
-function firstToLowerCase(str){
+function firstToUpperCase(str){
     const arr = str.split('');
-    arr[0] = arr[0].toLowerCase();
+    arr[0] = arr[0].toUpperCase();
     return arr.join('');
 }
 
@@ -54,69 +54,69 @@ class CreateSiteTempComp{
     }
     mkdir(){
         const newCompoents = this.compoents.filter((compoent) => {
-            const pagePath = `./pages/component/${compoent}/index.js`
-            return fsExistsSync(pagePath);
+            const arr = compoent.split('/');
+            if(arr.length > 1){
+                return false;
+            }
+            const pagePath = `./client/pages/component/${compoent}/index.js`
+            return !fsExistsSync(pagePath);
         });
 
         console.log('[CreateNewComp]', newCompoents);
 
-        const dirpath = `./pages/component/${compoent}`;
-        execSync(`mkdir -p ${dirpath}`);
+        if(!newCompoents.length){
+            return;
+        }
         newCompoents.forEach((comp) => {
-            const name = firstToLowerCase(comp)
+            const dirpath = `./client/pages/component/${comp}`;
+            execSync(`mkdir -p ${dirpath}`);
+            const name = firstToUpperCase(comp)
             fs.writeFileSync(`${dirpath}/index.js`, `
-            import React, { Component } from 'react';
-            import Layout from '../../../common/compLayout';
-            
-            import ${name} from '@${comp}';
-            import './index.less'
-            
-            export default class ${name}Demo extends Component{
-                constructor(props){
-                    super(props);
-                    this.state = {
-                        childs: []
-                    }
-                }
-            
-                componentWillMount(){
-                    this.childs([
-                        {
-                            title: '方向性图标',
-                            list: [
-                                'search'
-                            ]
-                        }
-                    ]);
-                }
-            
-                childs(){
-                    const childs = [];
-                    childs.push({
-                        title: '正常',
-                        children: (
-                            <div className="code-demo">
-                                <${name}></${name}>
-                            </div>
-                        )
-                    });
-            
-                    this.setState({childs})
-                }
-            
-                render() {
-                    const {childs} = this.state;
-            
-                    return <Layout {...this.props} 
-                        className="main-${comp}-box"
-                        title="${name}"
-                        desc="${name}的说明"
-                        childs={childs}
-                    />
-                }
-            }
+import React, { Component } from 'react';
+import Layout from '../../../common/compLayout';
+
+import ${name} from '@${comp}';
+import './index.less'
+
+export default class ${name}Demo extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            childs: []
+        }
+    }
+
+    componentWillMount(){
+        this.childs();
+    }
+
+    childs(){
+        const childs = [];
+        childs.push({
+            title: '正常',
+            children: (
+                <div className="code-demo">
+                    <${name}></${name}>
+                </div>
+            )
+        });
+
+        this.setState({childs})
+    }
+
+    render() {
+        const {childs} = this.state;
+
+        return <Layout {...this.props} 
+            className="main-${comp}-box"
+            title="${name}"
+            desc="${name}的说明"
+            childs={childs}
+        />
+    }
+}
             `)
-            fs.writeFileSync(`${dirpath}/index.js`, `.main-${comp}-box{}`);
+            fs.writeFileSync(`${dirpath}/index.less`, `.main-${comp}-box{}`);
         })
     }
     remove(){
@@ -126,6 +126,7 @@ class CreateSiteTempComp{
         compiler.plugin("entryOption",  (compilation, callback) => {
             this.remove()
             this.copy();
+            this.mkdir();
             // callback();
         });
     }
