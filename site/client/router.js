@@ -6,6 +6,9 @@ import Index from './pages/index';
 import SpecIntroduce from './pages/spec/introduce';
 import CompInstall from './pages/component/install';
 import Button from './pages/component/button';
+import Icon from './pages/component/icon';
+import Menu from './pages/component/menu';
+import Breadcrumb from './pages/component/breadcrumb';
 
 export default (
     <Router>
@@ -17,6 +20,9 @@ export default (
             {/* 组件 */}
             <Route path="/component/install" component={CompInstall} />
             <Route path="/component/button" component={Button} />
+            <Route path="/component/icon" component={Icon} />
+            <Route path="/component/menu" component={Menu} />
+            <Route path="/component/breadcrumb" component={Breadcrumb} />
         </Layout>
     </Router>
 )

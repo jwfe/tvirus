@@ -3,7 +3,7 @@ import Layout from '../../../common/compLayout';
 
 import {Row, Col} from '@grid';
 
-export default class Introduce extends Component{
+export default class install extends Component{
     render() {
         return (
             <Layout {...this.props}>

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import Highlight from 'react-highlight' 
+import reactElementToJSXString from 'react-element-to-jsx-string';
+
 import Menu from '@menu';
 import Icon from '@icon';
+import { Tabs, Tabpanel } from '@tabs';
 
 const style = {
     main: {
@@ -21,6 +25,27 @@ const style = {
 }
 
 export default class Layout extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            controlTitle: '显示',
+            isCodeShow: false
+        }
+    }
+    onShowCode(){
+        const {isCodeShow} = this.state;
+        if(isCodeShow){
+            this.setState({
+                isCodeShow: false,
+                controlTitle: '显示'
+            })
+        } else{
+            this.setState({
+                isCodeShow: true,
+                controlTitle: '隐藏'
+            })
+        }
+    }
     onClick(item){
         const { url } = item.props;
         if(!url){
@@ -58,6 +83,10 @@ export default class Layout extends Component{
                     {
                         title: 'Button 按钮',
                         query: 'button'
+                    },
+                    {
+                        title: 'Icon 图标',
+                        query: 'icon'
                     }
                 ]
             },
@@ -67,6 +96,20 @@ export default class Layout extends Component{
                     {
                         title: 'Input 输入框',
                         query: 'input'
+                    }
+                ]
+            },
+            {
+                title: '导航',
+                child: [
+                    {
+                        title: 'Menu 菜单',
+                        query: 'menu'
+                    },
+
+                    {
+                        title: 'Breadcrumb 面包屑',
+                        query: 'breadcrumb'
                     }
                 ]
             }
@@ -82,7 +125,39 @@ export default class Layout extends Component{
             )    
         })
     }
+    getCodeDemo(child){
+        if(Array.isArray(child.children)){
+            return (
+                <Tabs activeKey={child.children[0]}>
+                    {
+                        child.children.map((item) => {
+                            const itemCompoent = child.func(item);
+                            return (<Tabpanel tab={item} tabKey={item}>
+                                {itemCompoent}
+                                <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                                    <Highlight>
+                                        {reactElementToJSXString(itemCompoent, {tabStop: 4})}
+                                    </Highlight>
+                                </div>
+                                <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+                            </Tabpanel>)
+                        })
+                    }
+                </Tabs>
+            )
+        }
+        return (<div>
+            {child.children}
+            <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                <Highlight>
+                    {reactElementToJSXString(child.children, {tabStop: 4})}
+                </Highlight>
+            </div>
+            <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+        </div>)
+    }
     render() {
+        const {title, desc, className, childs} = this.props;
         return (
             <main style={style.main}>
                 <aside style={style.left}>
@@ -91,7 +166,23 @@ export default class Layout extends Component{
                     </Menu>
                 </aside>
                 <section style={style.right} className="main-component">
-                    {this.props.children}
+                    <article className={className}>
+                    <h1>{title}</h1>
+                    <p>{desc}</p>
+                    <section className="main-body">
+                        {
+                            childs.map((child) => {
+                                return (
+                                    <div>
+                                        <h2>{child.title}</h2>
+                                        <div className="code-wraper">{this.getCodeDemo(child)}</div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </section>
+                </article>
+
                 </section>        
             </main>
         )

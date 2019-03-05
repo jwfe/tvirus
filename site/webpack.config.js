@@ -1,10 +1,25 @@
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const execSync = require('child_process').execSync
-const fs = require("fs");
 const glob = require('glob')
+
+function fsExistsSync(path) {
+    try{
+        fs.accessSync(path, fs.F_OK);
+    }catch(e){
+        return false;
+    }
+    return true;
+}
+
+function firstToLowerCase(str){
+    const arr = str.split('');
+    arr[0] = arr[0].toLowerCase();
+    return arr.join('');
+}
 
 class CreateSiteTempComp{
     constructor(options){
@@ -13,6 +28,7 @@ class CreateSiteTempComp{
         }
         this.siteTempComp = path.resolve(this.opts.output, `components`);
         this.siteTempLibs = path.resolve(this.opts.output, `libs`);
+        this.compoents = this.getDirs();
 
     }
     getDirs(){
@@ -30,11 +46,78 @@ class CreateSiteTempComp{
     }
     copy(){
         execSync(`mkdir -p ${this.siteTempComp}`);
-        this.getDirs().forEach((item) => {
+        this.compoents.forEach((item) => {
             execSync(`cd ${this.siteTempComp} && cp -rf ../../src/${item} ${this.siteTempComp}/${item}`);
             execSync(`rm -rf ${this.siteTempLibs} && cp -rf ../libs ${this.opts.output}`);
 
         });
+    }
+    mkdir(){
+        const newCompoents = this.compoents.filter((compoent) => {
+            const pagePath = `./pages/component/${compoent}/index.js`
+            return fsExistsSync(pagePath);
+        });
+
+        console.log('[CreateNewComp]', newCompoents);
+
+        const dirpath = `./pages/component/${compoent}`;
+        execSync(`mkdir -p ${dirpath}`);
+        newCompoents.forEach((comp) => {
+            const name = firstToLowerCase(comp)
+            fs.writeFileSync(`${dirpath}/index.js`, `
+            import React, { Component } from 'react';
+            import Layout from '../../../common/compLayout';
+            
+            import ${name} from '@${comp}';
+            import './index.less'
+            
+            export default class ${name}Demo extends Component{
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        childs: []
+                    }
+                }
+            
+                componentWillMount(){
+                    this.childs([
+                        {
+                            title: '方向性图标',
+                            list: [
+                                'search'
+                            ]
+                        }
+                    ]);
+                }
+            
+                childs(){
+                    const childs = [];
+                    childs.push({
+                        title: '正常',
+                        children: (
+                            <div className="code-demo">
+                                <${name}></${name}>
+                            </div>
+                        )
+                    });
+            
+                    this.setState({childs})
+                }
+            
+                render() {
+                    const {childs} = this.state;
+            
+                    return <Layout {...this.props} 
+                        className="main-${comp}-box"
+                        title="${name}"
+                        desc="${name}的说明"
+                        childs={childs}
+                    />
+                }
+            }
+            `)
+            fs.writeFileSync(`${dirpath}/index.js`, `.main-${comp}-box{}`);
+        })
     }
     remove(){
         execSync(`rm -rf ${this.siteTempComp}`);
@@ -47,18 +130,24 @@ class CreateSiteTempComp{
         });
     }
 }
-
 const tvirus = {};
-[
-    'button',
-    'grid',
-    'menu',
-    'icon',
-    'tabs',
-    'input'
-].map((item) => {
-    tvirus[`@${item}`] = path.resolve(`./components/`, item);
-});
+
+function getCompoents(){
+    const files = glob.sync('../src/**');
+    const arr = [];
+    files.forEach((file)=>{
+        let dir = path.dirname(file);
+        dir = dir.replace(/\.\.(\/src\/?)?/, '')
+        if(!dir){
+            return;
+        }
+        arr.push(path.resolve(`./components/`, dir));
+        tvirus[`@${dir}`] = path.resolve(`./components/`, dir);
+    })
+    return Array.from(new Set(arr));
+}
+
+getCompoents();
 
 module.exports = {
     entry: {
