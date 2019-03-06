@@ -29,22 +29,20 @@ export default class Layout extends Component{
         super(props);
         this.state = {
             controlTitle: '显示',
-            isCodeShow: false
+            codebox: {}
         }
     }
-    onShowCode(){
-        const {isCodeShow} = this.state;
-        if(isCodeShow){
-            this.setState({
-                isCodeShow: false,
-                controlTitle: '显示'
-            })
-        } else{
-            this.setState({
-                isCodeShow: true,
-                controlTitle: '隐藏'
-            })
+    onShowCode(index){
+        const {codebox} = this.state;
+        const {show} = codebox[index] || {};
+        const temp = {
+            [index]: {
+                show: !show
+            }
         }
+        this.setState({
+            codebox: temp
+        })
     }
     onClick(item){
         const { url } = item.props;
@@ -140,7 +138,10 @@ export default class Layout extends Component{
             )    
         })
     }
-    getCodeDemo(child){
+    getCodeDemo(child, index){
+        const { codebox } = this.state;
+        const codeboxCurrent = codebox[index] || {};
+        const isShow = !!codeboxCurrent.show;
         if(Array.isArray(child.children)){
             return (
                 <Tabs activeKey={child.children[0]}>
@@ -149,12 +150,12 @@ export default class Layout extends Component{
                             const itemCompoent = child.func(item);
                             return (<Tabpanel tab={item} tabKey={item}>
                                 {itemCompoent}
-                                <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+                                <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
                                     <Highlight>
                                         {reactElementToJSXString(itemCompoent, {tabStop: 4})}
                                     </Highlight>
                                 </div>
-                                <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+                                <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
                             </Tabpanel>)
                         })
                     }
@@ -163,12 +164,12 @@ export default class Layout extends Component{
         }
         return (<div>
             {child.children}
-            <div className="language-jsx" style={{display: this.state.isCodeShow ? '' : 'none'}}>
+            <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
                 <Highlight>
                     {child.jsx || reactElementToJSXString(child.children, {tabStop: 4})}
                 </Highlight>
             </div>
-            <div className="code-block-control" onClick={this.onShowCode.bind(this)}>{this.state.controlTitle}</div>
+            <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
         </div>)
     }
     render() {
@@ -186,11 +187,11 @@ export default class Layout extends Component{
                     <p>{desc}</p>
                     <section className="main-body">
                         {
-                            childs.map((child) => {
+                            childs.map((child, index) => {
                                 return (
                                     <div>
                                         <h2>{child.title}</h2>
-                                        <div className="code-wraper">{this.getCodeDemo(child)}</div>
+                                        <div className="code-wraper">{this.getCodeDemo(child, index)}</div>
                                     </div>
                                 )
                             })

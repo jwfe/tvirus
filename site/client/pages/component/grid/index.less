@@ -1,1 +1,20 @@
-.main-grid-box{}
+.main-grid-box{
+    .orange{
+        height: 60px;
+    }
+    .tv-row{
+        margin-bottom: 10px;
+    }
+    .tv-col{
+        &:nth-child(2n){
+            .orange{
+                background: #fea821
+            }
+        }
+        &:nth-child(2n+1){
+            .orange{
+                background: #ffeed3
+            }
+        }
+    }
+}
