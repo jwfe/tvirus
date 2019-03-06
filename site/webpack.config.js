@@ -44,6 +44,25 @@ class CreateSiteTempComp{
         })
         return Array.from(new Set(arr));
     }
+    optimizeIcon(){
+        const files = glob.sync('../src/icon/svg/*.svg');
+        const icons = [];
+        files.forEach((file) => {
+            const basename = path.basename(file);
+            icons.push(basename.split('.')[0]);
+
+            const svg = fs.readFileSync(file).toString();
+            let nsvg = svg.replace(/<metadata>(\w|\W|\s)+<\/defs>/ig, '')
+            nsvg = nsvg.replace(/(id\=\"\w+\")|(class\=\"(\w+\-\d+)?\")/g, '')
+            nsvg = nsvg.replace(/(width|height)\="(\d+)"/g, function(a,b,c){
+                return `${b}="1em"`
+            })
+            nsvg = nsvg.replace(/\s+/g, ' ');
+
+            fs.writeFileSync(file, nsvg);
+        })
+        console.log(icons)
+    }
     copy(){
         execSync(`mkdir -p ${this.siteTempComp}`);
         this.compoents.forEach((item) => {
@@ -124,6 +143,7 @@ export default class ${name}Demo extends Component{
     }
     apply(compiler) {
         compiler.plugin("entryOption",  (compilation, callback) => {
+            this.optimizeIcon()
             this.remove()
             this.copy();
             this.mkdir();
