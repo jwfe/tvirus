@@ -125,6 +125,15 @@ export default class Layout extends Component{
                     }
                     
                 ]
+            },
+            {
+                title: '数据展示',
+                child: [
+                    {
+                        title: 'Table 表格',
+                        query: 'table'
+                    }
+                ]
             }
         ].map((item) => {
             const SubmenuTitle = <span>{item.title}</span>;

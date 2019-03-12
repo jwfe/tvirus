@@ -1,0 +1,66 @@
+.tv-table{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    &-panel{
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+    }
+    &-row{
+        display: flex;
+        flex-flow: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+    &-cell{
+        overflow: hidden;
+        box-sizing: border-box;
+
+        padding: 5px;
+        min-width: 100px;
+        height: 100%;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: #fff;
+        &-group &,
+        &-group-wraper &{
+            height: auto;
+        }
+
+        &-group{
+            display: flex;
+            flex-flow: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+        }
+    }
+
+    &-header,
+    &-body{
+        &, &-fixed{
+        }
+        &-wrapper{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &-header{
+        overflow: hidden;
+    }
+    &-body{
+        overflow-x: auto;
+        width: 100%;
+        height: 100%;
+        &-wrapper{
+            overflow-y: auto;
+            position: relative;
+            z-index: 0; 
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: none;
+            max-height: 100%;
+        }
+    }
+}

@@ -13,6 +13,7 @@ import Grid from './pages/component/grid';
 import Input from './pages/component/input';
 import Pagination from './pages/component/pagination';
 import Tabs from './pages/component/tabs';
+import Table from './pages/component/table';
 
 export default (
     <Router>
@@ -31,6 +32,7 @@ export default (
             <Route path="/component/input" component={Input} />
             <Route path="/component/pagination" component={Pagination} />
             <Route path="/component/tabs" component={Tabs} />
+            <Route path="/component/table" component={Table} />
         </Layout>
     </Router>
 )

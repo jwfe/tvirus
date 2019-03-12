@@ -1,11 +1,10 @@
-@-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    from{
+        transform: rotate(0deg);
+      }
+      to{
+        transform: rotate(360deg);
+      }
 }
 
 .tv-icon{
@@ -19,11 +18,10 @@
         overflow: hidden;
     }
     &-loading {
-        display: inline-block;
-        border-radius: 50%;
-        animation-name: spin;
-        animation-duration: 4s;
-        animation-iteration-count: infinite;
+        .tv-icon-item{
+            display: inline-block;
+            animation: spin 800ms infinite linear;
+        }
     }
     &-search{
         font-size: 16px;
