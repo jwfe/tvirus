@@ -4,6 +4,7 @@ import './normalize'
 import './assets/base'
 import './assets/menu';
 import './assets/input';
+import './assets/radio';
 import './assets/icon';
 import './assets/grid';
 import './assets/button';

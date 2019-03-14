@@ -98,6 +98,11 @@ export default class Layout extends Component{
                     {
                         title: 'Input 输入框',
                         query: 'input'
+                    },
+
+                    {
+                        title: 'Radio 单选',
+                        query: 'radio'
                     }
                 ]
             },

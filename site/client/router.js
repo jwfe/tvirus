@@ -10,7 +10,10 @@ import Icon from './pages/component/icon';
 import Menu from './pages/component/menu';
 import Breadcrumb from './pages/component/breadcrumb';
 import Grid from './pages/component/grid';
+
 import Input from './pages/component/input';
+import Radio from './pages/component/radio';
+
 import Pagination from './pages/component/pagination';
 import Tabs from './pages/component/tabs';
 import Table from './pages/component/table';
@@ -26,10 +29,14 @@ export default (
             <Route path="/component/install" component={CompInstall} />
             <Route path="/component/button" component={Button} />
             <Route path="/component/icon" component={Icon} />
+
             <Route path="/component/menu" component={Menu} />
             <Route path="/component/breadcrumb" component={Breadcrumb} />
             <Route path="/component/grid" component={Grid} />
+            
             <Route path="/component/input" component={Input} />
+            <Route path="/component/radio" component={Radio} />
+
             <Route path="/component/pagination" component={Pagination} />
             <Route path="/component/tabs" component={Tabs} />
             <Route path="/component/table" component={Table} />

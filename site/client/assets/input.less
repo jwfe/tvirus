@@ -1,27 +1,53 @@
+@inputHeight: 32px;
 .tv-input{
-    position: relative;
-    display: inline-block;
+    &:not([type="radio"]):not([type="checkbox"]){
+        position: relative;
+        display: inline-block;
 
-    box-sizing: border-box;
-    margin: 0;
+        box-sizing: border-box;
+        margin: 0;
 
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
 
-    padding: 4px 11px;
+        padding: 4px 11px;
 
-    width: 100%;
-    height: 32px;
+        width: 100%;
+        height: @inputHeight;
 
-    color: rgba(0,0,0,0.65);
-    font-size: 14px;
-    line-height: 1.5;
+        color: rgba(0,0,0,0.65);
+        font-size: 14px;
+        line-height: 1.5;
 
-    background-color: #fff;
-    background-image: none;
+        background-color: #fff;
+        background-image: none;
 
-    transition: all .3s;
-    &::placeholder{
-        color: #8e8e8e
+        transition: all .3s;
+        &::placeholder{
+            color: #8e8e8e
+        }
+
+        textarea&{
+            overflow: auto;
+            resize: vertical;
+            max-width: 100%;
+            height: auto;
+            min-height: @inputHeight;
+            vertical-align: bottom;
+        }
+        &-size {
+            &-large{
+                height: @inputHeight + 8;
+                font-size: 16px;
+            }
+
+            &-small{
+                height: @inputHeight - 8;
+                font-size: 12px;
+            }
+        }
+    }
+    &-wraper{
+        display: inline-block;
     }
 }
