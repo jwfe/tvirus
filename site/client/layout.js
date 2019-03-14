@@ -3,8 +3,11 @@ import Head from './common/head';
 import './normalize'
 import './assets/base'
 import './assets/menu';
+
 import './assets/input';
 import './assets/radio';
+import './assets/checkbox';
+
 import './assets/icon';
 import './assets/grid';
 import './assets/button';

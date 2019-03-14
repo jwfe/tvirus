@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
 import { Row, Col } from '@grid';
-import Radio from '@radio';
+import Checkbox from '@checkbox';
 import './index.less'
 
-export default class RadioDemo extends Component{
+export default class CheckboxDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -20,16 +20,16 @@ export default class RadioDemo extends Component{
     childs(){
         const childs = [];
         childs.push({
-            title: '基础',
+            title: '正常',
             children: (
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Radio>基础</Radio>
+                            <Checkbox>基础</Checkbox>
                         </Col>
                         <Col span={12}>
-                            <Radio disabled>禁用</Radio>
-                            <Radio disabled checked>禁用</Radio>
+                            <Checkbox disabled>禁用</Checkbox>
+                            <Checkbox disabled checked>禁用</Checkbox>
                         </Col>
                     </Row>
                 </div>
@@ -43,16 +43,18 @@ export default class RadioDemo extends Component{
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Radio.Group defaultValue={1} name="test1">
-                                <Radio value={1}>分组1</Radio>
-                                <Radio value={2}>分组2</Radio>
-                            </Radio.Group>
+                            <Checkbox.Group defaultValue={[1,2,3,4]} name="test1">
+                                <Checkbox value={1}>Checkbox 1</Checkbox>
+                                <Checkbox value={2}>Checkbox 2</Checkbox>
+                                <Checkbox value={3}>Checkbox 3</Checkbox>
+                                <Checkbox value={4}>Checkbox 4</Checkbox>
+                            </Checkbox.Group>
                         </Col>
                         <Col span={12}>
-                                <Radio.Group disabled name="test2">
-                                    <Radio>分组1</Radio>
-                                    <Radio>分组1</Radio>
-                                </Radio.Group>
+                                <Checkbox.Group disabled name="test2">
+                                    <Checkbox checked>Checkbox 1</Checkbox>
+                                    <Checkbox>Checkbox 2</Checkbox>
+                                </Checkbox.Group>
                         </Col>
                     </Row>
                 </div>
@@ -66,9 +68,9 @@ export default class RadioDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
-            className="main-radio-box"
-            title="Radio"
-            desc="Radio的说明"
+            className="main-checkbox-box"
+            title="Checkbox"
+            desc="Checkbox的说明"
             childs={childs}
         />
     }

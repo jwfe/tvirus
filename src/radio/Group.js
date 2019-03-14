@@ -1,8 +1,7 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
-import Input from '@input';
 
-export default class Radio extends Component {
+export default class Group extends Component {
     static propTypes = {
         className: PropTypes.string,
         defaultValue: PropTypes.string,

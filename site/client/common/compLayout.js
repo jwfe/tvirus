@@ -103,6 +103,10 @@ export default class Layout extends Component{
                     {
                         title: 'Radio 单选',
                         query: 'radio'
+                    },
+                    {
+                        title: 'Checkbox 多选项',
+                        query: 'checkbox'
                     }
                 ]
             },

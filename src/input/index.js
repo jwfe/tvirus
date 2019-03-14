@@ -112,7 +112,7 @@ export default class Input extends Component {
                     value={value}
                     autoComplete={autoComplete}
                     placeholder={placeholder}
-                    onInput={this.handleChange.bind(this)}
+                    // onInput={this.handleChange.bind(this)}
                     onChange={this.handleChange.bind(this)}
                     onFocus={this.handleFocus.bind(this)}
                     onBlur={this.handleBlur.bind(this)}

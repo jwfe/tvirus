@@ -17,6 +17,7 @@ import Radio from './pages/component/radio';
 import Pagination from './pages/component/pagination';
 import Tabs from './pages/component/tabs';
 import Table from './pages/component/table';
+import Checkbox from './pages/component/checkbox';
 
 export default (
     <Router>
@@ -36,6 +37,7 @@ export default (
             
             <Route path="/component/input" component={Input} />
             <Route path="/component/radio" component={Radio} />
+            <Route path="/component/checkbox" component={Checkbox} />
 
             <Route path="/component/pagination" component={Pagination} />
             <Route path="/component/tabs" component={Tabs} />
