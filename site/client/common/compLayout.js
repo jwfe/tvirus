@@ -141,6 +141,10 @@ export default class Layout extends Component{
                     {
                         title: 'Table 表格',
                         query: 'table'
+                    }, 
+                    {
+                        title: 'Chart 图表',
+                        query: 'chart'
                     }
                 ]
             }

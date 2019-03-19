@@ -18,7 +18,7 @@ import Pagination from './pages/component/pagination';
 import Tabs from './pages/component/tabs';
 import Table from './pages/component/table';
 import Checkbox from './pages/component/checkbox';
-
+import Chart from './pages/component/chart';
 export default (
     <Router>
         <Layout>
@@ -42,6 +42,7 @@ export default (
             <Route path="/component/pagination" component={Pagination} />
             <Route path="/component/tabs" component={Tabs} />
             <Route path="/component/table" component={Table} />
+            <Route path="/component/chart" component={Chart} />
         </Layout>
     </Router>
 )
