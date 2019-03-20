@@ -72,24 +72,59 @@ class CreateSiteTempComp{
         });
     }
     mkdir(){
+        const importComps = [];
+        const linkComps = [];
+
         const newCompoents = this.compoents.filter((compoent) => {
             const arr = compoent.split('/');
             if(arr.length > 1){
                 return false;
             }
+
+            const name = firstToUpperCase(compoent);
+            importComps.push(`import ${name} from './pages/component/${compoent}';`);
+            linkComps.push(`<Route path="/component/${compoent}" component={${name}} />`);
+
             const pagePath = `./client/pages/component/${compoent}/index.js`
             return !fsExistsSync(pagePath);
         });
+
+        fs.writeFileSync(`./client/router.js`, 
+`import React from 'react';
+import { Route, HashRouter as Router } from 'react-router-dom';
+
+import Layout from './layout';
+import Index from './pages/index';
+import SpecIntroduce from './pages/spec/introduce';
+import CompInstall from './pages/component/install';
+${importComps.join('')}
+export default (
+    <Router>
+        <Layout>
+            <Route path="/" exact component={Index} />
+            {/* 设计语言 */}
+            <Route path="/spec/introduce" component={SpecIntroduce} />
+
+            {/* 组件 */}
+            <Route path="/component/install" component={CompInstall} />
+            ${linkComps.join('')}
+        </Layout>
+    </Router>
+)
+        
+        `);
+
 
         console.log('[CreateNewComp]', newCompoents);
 
         if(!newCompoents.length){
             return;
         }
+
         newCompoents.forEach((comp) => {
             const dirpath = `./client/pages/component/${comp}`;
             execSync(`mkdir -p ${dirpath}`);
-            const name = firstToUpperCase(comp)
+            const name = firstToUpperCase(comp);
             fs.writeFileSync(`${dirpath}/index.js`, `
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
@@ -141,6 +176,7 @@ export default class ${name}Demo extends Component{
     remove(){
         execSync(`rm -rf ${this.siteTempComp}`);
     }
+    
     apply(compiler) {
         compiler.plugin("entryOption",  (compilation, callback) => {
             this.optimizeIcon()

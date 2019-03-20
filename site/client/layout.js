@@ -13,6 +13,7 @@ import './assets/grid';
 import './assets/button';
 import './assets/tabs';
 import './assets/table';
+import './assets/popup';
 
 import './common/component'
 // 父组件
