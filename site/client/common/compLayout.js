@@ -99,6 +99,10 @@ export default class Layout extends Component{
                         title: 'Input 输入框',
                         query: 'input'
                     },
+                    {
+                        title: 'Search 搜索框',
+                        query: 'search'
+                    },
 
                     {
                         title: 'Radio 单选',
@@ -107,6 +111,10 @@ export default class Layout extends Component{
                     {
                         title: 'Checkbox 多选项',
                         query: 'checkbox'
+                    },
+                    {
+                        title: 'Select 下拉菜单',
+                        query: 'select'
                     }
                 ]
             },
@@ -141,7 +149,12 @@ export default class Layout extends Component{
                     {
                         title: 'Table 表格',
                         query: 'table'
-                    }, 
+                    },
+                    {
+                        title: 'Popup 弹出',
+                        query: 'popup'
+                    },
+
                     {
                         title: 'Chart 图表',
                         query: 'chart'
