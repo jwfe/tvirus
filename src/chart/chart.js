@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as echarts from 'echarts';
-import throttle from 'Libs/throttle';
+import { Util } from '@Libs';
 import { getOptions } from './dataSet';
 
 export default class Chart extends Component {
@@ -24,7 +24,7 @@ export default class Chart extends Component {
 
     componentDidMount() {
         this.rerender();
-        this.resizeHandle = throttle(this.resize, 100)
+        this.resizeHandle = Util.throttle(this.resize, 100)
         window.addEventListener('resize', this.resizeHandle);
     }
     componentDidUpdate() {
@@ -54,14 +54,17 @@ export default class Chart extends Component {
         this.renderEchartDom();
         if (typeof onChartReady === 'function') this.props.onChartReady(this.chart);
     }
-    async renderEchartDom() {
-        await this.initChart(this.el);
-        this.setOption(this.props.option);
-        if (this.props.showLoading) {
-            this.chart.showLoading(this.props.loadingOption || null);
-        } else {
-            this.chart.hideLoading();
-        }
+    renderEchartDom() {
+        this.initChart(this.el);
+        setTimeout(() => {
+            this.setOption(this.props.option);
+            if (this.props.showLoading) {
+                this.chart.showLoading(this.props.loadingOption || null);
+            } else {
+                this.chart.hideLoading();
+            }
+        }, 0)
+        
     }
     setOption = option => {
         if (!this.chart) {
