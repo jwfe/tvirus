@@ -1,6 +1,6 @@
 import Select from './Select';
-// import Group from './Group';
+import Option from './Option';
 
-// Select.Group = Group;
+Select.Option = Option;
 
 export default Select;

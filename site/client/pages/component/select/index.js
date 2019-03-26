@@ -1,7 +1,7 @@
-
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
+import { Row, Col } from '@grid';
 import Select from '@select';
 import './index.less'
 
@@ -23,7 +23,21 @@ export default class SelectDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Select></Select>
+                    <Row>
+                        <Col span={12}>
+                            <Select>
+                                <Select.Option value="113">内容1</Select.Option>
+                                <Select.Option value="223">内容2</Select.Option>
+                            </Select>
+                        </Col>
+                        <Col span={12}>
+                            <Select multiple={true}>
+                                <Select.Option value="113">内容1</Select.Option>
+                                <Select.Option value="223">内容2</Select.Option>
+                            </Select>
+                        </Col>
+                    </Row>
+                    
                 </div>
             )
         });

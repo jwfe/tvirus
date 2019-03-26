@@ -1,6 +1,7 @@
 import React from 'react';
-import { Component, PropTypes, Portal } from '@Libs';
-import Input from '@input';
+import { Component, PropTypes } from '@Libs';
+import Tag from '@tag';
+import Button from '@button';
 import Search from '@search';
 import Popup from '@popup';
 
@@ -9,40 +10,76 @@ export default class Select extends Component {
         className: PropTypes.string,
         value: PropTypes.string,
         name: PropTypes.string,
-        popupContainer: PropTypes.element,
+        position: PropTypes.string,
+        multiple: PropTypes.bool,
+        placeholder: PropTypes.string,
         onChange: PropTypes.func,
     };
 
     static defaultProps = {
-        readonly: true
+        multiple: false,
+        placeholder: '请选择',
+        position: "bottom left"
     };
 
     constructor(props) {
         super(props);
-        this.renderOptions();
-    }
-
-    handleChange(evt){
-        const checked = evt.target.checked;
-        if(checked){
-            const { onChange, value } = this.props;
-            onChange && onChange(evt, value)
+        this.state = {
+            selectedVals: [],
+            searchVals: [],
+            selectedTitle: [],
+            visible: false,
+            childrens: null,
+            data: []
         }
-        this.setState({stateChecked:checked})
     }
 
-    handleBlur(){}
-    handleFocus(){
+    componentDidMount(){
+        this.renderOptionsData();
+    }
+
+    handleOptionClick(value, title){
+        let { selectedVals, selectedTitle } = this.state;
+        const { multiple } = this.props;
+        if(multiple){
+            if(selectedVals.indexOf(value) === -1){
+                selectedVals.push(value);
+                selectedTitle.push(title);
+            }
+        } else {
+            selectedVals = [value];
+            selectedTitle = [title];
+        }
         
+        this.renderOptionsData(selectedVals);
+
+        this.setState({
+            visible: false,
+            selectedVals,
+            selectedTitle
+        })
     }
 
-    renderOptions(searchVals){
+    renderOptionsData(optionVals){
         const data = [];
-        const childrens = React.Children.filter(children, (child, i) => {
+        const { children } = this.props;
+        let { selectedValue, searchVals } = this.state;
+        if(!children){
+            return null;
+        }
+
+        if(optionVals){
+            selectedValue = optionVals;
+        }
+
+        const childrens = React.Children.map(children, (child) => {
             const value = child.props.value;
-            if(!searchVals || searchVals.indexOf(value) !== -1){
+            if(!searchVals.length || searchVals.indexOf(value) !== -1){
                 data.push(value);
-                return React.cloneElement(child)
+                return React.cloneElement(child, {
+                    onClick: this.handleOptionClick.bind(this),
+                    selected: selectedValue ? selectedValue.indexOf(value) !== -1 : child.props.selected
+                })
             }
             return false;
         });
@@ -53,30 +90,65 @@ export default class Select extends Component {
     }
 
     handleSearch(values){
-        this.renderOptions(values);
+        this.setState({
+            searchVals: values
+        }, () => {
+            this.renderOptionsData();
+        }) 
     }
 
+    handlePopupChange(showPopup){
+        const { disabled, multiple } = this.props;
+        if(multiple){
+            return;
+        }
+
+        if(disabled){
+            showPopup = false
+        }
+        this.setState({visible: showPopup});
+    }
     render() {
-        const { popupContainer, disabled, name, readonly } = this.props;
-        const { childrens, data } = this.state;
+        const { placeholder, disabled, multiple, position } = this.props;
+        const { childrens, data, visible, selectedTitle } = this.state;
+
+        if(!childrens){
+            return null;
+        }
+
+        const renderOptions = (<div>
+            <Search data={data} onSearch={this.handleSearch.bind(this)}>搜索</Search>
+            <ul>
+                {childrens}
+            </ul>
+        </div>)
+
+        const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false
+
         return (
             <div className={this.className('tv-select', {
                 'tv-select-disabled': disabled
             })}>
-                <Input
-                    name={name}
-                    type="text"
-                    disabled={disabled}
-                    readonly={readonly}
-                    onBlur={this.handleBlur.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
-                    onChange={this.handleChange.bind(this)}
-                />
-                
-                <Portal container={popupContainer}>
-                    <Search data={data} onSearch={this.handleSearch.bind(this)}>搜索</Search>
-                    {childrens}
-                </Portal>
+
+                <Popup 
+                showArrow={false} 
+                visible={visible} 
+                trigger="click" 
+                position={position} 
+                content={renderOptions}
+                onChange={this.handlePopupChange.bind(this)}
+                >
+                    <div className="tv-select-trigger">
+                        {isShowMultiple && (
+                            <div className="tv-tags">
+                                {
+                                    selectedTitle.map((title) => <Tag>{title}</Tag>)
+                                }
+                            </div>
+                        )}
+                        <Button style={{display: isShowMultiple ? 'none' : 'block'}}>{selectedTitle[0] || placeholder}</Button>
+                    </div>
+                </Popup>
             </div>
         );
     }

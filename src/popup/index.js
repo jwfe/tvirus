@@ -23,20 +23,34 @@ export default class Popup extends Component {
         content: PropTypes.string,
         position: PropTypes.oneOf(POSITIONS),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
-        onSearch: PropTypes.func,
+        visible: PropTypes.bool,
+        showArrow: PropTypes.bool,
+        onChange: PropTypes.func,
     };
 
     static defaultProps = {
         position: 'top left',
+        visible: false,
+        showArrow: true
     };
 
     constructor(props) {
         super(props);
         this.state = {
+            visible: props.visible,
             showPopup: false
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.visible !== prevState.visible){
+            return {
+                visible: nextProps.visible,
+                showPopup: nextProps.visible
+            };
+        }
+    }
+    
     componentDidMount(){
         const { trigger } = this.props;
         const { triggerNode, popupNode } = this.refs;
@@ -50,21 +64,14 @@ export default class Popup extends Component {
 
         if(trigger === 'click'){
             this.triggerNode.addEventListener('click', () => {
-                this.setState({
-                    showPopup: !this.state.showPopup
-                }, () => {
-                    this.setState({style: this.computePopup()})
-                });
+                this.setPopupState(!this.state.showPopup);
             });
 
             document.addEventListener('click', (e) => {
                 if (!this.element || this.element.contains(e.target) ||
                 !this.triggerNode || this.triggerNode.contains(e.target) ||
                 !popupNode || popupNode.contains(e.target)) return;
-
-                this.setState({
-                    showPopup: false
-                });
+                this.setPopupState(false);
             });
         } else if (trigger === 'hover') {
             this.triggerNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
@@ -73,39 +80,47 @@ export default class Popup extends Component {
             popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
             popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
         } else {
-            if (this.triggerNode.nodeName === 'INPUT' || this.triggerNode.nodeName === 'TEXTAREA') {
-                this.triggerNode.addEventListener('focus', () => { 
-                    this.setState({ showPopup: true }, () => {
-                        this.setState({style: this.computePopup()})
-                    })
-                });
-                this.triggerNode.addEventListener('blur', () => { this.setState({ showPopup: false })});
+            if (this.triggerNode.nodeName === 'INPUT' 
+            || this.triggerNode.nodeName === 'TEXTAREA'
+            || this.triggerNode.className.indexOf('tv-input-wraper') != -1
+            ) {
+                let node = this.triggerNode;
+                if(this.triggerNode.className.indexOf('tv-input-wraper') != -1){
+                    node = this.triggerNode.querySelector('input');
+                }
+
+                node.addEventListener('focus', this.handleMouseEnter.bind(this));
+                node.addEventListener('blur', this.handleMouseLeave.bind(this));
+                popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+                popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
             } else {
                 this.triggerNode.addEventListener('mousedown', () => {
-                    this.setState({ showPopup: true }, () => {
-                        this.setState({style: this.computePopup()})
-                    })
+                    this.setPopupState(true);
                 });
                 this.triggerNode.addEventListener('mouseup', () => { this.setState({ showPopup: false })});
             }
         }
 
     }
+
+    setPopupState(showPopup){
+        const { onChange } = this.props;
+        this.setState({
+            showPopup
+        }, () => {
+            onChange && onChange(showPopup);
+            this.setState({style: this.computePopup()})
+        });
+    }
     handleMouseEnter(){
         clearTimeout(this.timer);
 
-        this.setState({
-            showPopup: true
-        }, () => {
-            this.setState({style: this.computePopup()})
-        });
+        this.setPopupState(true);
     }
 
     handleMouseLeave(){
         this.timer = setTimeout(() => {
-            this.setState({
-                showPopup: false
-            });
+            this.setPopupState(false);
         }, 200);
     }
 
@@ -200,7 +215,7 @@ export default class Popup extends Component {
     }
 
     render() {
-        const { title, content } = this.props;
+        const { title, content, showArrow } = this.props;
         const { showPopup, style } = this.state;
         const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
@@ -215,11 +230,11 @@ export default class Popup extends Component {
                 className={this.className('tv-popup', positionClassName, {
                     'tv-popup-show': showPopup
                 })}>
-                    <div className={`tv-popup-arrow`} />
+                    { showArrow && <div className="tv-popup-arrow" /> }
                     <div className="tv-popup-inner">
                         <h3 className="tv-popup-title">{title}</h3>
                         <div className="tv-popup-content">
-                            <p>{content}</p>
+                            {content}
                         </div>
                     </div>
                 </div>
