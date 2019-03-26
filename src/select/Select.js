@@ -99,6 +99,12 @@ export default class Select extends Component {
 
     handlePopupChange(showPopup){
         const { disabled, multiple } = this.props;
+
+        if(disabled){
+            this.setState({visible: false});
+            return;
+        }
+
         if(multiple){
             return;
         }
@@ -131,6 +137,7 @@ export default class Select extends Component {
             })}>
 
                 <Popup 
+                disabled={disabled}
                 showArrow={false} 
                 visible={visible} 
                 trigger="click" 

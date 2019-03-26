@@ -24,6 +24,7 @@ export default class Popup extends Component {
         position: PropTypes.oneOf(POSITIONS),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         visible: PropTypes.bool,
+        disabled: PropTypes.bool,
         showArrow: PropTypes.bool,
         onChange: PropTypes.func,
     };
@@ -52,13 +53,13 @@ export default class Popup extends Component {
     }
     
     componentDidMount(){
-        const { trigger } = this.props;
+        const { trigger, disabled } = this.props;
         const { triggerNode, popupNode } = this.refs;
 
         this.element = ReactDOM.findDOMNode(this);
         this.triggerNode = ReactDOM.findDOMNode(triggerNode);
         this.popupNode = ReactDOM.findDOMNode(popupNode);
-        if(!this.triggerNode){
+        if(!this.triggerNode || disabled){
             return ;
         }
 

@@ -30,7 +30,10 @@ export default class Select extends Component {
     }
 
     handleClick(){
-        const { value, children, onClick } = this.props;
+        const { value, children, onClick, disabled} = this.props;
+        if(disabled){
+            return;
+        }
         this.setState({
             selected: true
         }, () => {

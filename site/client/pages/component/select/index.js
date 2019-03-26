@@ -41,6 +41,28 @@ export default class SelectDemo extends Component{
                 </div>
             )
         });
+        childs.push({
+            title: '禁用',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Select disabled>
+                                <Select.Option value="113">内容1</Select.Option>
+                                <Select.Option value="223">内容2</Select.Option>
+                            </Select>
+                        </Col>
+                        <Col span={12}>
+                            <Select multiple={true}>
+                                <Select.Option value="113" disabled>内容1</Select.Option>
+                                <Select.Option value="223">内容2</Select.Option>
+                            </Select>
+                        </Col>
+                    </Row>
+                    
+                </div>
+            )
+        });
 
         this.setState({childs})
     }
