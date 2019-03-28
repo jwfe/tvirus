@@ -7,6 +7,8 @@ import './assets/menu';
 import './assets/input';
 import './assets/radio';
 import './assets/checkbox';
+import './assets/cascader';
+import './assets/switch';
 
 import './assets/icon';
 import './assets/grid';

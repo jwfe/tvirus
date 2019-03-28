@@ -103,10 +103,13 @@ export default class Layout extends Component{
                         title: 'Search 搜索框',
                         query: 'search'
                     },
-
                     {
                         title: 'Radio 单选',
                         query: 'radio'
+                    },
+                    {
+                        title: 'Switch 开关',
+                        query: 'switch'
                     },
                     {
                         title: 'Checkbox 多选项',
@@ -115,6 +118,10 @@ export default class Layout extends Component{
                     {
                         title: 'Select 下拉菜单',
                         query: 'select'
+                    },
+                    {
+                        title: 'Cascader 级联菜单',
+                        query: 'cascader'
                     }
                 ]
             },
