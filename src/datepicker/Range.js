@@ -3,6 +3,8 @@ import { Component, PropTypes, noop } from '@Libs';
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
+import Button from '@button';
+import Popup from '@popup';
 
 import { weekOfYear, parse, fixedYM, format, nextMonth } from './utils';
 
@@ -10,12 +12,15 @@ export default class Range extends Component {
     static propTypes = {
         className: PropTypes.string,
         defaultValue: PropTypes.arrayOf(PropTypes.string),
+        placeholder: PropTypes.string,
         name: PropTypes.string,
+        disabled: PropTypes.bool,
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
     };
 
     static defaultProps = {
+        position: "bottom left",
         disabledDate: noop,
         onChange: noop
     };
@@ -34,10 +39,26 @@ export default class Range extends Component {
         }
     }
 
+    handlePopupChange(showPopup){
+        const { disabled } = this.props;
+
+        if(disabled){
+            this.setState({visible: false});
+            return;
+        }
+        if(disabled){
+            showPopup = false
+        }
+        this.setState({visible: showPopup});
+    }
+
     handleDate({ minDate, maxDate }, isClose) {
         const { onChange } = this.props
-        this.setState({ view: 'day', minDate, maxDate })
-        if (!isClose) return
+        if (!isClose){
+            this.setState({ visible: true, view: 'day', minDate, maxDate });
+            return;
+        };
+        this.setState({ visible: false, view: 'day', minDate, maxDate });
         onChange([minDate, maxDate], false)
     }
     handleMoveRange({ endDate }){
@@ -124,13 +145,9 @@ export default class Range extends Component {
         const array = fixedYM(year, month);
         return (
             <div className={this.className('tv-datepicker-header')}>
-                    <div className="tv-datepicker-header-wraper">
-                    {
-                        key === 'left' && <a className="tv-datepicker-prev-year-btn" title="上一年 (Control键加左方向键)" onClick={this.handlePrevYearClick.bind(this)}></a>
-                    }
-                    {
-                        key === 'left' && <a className="tv-datepicker-prev-month-btn" title="上个月 (翻页上键)" onClick={this.handlePrevMonthClick.bind(this)}></a> 
-                    }
+                <div className="tv-datepicker-header-wraper">
+                    {key === 'left' && <a className="tv-datepicker-prev-year-btn" title="上一年 (Control键加左方向键)" onClick={this.handlePrevYearClick.bind(this)}></a>}
+                    {key === 'left' && <a className="tv-datepicker-prev-month-btn" title="上个月 (翻页上键)" onClick={this.handlePrevMonthClick.bind(this)}></a>}
                     <span className="tv-datepicker-ym-select">
                         <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this)}>{array[0]}年</a>
                         <a className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this)}>{array[1]}月</a>
@@ -146,6 +163,10 @@ export default class Range extends Component {
         const mode = 'range';
         let { date, view, rangeState, minDate, maxDate } = this.state;
 
+        if(key === 'right'){
+            date = nextMonth(date)
+        }
+
         if(view === 'year'){
             return <YearTable date={date} onChange={this.handleDate.bind(this)} />
         }
@@ -154,10 +175,6 @@ export default class Range extends Component {
             return <MonthTable date={date} onChange={this.handleDate.bind(this)}/>
         }
     
-        if(key === 'right'){
-            date = nextMonth(date)
-        }
-
         return <DateTable 
             mode={mode} rangeState={rangeState} date={date} 
             minDate={minDate}
@@ -168,8 +185,10 @@ export default class Range extends Component {
     }
 
     render(){
-        
-        return (
+        const { position, placeholder } = this.props;
+        const { disabled, visible, minDate, maxDate } = this.state;
+
+        const content = (
             <div className={this.className('tv-datepicker-range')}>
                 {
                     ['left', 'right'] .map((key) => {
@@ -189,6 +208,27 @@ export default class Range extends Component {
                         <a className="tv-datepicker-ok-btn">确 定</a>
                     </div>
                 </div>
+            </div>
+        );
+
+        const min = minDate ? format(minDate) : null;
+        const max = maxDate ? format(maxDate) : null;
+
+        return (
+            <div className={this.className('tv-datepicker-wraper')}>
+                <Popup 
+                disabled={disabled}
+                showArrow={false} 
+                visible={visible} 
+                trigger="click" 
+                position={position} 
+                content={content}
+                onChange={this.handlePopupChange.bind(this)}
+                >
+                    <div className="tv-datepicker-trigger">
+                        <Button>{ min && max ? `${min} ~ ${max}` : placeholder}</Button>
+                    </div>
+                </Popup>
             </div>
         );
     }

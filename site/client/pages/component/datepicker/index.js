@@ -38,7 +38,7 @@ export default class DatepickerDemo extends Component{
 
 
         childs.push({
-            title: '正常',
+            title: '范围选择',
             children: (
                 <div className="code-demo">
                     <Row>
@@ -51,21 +51,6 @@ export default class DatepickerDemo extends Component{
                 </div>
             )
         });
-
-        // childs.push({
-        //     title: '正常',
-        //     children: (
-        //         <div className="code-demo">
-        //             <Row>
-        //                 <Col span={12}>
-        //                     <Datepicker isRange={true} />
-        //                 </Col>
-        //                 <Col span={12}>
-        //                 </Col>
-        //             </Row>
-        //         </div>
-        //     )
-        // });
 
         this.setState({childs})
     }

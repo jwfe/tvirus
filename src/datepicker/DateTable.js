@@ -79,8 +79,8 @@ export default class DateTable extends Component {
     }
     getRowsDays(){
         let { date, disabledDate, showWeekNumber, minDate, maxDate, mode } = this.props;
-        minDate = clearHours(minDate);
-        maxDate = clearHours(maxDate);
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
 
         const dateArray = getMonthDaysArray(date);
         const head = [];
@@ -110,9 +110,9 @@ export default class DateTable extends Component {
 
             const time = clearHours(dateObj.date);
 
-            dateObj.inRange = time >= minDate && time <= maxDate;
-            dateObj.start = minDate && time === minDate;
-            dateObj.end = maxDate && time === maxDate;
+            dateObj.inRange = time >= min && time <= max;
+            dateObj.start = min && time === min;
+            dateObj.end = max && time === max;
 
             // 周视图下第一列展示对应的周
             if(mode === modes.WEEK && index%7 === 0 && showWeekNumber){
@@ -123,8 +123,6 @@ export default class DateTable extends Component {
 
             rows[rowIndex].push(dateObj);
         });
-
-        console.log('[getRowsDays]', rows);
 
         return { head, rows };
     }
@@ -138,8 +136,8 @@ export default class DateTable extends Component {
         }
 
         let maxDate = rangeState.endDate
-        minDate = clearHours(minDate);
-        maxDate = clearHours(maxDate);
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
 
         for (let i = 0, k = rows.length; i < k; i++) {
             const row = rows[i];
@@ -149,9 +147,9 @@ export default class DateTable extends Component {
                 const cell = row[j];
                 const time = clearHours(cell.date);
 
-                cell.inRange = minDate && time >= minDate && time <= maxDate;
-                cell.start = minDate && time === minDate;
-                cell.end = maxDate && time === maxDate;
+                cell.inRange = min && time >= min && time <= max;
+                cell.start = min && time === min;
+                cell.end = max && time === max;
             }
         }
 
@@ -176,20 +174,20 @@ export default class DateTable extends Component {
     }
     handleDateClick(cell){
         let { mode, onChange, rangeState, minDate, maxDate } = this.props;
-        minDate = clearHours(minDate);
-        maxDate = clearHours(maxDate);
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
 
         if(mode === modes.RANGE){
             if (rangeState.ing) {
-                if (cell.date < minDate) {
+                if (cell.date < min) {
                     rangeState.ing = true;
                     onChange({ minDate: cell.date, maxDate: null }, false)
-                } else if (cell.date >= minDate) {
+                } else if (cell.date >= min) {
                     rangeState.ing = false;
                     onChange({ minDate, maxDate: cell.date }, true)
                 }
             }else {
-                if (minDate && maxDate || !minDate) {
+                if (min && max || !min) {
                     rangeState.ing = true;
                     onChange({ minDate: cell.date, maxDate: null }, false)
                 }

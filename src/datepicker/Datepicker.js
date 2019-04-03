@@ -3,6 +3,8 @@ import { Component, PropTypes, noop } from '@Libs';
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
+import Button from '@button';
+import Popup from '@popup';
 
 import { weekOfYear, parse, fixedYM, format } from './utils';
 
@@ -12,11 +14,14 @@ export default class Datepicker extends Component {
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         name: PropTypes.string,
         model: PropTypes.string,
+        placeholder: PropTypes.string,
+        disabled: PropTypes.bool,
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
     };
 
     static defaultProps = {
+        position: "bottom left",
         mode: 'day',
         disabledDate: noop
     };
@@ -29,8 +34,22 @@ export default class Datepicker extends Component {
         }
     }
 
+    handlePopupChange(showPopup){
+        const { disabled } = this.props;
+
+        if(disabled){
+            this.setState({visible: false});
+            return;
+        }
+        if(disabled){
+            showPopup = false
+        }
+        this.setState({visible: showPopup});
+    }
+
     handleDate(value) {
         this.setState({
+            visible: false,
             view: 'day',
             date: value
         });
@@ -137,9 +156,10 @@ export default class Datepicker extends Component {
     }
 
     render(){
-
-        return (
-            <div className={this.className('tv-datepicker')}>
+        const { position, placeholder } = this.props;
+        const { disabled, visible, date } = this.state;
+        const content = (
+            <div className="tv-datepicker">
                 { this.renderSearch() }
                 <div className={this.className('tv-datepicker-body')}>
                     { this.renderTable() }
@@ -151,6 +171,29 @@ export default class Datepicker extends Component {
                     </div>
                 </div>
             </div>
+        )
+
+        const dateString = date ? format(date) : placeholder;
+
+        return (
+            <div className={this.className('tv-datepicker-wraper')}>
+                <Popup 
+                disabled={disabled}
+                showArrow={false} 
+                visible={visible} 
+                trigger="click" 
+                position={position} 
+                content={content}
+                onChange={this.handlePopupChange.bind(this)}
+                >
+                    <div className="tv-datepicker-trigger">
+                        <Button>{dateString}</Button>
+                    </div>
+                </Popup>
+            </div>
         );
     }
+
+
+
 }
