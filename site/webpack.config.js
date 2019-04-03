@@ -61,7 +61,7 @@ class CreateSiteTempComp{
 
             fs.writeFileSync(file, nsvg);
         })
-        console.log(icons)
+        console.log('ICON', JSON.stringify(icons));
     }
     copy(){
         execSync(`mkdir -p ${this.siteTempComp}`);
@@ -115,7 +115,7 @@ export default (
         `);
 
 
-        console.log('[CreateNewComp]', newCompoents);
+        console.log('[CreateNewComp]', JSON.stringify(newCompoents));
 
         if(!newCompoents.length){
             return;

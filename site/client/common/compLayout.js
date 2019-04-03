@@ -122,6 +122,10 @@ export default class Layout extends Component{
                     {
                         title: 'Cascader 级联菜单',
                         query: 'cascader'
+                    },
+                    {
+                        title: 'Datepicker 日期控件',
+                        query: 'datepicker'
                     }
                 ]
             },
