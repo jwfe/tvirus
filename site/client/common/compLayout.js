@@ -28,10 +28,20 @@ export default class Layout extends Component{
     constructor(props){
         super(props);
         this.state = {
+            childs: [],
             controlTitle: '显示',
             codebox: {}
         }
     }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(JSON.stringify(nextProps.childs) !== JSON.stringify(prevState.childs)){
+            return {
+                childs: nextProps.childs
+            };
+        }
+    }
+
     onShowCode(index){
         const {codebox} = this.state;
         const {show} = codebox[index] || {};
@@ -165,10 +175,13 @@ export default class Layout extends Component{
                         title: 'Popup 弹出',
                         query: 'popup'
                     },
-
                     {
                         title: 'Chart 图表',
                         query: 'chart'
+                    },
+                    {
+                        title: 'Dialog 对话框',
+                        query: 'dialog'
                     }
                 ]
             }
@@ -219,7 +232,8 @@ export default class Layout extends Component{
         </div>)
     }
     render() {
-        const {title, desc, className, childs} = this.props;
+        const { title, desc, className } = this.props;
+        const { childs } = this.state;
         return (
             <main style={style.main}>
                 <aside style={style.left}>

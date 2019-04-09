@@ -15,7 +15,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
-    "react-transition-group": "^2.6.0",
+    "react-transition-group": "^2.9.0",
     "redux": "^4.0.1",
     "redux-actions": "^2.6.3",
     "redux-logger": "^3.0.6",

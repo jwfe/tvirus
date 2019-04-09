@@ -23,26 +23,28 @@ export default class Button extends Component {
     }
 
     render(){
+        const { type, size, disabled, loading, plain, block, shape, icon, children, ...other } = this.props;
         return (
             <button 
             className={
                 this.className('tv-button', 
-                this.props.type && `tv-button-${this.props.type}`,
-                this.props.size && `tv-button-${this.props.size}`,
+                type && `tv-button-${type}`,
+                size && `tv-button-${size}`,
                 {
-                    'tv-button-disabled': this.props.disabled,
-                    'tv-button-loading': this.props.loading,
-                    'tv-button-plain': this.props.plain,
-                    'tv-button-block': this.props.block,
-                    [`tv-button-${this.props.shape}`]: this.props.shape,
+                    'tv-button-disabled': disabled,
+                    'tv-button-loading': loading,
+                    'tv-button-plain': plain,
+                    'tv-button-block': block,
+                    [`tv-button-${shape}`]: shape,
                 }
                 )
             } 
             style={this.style()}
+            {...other}
             >
-                { this.props.loading && <Icon type="loading" /> }
-                { this.props.icon && !this.props.loading && <Icon type={this.props.icon} /> }
-                <span>{this.props.children}</span>
+                { loading && <Icon type="loading" /> }
+                { icon && !loading && <Icon type={icon} /> }
+                <span>{children}</span>
             </button>
         )
     }

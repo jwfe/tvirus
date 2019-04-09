@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Head from './common/head';
 import './normalize'
+import './assets/animation'
 import './assets/base'
 import './assets/menu';
 
@@ -17,6 +18,7 @@ import './assets/button';
 import './assets/tabs';
 import './assets/table';
 import './assets/popup';
+import './assets/dialog';
 
 import './common/component'
 // 父组件
