@@ -54,8 +54,8 @@ export default class ProgressCircle extends Component {
 
                     <defs>
                         <linearGradient id="tvPurple" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color={startColor} />
-                            <stop offset="100%" stop-color={endColor} />
+                            <stop offset="0%" stop-color={endColor} />
+                            <stop offset="100%" stop-color={startColor} />
                         </linearGradient>
                     </defs>
 
