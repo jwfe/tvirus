@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Component, PropTypes, Portal } from '@Libs';
+import { Component, PropTypes, Portal, Animation } from '@Libs';
 import Icon from '@icon';
 
 const POSITIONS = [
@@ -77,7 +77,9 @@ export default class Popup extends Component {
         } else if (trigger === 'hover') {
             this.triggerNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
             this.triggerNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-
+            if(!popupNode){
+                return;
+            }
             popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
             popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
         } else {
@@ -92,6 +94,9 @@ export default class Popup extends Component {
 
                 node.addEventListener('focus', this.handleMouseEnter.bind(this));
                 node.addEventListener('blur', this.handleMouseLeave.bind(this));
+                if(!popupNode){
+                    return;
+                }
                 popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
                 popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
             } else {
@@ -225,20 +230,27 @@ export default class Popup extends Component {
         return [
             cloneChildren,
             <Portal>
-                <div 
-                style={this.style(style)}
-                ref="popupNode"
-                className={this.className('tv-popup', positionClassName, {
-                    'tv-popup-show': showPopup
-                })}>
-                    { showArrow && <div className="tv-popup-arrow" /> }
-                    <div className="tv-popup-inner">
-                        <h3 className="tv-popup-title">{title}</h3>
-                        <div className="tv-popup-content">
-                            {content}
+                <Animation
+                    animatedIn="fadeIn" 
+                    animatedOut="fadeOut" 
+                    inProp={showPopup}
+                    unmountOnExit={false}
+                >
+                    <div 
+                    style={this.style(style)}
+                    ref="popupNode"
+                    className={this.className('tv-popup', positionClassName, {
+                        'tv-popup-show': showPopup
+                    })}>
+                        { showArrow && <div className="tv-popup-arrow" /> }
+                        <div className="tv-popup-inner">
+                            <h3 className="tv-popup-title">{title}</h3>
+                            <div className="tv-popup-content">
+                                {content}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Animation>
             </Portal>
         ];
     }

@@ -29,10 +29,49 @@
     }
 
     &-submenu{
-        &-arrow{
-            
+        &-title{
+            position: relative;
         }
+        &-arrow{
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            width: 10px;
+            &::before,
+            &::after{
+                position: absolute;
+                border-radius: 2px;
+                width: 6px;
+                height: 1.5px;
+               
+                content: '';
+               
+                background: #fff;
+                background-image: linear-gradient(to right, rgba(0,0,0,0.65), rgba(0,0,0,0.65));
+
+                transition: background .3s cubic-bezier(.645, .045, .355, 1),transform .3s cubic-bezier(.645, .045, .355, 1),top .3s cubic-bezier(.645, .045, .355, 1),-webkit-transform .3s cubic-bezier(.645, .045, .355, 1);
+            }
+
+            &::before{
+                transform: rotate(-45deg) translateX(2px);
+            }
+
+            &::after{
+                transform: rotate(45deg) translateX(-2px);
+            }
+            &.tv-arrow-up{
+                &::before{
+                    transform: rotate(45deg) translateX(2px);
+                }
+    
+                &::after{
+                    transform: rotate(-45deg) translateX(-2px);
+                }
+            }
+        }
+        
     }
+    
 
     &-item{
         height: 46px;  

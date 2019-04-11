@@ -32,28 +32,37 @@ export default class Animation extends React.Component{
         }
     }
     render(){
-        const { 
+        let { 
             children,
             inProp,
+            unmountOnExit,
             onEnter,
             onEntering,
             onEntered,
             onExit,
             onExiting,
             onExited,
+            animatedStart,
+            animatedEnd,
             animatedIn,
             animatedOut,
             duration
         } = this.props;
+
+        animatedStart = animatedStart ? [animatedStart] : [];        
+        animatedEnd = animatedEnd ? [animatedEnd] : [];        
+        animatedStart.unshift('animated');
+        animatedEnd.unshift('animated');
+
         return (
             <Transition
-                timeout={duration || 1000}
+                timeout={(duration || 1) * 1000}
                 in={inProp}
-                unmountOnExit
+                unmountOnExit={typeof unmountOnExit === 'undefined' ? true : false}
                 classNames={{
-                    enter: "animated",
+                    enter: animatedStart.join(' '),
                     enterActive: animatedIn,
-                    exit: "animated",
+                    exit: animatedEnd.join(' '),
                     exitActive: animatedOut
                 }}
                 onEnter={() => { onEnter()}}

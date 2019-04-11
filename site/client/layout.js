@@ -19,6 +19,7 @@ import './assets/tabs';
 import './assets/table';
 import './assets/popup';
 import './assets/dialog';
+import './assets/chart';
 
 import './common/component'
 // 父组件

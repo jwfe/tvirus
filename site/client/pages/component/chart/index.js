@@ -38,6 +38,16 @@ export default class ChartDemo extends Component{
             )
         });
 
+
+        childs.push({
+            title: '正常',
+            children: (
+                <div className="code-demo">
+                    <Chart.ProgressCircle value={60} startColor="#ff0000" endColor="#00ff00" width={300} height={300} />
+                </div>
+            )
+        });
+
         this.setState({childs})
     }
 

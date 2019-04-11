@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import { Component, PropTypes, Animation } from '@Libs';
 import { MenuContext, addPropsIndex } from './MenuContext';
 
 export default class SubMenu extends Component {
@@ -31,6 +31,7 @@ export default class SubMenu extends Component {
         const { children, title, index } = this.props;
         const { opened } = this.context;
         const childrenWithProps = addPropsIndex(children, index);
+        const isShow = opened(index);
         return (
             <li className={this.className('tv-menu-submenu')}>
                 <div 
@@ -39,14 +40,22 @@ export default class SubMenu extends Component {
                 >
                     {title}
                     <i className={this.className('tv-menu-submenu-arrow', {
-                        'tv-arrow-up': opened(index)
+                        'tv-arrow-up': isShow
                     })}></i>
                 </div>
-                <ul style={{
-                    display: opened(index) ? '' : 'none'
-                }}>
-                    {childrenWithProps}
-                </ul>
+                <Animation
+                    duration={0.3}
+                    animatedStart="zoomEnter" 
+                    animatedEnd="zoomExit" 
+                    animatedIn="zoomInTop" 
+                    animatedOut="zoomInBottom" 
+                    inProp={isShow}
+                 >
+                    <ul>
+                        {childrenWithProps}
+                    </ul>
+                </Animation>
+                
             </li>
         )
     }
