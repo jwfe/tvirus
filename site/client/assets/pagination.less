@@ -1,0 +1,51 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
+.tv-pagination {
+    display: flex;
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    color: .setColorAlpha(@base-black-color, 65%)[];
+    font-size: 14px;
+    line-height: 1.5;
+    list-style: none;
+    &-prev, 
+    &-next, 
+    &-item-more,
+    &-item {
+        border: 1px solid #d9d9d9;
+        border-right-width: 0;
+        min-width: 32px;
+        height: 32px;
+
+        line-height: 30px;
+        text-align: center;
+        vertical-align: middle;
+
+        list-style: none;
+        background-color: #fff;
+
+        outline: 0;
+        cursor: pointer;
+        user-select: none;
+        &-active {
+            font-weight: 500;
+            color: #fff;
+            background: @base-color;
+        }
+    }
+    &-next{
+        border-right-width: 1px;
+    }
+
+    &-disabled{
+        color: @base-gray-color;
+        &:hover, 
+        &:focus {
+            cursor: not-allowed;
+        }
+    }
+}

@@ -5,12 +5,9 @@ import Icon from '@icon';
 export default class Pagination extends Component {
     constructor(props) {
         super(props);
-        const {
-            defaultActive
-        } = this.props;
         this.state = {
             count: 7,
-            activeIndex: defaultActive,
+            activeIndex: props.defaultActive,
             openNodes: []    
         }
     }
@@ -95,7 +92,7 @@ export default class Pagination extends Component {
             <li
                 onClick={this.onClick.bind(this, 1)}
                 key={0}
-                className={this.className('tv-pagination-item',{
+                className={this.className('tv-pagination-item', {
                     'tv-pagination-item-active': activeIndex === 1
                 })}
             >1</li>
@@ -105,7 +102,7 @@ export default class Pagination extends Component {
             <li
                 onClick={this.onClick.bind(this, 'more', 'prev')}
                 className={this.classNames(
-                'tv-pagination-item-more'
+                    'tv-pagination-item-more'
                 )}
             >...</li>
         )
@@ -127,13 +124,14 @@ export default class Pagination extends Component {
             <li
                 onClick={this.onClick.bind(this, 'more', 'next')}
                 className={this.classNames(
-                'tv-pagination-item-more'
+                    'tv-pagination-item-more'
                 )}
             >...</li>
         )
         // last
         pageTotal > 1 && itemList.push(
             <li
+                onClick={this.onClick.bind(this, pageTotal)}
                 className={this.className('tv-pagination-item', {
                     'tv-pagination-item-active': activeIndex === pageTotal
                 })}
@@ -183,13 +181,13 @@ export default class Pagination extends Component {
 
     }
     render(){
-        const { disabled } = this.state;
+        const { pageTotal, activeIndex } = this.state;
         return (
             <ul className={this.className('tv-pagination')}>
                 <li 
                     onClick={this.onClick.bind(this, 'prev')} 
                     className={this.className('tv-pagination-prev', {
-                    'tv-pagination-disabled': disabled === 'prev'
+                    'tv-pagination-disabled': activeIndex === 1
                 })}>
                 <Icon type="left" />
                 </li>
@@ -197,7 +195,7 @@ export default class Pagination extends Component {
                 <li 
                     onClick={this.onClick.bind(this, 'next')}
                      className={this.className('tv-pagination-next', {
-                    'tv-pagination-disabled': disabled === 'next'
+                    'tv-pagination-disabled': activeIndex === pageTotal
                 })}><Icon type="right" /></li>
             </ul>    
         )

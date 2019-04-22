@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-button{
     position: relative;
     display: inline-block;
@@ -27,9 +30,12 @@
 
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
     &-primary{
-        border-color: #ff8b3d; 
+        border-color: @base-color; 
         color: #fff;
-        background-color: #ff8b3d;
+        background-color: @base-color;
+        &:hover{
+            background-color: .setColorAlpha(@base-color, 90%)[];
+        }
         &.tv-button-circle{
             border-radius: 50%;
             padding: 0;
@@ -40,10 +46,10 @@
         }
 
         &.tv-button-plain{
-            color: #ff8b3d;
+            color: @base-color;
             background-color: transparent;
             .tv-icon{
-                color: #ff8b3d;
+                color: @base-color;
             }
         }
     }
