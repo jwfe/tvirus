@@ -1,5 +1,9 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 @radius: 90;
 @circumference: (pi() * (2 * @radius));
+
 .tv-progress-circle {
     position: relative;
 
@@ -23,7 +27,7 @@
     }
     &-suffix,
     &-number-wraper{
-        color: lighten(#7a5bcf, 5%);
+        color: @base-color;
         font-weight: 200;
     }
 

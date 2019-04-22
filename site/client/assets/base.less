@@ -1,8 +1,17 @@
-.clearfix:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
+body{
+    font-family: @base-font-family;
+}
+
+.clearfix{
+    &:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
 }

@@ -33,17 +33,17 @@ export default class Col extends Component{
     }
 
     render(){
-        const { span, order, offset, className, ...others } = this.props;
+        const { children, span, order, offset, className, tag, ...others } = this.props;
         const classNames = [
             `tv-col-span-${span}`,
             `tv-col-order-${order}`,
             `tv-col-offset-${offset}`
         ];
         //todo: 看下需要插入什么样式
-        return React.createElement(this.props.tag, {
+        return React.createElement(tag, {
             className: this.className('tv-col', classNames),
             style: this.style(this.getGutter()),
             ...others
-          }, this.props.children);
+          }, children);
     }
 }

@@ -4,7 +4,9 @@
  * Licensed under the MIT license
  */
  @import "./_mixins.less";
-
+.tv-transition {
+    transition: .3s height ease-in-out, .3s padding-top ease-in-out, .3s padding-bottom ease-in-out
+}
  /*
  [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
  [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
@@ -104,24 +106,18 @@
      &.zoomOutRight       { #a.zoomOutRight();       }
      &.zoomOutUp          { #a.zoomOutUp();          }
      &.zoomEnter          { 
-        opacity: 0;
-        transform: scaleY(0);
+        max-height: 0;
      }
      &.zoomExit           { 
-        opacity: 1;
-        transform: scaleY(1);
-        transform-origin: center top
+        max-height: 800px;
      }
      &.zoomInTop          { 
         .zoomInAuto; 
-        opacity: 1;
-        transform: scaleY(1);
-        transform-origin: center top
+        max-height: 800px;
      }
      &.zoomInBottom       { 
         .zoomInAuto; 
-        opacity: 0;
-        transform: scaleY(0);
+        max-height: 0;
     }
 }
 
@@ -137,7 +133,8 @@
  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  
 .zoomInAuto{
-    transition: transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s
+    overflow: hidden;
+    transition: max-height .3s cubic-bezier(.23,1,.32,1) .1s
 }
 
 @keyframes zoomInBottom{

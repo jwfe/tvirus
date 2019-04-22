@@ -34,6 +34,7 @@ export default class Animation extends React.Component{
     render(){
         let { 
             children,
+            defaultProps,
             inProp,
             unmountOnExit,
             onEnter,
@@ -46,6 +47,7 @@ export default class Animation extends React.Component{
             animatedEnd,
             animatedIn,
             animatedOut,
+            exitDone,
             duration
         } = this.props;
 
@@ -53,6 +55,10 @@ export default class Animation extends React.Component{
         animatedEnd = animatedEnd ? [animatedEnd] : [];        
         animatedStart.unshift('animated');
         animatedEnd.unshift('animated');
+        let childrenClone = children;
+        if(defaultProps === inProp){
+            childrenClone = React.cloneElement(children, {className: exitDone})
+        }
 
         return (
             <Transition
@@ -63,16 +69,19 @@ export default class Animation extends React.Component{
                     enter: animatedStart.join(' '),
                     enterActive: animatedIn,
                     exit: animatedEnd.join(' '),
-                    exitActive: animatedOut
+                    exitActive: animatedOut,
+                    exitDone
                 }}
                 onEnter={() => { onEnter()}}
                 onEntering={() => onEntering()}
                 onEntered={() => onEntered()}
                 onExit={() => onExit()}
                 onExiting={() => onExiting()}
-                onExited={() => { onExited()}}
+                onExited={() => { 
+                    onExited()
+                }}
                 >
-                {children}
+                {childrenClone}
             </Transition>
         )
     }

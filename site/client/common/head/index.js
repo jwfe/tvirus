@@ -26,14 +26,13 @@ export default class Head extends Component{
                     <a href="/">T-Virus</a>
                 </div>
                 <div className="search-box">
-                    <Icon type="search" />
-                    <Input type="text" placeholder="搜索组件" />
+                    <Input type="text" prefix="search" placeholder="搜索组件" />
                 </div>
-                <Menu className="site" mode="horizontal" onClick={this.onClick.bind(this)}>
+                {/* <Menu className="site" mode="horizontal" onClick={this.onClick.bind(this)}>
                     <Menu.Item opened={this.opened('index')} url="/">首页</Menu.Item>
                     <Menu.Item opened={this.opened('spec')} url="/spec/introduce">设计语言</Menu.Item>
                     <Menu.Item opened={this.opened('component')} url="/component/install">组件</Menu.Item>
-                </Menu>
+                </Menu> */}
             </header>
         )
     }

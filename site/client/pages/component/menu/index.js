@@ -29,7 +29,7 @@ export default class MenuDemo extends Component{
             title: '侧边栏',
             children: (
                 <div className="code-demo">
-                    <Menu>
+                    <Menu style={{width: 256}}>
                         <Menu.Item>概览</Menu.Item>
                         <Menu.SubMenu title={`点评`}>
                             <Menu.ItemGroup title={`点评分析`}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Component, PropTypes } from '../../libs';
 import { MenuContext } from './MenuContext';
 
-export default class Menu extends Component {
+export default class MenuItem extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,13 +16,15 @@ export default class Menu extends Component {
             this.context.defaultOpenActive(this.props.index);
         }
     }
+    
     active(){
         const { activeIndex } = this.context;
         return this.props.index === activeIndex;
     }
     handleClick(){
+        const { to } = this.props;
         const { onClick } = this.context;
-        onClick(this, this.props.index)
+        onClick(this, this.props.index, to)
     }
     render(){
         const { children, mode } = this.props;

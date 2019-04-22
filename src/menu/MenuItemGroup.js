@@ -2,7 +2,7 @@ import React from 'react';
 import { Component, PropTypes } from '../../libs';
 import { MenuContext, addPropsIndex } from './MenuContext';
 
-export default class Menu extends Component {
+export default class MenuItemGroup extends Component {
     constructor(props) {
         super(props);
     }
@@ -12,10 +12,18 @@ export default class Menu extends Component {
     };
 
     componentDidMount(){
-        if(this.props.opened){
-            this.context.defaultOpenActive(this.props.index);
+        const { children, index } = this.props;
+        const opened = [];
+        React.Children.map(children, (child) => {
+            if(child.props.opened){
+                opened.push(true);
+            }
+        });
+        if(opened.length){
+            this.context.defaultOpenActive(index);
         }
     }
+
     render(){
         const { children, mode, title, index, theme} = this.props;
         const isHorizontal = mode === 'horizontal';
@@ -33,7 +41,7 @@ export default class Menu extends Component {
                     {title}
                     <i className={this.className('tv-menu-submenu-arrow')}></i>
                 </div>
-                <ul>
+                <ul className="tv-menu-item-group-children">
                     {childrenWithProps}
                 </ul>
             </li>

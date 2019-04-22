@@ -7,7 +7,8 @@ export default class Menu extends Component {
         super(props);
         this.state = {
             activeIndex: '',
-            openNodes: []    
+            isAnimation: false,
+            openMaps: {}
         }
     }
     static propTypes = {
@@ -21,62 +22,73 @@ export default class Menu extends Component {
     };
     static defaultProps = {
         indent: 24,
-        onOpenChange: noop
+        onOpenChange: noop,
+        onClick: noop,
         //todo: 定义主题名称
-        // theme: '',
+        theme: 'default',
     };
-    onClick(item, index){
-        this.props.onClick(item, index);
-        this.setState({
-            activeIndex: index
-        })
+    onClick(item, index, to){
+        this.openMenu(index);
+        this.props.onClick(index, to, this.state.openMaps);
+        
     }
     closeMenu(index){
-        const { openNodes } = this.state;
-        openNodes.splice(openNodes.indexOf(index), 1);
+        const { openMaps } = this.state;
+        openMaps[index] = false;
 
         this.setState({
-            openNodes
+            openMaps
         })
     }
     openMenu(index) {
-        const { openNodes } = this.state;
-        if(this.opened(index)){
-            return;
-        }
-        openNodes.push(index);
+        this.defaultOpenActive(index);
         this.props.onOpenChange(this, index);
-        this.setState({ openNodes })
     }
-    opened(index){
-        return this.state.openNodes.indexOf(index) !== -1;
+    handleOpened(index){
+        return !!this.state.openMaps[index];
     }
-    defaultOpenActive(activeIndex){
+    newOpenNodes(activeIndex){
         const openPath = activeIndex.split('-');
-        const openNodes = [];
+        const openMaps = {};
         openPath.reduce(function(a, b){ 
             const value = `${a}-${b}`;
-            openNodes.push(value);
+            openMaps[value] = true;
             return value;
         });
-        this.setState({ openNodes, activeIndex });
+        return openMaps
+    }
+    defaultOpenActive(activeIndex){
+        if(typeof activeIndex === 'undefined' || this.handleOpened(activeIndex)){
+            return;
+        }
+        const openMaps = this.newOpenNodes(activeIndex);
+        this.setState({ openMaps, activeIndex });
+    }
+    changeAnimation(fn){
+        this.setState({
+            isAnimation: true
+        }, () => {fn()})
     }
     render(){
-        const { children, mode } = this.props;
+        const { children, mode, theme } = this.props;
         const isHorizontal = mode === 'horizontal';
         const childrenWithProps = addPropsIndex(children, 'menu');
         return (
             <MenuContext.Provider value={{
-                opened: this.opened.bind(this),
+                handleOpened: this.handleOpened.bind(this),
                 openMenu: this.openMenu.bind(this),
                 closeMenu: this.closeMenu.bind(this),
                 onClick: this.onClick.bind(this),
                 defaultOpenActive: this.defaultOpenActive.bind(this),
-                activeIndex: this.state.activeIndex
+                activeIndex: this.state.activeIndex,
+                openMaps: this.state.openMaps,
+                isAnimation: this.state.isAnimation,
+                changeAnimation: this.changeAnimation.bind(this)
             }}>
                 <ul 
                     style={this.style()}
                     className={this.className('tv-menu', {
+                        [`tv-theme-${theme}-menu`]: true,
                         'tv-menu-horizontal': isHorizontal,
                         'tv-menu-vertical': !isHorizontal
                     })}

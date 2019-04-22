@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import Highlight from 'react-highlight' 
-import reactElementToJSXString from 'react-element-to-jsx-string';
+import Body from './body';
 
 import Menu from '@menu';
-import Icon from '@icon';
-import { Tabs, Tabpanel } from '@tabs';
 
 const style = {
     main: {
@@ -41,25 +38,13 @@ export default class Layout extends Component{
             };
         }
     }
-
-    onShowCode(index){
-        const {codebox} = this.state;
-        const {show} = codebox[index] || {};
-        const temp = {
-            [index]: {
-                show: !show
-            }
-        }
-        this.setState({
-            codebox: temp
-        })
-    }
-    onClick(item){
-        const { url } = item.props;
-        if(!url){
+    onClick(index, to, openMaps){
+        if(!to){
             return;
         }
-        window.location.href = `#${url}`;
+
+        openMaps[index] = true;
+        this.props.history.push({ pathname: to, state: { openMaps } });
     }
     opened(query){
         const currQuery = this.props.location.pathname.split('/')[2];
@@ -188,7 +173,10 @@ export default class Layout extends Component{
         ].map((item) => {
             const SubmenuTitle = <span>{item.title}</span>;
             const child = item.child.map((child) => {
-                return <Menu.Item opened={this.opened(child.query)} url={`/component/${child.query}`}>{child.title}</Menu.Item>
+                const isShow = this.opened(child.query);
+                return <Menu.Item opened={isShow} to={`/component/${child.query}`}>
+                    {child.title}
+                </Menu.Item>
             })
             return (
                 <Menu.SubMenu title={SubmenuTitle}>
@@ -197,43 +185,8 @@ export default class Layout extends Component{
             )    
         })
     }
-    getCodeDemo(child, index){
-        const { codebox } = this.state;
-        const codeboxCurrent = codebox[index] || {};
-        const isShow = !!codeboxCurrent.show;
-        if(Array.isArray(child.children)){
-            return (
-                <Tabs activeKey={child.children[0]}>
-                    {
-                        child.children.map((item) => {
-                            const itemCompoent = child.func(item);
-                            return (<Tabpanel tab={item} tabKey={item}>
-                                {itemCompoent}
-                                <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
-                                    <Highlight>
-                                        {reactElementToJSXString(itemCompoent, {tabStop: 4})}
-                                    </Highlight>
-                                </div>
-                                <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
-                            </Tabpanel>)
-                        })
-                    }
-                </Tabs>
-            )
-        }
-        return (<div>
-            {child.children}
-            <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
-                <Highlight>
-                    {child.jsx || reactElementToJSXString(child.children, {tabStop: 4})}
-                </Highlight>
-            </div>
-            <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
-        </div>)
-    }
     render() {
-        const { title, desc, className } = this.props;
-        const { childs } = this.state;
+        const openMaps = this.props.location.state;
         return (
             <main style={style.main}>
                 <aside style={style.left}>
@@ -241,25 +194,7 @@ export default class Layout extends Component{
                         {this.createMenus()}
                     </Menu>
                 </aside>
-                <section style={style.right} className="main-component">
-                    <article className={className}>
-                    <h1>{title}</h1>
-                    <p>{desc}</p>
-                    <section className="main-body">
-                        {
-                            childs.map((child, index) => {
-                                return (
-                                    <div>
-                                        <h2>{child.title}</h2>
-                                        <div className="code-wraper">{this.getCodeDemo(child, index)}</div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </section>
-                </article>
-
-                </section>        
+                <Body {...this.props} />
             </main>
         )
     }

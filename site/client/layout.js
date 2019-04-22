@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
+
 import Head from './common/head';
+
 import './normalize'
 import './assets/animation'
 import './assets/base'
@@ -20,6 +23,7 @@ import './assets/table';
 import './assets/popup';
 import './assets/dialog';
 import './assets/chart';
+import './assets/theme/default';
 
 import './common/component'
 // 父组件
@@ -49,4 +53,4 @@ class App extends Component{
     }
 }
 
-export default App;
+export default withRouter(App);

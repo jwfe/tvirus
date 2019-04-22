@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes, Animation } from '@Libs';
+import { Component, PropTypes, Transition } from '@Libs';
 import { MenuContext, addPropsIndex } from './MenuContext';
 
 export default class SubMenu extends Component {
@@ -12,28 +12,40 @@ export default class SubMenu extends Component {
     }
 
     componentDidMount(){
-        if(this.props.opened){
-            this.context.defaultOpenActive(this.props.index);
+        const { children, index } = this.props;
+        const { handleOpened } = this.context;
+        const isOpened = handleOpened(index);
+        if(!isOpened){
+            const opened = [];
+            React.Children.map(children, (child) => {
+                if(child.props.opened){
+                    opened.push(true);
+                }
+            });
         }
     }
 
     handleClick() {
         const { index } = this.props;
-        const { opened, closeMenu, openMenu } = this.context;
-        if(opened(index)){
-            closeMenu(index);
-            return;
-        }
-        openMenu(index);
+        const { handleOpened, closeMenu, openMenu, changeAnimation } = this.context;
+        changeAnimation(()=>{
+            if(handleOpened(index)){
+                closeMenu(index);
+                return;
+            }
+            openMenu(index);
+        });
     }
-    
+
     render(){
         const { children, title, index } = this.props;
-        const { opened } = this.context;
+        const { handleOpened, isAnimation } = this.context;
         const childrenWithProps = addPropsIndex(children, index);
-        const isShow = opened(index);
+        const isShow = handleOpened(index);
         return (
-            <li className={this.className('tv-menu-submenu')}>
+            <li className={this.className('tv-menu-submenu', {
+                'tv-menu-submenu-open': isShow
+            })}>
                 <div 
                 className={this.className('tv-menu-submenu-title')}
                 onClick={this.handleClick.bind(this)}
@@ -43,18 +55,14 @@ export default class SubMenu extends Component {
                         'tv-arrow-up': isShow
                     })}></i>
                 </div>
-                <Animation
-                    duration={0.3}
-                    animatedStart="zoomEnter" 
-                    animatedEnd="zoomExit" 
-                    animatedIn="zoomInTop" 
-                    animatedOut="zoomInBottom" 
-                    inProp={isShow}
+                <Transition
+                    isAnimation={isAnimation}
+                    isShow={ isShow }
                  >
-                    <ul>
+                    <ul className="tv-menu-submenu-children">
                         {childrenWithProps}
                     </ul>
-                </Animation>
+                </Transition>
                 
             </li>
         )

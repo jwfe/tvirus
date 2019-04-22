@@ -6,6 +6,7 @@ export default class Input extends Component {
     static propTypes = {
         type: PropTypes.oneOf(['text', 'textarea', 'password', 'number', 'radio', 'checkbox']),
         prefix: PropTypes.string.string,
+        suffix: PropTypes.string.string,
         className: PropTypes.string,
         autoComplete: PropTypes.oneOf(['on', 'off']),
         placeholder: PropTypes.string,
@@ -71,7 +72,7 @@ export default class Input extends Component {
         }
     }
     render() {
-        let { prefix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, ...otherProps } = this.props;
+        let { prefix, suffix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, ...otherProps } = this.props;
         const { textareaHeight } = this.state;
         const { passwdToggle } = this.state;
 
@@ -100,8 +101,16 @@ export default class Input extends Component {
         }
 
         return (
-            <span className={this.className('tv-input-wraper')}>
+            <span className={this.className('tv-input-wraper', {
+                'tv-input-wraper-prefix': prefix
+            })}>
                 {prefix && <span className="tv-input-prefix"><Icon type={prefix} /></span>}
+                {this.addPasswdVisible()}
+                {
+                    suffix && <span className="tv-input-suffix">
+                        <Icon type={suffix} />
+                    </span>
+                }
                 <input
                     className={this.className('tv-input', {
                         [`tv-input-size-${size}`]: size,
@@ -120,9 +129,6 @@ export default class Input extends Component {
                     {...otherProps}
 
                 />
-
-                {this.addPasswdVisible()}
-
             </span>
         );
     }

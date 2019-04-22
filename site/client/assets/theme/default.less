@@ -1,0 +1,27 @@
+@import "../libs/variables.less";
+@import "../libs/utils.less";
+.tv-theme-default-menu{
+    &.tv-menu{
+        background: #2D3952;
+        color: @base-gray-color
+    }
+    .tv-menu{
+        &-submenu{
+            &-open{
+                .tv-menu-submenu-title{
+                    background-color: .setColorAlpha(@base-black-color, 10%)[];
+                }
+                .tv-menu-item-group-title{
+                    background-color: .setColorAlpha(@base-black-color, 20%)[];
+                }
+                .tv-menu-item{
+                    color: @base-gray-color;
+                    background-color: .setColorAlpha(@base-black-color, 30%)[];
+                    &.tv-menu-active{
+                        color: @base-color;
+                    }
+                }
+            }
+        }
+    }
+}
