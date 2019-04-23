@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
+import Icon from '@icon';
 import { Tabs, Tabpanel } from '@tabs';
 import './index.less'
 
@@ -48,6 +49,26 @@ export default class TabsDemo extends Component{
                                 return (
                                     <Tabpanel disabled={item==='选项卡2'} tab={item} tabKey={item}>
                                         内容区：{item}
+                                    </Tabpanel>
+                                )
+                            })
+                        }
+                    </Tabs>
+                </div>
+            )
+        });
+
+        childs.push({
+            title: '带icon',
+            children: (
+                <div className="code-demo">
+                    <Tabs activeKey={`选项卡1`}>
+                        {
+                            [{title: '选项卡1', icon: 'bell'}, {title: '选项卡2', icon: 'cloud'}, {title: '选项卡3', icon: 'fire'}].map((item) => {
+                                const navItem = <span><Icon type={item.icon} />{item.title}</span>;
+                                return (
+                                    <Tabpanel tab={navItem} tabKey={item.title}>
+                                        内容区：{item.title}
                                     </Tabpanel>
                                 )
                             })

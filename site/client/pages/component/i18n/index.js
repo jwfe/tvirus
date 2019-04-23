@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Search from '@search';
+import I18n from '@i18n';
 import './index.less'
 
-export default class SearchDemo extends Component{
+export default class I18nDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -23,7 +23,7 @@ export default class SearchDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Search data={['charles', 'may', 'amy', 'ming']} />
+                    <I18n></I18n>
                 </div>
             )
         });
@@ -35,9 +35,9 @@ export default class SearchDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
-            className="main-search-box"
-            title="Search"
-            desc="Search的说明"
+            className="main-i18n-box"
+            title="I18n"
+            desc="I18n的说明"
             childs={childs}
         />
     }

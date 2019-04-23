@@ -1,11 +1,26 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-tabs{
     position: relative;
-    display: inline-block;
-
     box-sizing: border-box;
     margin: 0;
     &-nav{
+        position: relative;
+        margin: 0 0 16px 0;
         border-bottom: 1px solid #dadada; 
+        &-bar{
+            box-sizing: border-box;
+
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            z-index: 1;
+
+            height: 2px;
+            background-color: @base-color;
+            transform-origin: 0 0
+        }
     }
     &-item{
         position: relative;
@@ -19,13 +34,20 @@
 
         text-decoration: none;
         cursor: pointer;
+        .tv-icon{
+            margin-right: 8px;
+            vertical-align: 0;
+        }
         &-active{
-            border-bottom: 2px solid #FF8B3D; 
+            color: @base-color;
         }
     }
-    &-content{
-        
+
+    &-disabled{
+        color: .setColorAlpha(@base-black-color, 25%)[];
+        cursor: not-allowed;
     }
+
     &-tabpanel{
         display: none;
         &-active{
