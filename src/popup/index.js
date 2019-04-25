@@ -140,9 +140,12 @@ export default class Popup extends Component {
     }
 
     renderCloneChildren(){
-        const { children } = this.props;
+        const { children, childrenProps } = this.props;
         return React.Children.map(children, (child, i) => {
-            return React.cloneElement(child, {ref: 'triggerNode'})
+            return React.cloneElement(child, {
+                ref: 'triggerNode',
+                ...childrenProps
+            })
         });
     }
 
@@ -244,7 +247,7 @@ export default class Popup extends Component {
                     })}>
                         { showArrow && <div className="tv-popup-arrow" /> }
                         <div className="tv-popup-inner">
-                            <h3 className="tv-popup-title">{title}</h3>
+                            {title && <h3 className="tv-popup-title">{title}</h3>}
                             <div className="tv-popup-content">
                                 {content}
                             </div>

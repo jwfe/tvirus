@@ -88,6 +88,14 @@ class Body extends Component{
             <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
         </div>)
     }
+
+    creatDoc(child){
+        return (
+            <div>
+                {child.children}
+            </div>
+        )
+    }
     render() {
         const { title, desc, className } = this.props;
         const { childs } = this.state;
@@ -102,7 +110,9 @@ class Body extends Component{
                                 return (
                                     <div>
                                         <h2>{child.title}</h2>
-                                        <div className="code-wraper">{this.getCodeDemo(child, index)}</div>
+                                        {
+                                            child.doc ? this.creatDoc(child, index) : <div className="code-wraper">{this.getCodeDemo(child, index)}</div>
+                                        }
                                     </div>
                                 )
                             })

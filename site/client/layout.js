@@ -9,6 +9,8 @@ import './assets/base'
 import './assets/menu';
 
 import './assets/input';
+import './assets/search';
+import './assets/sliderbar';
 import './assets/radio';
 import './assets/checkbox';
 import './assets/cascader';

@@ -23,7 +23,7 @@ export default class SearchDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Search data={['charles', 'may', 'amy', 'ming']} />
+                    <Search data={['charles', 'may', 'amy', 'ming']} showDropdown={true} />
                 </div>
             )
         });

@@ -99,6 +99,10 @@ export default class Layout extends Component{
                         query: 'search'
                     },
                     {
+                        title: 'Sliderbar 滑动块',
+                        query: 'sliderbar'
+                    },
+                    {
                         title: 'Radio 单选',
                         query: 'radio'
                     },
