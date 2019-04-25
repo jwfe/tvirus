@@ -42,7 +42,6 @@ export default class SliderBar extends Component {
 
         window.addEventListener('mousemove', this.onDragging.bind(this));
         window.addEventListener('mouseup', this.onDragEnd.bind(this));
-        // window.addEventListener('contextmenu', this.onDragEnd.bind(this));
     }
 
     currentPosition() {
@@ -74,19 +73,12 @@ export default class SliderBar extends Component {
 
             this.state.newPosition = this.state.startPosition + diff;
 
-            console.log('[onDragging]', this.state.currentX, this.state.currentY, this.state.startX, this.state.startY);
-            console.log('[onDragging]', this.state.newPosition, this.state.startPosition, diff);
-
             this.setPosition(this.state.newPosition);
         }
     }
 
     onDragEnd() {
         if (this.state.dragging) {
-            /*
-            * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
-            * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
-            */
             setTimeout(() => {
                 this.setState({
                     dragging: false
@@ -111,8 +103,6 @@ export default class SliderBar extends Component {
         const lengthPerStep = 100 / ((max - min / step));
         const steps = Math.round(newPosition / lengthPerStep);
         const value = steps * lengthPerStep * (max - min) * 0.01 + min;
-
-        console.log('[setPosition]', lengthPerStep, steps, value);
 
         this.setState({
             value: value

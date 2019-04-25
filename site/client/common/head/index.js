@@ -9,16 +9,19 @@ export default class Head extends Component{
     constructor(props){
         super(props);
     }
-    onClick(item){
-        const { url } = item.props;
-        if(!url){
-            return;
-        }
-        window.location.href = `#${url}`;
-    }
     opened(path){
         return this.props.hash.path === path;
     }
+
+    onClick(index, to, openMaps){
+        if(!to){
+            return;
+        }
+
+        openMaps[index] = true;
+        window.location.href = `#${to}`;
+    }
+
     render(){
         return (
             <header className="header clearfix">
@@ -29,9 +32,9 @@ export default class Head extends Component{
                     <Input type="text" prefix="search" placeholder="搜索组件" />
                 </div>
                 <Menu className="site" mode="horizontal" onClick={this.onClick.bind(this)}>
-                    <Menu.Item opened={this.opened('index')} url="/">首页</Menu.Item>
-                    <Menu.Item opened={this.opened('spec')} url="/spec/introduce">设计语言</Menu.Item>
-                    <Menu.Item opened={this.opened('component')} url="/component/install">组件</Menu.Item>
+                    <Menu.Item opened={this.opened('index')} to="/">首页</Menu.Item>
+                    <Menu.Item opened={this.opened('spec')} to="/spec/introduce">设计语言</Menu.Item>
+                    <Menu.Item opened={this.opened('component')} to="/component/install">组件</Menu.Item>
                 </Menu>
             </header>
         )

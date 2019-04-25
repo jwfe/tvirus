@@ -28,6 +28,7 @@ import './assets/popup';
 import './assets/dialog';
 import './assets/chart';
 import './assets/theme/default';
+import './assets/theme/dark';
 
 import './common/component'
 // 父组件
