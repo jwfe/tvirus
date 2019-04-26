@@ -5,10 +5,18 @@
         background: #2D3952;
         color: @base-gray-color
     }
+
+    & > .tv-menu-item,
+    .tv-menu-submenu{
+        color: #D5D5D5;
+    }
+
     .tv-menu{
         &-submenu{
             &-open{
                 .tv-menu-submenu-title{
+                    border-right: 2px solid @base-color;
+                    padding-left: 47px;
                     background-color: .setColorAlpha(@base-black-color, 10%)[];
                 }
                 .tv-menu-item-group-title{

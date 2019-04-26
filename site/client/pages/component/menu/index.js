@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
+import Icon from '@icon';
 import Menu from '@menu';
 import './index.less'
 
@@ -30,8 +31,8 @@ export default class MenuDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Menu style={{width: 256}} theme="dark">
-                        <Menu.Item>概览</Menu.Item>
-                        <Menu.SubMenu title={`点评`}>
+                        <Menu.Item><Icon type="pie-chart-solid" />概览</Menu.Item>
+                        <Menu.SubMenu title={<span><Icon type="pie-chart-solid" />点评</span>}>
                             <Menu.ItemGroup title={`点评分析`}>
                                 <Menu.Item>点评总览</Menu.Item>
                                 <Menu.Item>点评热词</Menu.Item>
@@ -39,7 +40,7 @@ export default class MenuDemo extends Component{
                             </Menu.ItemGroup>
                         </Menu.SubMenu>
 
-                        <Menu.SubMenu title={`质检`}>
+                        <Menu.SubMenu title={<span><Icon type="pie-chart-solid" />质检</span>}>
                             <Menu.ItemGroup title={`质检分析`}>
                                 <Menu.Item>质检总览</Menu.Item>
                                 <Menu.Item>质检热词</Menu.Item>
