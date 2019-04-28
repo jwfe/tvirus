@@ -73,6 +73,7 @@ export default class Cascader extends Component {
             })}>
 
                 <Popup 
+                className="tv-cascader-wraper"
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 

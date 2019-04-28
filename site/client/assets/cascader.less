@@ -2,4 +2,27 @@
     &-menus{
         display: flex;
     }
+    &-wraper{
+        .tv-popup-inner{
+            padding: 0;
+        }
+        ul,
+        li{
+            list-style: none;
+        }
+        ul{
+            overflow: auto;
+            vertical-align: top;
+            min-width: 110px;
+            border-right: 1px solid #e8e8e8;
+        }
+        
+    }
+    &-menu{
+        padding: 5px 12px;
+        line-height: 22px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all .3s;
+    }
 }

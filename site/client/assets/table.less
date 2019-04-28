@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-table{
     position: relative;
     width: 100%;
@@ -5,12 +8,12 @@
     box-sizing: border-box;
     &-panel{
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
         justify-content: space-between;
     }
     &-row{
         display: flex;
-        flex-flow: row;
+        flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
     }
@@ -18,13 +21,19 @@
         overflow: hidden;
         box-sizing: border-box;
 
-        padding: 5px;
-        min-width: 100px;
-        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
 
-        white-space: nowrap;
+        border-bottom: 1px solid #e8e8e8;
+
+        padding: 10px 5px;
+        min-width: 100px;
+        height: 70px;
+
         text-overflow: ellipsis;
         background-color: #fff;
+
         &-group &,
         &-group-wraper &{
             height: auto;
@@ -34,21 +43,42 @@
             display: flex;
             flex-flow: row;
             flex-wrap: nowrap;
+            align-items: stretch;
             justify-content: space-between;
         }
     }
 
     &-header,
     &-body{
-        &, &-fixed{
-        }
+        // &-fixed-left{
+        //     box-shadow: 6px 0 6px -4px rgba(0,0,0,0.15)
+        // }
+
+        // &-fixed-right{
+        //     box-shadow: -6px 0 6px -4px rgba(0,0,0,0.15);
+        // }
+
+        // &-fixed-left,
+        // &-fixed-right{
+        //     transition: box-shadow .3s ease;
+        // }
+
         &-wrapper{
             display: flex;
+            align-items: stretch;
             justify-content: space-between;
         }
     }
     &-header{
         overflow: hidden;
+        &-wrapper{
+            background-color: #ebeff6;
+            .tv-table-cell{
+                min-height: 40px;
+                height: auto;
+                background-color: transparent;
+            }
+        }
     }
     &-body{
         overflow-x: auto;
@@ -58,9 +88,12 @@
             overflow-y: auto;
             position: relative;
             z-index: 0; 
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: none;
             max-height: 100%;
+        }
+    }
+    &-border{
+        .tv-table-cell{
+            border-right: 1px solid #e8e8e8
         }
     }
 }

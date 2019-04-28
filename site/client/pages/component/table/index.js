@@ -127,11 +127,13 @@ export default class TableDemo extends Component{
                                 title: 'Company Address',
                                 dataIndex: 'companyAddress',
                                 key: 'companyAddress',
+                                width: 200,
                             }, 
                             {
                                 title: 'Company Name',
                                 dataIndex: 'companyName',
                                 key: 'companyName',
+                                width: 200,
                             }
                         ],
                     }, 
@@ -164,7 +166,8 @@ export default class TableDemo extends Component{
                 children: (
                     <div className="code-demo">
                         <Table 
-                            style={{height: '200px'}}
+                            border={true}
+                            style={{height: '500px'}}
                             columns={columns}
                             data={data}
                          />

@@ -224,7 +224,7 @@ export default class Popup extends Component {
     }
 
     render() {
-        const { title, content, showArrow } = this.props;
+        const { title, content, showArrow, className } = this.props;
         const { showPopup, style } = this.state;
         const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
@@ -242,8 +242,9 @@ export default class Popup extends Component {
                     <div 
                     style={this.style(style)}
                     ref="popupNode"
-                    className={this.className('tv-popup', positionClassName, {
-                        'tv-popup-show': showPopup
+                    className={this.className('tv-popup', className, {
+                        'tv-popup-show': showPopup,
+                        [`tv-popup-${postion.join('-')}`]: postion
                     })}>
                         { showArrow && <div className="tv-popup-arrow" /> }
                         <div className="tv-popup-inner">

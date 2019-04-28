@@ -12,7 +12,7 @@ export default class Table extends Component {
         super(props);
         this.dom = {};
         const { columns, data } = this.props;
-        this.renderData = this.dataGroup(columns, data);
+        this.renderData = this.calculateWidth(columns, data);
     }
 
     static propTypes = {
@@ -23,15 +23,15 @@ export default class Table extends Component {
 
     };
     static defaultProps = {
+        border: false
     };
 
     getDomNodes(nodestring, dom){
         return (dom || this.dom.wrapper).querySelector(nodestring);
     } 
     onScrollX(){
-        console.log(this.dom.bodyXWrapper)
         const scrollLeft = Math.max(this.dom.bodyXWrapper.scrollLeft, 0);
-        this.dom.headerTable.style.transform = 'translate(' + (-1 * scrollLeft) + 'px, 0) translateZ(0)';
+        this.dom.headerTablePanel.style.transform = 'translate(' + (-1 * scrollLeft) + 'px, 0) translateZ(0)';
     }
    
     getDom(){
@@ -46,17 +46,79 @@ export default class Table extends Component {
         this.dom.bodyRightFixed = this.getDomNodes('.tv-table-body-fixed-right', this.dom.bodyYWrapper);
         
 
-        this.dom.header = this.getDomNodes('.tv-table-header');
+        this.dom.header = this.getDomNodes('.tv-table-header-wrapper');
         this.dom.headerLeftFixed = this.getDomNodes('.tv-table-header-fixed-left', this.dom.header);
         this.dom.headerRightFixed = this.getDomNodes('.tv-table-header-fixed-right', this.dom.header);
-        this.dom.headerTable = this.getDomNodes('.tv-table-panel', this.dom.header);
+        this.dom.headerTable = this.getDomNodes('.tv-table-header', this.dom.header);
+        this.dom.headerTablePanel = this.getDomNodes('.tv-table-panel', this.dom.headerTable);
+
+        this.dom.bodyXWrapper.addEventListener('scroll', this.onScrollX.bind(this));
     }
     
     componentDidMount(){
         this.getDom();
+        this.calculateHeaderHeight();
     }
 
-    dataGroup(columns, data, fixedType){
+    calculateHeaderHeight() {
+        const {headerLeftFixed, headerRightFixed, headerTable} = this.dom;
+        const headerLeftRows = headerLeftFixed.querySelectorAll('.tv-table-row');
+        const headerRightRows = headerRightFixed.querySelectorAll('.tv-table-row');
+        const headerTableRows = headerTable.querySelectorAll('.tv-table-row');
+
+        headerLeftRows.forEach((leftRow, index) => {
+            const rightRow = headerRightRows[index];
+            const middleRow = headerTableRows[index];
+
+            const leftHeight = leftRow.offsetHeight;
+            const rightHeight = rightRow.offsetHeight;
+            const middleHeight = middleRow.offsetHeight;
+
+            const height = Math.max(leftHeight, rightHeight, middleHeight);
+            if(!isNaN(height)) {
+                leftRow.style.height = middleRow.style.height = rightRow.style.height = `${height}px`;
+            };
+        });
+
+        // group
+        const leftGroup = headerLeftFixed.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
+        const middleGroup = headerTable.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
+        const rightGroup = headerRightFixed.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
+
+        const leftMaxGroup = [];
+        leftGroup.forEach((group) => {
+            const height = group.offsetHeight;
+            leftMaxGroup.push(height);
+        });
+        const leftGroupHeight = Math.max(...leftMaxGroup);
+        leftGroup.forEach((group) => {
+            group.style.height = `${leftGroupHeight}px`;
+        });
+
+
+        const middleMaxGroup = [];
+        middleGroup.forEach((group) => {
+            const height = group.offsetHeight;
+            middleMaxGroup.push(height);
+        });
+        const middleGroupHeight = Math.max(...middleMaxGroup);
+        middleGroup.forEach((group) => {
+            group.style.height = `${middleGroupHeight}px`;
+        });
+
+        const rightMaxGroup = [];
+        rightGroup.forEach((group) => {
+            const height = group.offsetHeight;
+            rightMaxGroup.push(height);
+        });
+        const rightGroupHeight = Math.max(...rightMaxGroup);
+        rightGroup.forEach((group) => {
+            group.style.height = `${rightGroupHeight}px`;
+        });
+
+    }
+
+    calculateWidth(columns, data, fixedType){
         const fixed = {};
         
         columns.forEach((col, index) => {
@@ -71,10 +133,41 @@ export default class Table extends Component {
             fixed[fixedKey].head.push(col);
 
             if(col.children){
-                const childFixed = this.dataGroup(col.children, data, fixedKey);
+                const childFixed = this.calculateWidth(col.children, data, fixedKey);
                 fixed[fixedKey].keys = fixed[fixedKey].keys.concat(childFixed[fixedKey].keys);
             }
-        })
+        });
+
+        function getWidth(key, data){
+            if(Array.isArray(data) && (!data || !data.length)){
+                return ''
+            }
+            
+            if(Array.isArray(data)){
+                let width;
+                const length = data.length;
+                for(let i=0; i<length; i++){
+                    const item = data[i];
+                    if(item.children){
+                        width = getWidth(key, item.children);
+                        if(width || i >= length) break;
+                    }
+                    if(key === item.key){
+                        width = item.width;
+                        break;
+                    }
+                }
+
+                return width;
+            }
+
+            const _key = data['key'] || data['dataIndex'];
+            if(data.width && _key === key){
+                return data['width'];
+            }
+
+            return getWidth(key, data.children);
+        }
 
         !fixedType && data.forEach((item) => {
             for(let key in fixed){
@@ -86,15 +179,16 @@ export default class Table extends Component {
                     const value = item[key2] || '';
                     const headItem = head[index] || {};
                     const render = headItem.render;
+                    const width = getWidth(key2, head);
                     context.push({
-                        width: headItem.width,
+                        width,
                         value: render ? render(value, item) : value
                     });
                 })
                 context.length && fixed[key].body.push(context);
             }
         })
-
+        console.log('[TABLE]', 'calculateWidth', fixed)
         return fixed;
     }
 
@@ -130,6 +224,7 @@ export default class Table extends Component {
     }
 
     render(){
+        const { multiple, border } = this.props;
         const { left, right, middle } = this.renderData;
         const isLeftFixed = !!left.head.length;
         const isRightFixed = !!right.head.length;
@@ -138,9 +233,11 @@ export default class Table extends Component {
             if(element) this.dom.wrapper = element;
         }
 
-        console.log(this.renderHead(left.head), this.renderHead(middle.head), this.renderHead(right.head))
         return (
-            <div style={this.style()} className={this.className('tv-table')} ref={setWrapperElement}>
+            <div style={this.style()} className={this.className('tv-table', {
+                'tv-table-border': border,
+                'tv-table-multiple': multiple
+            })} ref={setWrapperElement}>
                 <div className='tv-table-x-scrollbar'><div></div></div>
                 <div className='tv-table-y-scrollbar'><div></div></div>
                 <div className="tv-table-header-wrapper">
