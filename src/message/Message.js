@@ -18,11 +18,12 @@ export default class Message extends Component {
     }
     static propTypes = {
         className: PropTypes.string,
+        duration: PropTypes.number,
         contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning']),
     };
     static defaultProps = {
         contentType: 'info',
-        duration: 3000
+        duration: 5000
     };
     componentDidMount () {
         this.closeTimer = setTimeout(() => {

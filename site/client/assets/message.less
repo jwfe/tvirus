@@ -14,7 +14,7 @@
 
     width: 100%;
 
-    color: rgba(0,0,0,0.65);
+    color: .setColorAlpha(@base-black-color, 65%)[];
     font-size: 14px;
     line-height: 1.5;
     list-style: none;
@@ -31,8 +31,8 @@
             padding: 10px 16px;
             background: #fff;
             border-radius: 4px;
-            box-shadow: 0 4px 12px .setColorAlpha(@base-black-color, 15%);
-            pointer-events: all
+            box-shadow: 0 4px 12px .setColorAlpha(@base-black-color, 15%)[];
+            pointer-events: all;
         }
     }
     &-info{
