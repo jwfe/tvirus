@@ -7,6 +7,35 @@
 .tv-transition {
     transition: .3s height ease-in-out, .3s padding-top ease-in-out, .3s padding-bottom ease-in-out
 }
+
+
+@keyframes MessageMoveIn {
+    0% {
+        max-height: 0;
+        padding: 0;
+        opacity: 0
+    }
+
+    100% {
+        max-height: 150px;
+        padding: 8px;
+        opacity: 1
+    }
+}
+
+@keyframes MessageMoveOut {
+    0% {
+        max-height: 150px;
+        padding: 8px;
+        opacity: 1
+    }
+
+    100% {
+        max-height: 0;
+        padding: 0;
+        opacity: 0
+    }
+}
  /*
  [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
  [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
@@ -118,6 +147,12 @@
      &.zoomInBottom       { 
         .zoomInAuto; 
         max-height: 0;
+    }
+    &.move-up-enter{
+        animation-name: MessageMoveIn;
+    }
+    &.move-up-leave{
+        animation-name: MessageMoveOut;
     }
 }
 

@@ -22,7 +22,7 @@ export default class Message extends Component {
     };
     static defaultProps = {
         contentType: 'info',
-        duration: 2000
+        duration: 3000
     };
     componentDidMount () {
         this.closeTimer = setTimeout(() => {

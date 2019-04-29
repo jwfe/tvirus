@@ -2,7 +2,7 @@
   "name": "tvirus",
   "version": "1.0.0",
   "description": "一套完善的组件化方案",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "classnames": "^2.2.6",
     "raf": "^3.4.1",
