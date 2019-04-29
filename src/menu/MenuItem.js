@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import { Component, PropTypes } from '@Libs';
 import { MenuContext } from './MenuContext';
 
 export default class MenuItem extends Component {

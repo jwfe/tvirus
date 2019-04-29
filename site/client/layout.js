@@ -26,6 +26,7 @@ import './assets/tabs';
 import './assets/table';
 import './assets/popup';
 import './assets/dialog';
+import './assets/message';
 import './assets/chart';
 import './assets/theme/default';
 import './assets/theme/dark';

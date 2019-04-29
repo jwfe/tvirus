@@ -171,6 +171,10 @@ export default class Layout extends Component{
                     {
                         title: 'Dialog 对话框',
                         query: 'dialog'
+                    },
+                    {
+                        title: 'Message 全局提示',
+                        query: 'message'
                     }
                 ]
             }

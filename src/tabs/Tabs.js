@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Component, PropTypes, noop } from '../../libs';
+import { Component, PropTypes, noop } from '@Libs';
 
 export default class Tabs extends Component {
     constructor(props) {

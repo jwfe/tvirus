@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-dialog {
     overflow: auto;
     text-align: center;
@@ -27,12 +30,13 @@
         border: 0;
         border-radius: 4px;
 
-        width: auto;
+        min-width: 400px;
 
         text-align: left;
 
         background-color: #fff;
         background-clip: padding-box;
+        
     }
     &-header {
         border-bottom: 1px solid #e8e8e8;
@@ -53,8 +57,8 @@
     }
     &-close{
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 20px;
+        right: 20px;
         z-index: 10;
 
         border: 0;
@@ -91,6 +95,9 @@
         padding: 10px 16px;
         text-align: right;
         background: tranparent;
+        & .tv-button:nth-child(2){
+            margin-left: 10px;
+        }
     }
 
     &.animated {
@@ -98,6 +105,51 @@
         opacity: 0;
         animation-duration: .3s;
         user-select: none
+    }
+
+    &-confirm{
+        .tv-dialog-content{
+            padding: 32px 32px 24px;
+            .tv-icon{
+                margin-right: 16px;
+                font-size: 21px;
+            }
+            .tv-dialog-confirm-title{
+                font-weight: 500;
+                font-size: 16px;
+                color: #333;
+            }
+            .tv-dialog-confirm-content{
+                margin-left: 38px;
+            }
+        }
+        &-info{
+            .tv-icon{
+                color: @base-info-color
+            }
+        }
+
+        &-success{
+            .tv-icon{
+                color: @base-success-color;
+            }
+        }
+
+        &-danger{
+            .tv-icon{
+                color: @base-danger-color;
+            }
+        }
+
+        &-warning{
+            .tv-icon{
+                color: @base-warning-color;
+            }
+        }
+        .tv-dialog-footer{
+            border: 0 none;
+            padding: 0;
+        }
     }
 
 }

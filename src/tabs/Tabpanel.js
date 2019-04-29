@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import { Component, PropTypes } from '@Libs';
 
 export default class Tabs extends Component {
     constructor(props) {

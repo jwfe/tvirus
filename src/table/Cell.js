@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '../../libs';
+import { Component, PropTypes, noop } from '@Libs';
 
 export default class Cell extends Component {
     constructor(props) {
