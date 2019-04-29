@@ -52,7 +52,7 @@ class App extends Component{
         });
         return (
             <section>
-                <Head hash={hash} />
+                {hash.path !== 'index' && <Head hash={hash} />}
                 {children}
             </section>
         )

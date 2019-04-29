@@ -60,10 +60,10 @@ export default class Layout extends Component{
                         title: '快速上手',
                         query: 'install'
                     },
-                    {
-                        title: '项目',
-                        query: 'project'
-                    },
+                    // {
+                    //     title: '项目',
+                    //     query: 'project'
+                    // },
                     {
                         title: '国际化',
                         query: 'i18n'
