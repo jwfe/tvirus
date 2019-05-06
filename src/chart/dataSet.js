@@ -10,7 +10,7 @@ export const getOptions = (data) => {
         title: {
             text: ''
         },
-        grid: {
+        grid: data['grid'] || {
             top: 20,
             bottom: 80,
             left: 80,
@@ -46,7 +46,7 @@ export const getOptions = (data) => {
             bottom: 0,
             left: "center"
         },
-        xAxis: {
+        xAxis: data['xAxis'] || {
             data: data.xAxis,
             type: 'category',
             boundaryGap: true,
@@ -85,6 +85,5 @@ export const getOptions = (data) => {
     else {
         chartConfig.graphic = []
     }
-    console.log(JSON.stringify(chartConfig), '&&&')
-    return chartConfig;
+    return Object.assign(chartConfig, data || {});
 }

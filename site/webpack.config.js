@@ -94,8 +94,28 @@ class CreateSiteTempComp{
 import { Route, HashRouter as Router } from 'react-router-dom';
 
 import Layout from './layout';
+
 import Index from './pages/index';
-import SpecIntroduce from './pages/spec/introduce';
+
+import Arts from './pages/spec/arts';
+import Direct from './pages/spec/direct';
+import Jump from './pages/spec/jump';
+import Lightweight from './pages/spec/lightweight';
+import Invitation from './pages/spec/invitation';
+import Reaction from './pages/spec/reaction';
+
+import Font from './pages/spec/font';
+import Margin from './pages/spec/margin';
+import Align from './pages/spec/align';
+import Color from './pages/spec/color';
+import LayoutPage from './pages/spec/layout';
+import IconPage from './pages/spec/icon';
+import Text from './pages/spec/text';
+import Datain from './pages/spec/data';
+import Datashow from './pages/spec/datashow';
+import NoticePage from './pages/spec/notice';
+import AnimationPage from './pages/spec/animation';
+
 import CompInstall from './pages/component/install';
 ${importComps.join('')}
 export default (
@@ -103,7 +123,24 @@ export default (
         <Layout>
             <Route path="/" exact component={Index} />
             {/* 设计语言 */}
-            <Route path="/spec/introduce" component={SpecIntroduce} />
+            <Route path="/spec/arts" component={Arts} />
+            <Route path="/spec/direct" component={Direct} />
+            <Route path="/spec/jump" component={Jump} />
+            <Route path="/spec/lightweight" component={Lightweight} />
+            <Route path="/spec/invitation" component={Invitation} />
+            <Route path="/spec/reaction" component={Reaction} />
+
+            <Route path="/spec/font" component={Font} />
+            <Route path="/spec/margin" component={Margin} />
+            <Route path="/spec/align" component={Align} />
+            <Route path="/spec/color" component={Color} />
+            <Route path="/spec/layout" component={LayoutPage} />
+            <Route path="/spec/icon" component={IconPage} />
+            <Route path="/spec/text" component={Text} />
+            <Route path="/spec/data" component={Datain} />
+            <Route path="/spec/datashow" component={Datashow} />
+            <Route path="/spec/notice" component={NoticePage} />
+            <Route path="/spec/animation" component={AnimationPage} />
 
             {/* 组件 */}
             <Route path="/component/install" component={CompInstall} />

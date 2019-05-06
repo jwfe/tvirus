@@ -1,0 +1,64 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
+.tv-card{
+    box-sizing: border-box;
+
+    position: relative;
+    border-radius: 2px;
+
+    margin: 0;
+    padding: 0;
+    
+    color: .setColorAlpha(@base-black-color, 65%)[];
+    font-size: 14px;
+    line-height: 1.5;
+
+
+    background: #fff;
+
+    transition: all .3s;
+    &-head{
+        border-bottom: 1px solid #e8e8e8;
+        border-radius: 2px 2px 0 0;
+        zoom: 1;
+
+        margin-bottom: -1px;
+        padding: 0 24px;
+        min-height: 48px;
+
+        color: .setColorAlpha(@base-black-color, 85%)[];
+        font-weight: 500;
+        font-size: 16px;
+
+        background: transparent;
+        &-wrapper{
+            display: flex;
+            align-items: center;
+        }
+        &-title {
+            overflow: hidden;
+            display: inline-block;
+            flex: 1;
+            padding: 16px 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+    &-extra {
+        float: right;
+        margin-left: auto;
+        padding: 16px 0;
+
+        color: .setColorAlpha(@base-black-color, 65%)[];
+        font-weight: normal;
+        font-size: 14px;
+    }
+    &-body {
+        padding: 24px;
+        zoom: 1;
+    }
+    &-bordered {
+        border: 1px solid #e8e8e8;
+    }
+}

@@ -57,7 +57,10 @@ export default class Table extends Component {
     
     componentDidMount(){
         this.getDom();
-        this.calculateHeaderHeight();
+        const {headerLeftFixed, headerRightFixed} = this.dom;
+        if(headerLeftFixed || headerRightFixed){
+            this.calculateHeaderHeight();
+        }
     }
 
     calculateHeaderHeight() {
@@ -174,18 +177,21 @@ export default class Table extends Component {
                 const context = []
                 const fixedItem = fixed[key];
                 const keys = fixedItem.keys;
-                const head = fixedItem.head;
-                keys.map((key2, index) => {
-                    const value = item[key2] || '';
-                    const headItem = head[index] || {};
-                    const render = headItem.render;
-                    const width = getWidth(key2, head);
-                    context.push({
-                        width,
-                        value: render ? render(value, item) : value
-                    });
-                })
-                context.length && fixed[key].body.push(context);
+                if(keys){
+                    const head = fixedItem.head;
+                    keys.map((key2, index) => {
+                        const value = item[key2] || '';
+                        const headItem = head[index] || {};
+                        const render = headItem.render;
+                        const width = getWidth(key2, head);
+                        context.push({
+                            width,
+                            value: render ? render(value, item) : value
+                        });
+                    })
+                    context.length && fixed[key].body.push(context);
+                }
+                
             }
         })
         console.log('[TABLE]', 'calculateWidth', fixed)
@@ -223,11 +229,97 @@ export default class Table extends Component {
         )
     }
 
+    renderLeftHead(data = {}){
+        const isFixed = data.head && !!data.head.length;
+        if(!isFixed){
+            return null;
+        }
+    
+        return (
+            <div className={this.className('tv-table-header-fixed-left', 'tv-table-header-fixed', {
+                'tv-table-hidden': isFixed
+            })}>
+                {
+                    this.renderHead(data.head)
+                }
+            </div>
+        )
+    }
+
+    renderRightHead(data = {}){
+        const isFixed = data.head && !!data.head.length;
+        if(!isFixed){
+            return null;
+        }
+    
+        return (
+            <div className={this.className('tv-table-header-fixed-right', 'tv-table-header-fixed', {
+                'tv-table-hidden': isFixed
+            })}>
+                {
+                    this.renderHead(data.head)
+                }
+            </div>
+        )
+    }
+
+    renderLeftBody(data = {}){
+        const isFixed = data.head && !!data.head.length;
+        if(!isFixed || !data.body.length){
+            return null;
+        }
+    
+        return (
+            <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-left')}>
+                <TablePanel>
+                    {
+                        data.body.map((item, i) => {
+                            return (
+                                <Row>
+                                    {
+                                        item.map((item2) => {
+                                            return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
+                                        })
+                                    }
+                                </Row>
+                            )
+                        })
+                    }
+                </TablePanel>
+            </div>
+        )
+    }
+
+    renderRightBody(data = {}){
+        const isFixed = data.head && !!data.head.length;
+        if(!isFixed || !data.body.length){
+            return null;
+        }
+    
+        return (
+            <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-right')}>
+                <TablePanel>
+                    {
+                        data.body.map((item) => {
+                            return (
+                                <Row>
+                                    {
+                                        item.map((item2) => {
+                                            return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
+                                        })
+                                    }
+                                </Row>
+                            )
+                        })
+                    }
+                </TablePanel>
+            </div>
+        )
+    }
+
     render(){
         const { multiple, border } = this.props;
         const { left, right, middle } = this.renderData;
-        const isLeftFixed = !!left.head.length;
-        const isRightFixed = !!right.head.length;
 
         const setWrapperElement = element => {
             if(element) this.dom.wrapper = element;
@@ -241,45 +333,17 @@ export default class Table extends Component {
                 <div className='tv-table-x-scrollbar'><div></div></div>
                 <div className='tv-table-y-scrollbar'><div></div></div>
                 <div className="tv-table-header-wrapper">
-                    <div className={this.className('tv-table-header-fixed-left', 'tv-table-header-fixed', {
-                        'tv-table-hidden': isLeftFixed
-                    })}>
-                        {
-                            this.renderHead(left.head)
-                        }
-                    </div>
+                    { this.renderLeftHead(left) }
                     <div className={this.className('tv-table-header')}>
                         {
                             this.renderHead(middle.head)
                         }
                     </div>
-                    <div className={this.className('tv-table-header-fixed-right', 'tv-table-header-fixed', {
-                        'tv-table-hidden': isRightFixed
-                    })}>
-                        {
-                            this.renderHead(right.head)
-                        }
-                    </div>
+                    { this.renderRightHead(right) }
                 </div>
 
                 <div className="tv-table-body-wrapper">
-                    <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-left')}>
-                        {left.body.length && <TablePanel>
-                            {
-                                left.body.map((item, i) => {
-                                    return (
-                                        <Row>
-                                            {
-                                                item.map((item2) => {
-                                                    return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
-                                                })
-                                            }
-                                        </Row>
-                                    )
-                                })
-                            }
-                        </TablePanel>}
-                    </div>
+                    { this.renderLeftBody(left) }
                     <div className={this.className('tv-table-body')}>
                         <TablePanel>
                             {
@@ -298,23 +362,7 @@ export default class Table extends Component {
                         </TablePanel>
                     </div>
 
-                    <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-right')}>
-                        {right.body.length && <TablePanel>
-                            {
-                                right.body.map((item) => {
-                                    return (
-                                        <Row>
-                                            {
-                                                item.map((item2) => {
-                                                    return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
-                                                })
-                                            }
-                                        </Row>
-                                    )
-                                })
-                            }
-                        </TablePanel>}
-                    </div>
+                    { this.renderRightBody(right) }
                 </div>
             </div>
         )

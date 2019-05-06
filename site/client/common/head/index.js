@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Menu from '@menu';
-import Icon from '@icon';
 import Input from '@input';
 import './index.less';
 
@@ -33,7 +32,7 @@ export default class Head extends Component{
                 </div>
                 <Menu className="site" mode="horizontal" onClick={this.onClick.bind(this)}>
                     <Menu.Item opened={this.opened('index')} to="/">首页</Menu.Item>
-                    <Menu.Item opened={this.opened('spec')} to="/spec/introduce">设计语言</Menu.Item>
+                    <Menu.Item opened={this.opened('spec')} to="/spec/arts">设计语言</Menu.Item>
                     <Menu.Item opened={this.opened('component')} to="/component/install">组件</Menu.Item>
                 </Menu>
             </header>

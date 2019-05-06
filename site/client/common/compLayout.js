@@ -175,6 +175,10 @@ export default class Layout extends Component{
                     {
                         title: 'Message 全局提示',
                         query: 'message'
+                    },
+                    {
+                        title: 'Card 卡片',
+                        query: 'card'
                     }
                 ]
             }

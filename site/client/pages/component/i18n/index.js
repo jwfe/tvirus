@@ -32,7 +32,7 @@ export default class I18nDemo extends Component{
 import { I18nProvider as Provider } from 'tvirus';
 import enUS from './en-US'; // 自获取
 
-<Provider i18n={enUS}>
+<Provider value={enUS}>
     <App />
 </Provider>
 

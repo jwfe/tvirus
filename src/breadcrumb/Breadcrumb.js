@@ -2,7 +2,7 @@ import React from 'react';
 import { Component, PropTypes } from '@Libs';
 import { BreadcrumbContext } from './BreadcrumbContext';
 
-import Icon from '../icon'
+import Icon from '@icon'
 
 export default class Breadcrumb extends Component {
     static propTypes = {

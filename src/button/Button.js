@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
-import Icon from '../icon'
+import Icon from '@icon'
 
 export default class Button extends Component {
     static propTypes = {

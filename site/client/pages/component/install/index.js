@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<Provider i18n={enUS}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider value={enUS}><App /></Provider>, document.getElementById('root'));
                             `}
                         </Highlight>
                     </div>

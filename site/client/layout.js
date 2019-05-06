@@ -1,5 +1,30 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
+import { I18nProvider } from '@i18n';
+
+const i18nMaps = {
+    'zh-CN': {
+        colorPage: {
+            feel: {
+                'bad': '差评/下降',
+                'good': '好评/上升',
+                'medium': '中评',
+                'nomarl': '无情感',
+            },
+            fun: {
+                'fail': '错误/失败',
+                'success': '成功',
+                'warn': '错误/失败',
+                'link': '链接',
+            },
+            season: {
+                'hot': '热/旺',
+                'cool': '淡/低',
+                'menu': '导航'
+            }
+        }
+    }
+}
 
 import Head from './common/head';
 
@@ -19,6 +44,7 @@ import './assets/datepicker';
 
 import './assets/icon';
 import './assets/grid';
+import './assets/card';
 import './assets/button';
 import './assets/breadcrumb';
 import './assets/pagination';
@@ -51,10 +77,13 @@ class App extends Component{
             return React.cloneElement(child, {hash})
         });
         return (
-            <section>
-                {hash.path !== 'index' && <Head hash={hash} />}
-                {children}
-            </section>
+            <I18nProvider value={i18nMaps['zh-CN']}>
+                <section>
+                    {hash.path !== 'index' && <Head hash={hash} />}
+                    {children}
+                </section>
+            </I18nProvider>
+            
         )
     }
 }
