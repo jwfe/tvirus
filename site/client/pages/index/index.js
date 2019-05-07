@@ -15,9 +15,9 @@ export default class Index extends Component{
                         <Col span={20}>
                             <ul class="index-menu">
                                 <li className="active"><Link to='/'>首页</Link></li>
-                                <li><Link to='/spec/introduce'>设计指南</Link></li>
+                                <li><Link to='/spec/arts'>设计指南</Link></li>
                                 <li><Link to='/component/install'>组件</Link></li>
-                                <li><Link to='/component/install'>资源</Link></li>
+                                <li><Link to='###'>资源</Link></li>
                             </ul>
                         </Col>
                     </Row>
