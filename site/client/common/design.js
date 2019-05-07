@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Menu from '@menu';
+import './design.less';
 
 const style = {
     main: {
@@ -61,7 +62,7 @@ export default class Layout extends Component{
                         query: 'jump'
                     },
                     {
-                        title: '简化交互',
+                        title: '化繁为简',
                         query: 'lightweight'
                     },
                     {

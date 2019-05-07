@@ -11,6 +11,7 @@ export default class Chart extends Component {
 
     static defaultProps = {
         theme: null,
+        type: 'spline',
         option: {},
         renderer: 'canvas',
         notMerge: true,
@@ -67,11 +68,12 @@ export default class Chart extends Component {
         
     }
     setOption = option => {
+        const { notMerge, lazyUpdate, type } = this.props;
         if (!this.chart) {
             return;
         }
-        let newOptions = getOptions(option);
-        const { notMerge, lazyUpdate } = this.props;
+        let newOptions = getOptions(type, option);
+        console.log('[setOption]', JSON.stringify(newOptions));
         this.chart.setOption(newOptions, notMerge, lazyUpdate);
     }
     dispose = () => {

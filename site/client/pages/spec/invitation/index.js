@@ -24,7 +24,7 @@ export default class InvitationDemo extends Component{
             <div className="invitation1"></div>
 
             <h3>动态邀请</h3>
-            <p>操作引导：是向用户介绍新功能的好方法，尤其是对于那些设计优良的界面。但是它不是『创口贴』，仅通过它不能解决界面交互的真正问题。<cite>注：保持漫游过程简单，让用户容易退出和重新启动；保持内容简明扼要，与功能密切相关。</cite></p>
+            <p>操作引导：是向用户介绍新功能的好方法，尤其是对于那些设计优良的界面。但是它不是『创口贴』，仅通过它不能解决界面交互的真正问题。<br /><cite>注：保持漫游过程简单，让用户容易退出和重新启动；保持内容简明扼要，与功能密切相关。</cite></p>
             <div className="invitation2"></div>
             <p>悬停邀请：在鼠标悬停期间提供邀请。</p>
             <div className="invitation3"></div>

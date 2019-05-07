@@ -1,7 +1,17 @@
 import React from 'react';
-import { Component } from '@Libs';
+import { Component, PropTypes } from '@Libs';
 
 export default class Card extends Component {
+    static propTypes = {
+        className: PropTypes.string,
+        title: PropTypes.string,
+        bordered: PropTypes.bool,
+        extra: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    };
+    
+    static defaultProps = {
+        bordered: true
+    }
     render(){
         const { title, extra, bordered } = this.props;
         return (

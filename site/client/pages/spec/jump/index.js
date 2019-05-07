@@ -33,6 +33,8 @@ export default class JumpDemo extends Component{
             <p>在覆盖层上，让用户直接进行少量字段的输入。</p>
             <div className="jump4"></div>
 
+            <hr/>
+
             <h3>嵌入层</h3>
             <p>列表嵌入层：在列表中，显示某条列表项的详情信息，保持上下文不中断。</p>
             <div className="jump5"></div>

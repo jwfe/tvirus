@@ -287,14 +287,8 @@ export default class DatashowDemo extends Component{
             </Card>
 
             <Card className="datashow1" title="普通饼图">
-                <Chart option={this.state.pie} />
+                <Chart option={this.state.pie} type="pie" />
             </Card>
-
-            <h3>横向间距关系</h3>
-            <p>为了适用不同尺寸的屏幕，在横向采用栅格布局来排布组件，从而保证布局的灵活性。</p>
-            <div className="datashow2"></div>
-            <p>在一个组件内部，元素的横向间距也应该有所不同。</p>
-            <div className="datashow3"></div>
         </Layout>
     }
 }

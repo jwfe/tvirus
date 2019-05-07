@@ -1,4 +1,6 @@
-export const getOptions = (data) => {
+import merge from 'lodash.merge';
+
+export const getOptions = (type, data) => {
 	let hasData = data.series.some(function (item) {
         if (!item) {
             return false;
@@ -85,5 +87,15 @@ export const getOptions = (data) => {
     else {
         chartConfig.graphic = []
     }
-    return Object.assign(chartConfig, data || {});
+
+    const newOptions = merge(chartConfig, data || {});
+    
+    switch(type){
+        case 'pie':
+            delete newOptions.xAxis;
+            delete newOptions.yAxis;
+            break;
+    }
+
+    return newOptions;
 }
