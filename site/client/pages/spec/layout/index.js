@@ -12,7 +12,11 @@ export default class LayoutDemo extends Component{
         return <Layout {...this.props} 
             className="main-layout-box"
             title="布局"
-            desc="UI界面的布局空间要基于『动态、体系化』的角度出发展开。<br />在中台视觉体系中定义布局系统，从 5 个方面出发：1.统一的画板尺寸  2.适配方案  3.网格单位  4.栅格  .5.常用模度"
+            desc={
+                <div>
+                    UI界面的布局空间要基于『动态、体系化』的角度出发展开。<br />在中台视觉体系中定义布局系统，从 5 个方面出发：1.统一的画板尺寸  2.适配方案  3.网格单位  4.栅格  .5.常用模度
+                </div>
+            }
         >
             
             <h3>统一画板</h3>
