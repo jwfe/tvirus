@@ -24,6 +24,35 @@ import Tabs from './tabs';
 import Tag from './tag';
 
 
+import '../site/client/assets/animation'
+import '../site/client/assets/base'
+import '../site/client/assets/menu';
+
+import '../site/client/assets/input';
+import '../site/client/assets/search';
+import '../site/client/assets/select';
+import '../site/client/assets/sliderbar';
+import '../site/client/assets/radio';
+import '../site/client/assets/checkbox';
+import '../site/client/assets/cascader';
+import '../site/client/assets/switch';
+import '../site/client/assets/datepicker';
+
+import '../site/client/assets/icon';
+import '../site/client/assets/grid';
+import '../site/client/assets/card';
+import '../site/client/assets/button';
+import '../site/client/assets/breadcrumb';
+import '../site/client/assets/pagination';
+import '../site/client/assets/tabs';
+import '../site/client/assets/table';
+import '../site/client/assets/popup';
+import '../site/client/assets/dialog';
+import '../site/client/assets/message';
+import '../site/client/assets/chart';
+import '../site/client/assets/theme/default';
+import '../site/client/assets/theme/dark';
+
 export default {
     Component, PropTypes, Animation, Transition, Portal, Util, noop,
     Breadcrumb,
