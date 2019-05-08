@@ -185,31 +185,37 @@ export default class Range extends Component {
     }
 
     render(){
-        const { position, placeholder } = this.props;
+        const { position, placeholder, footer } = this.props;
         const { disabled, visible, minDate, maxDate } = this.state;
 
-        const content = (
-            <div className={this.className('tv-datepicker-range')}>
-                {
-                    ['left', 'right'] .map((key) => {
-                        return (
-                            <div className={this.className('tv-datepicker')}>
-                                { this.renderSearch(key) }
-                                <div className={this.className('tv-datepicker-body')}>
-                                    { this.renderTable(key) }
+        const content = [
+            (
+                <div className={this.className('tv-datepicker-range')}>
+                    {
+                        ['left', 'right'] .map((key) => {
+                            return (
+                                <div className={this.className('tv-datepicker')}>
+                                    { this.renderSearch(key) }
+                                    <div className={this.className('tv-datepicker-body')}>
+                                        { this.renderTable(key) }
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
-                <div className={this.className('tv-datepicker-footer')}>
-                    <div className="tv-datepicker-footer-btn">
-                        <a className="tv-datepicker-time-btn">选择时间</a>
-                        <a className="tv-datepicker-ok-btn">确 定</a>
-                    </div>
+                            )
+                        })
+                    }
+                </div>
+            )
+        ];
+
+        if(footer){
+            <div className={this.className('tv-datepicker-footer')}>
+                <div className="tv-datepicker-footer-btn">
+                    <a className="tv-datepicker-time-btn">选择时间</a>
+                    <a className="tv-datepicker-ok-btn">确 定</a>
                 </div>
             </div>
-        );
+        }
+
 
         const min = minDate ? format(minDate) : null;
         const max = maxDate ? format(maxDate) : null;

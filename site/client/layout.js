@@ -35,6 +35,7 @@ import './assets/menu';
 
 import './assets/input';
 import './assets/search';
+import './assets/select';
 import './assets/sliderbar';
 import './assets/radio';
 import './assets/checkbox';
@@ -57,7 +58,6 @@ import './assets/chart';
 import './assets/theme/default';
 import './assets/theme/dark';
 
-import './common/component'
 // 父组件
 class App extends Component{
     constructor(){

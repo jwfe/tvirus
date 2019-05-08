@@ -8,6 +8,64 @@ export default class FontDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
+            fontweight_columns: [
+                {
+                    title: 'css number', key: 'number', width: 260
+                },
+                {
+                    title: 'css value', key: 'value', width: 260
+                },
+                {
+                    title: '描述', key: 'desc', width: 260
+                }
+            ],
+            fontweight_data: [
+                {
+                    value: '',
+                    number: '100',
+                    desc: 'Thin'
+                },
+                {
+                    value: '',
+                    number: '200',
+                    desc: 'Extra Light (Ultra Light)'
+                },
+                {
+                    value: '',
+                    number: '300',
+                    desc: 'Light'
+                },
+                {
+                    value: 'normal',
+                    number: '400',
+                    desc: 'Regular (Normal、Book、Roman)'
+                },
+                {
+                    value: '',
+                    number: '500',
+                    desc: 'Medium'
+                },
+                {
+                    value: '',
+                    number: '600',
+                    desc: 'Semi Bold (Demi Bold)'
+                },
+                {
+                    value: 'bold',
+                    number: '700',
+                    desc: 'Bold'
+                },
+                {
+                    value: '',
+                    number: '800',
+                    desc: 'Extra Bold (Ultra Bold)'
+                },
+                {
+                    value: '',
+                    number: '900',
+                    desc: 'Black (Heavy)'
+                }
+            ],
             columns: [
                 { title: '字体调用顺序', key: 'sort', width: 260},
                 { title: 'OS', key: 'os', width: 260 },
@@ -53,7 +111,7 @@ export default class FontDemo extends Component{
     }
 
     render() {
-        const { columns, data } = this.state;
+        const { columns, data, fontweight_columns, fontweight_data } = this.state;
         return <Layout {...this.props} 
             className="main-font-box"
             title="字体"
@@ -82,6 +140,25 @@ export default class FontDemo extends Component{
             <h3>字重</h3>
             <p>字重只出现 regular 以及 medium 的两种字体重量，分别对应代码中的 400 和 500。在英文字体加粗的情况下会采用 semibold 的字体重量，对应代码中的 600。</p>
             <div className="font3"></div>
+            <div>
+                <Table 
+                    style={{width: '780px', height: '460px'}}
+                    columns={fontweight_columns}
+                    data={data}
+                />
+            </div>
+            <p>
+                <cite>
+                如果指定的权重值不可用，则使用以下规则来确定实际呈现的权重：<br />
+                如果指定的权重值在 400和 500之间（包括400和500）：<br />
+                按升序查找指定值与500之间的可用权重；<br />
+                如果未找到匹配项，按降序查找小于指定值的可用权重；<br />
+                如果未找到匹配项，按升序查找大于500的可用权重。<br />
+                如果指定值小于400，按降序查找小于指定值的可用权重。 如果未找到匹配项，按升序查找大于指定值的可用权重（先尽可能的小，再尽可能的大）。<br />
+                如果指定值大于500，按升序查找大于指定值的可用权重。 如果未找到匹配项，按降序查找小于指定值的可用权重（先尽可能的大，再尽可能的小）。<br />
+                以上策略意味着，如果一个字体只有 normal 和 bold 两种粗细值选择，指定粗细值为 100-500 时，实际渲染时将使用 normal，指定粗细值为 600-900 时，实际渲染时将使用 bold 。
+                </cite>
+            </p>
 
             <h3>应用场合</h3>
             <div className="font4"></div>

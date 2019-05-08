@@ -13,6 +13,8 @@
         ul{
             overflow: auto;
             vertical-align: top;
+            margin: 0;
+            padding: 0;
             min-width: 110px;
             border-right: 1px solid #e8e8e8;
         }
@@ -24,5 +26,36 @@
         white-space: nowrap;
         cursor: pointer;
         transition: all .3s;
+        &-disabled{
+            color: rgba(0,0,0,0.25);
+            cursor: not-allowed;
+        }
+    }
+    &-arrow{
+        position: relative;
+        float: right;
+        margin-top: 12px;
+        &::before,
+        &::after{
+            position: absolute;
+            border-radius: 2px;
+            width: 6px;
+            height: 1px;
+        
+            content: '';
+        
+            background: #fff;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.65), rgba(0,0,0,0.65));
+
+            transition: background .3s cubic-bezier(.645, .045, .355, 1),transform .3s cubic-bezier(.645, .045, .355, 1), top .3s cubic-bezier(.645, .045, .355, 1);
+        }
+
+        &::before{
+            transform: rotate(-230deg) translateX(2px);
+        }
+
+        &::after{
+            transform: rotate(45deg) translateX(-2px);
+        }
     }
 }

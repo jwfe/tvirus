@@ -20,7 +20,7 @@ export default class ProgressCircle extends Component {
         width: 240, 
         height: 240,
         borderWidth: 4,
-        backgroundColor: '#666',
+        backgroundColor: '#F2F4F7',
         radius: 90,
         suffix: '%'
     };

@@ -137,6 +137,7 @@ export default class Select extends Component {
             })}>
 
                 <Popup 
+                className="tv-select-options-wraper"
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 

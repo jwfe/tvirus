@@ -73,8 +73,6 @@ export default class CascaderMenu extends Component {
             const menuItem = menu.map((item) => {
                 const events = {};
 
-                // if(item.children){
-                // } 
                 if(!item.disabled){
                     events['onClick'] = () => {
                         this.handleClick(item, index);
@@ -90,7 +88,8 @@ export default class CascaderMenu extends Component {
                         {...events}
                     >
                         {item.label}
-                        {item.expand && <Icon type="xxx" />}
+                        {item.expand}
+                        <i className="tv-cascader-arrow"></i>
                     </li>
                 )
             })

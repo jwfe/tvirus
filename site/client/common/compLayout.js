@@ -21,6 +21,8 @@ const style = {
     }
 }
 
+import './main.less';
+
 export default class Layout extends Component{
     constructor(props){
         super(props);
@@ -200,7 +202,7 @@ export default class Layout extends Component{
     render() {
         const openMaps = this.props.location.state;
         return (
-            <main style={style.main}>
+            <main style={style.main} className="main">
                 <aside style={style.left}>
                     <Menu className="tv-menu-vertical-demo" onClick={this.onClick.bind(this)}>
                         {this.createMenus()}

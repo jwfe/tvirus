@@ -23,7 +23,37 @@ export default class CardDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Card></Card>
+                    <Card title="标题1" extra={<a href="#">More</a>}>
+                        <p>测试1</p>
+                        <p>测试2</p>
+                        <p>测试3</p>
+                    </Card>
+                </div>
+            )
+        });
+
+        childs.push({
+            title: '无边框',
+            children: (
+                <div className="code-demo" style={{background: '#999'}}>
+                    <Card bordered={false} title="标题1" extra={<a href="#">More</a>}>
+                        <p>测试1</p>
+                        <p>测试2</p>
+                        <p>测试3</p>
+                    </Card>
+                </div>
+            )
+        });
+
+        childs.push({
+            title: '无头',
+            children: (
+                <div className="code-demo">
+                    <Card>
+                        <p>测试1</p>
+                        <p>测试2</p>
+                        <p>测试3</p>
+                    </Card>
                 </div>
             )
         });

@@ -19,11 +19,13 @@ export default class DatashowDemo extends Component{
                 },
                 xAxis: {
                     type: 'category',
-                    boundaryGap: false,
                     axisLine: {
                         lineStyle: {
                             color: '#e0e0e0'
                         }
+                    },
+                    axisTick:{ 
+                        show: false
                     },
                     axisLabel: {
                         color: '#333'
@@ -42,7 +44,7 @@ export default class DatashowDemo extends Component{
                         show: true, 
                         lineStyle:{ 
                             type:'dashed',
-                            color: '#f00'
+                            color: '#E9E9E9'
                         }
                     } 
                 },
@@ -98,11 +100,13 @@ export default class DatashowDemo extends Component{
                 },
                 xAxis: {
                     type : 'category',
-                    boundaryGap: false,
                     axisLine: {
                         lineStyle: {
                             color: '#e0e0e0'
                         }
+                    },
+                    axisTick:{ 
+                        show: false
                     },
                     axisLabel: {
                         color: '#333'
@@ -121,7 +125,7 @@ export default class DatashowDemo extends Component{
                         show: true, 
                         lineStyle:{ 
                             type:'dashed',
-                            color: '#f00'
+                            color: '#E9E9E9'
                         }
                     },
                 },
@@ -167,13 +171,15 @@ export default class DatashowDemo extends Component{
                         show: true, 
                         lineStyle:{ 
                             type:'dashed',
-                            color: '#f00'
+                            color: '#E9E9E9'
                         }
                     },
                 },
                 yAxis : { 
                     type : 'category',
-                    boundaryGap: false,
+                    axisTick:{ 
+                        show: false
+                    },
                     axisLine: {
                         lineStyle: {
                             color: '#e0e0e0'
@@ -213,7 +219,8 @@ export default class DatashowDemo extends Component{
                 },
                 legend: {
                     orient: 'horizontal',
-                    x: 80
+                    x: 80,
+                    y: 'top'
                 },
                 series: [
                     {
@@ -282,7 +289,7 @@ export default class DatashowDemo extends Component{
                 <Chart option={this.state.bar} />
             </Card>
 
-            <Card className="datashow1" title="普通柱状图">
+            <Card className="datashow1" title="普通条形图">
                 <Chart option={this.state.bar2} />
             </Card>
 

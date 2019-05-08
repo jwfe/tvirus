@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Menu from '@menu';
-import './design.less';
+import './main.less';
 
 const style = {
     main: {
@@ -142,7 +142,7 @@ export default class Layout extends Component{
     render() {
         const { children, className, title, desc } = this.props;
         return (
-            <main style={style.main}>
+            <main style={style.main} className="main">
                 <aside style={style.left}>
                     <Menu className="tv-menu-vertical-demo" onClick={this.onClick.bind(this)}>
                         {this.createMenus()}
