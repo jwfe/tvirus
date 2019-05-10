@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Icon from '@icon';
-import Menu from '@menu';
+import { Menu, Icon } from 'tvirus';
 import './index.less'
 
 export default class MenuDemo extends Component{

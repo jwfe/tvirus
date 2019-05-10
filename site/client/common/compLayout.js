@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Body from './body';
 
-import Menu from '@menu';
+import { Menu } from 'tvirus';
 
 const style = {
     main: {

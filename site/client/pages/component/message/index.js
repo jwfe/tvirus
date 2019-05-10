@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Button from '@button';
-import Message from '@message';
+import { Button, Message } from 'tvirus';
 import './index.less'
 
 export default class MessageDemo extends Component{

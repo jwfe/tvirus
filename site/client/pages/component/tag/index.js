@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Tag from '@tag';
+import { Tag } from 'tvirus';
 import './index.less'
 
 export default class TagDemo extends Component{

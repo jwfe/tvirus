@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Input from '@input';
-import { Row, Col } from '@grid';
+import { Input, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class InputDemo extends Component{

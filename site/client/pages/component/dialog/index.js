@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Button from '@button';
-import Dialog from '@dialog';
+import { Dialog, Button, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class DialogDemo extends Component{

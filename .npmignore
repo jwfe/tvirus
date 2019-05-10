@@ -6,6 +6,8 @@ logs/*.log*
 commands/
 .idea/
 .history/
+src/
+libs/
 
 .DS_Store
 npm-debug.log
@@ -22,3 +24,4 @@ site/components/
 site/libs/
 
 site/client/router.js
+webpack.config.js

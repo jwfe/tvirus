@@ -23,7 +23,7 @@ export default class Button extends Component {
     }
 
     render(){
-        const { type, size, disabled, loading, plain, block, shape, icon, children, ...other } = this.props;
+        const { type, size, disabled, loading, plain, block, shape, icon, children, ref, ...other } = this.props;
         return (
             <button 
             className={
@@ -40,6 +40,7 @@ export default class Button extends Component {
                 )
             } 
             style={this.style()}
+            ref={ref}
             {...other}
             >
                 { loading && <Icon type="loading" /> }

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 import { Link } from 'react-router-dom';
 
-import Breadcrumb from '@breadcrumb';
+import { Breadcrumb } from 'tvirus';
+
 import './index.less'
 
 export default class BreadcrumbDemo extends Component{

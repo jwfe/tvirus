@@ -2,12 +2,13 @@ import { Component, PropTypes, Animation, Transition, Portal, Util, noop } from 
 import Breadcrumb from './breadcrumb';
 import Button from './button';
 import Cascader from './cascader';
+import Card from './card';
 import Chart from './chart';
 import Checkbox from './checkbox';
 import Datepicker from './datepicker';
 import Dialog from './dialog';
-import Grid from './grid';
-import I18n from './i18n';
+import { Row, Col } from './grid';
+import { I18nProvider, I18nReceiver } from './i18n';
 import Icon from './icon';
 import Input from './input';
 import Menu from './menu';
@@ -20,12 +21,12 @@ import Select from './select';
 import Sliderbar from './sliderbar';
 import Switch from './switch';
 import Table from './table';
-import Tabs from './tabs';
+import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
 
 
-import '../site/client/assets/animation'
-import '../site/client/assets/base'
+import '../site/client/assets/animation';
+import '../site/client/assets/base';
 import '../site/client/assets/menu';
 
 import '../site/client/assets/input';
@@ -53,17 +54,18 @@ import '../site/client/assets/chart';
 import '../site/client/assets/theme/default';
 import '../site/client/assets/theme/dark';
 
-export default {
+export {
     Component, PropTypes, Animation, Transition, Portal, Util, noop,
     Breadcrumb,
     Button,
     Cascader,
     Chart,
     Checkbox,
+    Card,
     Datepicker,
     Dialog,
-    Grid,
-    I18n,
+    Row, Col,
+    I18nProvider, I18nReceiver,
     Icon,
     Input,
     Menu,
@@ -76,6 +78,6 @@ export default {
     Sliderbar,
     Switch,
     Table,
-    Tabs,
+    Tabs, Tabpanel,
     Tag
 }

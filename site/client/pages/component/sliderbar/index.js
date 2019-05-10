@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Sliderbar from '@sliderbar';
+import { Sliderbar } from 'tvirus';
 import './index.less'
 
 export default class SliderbarDemo extends Component{

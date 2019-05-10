@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Select from '@select';
+import { Select, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class SelectDemo extends Component{

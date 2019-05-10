@@ -1,9 +1,8 @@
-
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Cascader from '@cascader';
+import { Cascader, Row, Col } from 'tvirus';
+
 import './index.less'
 
 export default class CascaderDemo extends Component{

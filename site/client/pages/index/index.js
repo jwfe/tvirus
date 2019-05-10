@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Row, Col } from '@grid';
+import { Row, Col } from 'tvirus';
 
 import './index.less';
 

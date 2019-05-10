@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Table from '@table';
+import { Table } from 'tvirus';
 import './index.less'
 
 export default class TableDemo extends Component{

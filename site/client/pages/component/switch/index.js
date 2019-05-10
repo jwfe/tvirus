@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Icon from '@icon';
-import Switch from '@switch';
+import { Switch, Icon, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class SwitchDemo extends Component{

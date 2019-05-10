@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
-import { I18nProvider } from '@i18n';
-
+import { I18nProvider } from 'tvirus';
 const i18nMaps = {
     'zh-CN': {
         colorPage: {
@@ -28,35 +27,8 @@ const i18nMaps = {
 
 import Head from './common/head';
 
-import './normalize'
-import './assets/animation'
-import './assets/base'
-import './assets/menu';
-
-import './assets/input';
-import './assets/search';
-import './assets/select';
-import './assets/sliderbar';
-import './assets/radio';
-import './assets/checkbox';
-import './assets/cascader';
-import './assets/switch';
-import './assets/datepicker';
-
-import './assets/icon';
-import './assets/grid';
-import './assets/card';
-import './assets/button';
-import './assets/breadcrumb';
-import './assets/pagination';
-import './assets/tabs';
-import './assets/table';
-import './assets/popup';
-import './assets/dialog';
-import './assets/message';
-import './assets/chart';
-import './assets/theme/default';
-import './assets/theme/dark';
+import './normalize';
+import '../../dist/tvirus.css';
 
 // 父组件
 class App extends Component{
@@ -83,7 +55,6 @@ class App extends Component{
                     {children}
                 </section>
             </I18nProvider>
-            
         )
     }
 }

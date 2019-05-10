@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Chart from '@chart';
+import { Chart } from 'tvirus';
 import './index.less'
 
 export default class ChartDemo extends Component{

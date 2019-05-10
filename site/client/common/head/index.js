@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Menu from '@menu';
-import Input from '@input';
+import { Input, Menu } from 'tvirus';
 import './index.less';
 
 // 父组件

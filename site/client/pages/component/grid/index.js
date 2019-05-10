@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
+import { Row, Col } from 'tvirus';
 import './index.less'
 
 export default class GridDemo extends Component{

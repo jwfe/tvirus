@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Tabs, Tabpanel } from '@tabs';
-import Icon from '@icon';
+import { Icon } from 'tvirus';
 import './index.less'
 
 const iconMaps = {

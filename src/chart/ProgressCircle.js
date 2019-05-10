@@ -27,13 +27,13 @@ export default class ProgressCircle extends Component {
 
     constructor(props) {
         super(props);
+        this.circleFront = null;
     }
     componentDidMount(){
-        const { circleFront } = this.refs;
-        const node = ReactDOM.findDOMNode(circleFront);
+        const circleFront = this.circleFront;
         const strokeDashoffset = this.calcDashOffset();
         requestAnimationFrame(()=>{
-            node.style.strokeDashoffset = strokeDashoffset;
+            circleFront.style.strokeDashoffset = strokeDashoffset;
         })
     }
     calcDashOffset() {
@@ -50,7 +50,7 @@ export default class ProgressCircle extends Component {
             <div className={this.className('tv-progress-circle')} style={{width,height}}>
                 <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" className="tv-progress-circle-svg">
                     <circle  className="tv-progress-circle-backgroud" r="90" cy={width/2} cx={height/2} stroke-width={borderWidth-1} stroke={backgroundColor} fill="none" />
-                    <circle ref="circleFront" className="tv-progress-circle-front" r="90" cy={width/2} cx={height/2} stroke-width={borderWidth} stroke="url(#tvPurple)" stroke-linejoin="round" stroke-linecap="round" fill="none" />
+                    <circle ref={el => this.circleFront = el} className="tv-progress-circle-front" r="90" cy={width/2} cx={height/2} stroke-width={borderWidth} stroke="url(#tvPurple)" stroke-linejoin="round" stroke-linecap="round" fill="none" />
 
                     <defs>
                         <linearGradient id="tvPurple" x1="0%" y1="0%" x2="100%" y2="0%">

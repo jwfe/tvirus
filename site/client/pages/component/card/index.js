@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Card from '@card';
+import { Card } from 'tvirus';
+
 import './index.less'
 
 export default class CardDemo extends Component{

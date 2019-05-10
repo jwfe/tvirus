@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Button from '@button';
-import { Tabs, Tabpanel } from '@tabs';
+import { Button } from 'tvirus';
+
+console.log(Button);
 
 export default class ButtonDemo extends Component{
     constructor(props){

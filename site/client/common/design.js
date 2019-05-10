@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Menu from '@menu';
+import { Menu } from 'tvirus';
 import './main.less';
 
 const style = {

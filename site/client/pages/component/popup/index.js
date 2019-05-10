@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Button from '@button';
-import Popup from '@popup';
+import { Popup, Button, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class PopupDemo extends Component{

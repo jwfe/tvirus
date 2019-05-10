@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Highlight from 'react-highlight' 
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { Tabs, Tabpanel } from '@tabs';
+import { Tabs, Tabpanel } from 'tvirus';
 
 const style = {
     main: {

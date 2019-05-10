@@ -44,25 +44,6 @@ class CreateSiteTempComp{
         })
         return Array.from(new Set(arr));
     }
-    optimizeIcon(){
-        const files = glob.sync('../src/icon/svg/*.svg');
-        const icons = [];
-        files.forEach((file) => {
-            const basename = path.basename(file);
-            icons.push(basename.split('.')[0]);
-
-            const svg = fs.readFileSync(file).toString();
-            let nsvg = svg.replace(/<metadata>(\w|\W|\s)+<\/defs>/ig, '')
-            nsvg = nsvg.replace(/(id\=\"\w+\")|(class\=\"(\w+\-\d+)?\")/g, '')
-            nsvg = nsvg.replace(/(width|height)\="(\d+)"/g, function(a,b,c){
-                return `${b}="1em"`
-            })
-            nsvg = nsvg.replace(/\s+/g, ' ');
-
-            fs.writeFileSync(file, nsvg);
-        })
-        console.log('ICON', JSON.stringify(icons));
-    }
     copy(){
         execSync(`mkdir -p ${this.siteTempComp}`);
         this.compoents.forEach((item) => {
@@ -216,7 +197,7 @@ export default class ${name}Demo extends Component{
     
     apply(compiler) {
         compiler.plugin("entryOption",  (compilation, callback) => {
-            this.optimizeIcon()
+            // this.optimizeIcon()
             this.remove()
             this.copy();
             this.mkdir();
@@ -224,24 +205,8 @@ export default class ${name}Demo extends Component{
         });
     }
 }
-const tvirus = {};
 
-function getCompoents(){
-    const files = glob.sync('../src/**');
-    const arr = [];
-    files.forEach((file)=>{
-        let dir = path.dirname(file);
-        dir = dir.replace(/\.\.(\/src\/?)?/, '')
-        if(!dir){
-            return;
-        }
-        arr.push(path.resolve(`./components/`, dir));
-        tvirus[`@${dir}`] = path.resolve(`./components/`, dir);
-    })
-    return Array.from(new Set(arr));
-}
-
-getCompoents();
+const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
 
 module.exports = {
     entry: {
@@ -255,9 +220,9 @@ module.exports = {
     },
     resolve: {
         extensions: [".js", ".json", ".less"],
-        alias: Object.assign({
-            '@Libs': `../../libs`
-        }, tvirus)
+        alias: {
+            'tvirus': outputPath
+        }
     },
     module: {
         rules: [
@@ -266,20 +231,6 @@ module.exports = {
                 use: [{
                     loader: "babel-loader"
                 }]
-            },
-            {
-                test: /\.svg$/,
-                include: [
-                    path.resolve(__dirname, './components/icon/svg/'),
-                ],
-                use: [
-                    {
-                        loader: 'svg-sprite-loader',
-                        options: {
-                            symbolId: 'icon-[name]'
-                        }
-                    }
-                ]
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
@@ -307,7 +258,19 @@ module.exports = {
                         loader: 'less-loader' // compiles Less to CSS
                     }
                 ]
-            }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader' // creates style nodes from JS strings
+                    },
+
+                    {
+                        loader: 'css-loader' // translates CSS into CommonJS
+                    }
+                ]
+            },
         ]
     },
     plugins: [
@@ -318,6 +281,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'T-virus',
             filename: 'index.html',
+            chunks:['app', 'common'],
             template: './client/template/index.html'
         })
     ],

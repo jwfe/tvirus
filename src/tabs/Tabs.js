@@ -6,6 +6,7 @@ export default class Tabs extends Component {
     constructor(props) {
         super(props);
         let { activeKey } = props;
+        this.tabsNav = React.createRef();
         this.state = {
             activeStateKey: activeKey
         }
@@ -23,9 +24,8 @@ export default class Tabs extends Component {
     }
     calcBarStyle(firstRendering) {
         const { children, activeKey } = this.props;
-        const { tabsNav } = this.refs;
-        const tabsNavNode = ReactDOM.findDOMNode(tabsNav);
-        const tabItemNode = tabsNavNode.querySelectorAll('.tv-tabs-item');
+        const tabsNav = this.tabsNav;
+        const tabItemNode = tabsNav.current.querySelectorAll('.tv-tabs-item');
 
         let style = {};
         let offset = 0;
@@ -75,7 +75,7 @@ export default class Tabs extends Component {
         return (
             <div style={this.style()} className={this.className('tv-tabs')}>
                 <div className="tv-tabs-nav"
-                    ref="tabsNav"
+                    ref={this.tabsNav}
                 >
                     {
                         React.Children.map(children, (item, index) => {

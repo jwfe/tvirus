@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/design';
-import Table from '@table';
 
 import './index.less'
 

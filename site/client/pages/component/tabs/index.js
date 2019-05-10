@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Icon from '@icon';
-import { Tabs, Tabpanel } from '@tabs';
+import { Icon, Tabs, Tabpanel } from 'tvirus';
 import './index.less'
 
 export default class TabsDemo extends Component{

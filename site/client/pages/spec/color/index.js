@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/design';
-import { I18nReceiver as Receiver } from '@i18n';
-import { Row, Col } from '@grid';
+import { I18nReceiver as Receiver, Row, Col } from 'tvirus';
 
 import './index.less'
 

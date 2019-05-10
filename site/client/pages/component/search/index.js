@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import Search from '@search';
+import { Search } from 'tvirus';
 import './index.less'
 
 export default class SearchDemo extends Component{

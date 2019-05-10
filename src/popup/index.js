@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Component, PropTypes, Portal, Animation } from '@Libs';
-import Icon from '@icon';
 
 const POSITIONS = [
     'top left',
@@ -37,6 +36,9 @@ export default class Popup extends Component {
 
     constructor(props) {
         super(props);
+        this.triggerNode = null;
+        this.popupNode = null;
+
         this.state = {
             visible: props.visible,
             showPopup: false
@@ -54,42 +56,41 @@ export default class Popup extends Component {
     
     componentDidMount(){
         const { trigger, disabled } = this.props;
-        const { triggerNode, popupNode } = this.refs;
+        const triggerNode = this.triggerNode;
+        const popupNode = this.popupNode;
 
         this.element = ReactDOM.findDOMNode(this);
-        this.triggerNode = ReactDOM.findDOMNode(triggerNode);
-        this.popupNode = ReactDOM.findDOMNode(popupNode);
-        if(!this.triggerNode || disabled){
+        if(!triggerNode || disabled){
             return ;
         }
 
         if(trigger === 'click'){
-            this.triggerNode.addEventListener('click', () => {
+            triggerNode.addEventListener('click', () => {
                 this.setPopupState(!this.state.showPopup);
             });
 
             document.addEventListener('click', (e) => {
                 if (!this.element || this.element.contains(e.target) ||
-                !this.triggerNode || this.triggerNode.contains(e.target) ||
+                !triggerNode || triggerNode.contains(e.target) ||
                 !popupNode || popupNode.contains(e.target)) return;
                 this.setPopupState(false);
             });
         } else if (trigger === 'hover') {
-            this.triggerNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-            this.triggerNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+            triggerNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+            triggerNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
             if(!popupNode){
                 return;
             }
             popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
             popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
         } else {
-            if (this.triggerNode.nodeName === 'INPUT' 
-            || this.triggerNode.nodeName === 'TEXTAREA'
-            || this.triggerNode.className.indexOf('tv-input-wraper') != -1
+            if (triggerNode.nodeName === 'INPUT' 
+            || triggerNode.nodeName === 'TEXTAREA'
+            || triggerNode.className.indexOf('tv-input-wraper') != -1
             ) {
-                let node = this.triggerNode;
-                if(this.triggerNode.className.indexOf('tv-input-wraper') != -1){
-                    node = this.triggerNode.querySelector('input');
+                let node = triggerNode;
+                if(triggerNode.className.indexOf('tv-input-wraper') != -1){
+                    node = triggerNode.querySelector('input');
                 }
 
                 node.addEventListener('focus', this.handleMouseEnter.bind(this));
@@ -100,10 +101,10 @@ export default class Popup extends Component {
                 popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
                 popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
             } else {
-                this.triggerNode.addEventListener('mousedown', () => {
+                triggerNode.addEventListener('mousedown', () => {
                     this.setPopupState(true);
                 });
-                this.triggerNode.addEventListener('mouseup', () => { this.setState({ showPopup: false })});
+                triggerNode.addEventListener('mouseup', () => { this.setState({ showPopup: false })});
             }
         }
 
@@ -142,10 +143,15 @@ export default class Popup extends Component {
     renderCloneChildren(){
         const { children, childrenProps } = this.props;
         return React.Children.map(children, (child, i) => {
-            return React.cloneElement(child, {
-                ref: 'triggerNode',
-                ...childrenProps
-            })
+            return (
+                <span ref={(el) => this.triggerNode = el}>
+                    {
+                        React.cloneElement(child, {
+                            ...childrenProps
+                        })
+                    }
+                </span>
+            )
         });
     }
 
@@ -228,7 +234,6 @@ export default class Popup extends Component {
         const { showPopup, style } = this.state;
         const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
-        const positionClassName = `tv-popup-${postion.join('-')}`;
 
         return [
             cloneChildren,
@@ -241,7 +246,7 @@ export default class Popup extends Component {
                 >
                     <div 
                     style={this.style(style)}
-                    ref="popupNode"
+                    ref={el => this.popupNode = el}
                     className={this.className('tv-popup', className, {
                         'tv-popup-show': showPopup,
                         [`tv-popup-${postion.join('-')}`]: postion

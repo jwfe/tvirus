@@ -24,6 +24,7 @@ export default class SliderBar extends Component {
 
     constructor(props) {
         super(props);
+        this.slider = React.createRef();
         this.state = {
             value: props.value,
             dragging: false,
@@ -112,13 +113,13 @@ export default class SliderBar extends Component {
     }
 
     sliderSize(){
-        const { slider } = this.refs;
+        const slider = this.slider;
         return parseInt(this.props.vertical ? slider.offsetHeight : slider.offsetWidth, 10);
     }
 
     handleSliderClick(event){
         if (this.props.disabled || this.state.dragging) return;
-        const { left, bottom } = this.refs.slider.getBoundingClientRect()
+        const { left, bottom } = this.slider.getBoundingClientRect()
 
         if (this.props.vertical) {
             this.setPosition((bottom - event.clientY) / this.sliderSize() * 100);
@@ -147,7 +148,7 @@ export default class SliderBar extends Component {
 
         return (
             <div 
-                ref="slider"
+                ref={this.slider}
                 className={this.className('tv-sliderbar', {
                     'tv-sliderbar-disabled': disabled,
                     'tv-sliderbar-vertical': vertical,

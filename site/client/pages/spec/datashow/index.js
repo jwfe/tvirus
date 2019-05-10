@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/design';
-import Chart from '@chart';
-import Card from '@card';
+import { Card, Chart } from 'tvirus';
 
 import './index.less'
 

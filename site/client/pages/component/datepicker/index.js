@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Row, Col } from '@grid';
-import Datepicker from '@datepicker';
+import { Datepicker, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class DatepickerDemo extends Component{
