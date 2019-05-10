@@ -40,7 +40,7 @@ export default class MessageDemo extends Component{
         return <Layout {...this.props} 
             className="main-message-box"
             title="Message"
-            desc="Message的说明"
+            desc="通过一个操作引发的反馈浮层位于顶部居中显示并自动消失，是一种不打断用户操作的轻量级提示方式。"
             childs={childs}
         />
     }

@@ -68,7 +68,7 @@ export default class CardDemo extends Component{
         return <Layout {...this.props} 
             className="main-card-box"
             title="Card"
-            desc="Card的说明"
+            desc="卡片是一种承载信息的容器，对可承载的内容类型无过多限制，它让一类信息集中化，增强区块感的同时更易于操作。"
             childs={childs}
         />
     }

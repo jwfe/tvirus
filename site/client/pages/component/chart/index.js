@@ -259,7 +259,7 @@ export default class ChartDemo extends Component{
         return <Layout {...this.props} 
             className="main-chart-box"
             title="Chart"
-            desc="Chart的说明"
+            desc="图表让数据表达更符合用户心理，帮助『设计者』孵化出更具业务特性的可视化解决方案以满足个性化设计需求。"
             childs={childs}
         />
     }

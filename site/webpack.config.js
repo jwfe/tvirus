@@ -219,10 +219,7 @@ module.exports = {
         open: false
     },
     resolve: {
-        extensions: [".js", ".json", ".less"],
-        alias: {
-            'tvirus': outputPath
-        }
+        extensions: [".js", ".json", ".less"]
     },
     module: {
         rules: [

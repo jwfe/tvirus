@@ -72,7 +72,7 @@ export default class SelectDemo extends Component{
         return <Layout {...this.props} 
             className="main-select-box"
             title="Select"
-            desc="Select的说明"
+            desc="选择列表（通常称为下拉菜单）允许用户从列表中选择一个选项或多个选项，为用户在选项的数量上提供了更多的灵活性。当选项多于 5 项时使用；列表选项按照逻辑排序，并尽量让内容显示完整。"
             childs={childs}
         />
     }

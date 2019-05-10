@@ -37,7 +37,7 @@ export default class PaginationDemo extends Component{
         return <Layout {...this.props} 
             className="main-pagination-box"
             title="分页"
-            desc="在数据量较多时，采用分页的形式分隔长列表，每次只加载一个页面。"
+            desc="当有大量内容需要展现时进行分页加载处理，分页器可以让用户清楚的知道自己所要浏览的内容有多少、已经浏览了多少、还剩余多少。"
             childs={childs}
         />
     }

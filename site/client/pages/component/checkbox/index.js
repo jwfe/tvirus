@@ -69,7 +69,7 @@ export default class CheckboxDemo extends Component{
         return <Layout {...this.props} 
             className="main-checkbox-box"
             title="Checkbox"
-            desc="Checkbox的说明"
+            desc="复选框用于在一组可选项中进行多项选择时。复选框（Checkbox）一般用于状态标记，需要和提交操作配合；单个复选框可以表示两种状态之间的切换。"
             childs={childs}
         />
     }

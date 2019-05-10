@@ -60,7 +60,7 @@ export default class DatepickerDemo extends Component{
         return <Layout {...this.props} 
             className="main-datepicker-box"
             title="Datepicker"
-            desc="Datepicker的说明"
+            desc="日期选择器为用户提供了一种可视化的方式去浏览和选择一个日期或者日期范围。"
             childs={childs}
         />
     }

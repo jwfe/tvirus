@@ -37,7 +37,7 @@ export default class SearchDemo extends Component{
         return <Layout {...this.props} 
             className="main-search-box"
             title="Search"
-            desc="Search的说明"
+            desc="搜索可以让用户在巨大的信息池中缩小目标范围，并快速获取需要的信息。"
             childs={childs}
         />
     }

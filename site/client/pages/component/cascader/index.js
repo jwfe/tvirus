@@ -115,7 +115,7 @@ export default class CascaderDemo extends Component{
         return <Layout {...this.props} 
             className="main-cascader-box"
             title="Cascader"
-            desc="Cascader的说明"
+            desc="级联选择器"
             childs={childs}
         />
     }

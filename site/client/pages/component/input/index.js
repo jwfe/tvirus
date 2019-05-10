@@ -98,7 +98,7 @@ export default class InputDemo extends Component{
         return <Layout {...this.props} 
             className="main-input-box"
             title="Input"
-            desc="Input的说明"
+            desc="输入框为用户提供了编辑文本的控件，是录入数据最基础和常见的方式。"
             childs={childs}
         />
     }
