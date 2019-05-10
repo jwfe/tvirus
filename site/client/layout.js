@@ -28,7 +28,7 @@ const i18nMaps = {
 import Head from './common/head';
 
 import './normalize';
-import '../../dist/tvirus.css';
+import 'tvirus/dist/tvirus.css';
 
 // 父组件
 class App extends Component{

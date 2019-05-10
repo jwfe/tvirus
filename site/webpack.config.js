@@ -206,7 +206,7 @@ export default class ${name}Demo extends Component{
     }
 }
 
-const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
+// const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
 
 module.exports = {
     entry: {

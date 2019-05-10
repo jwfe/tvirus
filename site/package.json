@@ -22,7 +22,7 @@
     "redux-actions": "^2.6.3",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "tvirus": "file:.."
+    "tvirus": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
