@@ -5,14 +5,15 @@ import TablePanel from './TablePanel';
 import Row from './Row';
 import Cell from './Cell';
 
-
-
 export default class Table extends Component {
     constructor(props) {
         super(props);
         this.dom = {};
         const { columns, data } = this.props;
         this.renderData = this.calculateWidth(columns, data);
+        this.state = {
+            bodyHeight: '100%'
+        }
     }
 
     static propTypes = {
@@ -61,6 +62,14 @@ export default class Table extends Component {
         if(headerLeftFixed || headerRightFixed){
             this.calculateHeaderHeight();
         }
+
+        const wraperHeight = this.dom.wrapper.offsetHeight;
+        const headHeight = this.dom.header.offsetHeight;
+        const bodyHeight = this.dom.bodyTable.offsetHeight;
+        this.setState({
+            bodyHeight,
+            bodyWraperHeight: wraperHeight - headHeight
+        })
     }
 
     calculateHeaderHeight() {
@@ -319,6 +328,7 @@ export default class Table extends Component {
 
     render(){
         const { multiple, border } = this.props;
+        const { bodyWraperHeight, bodyHeight } = this.state;
         const { left, right, middle } = this.renderData;
 
         const setWrapperElement = element => {
@@ -342,9 +352,9 @@ export default class Table extends Component {
                     { this.renderRightHead(right) }
                 </div>
 
-                <div className="tv-table-body-wrapper">
+                <div className="tv-table-body-wrapper" style={{height: bodyWraperHeight}}>
                     { this.renderLeftBody(left) }
-                    <div className={this.className('tv-table-body')}>
+                    <div className={this.className('tv-table-body')} style={{height: bodyHeight}}>
                         <TablePanel>
                             {
                                 middle.body.map((item, i) => {

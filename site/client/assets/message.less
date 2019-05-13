@@ -14,9 +14,7 @@
 
     width: 100%;
 
-    color: .setColorAlpha(@base-black-color, 65%)[];
-    font-size: 14px;
-    line-height: 1.5;
+    color: @dark-color-65;
     list-style: none;
     pointer-events: none;
 
@@ -31,28 +29,28 @@
             padding: 10px 16px;
             background: #fff;
             border-radius: 4px;
-            box-shadow: 0 4px 12px .setColorAlpha(@base-black-color, 15%)[];
+            box-shadow: 0 4px 12px @dark-shadow-15;
             pointer-events: all;
         }
     }
     &-info{
         .tv-icon{
-            color: @base-info-color
+            color: @info-color;
         }
     }
     &-success{
         .tv-icon{
-            color: @base-success-color;
+            color: @success-color;
         }
     }
     &-danger{
         .tv-icon{
-            color: @base-danger-color;
+            color: @danger-color;
         }
     }
     &-warning{
         .tv-icon{
-            color: @base-warning-color;
+            color: @warning-color;
         }
     }
 

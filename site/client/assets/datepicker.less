@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 @color_1: #FF8B32;
 @color_2: rgba(0,0,0,0.85);
 @color_3: rgba(0,0,0,0.45);
@@ -19,7 +22,7 @@
 
         a {
             &:hover {
-                color: @color_1;
+                color: @master-color;
             }
         }
     }
@@ -28,7 +31,7 @@
         display: inline-block;
         padding: 0 2px;
         
-        color: @color_2;
+        color: @dark-color-85;
         font-weight: 500;
         line-height: 40px;
     }
@@ -36,7 +39,7 @@
         display: inline-block;
         padding: 0 2px;
         
-        color: @color_2;
+        color: @dark-color-85;
         font-weight: 500;
         line-height: 40px;
     }
@@ -48,7 +51,7 @@
 
         padding: 0 5px;
 
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -65,7 +68,7 @@
 
         padding: 0 5px;
 
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -81,7 +84,7 @@
         
         padding: 0 5px;
         
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -97,7 +100,7 @@
 
         padding: 0 5px;
 
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -113,7 +116,7 @@
 
         padding: 0 5px;
 
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -129,7 +132,7 @@
 
         padding: 0 5px;
 
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -145,7 +148,7 @@
         
         padding: 0 5px;
         
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -159,7 +162,7 @@
         top: 0;
         right: 7px;
         padding: 0 5px;
-        color: @color_3;
+        color: @dark-color-45;
         font-size: 16px;
         font-family: @font_family_1;
         line-height: 40px;
@@ -177,7 +180,7 @@
         border-collapse: collapse;
         width: 100%;
         max-width: 100%;
-        background-color: transparent;
+        background-color: @transparent-bgc;
         &, th, td{
             text-align: center;
             border: 0;
@@ -212,20 +215,20 @@
         height: 24px;
 
         font-size: 12px;
-        color: rgba(0,0,0,0.65);
+        color: @dark-color-65;
         line-height: 22px;
         text-align: center;
-        background: transparent;
+        background-color: @transparent-bgc;
         transition: background .3s ease;
     }
 
     &-cell-nonmonth &-date {
-        color: rgba(0,0,0,0.25);
+        color: @dark-color-25;
     }
 
     &-cell-disabled &-date {
         width: auto;
-        color: rgba(0,0,0,0.25);
+        color: @dark-color-25;
         background: #f5f5f5;
         border: 1px solid transparent;
         border-radius: 0;
@@ -234,7 +237,7 @@
 
     &-cell-today &-date{
         position: relative;
-        color: @color_1;
+        color: @master-color;
         &::after{
             display: inline-block;
             position: absolute;
@@ -251,13 +254,13 @@
         }
     }
     &-cell-in-range &-date{
-        color: #fff;
-        background-color: rgba(255,139,50, .2);;
+        color: @light-color;
+        background-color: @master-bgc-20;
     }
 
     &-cell-selected &-date{
-        color: #fff;
-        background-color: @color_1;
+        color: @light-color;
+        background-color: @master-bgc;
     }
 
     &-active-week{

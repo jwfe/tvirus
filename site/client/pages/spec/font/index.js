@@ -140,14 +140,16 @@ export default class FontDemo extends Component{
             <h3>字重</h3>
             <p>字重只出现 regular 以及 medium 的两种字体重量，分别对应代码中的 400 和 500。在英文字体加粗的情况下会采用 semibold 的字体重量，对应代码中的 600。</p>
             <div className="font3"></div>
+            <p>下面是字重参照表</p>
             <div>
                 <Table 
                     style={{width: '780px', height: '460px'}}
                     columns={fontweight_columns}
-                    data={data}
+                    data={fontweight_data}
                 />
             </div>
             <p>
+                特殊说明：<br />
                 <cite>
                 如果指定的权重值不可用，则使用以下规则来确定实际呈现的权重：<br />
                 如果指定的权重值在 400和 500之间（包括400和500）：<br />

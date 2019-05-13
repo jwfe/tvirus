@@ -3,30 +3,30 @@
 .tv-theme-dark-menu{
     &.tv-menu{
         background: #2D3952;
-        color: @base-gray-color
+        color: @dark-color-16;
     }
 
     & > .tv-menu-item,
     .tv-menu-submenu{
-        color: #D5D5D5;
+        color: @dark-color-16;
     }
 
     .tv-menu{
         &-submenu{
             &-open{
                 .tv-menu-submenu-title{
-                    border-right: 2px solid @base-color;
+                    border-right: 2px solid @master-color;
                     padding-left: 47px;
-                    background-color: .setColorAlpha(@base-black-color, 10%)[];
+                    background-color: @dark-bgc-10;
                 }
                 .tv-menu-item-group-title{
-                    background-color: .setColorAlpha(@base-black-color, 20%)[];
+                    background-color: @dark-bgc-20;
                 }
                 .tv-menu-item{
-                    color: @base-gray-color;
-                    background-color: .setColorAlpha(@base-black-color, 30%)[];
+                    color: @dark-color-16;;
+                    background-color: @dark-bgc-20;
                     &.tv-menu-active{
-                        color: @base-color;
+                        color: @master-color;
                     }
                 }
             }

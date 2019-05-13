@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as echarts from 'echarts';
-import { Util } from '@Libs';
+import { Util, Component, PropTypes } from '@Libs';
 import { getOptions } from './dataSet';
 
 export default class Chart extends Component {
@@ -8,8 +8,25 @@ export default class Chart extends Component {
         super(props);
         this.chart = null;
     }
+    static propTypes = {
+        className: PropTypes.string,
+        title: PropTypes.string,
+        theme: PropTypes.string,
+        type: PropTypes.string,
+        option: PropTypes.Object,
+        renderer: PropTypes.string,
+
+        notMerge: PropTypes.bool,
+        lazyUpdate: PropTypes.bool,
+        showLoading: PropTypes.bool,
+        loadingOption: PropTypes.bool,
+        width: PropTypes.number,
+        height: PropTypes.number,
+        onChartReady: PropTypes.func,
+    };
 
     static defaultProps = {
+        title: null,
         theme: null,
         type: 'spline',
         option: {},
@@ -19,7 +36,7 @@ export default class Chart extends Component {
         showLoading: false,
         loadingOption: null,
         width: '100%',
-        height: '500px',
+        height: 500,
         onChartReady: () => { }
     };
 
@@ -92,14 +109,17 @@ export default class Chart extends Component {
     }
 
     render() {
-        const { width, height } = this.props;
+        const { width, height, title } = this.props;
 
         return (
             <div
-                className="default-chart"
+                className="tv-chart"
                 ref={el => (this.el = el)}
-                style={{ width, height }}
-            />
+                style={{ width }}
+            >
+                {title && <div className="tv-chart-title">{title}</div>}
+                <div style={{height}} ref={el => (this.el = el)}></div>
+            </div>
         );
     }
 }

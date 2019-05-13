@@ -8,7 +8,7 @@
     margin: 0;
     padding: 0;
 
-    color: .setColorAlpha(@base-black-color, 65%)[];
+    color: @dark-color-65;
     font-size: 14px;
     line-height: 1.5;
     list-style: none;
@@ -26,15 +26,15 @@
         vertical-align: middle;
 
         list-style: none;
-        background-color: #fff;
+        background-color: @light-bgc;
 
         outline: 0;
         cursor: pointer;
         user-select: none;
         &-active {
             font-weight: 500;
-            color: #fff;
-            background: @base-color;
+            color: @light-color;
+            background: @master-color;
         }
     }
     &-next{
@@ -42,7 +42,7 @@
     }
 
     &-disabled{
-        color: @base-gray-color;
+        color: @dark-color-16;
         &:hover, 
         &:focus {
             cursor: not-allowed;

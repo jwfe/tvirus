@@ -148,7 +148,7 @@ export default class SliderBar extends Component {
 
         return (
             <div 
-                ref={this.slider}
+                ref={el => this.slider = el}
                 className={this.className('tv-sliderbar', {
                     'tv-sliderbar-disabled': disabled,
                     'tv-sliderbar-vertical': vertical,

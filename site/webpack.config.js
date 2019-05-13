@@ -206,7 +206,7 @@ export default class ${name}Demo extends Component{
     }
 }
 
-// const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
+const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
 
 module.exports = {
     entry: {
@@ -219,7 +219,10 @@ module.exports = {
         open: false
     },
     resolve: {
-        extensions: [".js", ".json", ".less"]
+        extensions: [".js", ".json", ".less"],
+        alias: {
+            tvirus: outputPath
+        }
     },
     module: {
         rules: [

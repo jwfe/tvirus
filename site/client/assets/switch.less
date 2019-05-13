@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-switch{
     box-sizing: border-box;
     display: inline-block;
@@ -9,12 +12,12 @@
     min-width: 44px;
     height: 22px;
 
-    color: rgba(0,0,0,0.65);
+    color: @dark-color-65;
     font-size: 14px;
     line-height: 1.5;
     vertical-align: middle;
 
-    background-color: rgba(0,0,0,0.25);
+    background-color: @dark-bgc-20;
     
     cursor: pointer;
     transition: all .36s;
@@ -24,7 +27,7 @@
         display: block;
         margin-right: 6px;
         margin-left: 24px;
-        color: #fff;
+        color: @light-color;
         font-size: 12px;
     }
 
@@ -40,7 +43,7 @@
         width: 18px;
         height: 18px;
         
-        background-color: #fff;
+        background-color: @light-bgc;
 
         cursor: pointer;
         transition: all .36s cubic-bezier(.78, .14, .15, .86);
@@ -52,7 +55,7 @@
     }
 
     &-checked{
-        background-color: #FF8B3D;
+        background-color: @master-bgc;
         &::after {
             left: 100%;
             margin-left: -1px;

@@ -58,7 +58,7 @@
     "webpack-parallel-uglify-plugin": "^1.1.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/babel src -d dist"
+    "build": "webpack -c webpack.config.js"
   },
   "repository": {
     "type": "git",

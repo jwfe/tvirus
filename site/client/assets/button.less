@@ -1,13 +1,11 @@
 @import "./libs/variables.less";
 @import "./libs/utils.less";
 
-@border-color: #acacac;
-
 .tv-button{
     position: relative;
     display: inline-block;
 
-    border: 1px solid @border-color;
+    border: 1px solid @dark-border-10;
     border-radius: 1px;
 
     padding: 0 15px;
@@ -20,10 +18,10 @@
     white-space: nowrap;
     text-align: center;
 
-    color: #333;
+    color: @dark-color-80;
 
-    box-shadow: 0 2px 0 .setColorAlpha(@base-black-color, 5%)[];
-    background-color: #fff;
+    box-shadow: 0 2px 0 @dark-shadow-5;
+    background-color: @light-bgc;
 
     cursor: pointer;
 
@@ -33,31 +31,31 @@
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
 
     &:hover{
-        border-color: .setColorAlpha(@base-color, 80%)[];
-        color: @base-color;
+        border-color: @master-border-80;
+        color: @master-color;
     }
 
     &-primary{
-        border-color: @base-color; 
-        color: #fff;
-        background-color: @base-color;
+        border-color: @master-border; 
+        color: @light-color;
+        background-color: @master-bgc;
         &:hover{
-            background-color: .setColorAlpha(@base-color, 80%)[];
+            background-color: @master-bgc-10;
         }
         &.tv-button-circle{
             border-radius: 50%;
             padding: 0;
             width: 32px;
             .tv-icon{
-                color: #fff;
+                color: @light-color;
             }
         }
 
         &.tv-button-plain{
-            color: @base-color;
-            background-color: transparent;
+            color: @master-color;
+            background-color: @transparent-bgc;
             .tv-icon{
-                color: @base-color;
+                color: @master-color;
             }
         }
     }
@@ -65,84 +63,84 @@
     &-dashed{
         border-radius: 30px;
         border-style: dashed;
-        border-color: #b3b3b3; 
-        color: #acacac;
-        background-color: transparent;
+        border-color: @dark-border-25; 
+        color: @dark-color-32;
+        background-color: @transparent-bgc;
         &:hover{
-            border-color: .setColorAlpha(@base-color, 80%)[];
-            color: @base-color;
+            border-color: @master-border-80;
+            color: @master-color;
         }
     }
 
     &-danger{
-        border-color: #f41e29; 
-        color: #fff;
-        background-color: #f41e29;
+        border-color: @danger-border; 
+        color: @light-color;
+        background-color: @danger-bgc;
         &:hover{
-            background-color: .setColorAlpha(#f41e29, 80%)[];
+            background-color: @danger-bgc-80;
         }
         &.tv-button-circle{
             border-radius: 50%;
             padding: 0;
             width: 32px;
             .tv-icon{
-                color: #fff;
+                color: @light-color;
             }
         }
 
         &.tv-button-plain{
-            color: #f41e29;
-            background-color: transparent;
+            color: @danger-color;
+            background-color: @transparent-bgc;
             .tv-icon{
-                color: #f41e29;
+                color: @danger-color;
             }
         }
     }
 
     &-success{
-        border-color: #49bc19; 
-        color: #fff;
-        background-color: #49bc19;
+        border-color: @success-border; 
+        color: @light-color;
+        background-color: @success-bgc;
         &:hover{
-            background-color: .setColorAlpha(#49bc19, 80%)[];
+            background-color: @success-bgc-80;
         }
         &.tv-button-circle{
             border-radius: 50%;
             padding: 0;
             width: 32px;
             .tv-icon{
-                color: #fff;
+                color: @light-color;
             }
         }
         &.tv-button-plain{
-            color: #49bc19;
-            background-color: transparent;
+            color: @success-color;
+            background-color: @transparent-bgc;
             .tv-icon{
-                color: #49bc19;
+                color: @success-color;
             }
         }
     }
 
     &-warning{
-        border-color: #f9a314; 
-        color: #fff;
-        background-color: #f9a314;
+        border-color: @warning-border; 
+        color: @light-color;
+        background-color: @warning-bgc;
         &:hover{
-            background-color: .setColorAlpha(#f9a314, 80%)[];
+            background-color: @warning-bgc-80;
         }
         &.tv-button-circle{
             border-radius: 50%;
             padding: 0;
             width: 32px;
             .tv-icon{
-                color: #fff;
+                color: @light-color;
             }
         }
         &.tv-button-plain{
-            color: #f9a314;
-            background-color: transparent;
+            color: @warning-color;
+            background-color: @transparent-bgc;
             .tv-icon{
-                color: #f9a314;
+                color: @warning-color;
             }
         }
     }

@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-popup{
     display: none;
 
@@ -18,7 +21,7 @@
         box-sizing: border-box;
         border-radius: 4px;
         padding: 12px;
-        background-color: #fff;
+        background-color: @light-bgc;
         background-clip: padding-box;
 
         filter: drop-shadow(0 1px 8px rgba(0,0,0,.12));
@@ -60,7 +63,7 @@
         width: 8px;
         height: 8px;
 
-        background: transparent;
+        background-color: @transparent-bgc;
         transform: rotate(45deg);
     }
 
@@ -82,10 +85,10 @@
     &-top-left &-arrow,
     &-top-right &-arrow {
         bottom: 6.2px;
-        border-top-color: transparent;
-        border-right-color: #fff;
-        border-bottom-color: #fff;
-        border-left-color: transparent;
+        border-top-color: @transparent-border;
+        border-right-color: @light-border;
+        border-bottom-color: @light-border;
+        border-left-color: @transparent-border;
         box-shadow: 3px 3px 7px rgba(0,0,0,0.07);
         transform: translateX(-50%) rotate(45deg)
     }
@@ -106,10 +109,10 @@
     &-right-top &-arrow,
     &-right-bottom &-arrow {
         left: 6px;
-        border-top-color: transparent;
-        border-right-color: transparent;
-        border-bottom-color: #fff;
-        border-left-color: #fff;
+        border-top-color: @transparent-border;
+        border-right-color: @transparent-border;
+        border-bottom-color: @light-border;
+        border-left-color: @light-border;
         box-shadow: -3px 3px 7px rgba(0,0,0,0.07);
         transform: translateY(-50%) rotate(45deg)
     }
@@ -130,10 +133,10 @@
     &-bottom-left &-arrow,
     &-bottom-right &-arrow {
         top: 6px;
-        border-top-color: #fff;
-        border-right-color: transparent;
-        border-bottom-color: transparent;
-        border-left-color: #fff;
+        border-top-color: @light-border;
+        border-right-color: @transparent-border;
+        border-bottom-color: @transparent-border;
+        border-left-color: @light-border;
         box-shadow: -2px -2px 5px rgba(0,0,0,0.06);
         transform: translateX(-50%) rotate(45deg)
     }
@@ -155,11 +158,10 @@
     &-left-top &-arrow,
     &-left-bottom &-arrow {
         right: 6px;
-        border-top-color: #fff;
-        border-right-color: #fff;
-        border-bottom-color: transparent;
-        border-left-color: transparent;
-        -webkit-box-shadow: 3px -3px 7px rgba(0,0,0,0.07);
+        border-top-color: @light-border;
+        border-right-color: @light-border;
+        border-bottom-color: @transparent-border;
+        border-left-color: @transparent-border;
         box-shadow: 3px -3px 7px rgba(0,0,0,0.07);
         transform: translateY(-50%) rotate(45deg)
     }

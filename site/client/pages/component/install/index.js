@@ -23,6 +23,13 @@ export default class I18nDemo extends Component{
             children: (
                 <div>
                     <p>T-virus 是基于react.js，依赖于16.6.0版本。内部通过新版本的context来完成数据转换，请检查您当前的版本是否支持。</p>
+                    <div className="language-jsx">
+                        <Highlight>
+                            {`
+    npm install tvirus --save
+                            `}
+                        </Highlight>
+                    </div>
                 </div>    
             )
         });
@@ -36,29 +43,29 @@ export default class I18nDemo extends Component{
                     <div className="language-jsx">
                         <Highlight>
                             {`
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { I18nProvider as Provider, I18nReceiver as Receiver, message } from 'tvirus';
-import enUS from './en-US'; // 自获取
-import "tvirus/dist/tvirus.css";
-import "./index.css";
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import { I18nProvider as Provider, I18nReceiver as Receiver, message } from 'tvirus';
+    import enUS from './en-US'; // 自获取
+    import "tvirus/dist/tvirus.css";
+    import "./index.css";
 
-class App extends React.Component {
-  handleClick = () => {
-    message.info('第一个案例');
-  }
-  render() {
-    return (
-        <Receiver componentName="Select">
-            {i18n => (
-                <Button onClick={this.handleClick.bind(this)}>{i18n['message']}</Button>
-            )}
-        </Receiver>
-    );
-  }
-}
+    class App extends React.Component {
+    handleClick = () => {
+        message.info('第一个案例');
+    }
+    render() {
+        return (
+            <Receiver componentName="Select">
+                {i18n => (
+                    <Button onClick={this.handleClick.bind(this)}>{i18n['message']}</Button>
+                )}
+            </Receiver>
+        );
+    }
+    }
 
-ReactDOM.render(<Provider value={enUS}><App /></Provider>, document.getElementById('root'));
+    ReactDOM.render(<Provider value={enUS}><App /></Provider>, document.getElementById('root'));
                             `}
                         </Highlight>
                     </div>

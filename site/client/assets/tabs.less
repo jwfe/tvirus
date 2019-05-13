@@ -18,7 +18,7 @@
             z-index: 1;
 
             height: 2px;
-            background-color: @base-color;
+            background-color: @master-bgc;
             transform-origin: 0 0
         }
     }
@@ -39,12 +39,12 @@
             vertical-align: 0;
         }
         &-active{
-            color: @base-color;
+            color: @master-color;
         }
     }
 
     &-disabled{
-        color: .setColorAlpha(@base-black-color, 25%)[];
+        color: @dark-color-25;
         cursor: not-allowed;
     }
 

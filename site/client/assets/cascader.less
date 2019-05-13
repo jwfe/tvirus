@@ -1,3 +1,6 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
 .tv-cascader{
     &-menus{
         display: flex;
@@ -27,7 +30,7 @@
         cursor: pointer;
         transition: all .3s;
         &-disabled{
-            color: rgba(0,0,0,0.25);
+            color: @dark-color-25;
             cursor: not-allowed;
         }
     }

@@ -7,27 +7,27 @@
     padding: 0;
 
     line-height: 1.5;
-    color: .setColorAlpha(@base-black-color, 45%)[];
+    color: @dark-color-45;
     font-size: 14px;
 
     list-style: none;
 
     a {
         text-decoration: none;
-        color: .setColorAlpha(@base-black-color, 45%)[];
+        color: @dark-color-45;
         transition: color .3s;
         &:hover {
-            color: #40a9ff
+            color: @info-color;
         }
     }
 
     &-separator{
         margin: 0 8px;
-        color: .setColorAlpha(@base-black-color, 45%)[];
+        color: @dark-color-45;
     }
     & > span{
         &:last-child{
-            color: .setColorAlpha(@base-black-color, 65%)[];
+            color: @dark-color-65;
         }
     }
 }

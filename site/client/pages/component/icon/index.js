@@ -29,6 +29,7 @@ const iconMaps = {
             
             'calendar',
             'cloud',
+            'search',
             'file-search',
             'fullscreem-exit',
             'key',

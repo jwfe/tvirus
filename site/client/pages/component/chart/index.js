@@ -15,7 +15,7 @@ export default class ChartDemo extends Component{
                     trigger: 'axis'
                 },
                 legend: {
-                    x: 80,
+                    x: 0,
                     y: 'top'
                 },
                 xAxis: {
