@@ -28,8 +28,8 @@ export default class InputDemo extends Component{
                             <Input placeholder="base input" />
                         </Col>
                         <Col span={12}>
-                            <Input placeholder="large size" size="large" />
-                            <Input placeholder="medium size" size="medium" />
+                            <Input placeholder="large size" size="large" /> <br />
+                            <Input placeholder="medium size" size="medium" /><br />
                             <Input placeholder="small size" size="small" />
                         </Col>
                     </Row>
@@ -47,8 +47,8 @@ export default class InputDemo extends Component{
                             <Input placeholder="base input" prefix="cloud" />
                         </Col>
                         <Col span={12}>
-                            <Input placeholder="large size" size="large" />
-                            <Input placeholder="medium size" size="medium" />
+                            <Input placeholder="large size" size="large" /><br />
+                            <Input placeholder="medium size" size="medium" /><br />
                             <Input placeholder="small size" size="small" />
                         </Col>
                     </Row>

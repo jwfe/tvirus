@@ -23,7 +23,7 @@ export default class Button extends Component {
     }
 
     render(){
-        const { type, size, disabled, loading, plain, block, shape, icon, children, ref, ...other } = this.props;
+        const { type, size, loading, plain, block, shape, icon, children, ref, ...other } = this.props;
         return (
             <button 
             className={
@@ -31,7 +31,6 @@ export default class Button extends Component {
                 type && `tv-button-${type}`,
                 size && `tv-button-${size}`,
                 {
-                    'tv-button-disabled': disabled,
                     'tv-button-loading': loading,
                     'tv-button-plain': plain,
                     'tv-button-block': block,
@@ -45,7 +44,7 @@ export default class Button extends Component {
             >
                 { loading && <Icon type="loading" /> }
                 { icon && !loading && <Icon type={icon} /> }
-                <span>{children}</span>
+                {children && <span>{children}</span>}
             </button>
         )
     }

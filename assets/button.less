@@ -18,7 +18,15 @@
     touch-action: manipulation;
 
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
-    
+    .tv-icon{
+        transition: margin-left .3s cubic-bezier(.645, .045, .355, 1);
+    }    
+
+    & > .tv-icon+span,
+    & > span+.tv-icon{
+        margin-left: 8px;
+    }
+
     &-default{
         border: 1px solid @dark-border-10;
         border-radius: 1px;
@@ -36,7 +44,7 @@
         color: @light-color;
         background-color: @master-bgc;
         &:hover{
-            background-color: @master-bgc-10;
+            background-color: @master-bgc-80;
         }
         &.tv-button-circle{
             border-radius: 50%;
@@ -45,6 +53,11 @@
             .tv-icon{
                 color: @light-color;
             }
+            &:hover{
+                border-color: @master-border-80; 
+                color: @light-border;
+                background-color: @master-bgc-80;
+            }
         }
 
         &.tv-button-plain{
@@ -52,6 +65,13 @@
             background-color: @transparent-bgc;
             .tv-icon{
                 color: @master-color;
+            }
+            &:hover{
+                color: @light-border;
+                background-color: @master-bgc;
+                .tv-icon{
+                    color: @light-color;
+                }
             }
         }
     }
@@ -87,6 +107,10 @@
         &.tv-button-plain{
             color: @danger-color;
             background-color: @transparent-bgc;
+            &:hover{
+                color: @light-border;
+                background-color: @danger-bgc;
+            }
             .tv-icon{
                 color: @danger-color;
             }
@@ -111,6 +135,10 @@
         &.tv-button-plain{
             color: @success-color;
             background-color: @transparent-bgc;
+            &:hover{
+                color: @light-border;
+                background-color: @success-bgc;
+            }
             .tv-icon{
                 color: @success-color;
             }
@@ -135,8 +163,33 @@
         &.tv-button-plain{
             color: @warning-color;
             background-color: @transparent-bgc;
+            &:hover{
+                color: @light-border;
+                background-color: @warning-bgc;
+            }
             .tv-icon{
                 color: @warning-color;
+            }
+        }
+    }
+
+    &-default,
+    &-primary,
+    &-dashed,
+    &-danger,
+    &-success,
+    &-warning{
+        &[disabled]{
+            &,
+            &:active,
+            &:focus,
+            &:hover{
+                border-color: @dark-border-10;
+                color: @dark-color-25;
+                background-color: @light-smoke-bgc;
+                cursor: not-allowed;
+                text-shadow: none;
+                box-shadow: none;;
             }
         }
     }

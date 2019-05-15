@@ -29,6 +29,7 @@ class CreateSiteTempComp{
         this.siteTempComp = path.resolve(this.opts.output, `components`);
         this.siteTempLibs = path.resolve(this.opts.output, `libs`);
         this.compoents = this.getDirs();
+        this.specs = this.getSpecDirs();
 
     }
     getDirs(){
@@ -37,6 +38,23 @@ class CreateSiteTempComp{
         files.forEach((file)=>{
             let dir = path.dirname(file);
             dir = dir.replace(/\.\.(\/src\/?)?/, '')
+            if(!dir){
+                return;
+            }
+            arr.push(dir);
+        })
+        return Array.from(new Set(arr));
+    }
+
+    getSpecDirs(){
+        const dirs = path.resolve(__dirname, './client/pages/spec/**');
+        const dirsString = path.resolve(__dirname, './client/pages/spec/');
+        const files = glob.sync(dirs);
+        const arr = [];
+        files.forEach((file)=>{
+            let dir = path.dirname(file);
+            dir = dir.replace(dirsString + '/', '');
+            dir = dir.split('/')[0]
             if(!dir){
                 return;
             }
@@ -64,71 +82,48 @@ class CreateSiteTempComp{
 
             const name = firstToUpperCase(compoent);
             importComps.push(`import ${name} from './pages/component/${compoent}';`);
+            // importComps.push(`const ${name} = React.lazy(() => import('./pages/component/${compoent}'));`);
             linkComps.push(`<Route path="/component/${compoent}" component={${name}} />`);
 
             const pagePath = `./client/pages/component/${compoent}/index.js`
             return !fsExistsSync(pagePath);
         });
 
+        const importSpec = [];
+        const linkSpec = [];
+        const newSpec = this.specs.filter((spec) => {
+            const arr = spec.split('/');
+            if(arr.length > 1){
+                return false;
+            }
+
+            const name = firstToUpperCase(spec) + 'Spec';
+            // importSpec.push(`const ${name} = React.lazy(() => import('./pages/spec/${spec}'));`);
+            importSpec.push(`import ${name} from './pages/spec/${spec}';`);
+            linkSpec.push(`<Route path="/spec/${spec}" component={${name}} />`);
+        });
+
         fs.writeFileSync(`./client/router.js`, 
-`import React from 'react';
+`import React, { lazy, Suspense } from 'react';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
 import Layout from './layout';
 
 import Index from './pages/index';
-
-import Arts from './pages/spec/arts';
-import Direct from './pages/spec/direct';
-import Jump from './pages/spec/jump';
-import Lightweight from './pages/spec/lightweight';
-import Invitation from './pages/spec/invitation';
-import Reaction from './pages/spec/reaction';
-
-import Font from './pages/spec/font';
-import Margin from './pages/spec/margin';
-import Align from './pages/spec/align';
-import Color from './pages/spec/color';
-import LayoutPage from './pages/spec/layout';
-import IconPage from './pages/spec/icon';
-import Text from './pages/spec/text';
-import Datain from './pages/spec/data';
-import Datashow from './pages/spec/datashow';
-import Datavis from './pages/spec/datavis';
-import NoticePage from './pages/spec/notice';
-import AnimationPage from './pages/spec/animation';
-
 import CompInstall from './pages/component/install';
-${importComps.join('')}
+
+${importSpec.join('\n')}
+${importComps.join('\n')}
 export default (
     <Router>
-        <Layout>
-            <Route path="/" exact component={Index} />
-            {/* 设计语言 */}
-            <Route path="/spec/arts" component={Arts} />
-            <Route path="/spec/direct" component={Direct} />
-            <Route path="/spec/jump" component={Jump} />
-            <Route path="/spec/lightweight" component={Lightweight} />
-            <Route path="/spec/invitation" component={Invitation} />
-            <Route path="/spec/reaction" component={Reaction} />
-
-            <Route path="/spec/font" component={Font} />
-            <Route path="/spec/margin" component={Margin} />
-            <Route path="/spec/align" component={Align} />
-            <Route path="/spec/color" component={Color} />
-            <Route path="/spec/layout" component={LayoutPage} />
-            <Route path="/spec/icon" component={IconPage} />
-            <Route path="/spec/text" component={Text} />
-            <Route path="/spec/data" component={Datain} />
-            <Route path="/spec/datashow" component={Datashow} />
-            <Route path="/spec/datavis" component={Datavis} />
-            <Route path="/spec/notice" component={NoticePage} />
-            <Route path="/spec/animation" component={AnimationPage} />
-
-            {/* 组件 */}
-            <Route path="/component/install" component={CompInstall} />
-            ${linkComps.join('')}
-        </Layout>
+            <Layout>
+                <Route path="/" exact component={Index} />
+                {/* 设计语言 */}
+                ${linkSpec.join('\n')}
+                {/* 组件 */}
+                <Route path="/component/install" component={CompInstall} />
+                ${linkComps.join('\n')}
+            </Layout>
     </Router>
 )
         

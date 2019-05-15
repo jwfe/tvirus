@@ -32,9 +32,9 @@ export default class BreadcrumbDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Breadcrumb separator="/">
-                        <Breadcrumb.Item>1</Breadcrumb.Item>
-                        <Breadcrumb.Item>2</Breadcrumb.Item>
-                        <Breadcrumb.Item>3</Breadcrumb.Item>
+                        <Breadcrumb.Item><a href="#">Home</a></Breadcrumb.Item>
+                        <Breadcrumb.Item><a href="#">Components</a></Breadcrumb.Item>
+                        <Breadcrumb.Item>Breadcrumb</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
             )

@@ -30,7 +30,7 @@ export default class ButtonDemo extends Component{
                 <Button type="warning" plain={true} size={size}>Warning</Button>
                 <br />
                 <Button type="primary" shape="circle" icon="search" size={size}></Button>
-                <Button type="primary" shape="circle" icon="work" size={size} plain={true}></Button>
+                <Button type="primary" shape="circle" icon="like" size={size} plain={true}></Button>
             </div>
         )
     }
@@ -56,12 +56,12 @@ export default class ButtonDemo extends Component{
             title: '禁用状态',
             children: (
                 <div className="code-demo">
-                    <Button type="primary" disabled={true}>Primary</Button>
-                    <Button type="default" disabled={true}>Default</Button>
-                    <Button type="dashed" disabled={true}>Dashed</Button>
-                    <Button type="danger" disabled={true}>Danger</Button>
-                    <Button type="success" disabled={true}>Success</Button>
-                    <Button type="warning" disabled={true}>Warning</Button>
+                    <Button type="primary" disabled>Primary</Button>
+                    <Button type="default" disabled>Default</Button>
+                    <Button type="dashed" disabled>Dashed</Button>
+                    <Button type="danger" disabled>Danger</Button>
+                    <Button type="success" disabled>Success</Button>
+                    <Button type="warning" disabled>Warning</Button>
                 </div>
             )
         });
