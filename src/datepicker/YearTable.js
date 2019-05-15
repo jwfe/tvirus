@@ -1,11 +1,11 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '@Libs';
-
-import { getMonthDaysArray, weekOfYear, format, parse } from './utils';
+import { Component, PropTypes, noop, Util } from '@Libs';
+const { fixedYM, weekOfYear, parse, format } = Util.date;
 
 export default class DateTable extends Component {
     static propTypes = {
         className: PropTypes.string,
+        key: PropTypes.string,
         date: PropTypes.instanceOf(Date),
 
         disabledDate: PropTypes.func,
@@ -60,13 +60,13 @@ export default class DateTable extends Component {
     }
 
     handleClick(cell){
-        const { onChange } = this.props
-        onChange(cell.date);
+        const { onChange, rangeKey } = this.props
+        onChange(cell.date, rangeKey);
     }
 
     render(){
         return (
-            <tbody className="tv-datepicker-tbody">
+            <table className="tv-datepicker-year-table" style={this.style()}>
             {
                 this.getRowsDays().map((row) => {
                     return (
@@ -92,7 +92,7 @@ export default class DateTable extends Component {
                     )
                 })
             }
-        </tbody>
+        </table>
         )
     }
 

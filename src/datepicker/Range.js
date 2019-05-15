@@ -27,15 +27,20 @@ export default class Range extends Component {
 
     constructor(props) {
         super(props);
-
+        const _date = new Date();
+        const now = format(_date);
+        _date.setMonth(_date.getMonth() + 1);
+        const nextMonthDay = format(_date);
         this.state = {
-            minDate: null,
-            maxDate: null,
+            view: 'day',
+            left_date: parse(props.minDate || now),
+            right_date: parse(props.maxDate || nextMonthDay),
+            minDate: parse(props.minDate || now),
+            maxDate: parse(props.maxDate || nextMonthDay),
             rangeState: {
                 endDate: null,
                 selecting: false,
-            },
-            date: props.value ? parse(props.value) : new Date()
+            }
         }
     }
 
@@ -70,35 +75,61 @@ export default class Range extends Component {
             maxDate: endDate,
         })
     }
+    handleYearDate(cell, key){
+        let date = this.state[`${key}_date`];
+        let { year } = weekOfYear(format(cell));
+
+        date.setFullYear(year);
+
+        this.setState({
+            visible: true, 
+            view: 'day',
+            [`${key}_date`]: date
+        });
+    }
+    handleMonthDate(cell, key){
+        let date = this.state[`${key}_date`];
+        const { year, month } = weekOfYear(format(cell));
+        const array  = fixedYM(year, month - 1);
+
+        date.setFullYear(array[0]);
+        date.setMonth(array[1]);
+
+        this.setState({
+            visible: true, 
+            view: 'day',
+            [`${key}_date`]: date
+        });
+    }
     // 上年
-    handlePrevYearClick(){
-        let { date } = this.state;
+    handlePrevYearClick(key){
+        let date = this.state[`${key}_date`];
         let { year } = weekOfYear(format(date));
         year = year - 1;
 
         date.setFullYear(year);
 
         this.setState({
-            date
+            [`${key}_date`]: date
         });
     }
 
     // 下年
-    handleNextYearClick(){
-        let { date } = this.state;
+    handleNextYearClick(key){
+        let date = this.state[`${key}_date`];
         let { year } = weekOfYear(format(date));
         year = year + 1;
 
         date.setFullYear(year);
 
         this.setState({
-            date
+            [`${key}_date`]: date
         });
     }
 
     // 上月
-    handlePrevMonthClick(){
-        let { date } = this.state;
+    handlePrevMonthClick(key){
+        let date = this.state[`${key}_date`];
         const { year, month } = weekOfYear(format(date));
         const array  = fixedYM(year, month - 1);
 
@@ -106,13 +137,13 @@ export default class Range extends Component {
         date.setMonth(array[1] - 1);
 
         this.setState({
-            date
+            [`${key}_date`]: date
         });
     }
 
     // 下月
-    handleNextMonthClick(){
-        let { date } = this.state;
+    handleNextMonthClick(key){
+        let date = this.state[`${key}_date`];
         const { year, month } = weekOfYear(format(date));
         const array  = fixedYM(year, month + 1);
 
@@ -120,40 +151,40 @@ export default class Range extends Component {
         date.setMonth(array[1] - 1);
 
         this.setState({
-            date
+            [`${key}_date`]: date
         });
     }
 
-    showYearPicker(){
+    showYearPicker(key){
         this.setState({
-            view: 'year'
+            visible: true, 
+            view: key + 'year'
         })
     }
 
-    showMonthPicker(){
+    showMonthPicker(key){
         this.setState({
-            view: 'month'
+            visible: true, 
+            view: key + 'month'
         })
     }
 
     renderSearch(key){
-        const { date } = this.state;
+        const { view } = this.state;
+        let date = this.state[`${key}_date`];
         let { year, month } = weekOfYear(format(date));
-        if(key === 'right'){
-            month = Number(month) + 1;
-        }
         const array = fixedYM(year, month);
         return (
             <div className={this.className('tv-datepicker-header')}>
                 <div className="tv-datepicker-header-wraper">
-                    {key === 'left' && <a className="tv-datepicker-prev-year-btn" title="上一年 (Control键加左方向键)" onClick={this.handlePrevYearClick.bind(this)}></a>}
-                    {key === 'left' && <a className="tv-datepicker-prev-month-btn" title="上个月 (翻页上键)" onClick={this.handlePrevMonthClick.bind(this)}></a>}
+                    <a className="tv-datepicker-prev-year-btn" title="上一年 (Control键加左方向键)" onClick={this.handlePrevYearClick.bind(this, key)}></a>
+                    <a className="tv-datepicker-prev-month-btn" title="上个月 (翻页上键)" onClick={this.handlePrevMonthClick.bind(this, key)}></a>
                     <span className="tv-datepicker-ym-select">
-                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this)}>{array[0]}年</a>
-                        <a className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this)}>{array[1]}月</a>
+                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this, key)}>{array[0]}年</a>
+                        <a style={{display: (view !== key + 'year' &&  view !== key + 'month') ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}月</a>
                     </span>
-                    { key === 'right' && <a className="tv-datepicker-next-month-btn" title="下个月 (翻页下键)" onClick={this.handleNextMonthClick.bind(this)}></a>}
-                    { key === 'right' && <a className="tv-datepicker-next-year-btn" title="下一年 (Control键加右方向键)" onClick={this.handleNextYearClick.bind(this)}></a>}
+                    <a className="tv-datepicker-next-month-btn" title="下个月 (翻页下键)" onClick={this.handleNextMonthClick.bind(this, key)}></a>
+                    <a className="tv-datepicker-next-year-btn" title="下一年 (Control键加右方向键)" onClick={this.handleNextYearClick.bind(this, key)}></a>
                 </div>
             </div>
         )
@@ -161,27 +192,30 @@ export default class Range extends Component {
 
     renderTable(key){
         const mode = 'range';
-        let { date, view, rangeState, minDate, maxDate } = this.state;
+        let { view, rangeState, minDate, maxDate } = this.state;
+        let { disabledDate } = this.props;
+        let date = this.state[`${key}_date`];
 
-        if(key === 'right'){
-            date = nextMonth(date)
-        }
-
-        if(view === 'year'){
-            return <YearTable date={date} onChange={this.handleDate.bind(this)} />
-        }
-
-        if(view === 'month'){
-            return <MonthTable date={date} onChange={this.handleDate.bind(this)}/>
-        }
-    
-        return <DateTable 
-            mode={mode} rangeState={rangeState} date={date} 
-            minDate={minDate}
-            maxDate={maxDate}
-            onMoveRange={this.handleMoveRange.bind(this)}
-            onChange={this.handleDate.bind(this)}
-         /> 
+        return [
+            <YearTable 
+                disabledDate={disabledDate} 
+                rangeKey={key} date={date} onChange={this.handleYearDate.bind(this)} 
+                style={{display: view === key + 'year' ? '' : 'none'}} />,
+            <MonthTable 
+                disabledDate={disabledDate} 
+                rangeKey={key} date={date} onChange={this.handleMonthDate.bind(this)} 
+                style={{display: view === key + 'month' ? '' : 'none'}} />,
+            <DateTable 
+                disabledDate={disabledDate} 
+                style={{display: (view !== key + 'year' &&  view !== key + 'month') ? '' : 'none'}}
+                key={key}
+                mode={mode} rangeState={rangeState} date={date} 
+                minDate={minDate}
+                maxDate={maxDate}
+                onMoveRange={this.handleMoveRange.bind(this)}
+                onChange={this.handleDate.bind(this)}
+            /> 
+        ]
     }
 
     render(){

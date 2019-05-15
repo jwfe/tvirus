@@ -5,23 +5,12 @@
     position: relative;
     display: inline-block;
 
-    border: 1px solid @dark-border-10;
-    border-radius: 1px;
-
     padding: 0 15px;
 
     height: 32px;
 
-    font-size: 14px;
-    line-height: 1.499;
-    font-weight: 400;
     white-space: nowrap;
     text-align: center;
-
-    color: @dark-color-80;
-
-    box-shadow: 0 2px 0 @dark-shadow-5;
-    background-color: @light-bgc;
 
     cursor: pointer;
 
@@ -29,10 +18,17 @@
     touch-action: manipulation;
 
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    
+    &-default{
+        border: 1px solid @dark-border-10;
+        border-radius: 1px;
+        color: @dark-color-80;
 
-    &:hover{
-        border-color: @master-border-80;
-        color: @master-color;
+        background-color: @light-bgc;
+        &:hover{
+            border-color: @master-border-80;
+            color: @master-color;
+        }
     }
 
     &-primary{

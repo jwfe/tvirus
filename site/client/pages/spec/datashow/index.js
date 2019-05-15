@@ -1,304 +1,40 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/design';
-import { Card, Chart } from 'tvirus';
 
 import './index.less'
 
-export default class DatashowDemo extends Component{
+export default class DatavisDemo extends Component{
     constructor(props){
         super(props);
-        this.state = {
-            line: {
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    x: 80,
-                    y: 'top'
-                },
-                xAxis: {
-                    type: 'category',
-                    axisLine: {
-                        lineStyle: {
-                            color: '#e0e0e0'
-                        }
-                    },
-                    axisTick:{ 
-                        show: false
-                    },
-                    axisLabel: {
-                        color: '#333'
-                    },
-                    data: ['周一','周二','周三','周四','周五','周六','周日']
-                },
-                yAxis : { 
-                    type : 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick:{ 
-                        show: false
-                    },
-                    splitLine:{ 
-                        show: true, 
-                        lineStyle:{ 
-                            type:'dashed',
-                            color: '#E9E9E9'
-                        }
-                    } 
-                },
-                
-                series: [
-                    {
-                        name: '差评率',
-                        type: 'line',
-                        showSymbol: false,
-                        smooth: true,
-                        barWidth: 20,
-                        itemStyle:{
-                            color: '#45a2fc',
-                        },
-                       
-                        data: [
-                            120,
-                            110,
-                            80,
-                            234,
-                            5,
-                            4
-                        ]
-                    },
-                    {
-                        name: '好评率',
-                        type: 'line',
-                        showSymbol: false,
-                        smooth: true,
-                        barWidth: 20,
-                        itemStyle:{
-                            color: '#57ca77',
-                        },
-                       
-                        data: [
-                            110,
-                            10,
-                            120,
-                            124,
-                            95,
-                            204
-                        ]
-                    }
-                ]
-            },
-            bar: {
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    x: 80,
-                    y: 'top'
-                },
-                xAxis: {
-                    type : 'category',
-                    axisLine: {
-                        lineStyle: {
-                            color: '#e0e0e0'
-                        }
-                    },
-                    axisTick:{ 
-                        show: false
-                    },
-                    axisLabel: {
-                        color: '#333'
-                    },
-                    data: ['周一','周二','周三','周四','周五','周六','周日'],
-                },
-                yAxis : { 
-                    type: 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick:{ 
-                        show: false
-                    },
-                    splitLine:{ 
-                        show: true, 
-                        lineStyle:{ 
-                            type:'dashed',
-                            color: '#E9E9E9'
-                        }
-                    },
-                },
-                
-                series: [
-                    {
-                        type: 'bar',
-                        showSymbol: false,
-                        smooth: true,
-                        barWidth: 20,
-                        itemStyle:{
-                            color: '#45a2fc',
-                        },
-                       
-                        data: [
-                            120,
-                            110,
-                            80,
-                            234,
-                            5,
-                            4
-                        ]
-                    }
-                ]
-            },
-            bar2: {
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    x: 80,
-                    y: 'top'
-                },
-                xAxis: {
-                    type: 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick:{ 
-                        show: false
-                    },
-                    splitLine:{ 
-                        show: true, 
-                        lineStyle:{ 
-                            type:'dashed',
-                            color: '#E9E9E9'
-                        }
-                    },
-                },
-                yAxis : { 
-                    type : 'category',
-                    axisTick:{ 
-                        show: false
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#e0e0e0'
-                        }
-                    },
-                    axisLabel: {
-                        color: '#333'
-                    },
-                    data: ['周一','周二','周三','周四','周五','周六','周日'],
-                },
-                
-                series: [
-                    {
-                        type: 'bar',
-                        showSymbol: false,
-                        smooth: true,
-                        barWidth: 20,
-                        itemStyle:{
-                            color: '#45a2fc',
-                        },
-                       
-                        data: [
-                            120,
-                            110,
-                            80,
-                            234,
-                            5,
-                            4
-                        ]
-                    }
-                ]
-            },
-            pie: {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'horizontal',
-                    x: 80,
-                    y: 'top'
-                },
-                series: [
-                    {
-                        
-                        type: 'pie',
-                        showSymbol: false,
-                        smooth: true,
-                        barWidth: 20,
-                       
-                        data: [
-                            {
-                                name: '展会占比',
-                                value: 20, 
-                                itemStyle:{
-                                    color: '#45a2fc',
-                                }
-                            },
-                            {
-                                name: '情侣出行占比',
-                                value: 50, 
-                                itemStyle:{
-                                    color: '#57ca77',
-                                }
-                            },
-                            {
-                                name: '旅游占比',
-                                value: 80, 
-                                itemStyle:{
-                                    color: '#fed465',
-                                }
-                            },
-                            {
-                                name: '家人出行占比',
-                                value: 100, 
-                                itemStyle:{
-                                    color: '#9766e1',
-                                }
-                            },
-                            {
-                                name: '商务出行占比',
-                                value: 130, 
-                                itemStyle:{
-                                    color: '#ff856a',
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
     }
     render() {
         return <Layout {...this.props} 
-            className="main-datashow-box"
-            title="数据可视化"
+            className="main-datavis-box"
+            title="数据显示"
             desc={
                 <div>
-                    可视化语言让数据表达更符合用户心理，帮助『设计者』孵化出更具业务特性的可视化解决方案以满足个性化设计需求，屏蔽不必要的设计差异和实现成本，从而解放『设计者』和前端的研发资源，实现全面提高数据图表的研发效率。<br />图表的作用是用来准确明了的向用户传递信息，所以装饰效果能不加则不加，简约至上。
+                    合适的数据展示方式可以帮助用户快速地定位和浏览数据，以及更高效得协同工作。在设计时有以下几点需要注意：<br />
+                    1.依据信息的重要等级、操作频率和关联程度来编排展示的顺序。<br />
+                    2.注意极端情况下的引导，如数据信息过长，内容为空的初始化状态等。
                 </div>
             }
         >
             
-            <h3>展示</h3>
-            <p>通过『小号间距』、『中号间距』、『大号间距』这三种规格来划分信息层次,10px（小号间距）、20px（中号间距）、30px（大号间距）。在这三种规格不适用的情况下，可以通过加减『基础间距』的倍数，或者增加元素来拉开信息层次。<cite>注：y=10+10*n。其中，n>=0，y 是纵向间距，10 是『基础间距』。</cite></p>
-            <Card className="datashow1">
-                <Chart option={this.state.line} title="多条折线图模板" />
-            </Card>
+            <h3>表格</h3>
+            <p>常和排序、搜索、筛选、分页等其他界面元素一起协同，适用于信息的收集和展示、数据的分析和归纳整理、以及操作结构化数据。<br /><cite>注： 1. 表格中的时间、状态、操作栏需保持词语完整不过行。 2. 当数据为空时，可使用『- -』来表示暂无数据。</cite></p>
+            <div className="datavis1"></div>
+            
+            <h3>折叠面板</h3>
+            <p>折叠面板通过对信息的分组和收纳，指引用户递进式的获取信息，使界面保持整洁的同时增加空间的有效利用率。</p>
+            <div className="datavis2"></div>
 
-            <Card className="datashow1">
-                <Chart option={this.state.bar} title="普通柱状图" />
-            </Card>
+            <h3>卡片</h3>
+            <p>卡片是一种承载信息的容器，通常以网格或矩阵的方式排列，传达相互之间的层级关系。适合较为轻量级和个性化较强的信息区块展示。</p>
+            <div className="datavis3"></div>
 
-            <Card className="datashow1">
-                <Chart option={this.state.bar2} title="普通条形图" />
-            </Card>
-
-            <Card className="datashow1">
-                <Chart option={this.state.pie} type="pie" title="普通饼图" />
-            </Card>
+            <h3>树形控件</h3>
+            <p>『树形控件』通过逐级大纲的形式来展现信息的层级关系，高效且具有极佳的视觉可视性，使得整体信息框架一目了然。用户可同时浏览与处理多个树状层级的内容。适用于任何需要通过层级组织的信息场景，如集团架构、国家地区等等。</p>
+            <div className="datavis4"></div>
         </Layout>
     }
 }

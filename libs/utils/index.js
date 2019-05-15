@@ -1,4 +1,7 @@
+import * as dateMaps from './date';
+
 export default {
+	date: {...dateMaps},
 	/**
 	 * 
 	 * @param {函数节流} fn 

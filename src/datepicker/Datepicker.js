@@ -1,12 +1,12 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '@Libs';
+import { Component, PropTypes, noop, Util } from '@Libs';
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
 import Button from '@button';
 import Popup from '@popup';
 
-import { weekOfYear, parse, fixedYM, format } from './utils';
+const { fixedYM, weekOfYear, parse, format } = Util.date;
 
 export default class Datepicker extends Component {
     static propTypes = {
@@ -30,7 +30,8 @@ export default class Datepicker extends Component {
         super(props);
 
         this.state = {
-            date: props.value ? parse(props.value) : new Date()
+            view: 'day',
+            date: props.value ? parse(props.value) : parse(format(new Date()))
         }
     }
 
@@ -48,8 +49,9 @@ export default class Datepicker extends Component {
     }
 
     handleDate(value) {
+        const { view } = this.state;
         this.setState({
-            visible: false,
+            visible: view !== 'day',
             view: 'day',
             date: value
         });
@@ -109,20 +111,15 @@ export default class Datepicker extends Component {
         });
     }
 
-    showYearPicker(){
+    showPicker(view) {
         this.setState({
-            view: 'year'
-        })
-    }
-
-    showMonthPicker(){
-        this.setState({
-            view: 'month'
+            visible: true,
+            view
         })
     }
 
     renderSearch(){
-        const { date } = this.state;
+        const { date, view } = this.state;
         const { year, month } = weekOfYear(format(date));
         return (
             <div className={this.className('tv-datepicker-header')}>
@@ -130,8 +127,8 @@ export default class Datepicker extends Component {
                     <a className="tv-datepicker-prev-year-btn" title="上一年 (Control键加左方向键)" onClick={this.handlePrevYearClick.bind(this)}></a>
                     <a className="tv-datepicker-prev-month-btn" title="上个月 (翻页上键)" onClick={this.handlePrevMonthClick.bind(this)}></a>
                     <span className="tv-datepicker-ym-select">
-                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this)}>{year}年</a>
-                        <a className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this)}>{month}月</a>
+                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showPicker.bind(this, 'year')}>{year}年</a>
+                        <a style={{display: view === 'day' ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showPicker.bind(this, 'month')}>{month}月</a>
                     </span>
                     <a className="tv-datepicker-next-month-btn" title="下个月 (翻页下键)" onClick={this.handleNextMonthClick.bind(this)}></a>
                     <a className="tv-datepicker-next-year-btn" title="下一年 (Control键加右方向键)" onClick={this.handleNextYearClick.bind(this)}></a>
@@ -141,22 +138,32 @@ export default class Datepicker extends Component {
     }
 
     renderTable(){
-        const { mode } = this.props;
+        const { mode, disabledDate } = this.props;
         const { date, view } = this.state;
 
-        if(view === 'year'){
-            return <YearTable date={date} onChange={this.handleDate.bind(this)} />
-        }
-
-        if(view === 'month'){
-            return <MonthTable  date={date} onChange={this.handleDate.bind(this)}/>
-        }
-    
-        return <DateTable mode={mode} date={date} onChange={this.handleDate.bind(this)} /> 
+        return [
+            <YearTable 
+                disabledDate={disabledDate} 
+                date={date} 
+                onChange={this.handleDate.bind(this)} 
+                style={{display: view === 'year' ? '' : 'none'}} />,
+            <MonthTable 
+                disabledDate={disabledDate} 
+                date={date} 
+                onChange={this.handleDate.bind(this)} 
+                style={{display: view === 'month' ? '' : 'none'}} />,
+            <DateTable 
+                disabledDate={disabledDate} 
+                style={{display: (view !== 'year' &&  view !== 'month') ? '' : 'none'}}
+                mode={mode} 
+                date={date} 
+                onChange={this.handleDate.bind(this)}
+            /> 
+        ]
     }
 
     render(){
-        const { position, placeholder } = this.props;
+        const { position, placeholder, footer } = this.props;
         const { disabled, visible, date } = this.state;
         const content = (
             <div className="tv-datepicker">
@@ -164,12 +171,16 @@ export default class Datepicker extends Component {
                 <div className={this.className('tv-datepicker-body')}>
                     { this.renderTable() }
                 </div>
-                <div className={this.className('tv-datepicker-footer')}>
-                    <div className="tv-datepicker-footer-btn">
-                        <a className="tv-datepicker-time-btn">选择时间</a>
-                        <a className="tv-datepicker-ok-btn">确 定</a>
-                    </div>
-                </div>
+                {
+                    footer && (
+                        <div className={this.className('tv-datepicker-footer')}>
+                            <div className="tv-datepicker-footer-btn">
+                                <a className="tv-datepicker-time-btn">选择时间</a>
+                                <a className="tv-datepicker-ok-btn">确 定</a>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         )
 

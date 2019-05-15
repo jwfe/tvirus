@@ -11,12 +11,28 @@ export default class ChartDemo extends Component{
         this.state = {
             child: [],
             line: {
+                title: {
+                    text: '多条折线图模板',
+                    left: 10,
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 16
+                    }
+                },
+                grid: {
+                    top: 100,
+                    left: 50,
+                    right: 0,
+                    bottom: 25
+                },
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
-                    x: 0,
-                    y: 'top'
+                    left: 10,
+                    top: 40,
+                    itemWidth: 10,
+                    itemHeight: 10,
                 },
                 xAxis: {
                     type: 'category',
@@ -90,6 +106,20 @@ export default class ChartDemo extends Component{
                 ]
             },
             bar: {
+                title: {
+                    text: '普通柱状图',
+                    left: 10,
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 16
+                    }
+                },
+                grid: {
+                    top: 100,
+                    left: 50,
+                    right: 0,
+                    bottom: 25
+                },
                 tooltip: {
                     trigger: 'axis'
                 },
@@ -103,6 +133,9 @@ export default class ChartDemo extends Component{
                         lineStyle: {
                             color: '#e0e0e0'
                         }
+                    },
+                    axisTick:{ 
+                        show: false
                     },
                     axisLabel: {
                         color: '#333'
@@ -124,6 +157,81 @@ export default class ChartDemo extends Component{
                             color: '#E9E9E9'
                         }
                     },
+                },
+                
+                series: [
+                    {
+                        type: 'bar',
+                        showSymbol: false,
+                        smooth: true,
+                        barWidth: 20,
+                        itemStyle:{
+                            color: '#45a2fc',
+                        },
+                       
+                        data: [
+                            120,
+                            110,
+                            80,
+                            234,
+                            5,
+                            4
+                        ]
+                    }
+                ]
+            },
+            bar2: {
+                title: {
+                    text: '普通条形图',
+                    left: 10,
+                    textStyle: {
+                        fontWeight: 'normal',
+                        fontSize: 16
+                    }
+                },
+                grid: {
+                    top: 100,
+                    left: 50,
+                    right: 0,
+                    bottom: 25
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    x: 80,
+                    y: 'top'
+                },
+                xAxis: {
+                    type: 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick:{ 
+                        show: false
+                    },
+                    splitLine:{ 
+                        show: true, 
+                        lineStyle:{ 
+                            type:'dashed',
+                            color: '#E9E9E9'
+                        }
+                    },
+                },
+                yAxis : { 
+                    type : 'category',
+                    axisTick:{ 
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#e0e0e0'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#333'
+                    },
+                    data: ['周一','周二','周三','周四','周五','周六','周日'],
                 },
                 
                 series: [

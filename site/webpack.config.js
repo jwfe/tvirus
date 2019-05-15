@@ -94,6 +94,7 @@ import IconPage from './pages/spec/icon';
 import Text from './pages/spec/text';
 import Datain from './pages/spec/data';
 import Datashow from './pages/spec/datashow';
+import Datavis from './pages/spec/datavis';
 import NoticePage from './pages/spec/notice';
 import AnimationPage from './pages/spec/animation';
 
@@ -120,6 +121,7 @@ export default (
             <Route path="/spec/text" component={Text} />
             <Route path="/spec/data" component={Datain} />
             <Route path="/spec/datashow" component={Datashow} />
+            <Route path="/spec/datavis" component={Datavis} />
             <Route path="/spec/notice" component={NoticePage} />
             <Route path="/spec/animation" component={AnimationPage} />
 

@@ -1,9 +1,11 @@
-
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import { Datepicker, Row, Col } from 'tvirus';
-import './index.less'
+import { Datepicker, Row, Col, Util } from 'tvirus';
+console.log(Util);
+const { parse } = Util.date;
+
+import './index.less';
 
 export default class DatepickerDemo extends Component{
     constructor(props){
@@ -16,7 +18,12 @@ export default class DatepickerDemo extends Component{
     componentWillMount(){
         this.childs();
     }
-
+    disabledDate(date){
+        if(date > parse('2019-05-05') && date < parse('2019-06-21')){
+            return false;
+        }
+        return true;
+    }
     childs(){
         const childs = [];
         childs.push({
@@ -42,9 +49,10 @@ export default class DatepickerDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Datepicker.Range />
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
                         </Col>
                         <Col span={12}>
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' disabledDate={this.disabledDate.bind(this)} />
                         </Col>
                     </Row>
                 </div>

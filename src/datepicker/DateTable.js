@@ -1,7 +1,6 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '@Libs';
-
-import { getMonthDaysArray, weekOfYear, format, parse } from './utils';
+import { Component, PropTypes, noop, Util } from '@Libs';
+const { getMonthDaysArray, weekOfYear, parse, format } = Util.date;
 
 const modes = {
     WEEK: 'week',
@@ -43,6 +42,9 @@ export default class DateTable extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            date: props.date ? props.date : clearHours(format(new Date()))
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
@@ -165,15 +167,20 @@ export default class DateTable extends Component {
         return cell.week === weekOfYear(format(value)).number;
     }
     handleMouseMove(cell){
-        const { onMoveRange, rangeState, mode } = this.props;
+        const { onMoveRange, rangeState, mode, disabledDate } = this.props;
 
-        if (!(mode === modes.RANGE && rangeState.ing)) return;
+        if (!(mode === modes.RANGE && rangeState.ing) || cell.disabled) return;
 
         rangeState.endDate = cell.date;
         onMoveRange(rangeState)
     }
     handleDateClick(cell){
-        let { mode, onChange, rangeState, minDate, maxDate } = this.props;
+        let { mode, onChange, rangeState, minDate, maxDate, disabledDate } = this.props;
+
+        if(cell.disabled){
+            return;
+        }
+
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
 
@@ -194,6 +201,7 @@ export default class DateTable extends Component {
             }
             return;
         }
+
         onChange(cell.date);
     }
 
@@ -259,7 +267,7 @@ export default class DateTable extends Component {
     render(){
         const { head, rows } = this.getRow();
         return (
-            <table className="tv-datepicker-table" cellspacing="0">
+            <table className="tv-datepicker-table" cellspacing="0" style={this.style()}>
                 { this.renderHead(head) }
                 { this.renderBody(rows) }                        
             </table>

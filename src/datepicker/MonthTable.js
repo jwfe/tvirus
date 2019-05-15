@@ -1,11 +1,12 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '@Libs';
+import { Component, PropTypes, noop, Util } from '@Libs';
 
-import { weekOfYear, format } from './utils';
+const { fixedYM, weekOfYear, parse, format } = Util.date;
 
 export default class DateTable extends Component {
     static propTypes = {
         className: PropTypes.string,
+        key: PropTypes.string,
         date: PropTypes.instanceOf(Date),
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
@@ -50,13 +51,13 @@ export default class DateTable extends Component {
     }
 
     handleClick(cell){
-        const { onChange } = this.props
-        onChange(cell.date);
+        const { rangeKey, onChange } = this.props
+        onChange(cell.date, rangeKey);
     }
 
     render(){
         return (
-            <tbody className="tv-datepicker-tbody">
+            <table className="tv-datepicker-month-table" style={this.style()}>
             {
                 this.getRowsDays().map((row) => {
                     return (
@@ -66,7 +67,7 @@ export default class DateTable extends Component {
                                     return (
                                         <td 
                                         onClick={this.handleClick.bind(this, cell)}
-                                        title={`${cell.year}年${cell.month}月`} 
+                                        title={`${cell.year}年`} 
                                         className={this.className('tv-datepicker-cell', {
                                             'tv-datepicker-cell-selected-day': cell.selected,
                                             'tv-datepicker-cell-disabled-day': cell.disabled
@@ -80,7 +81,7 @@ export default class DateTable extends Component {
                     )
                 })
             }
-        </tbody>
+        </table>
         )
     }
 

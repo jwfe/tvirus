@@ -70,7 +70,7 @@ export default class Popup extends Component {
             });
 
             document.addEventListener('click', (e) => {
-                if (!this.element || this.element.contains(e.target) ||
+                if (!e.target || !this.element || this.element.contains(e.target) ||
                 !triggerNode || triggerNode.contains(e.target) ||
                 !popupNode || popupNode.contains(e.target)) return;
                 this.setPopupState(false);

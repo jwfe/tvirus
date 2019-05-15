@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Highlight from 'react-highlight' 
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { Tabs, Tabpanel } from 'tvirus';
+import { Tabs, Tabpanel, Card } from 'tvirus';
 
 const style = {
     main: {
@@ -111,7 +111,7 @@ class Body extends Component{
                                     <div>
                                         <h2>{child.title}</h2>
                                         {
-                                            child.doc ? this.creatDoc(child, index) : <div className="code-wraper">{this.getCodeDemo(child, index)}</div>
+                                            child.doc ? this.creatDoc(child, index) : <Card className="code-wraper">{this.getCodeDemo(child, index)}</Card>
                                         }
                                     </div>
                                 )

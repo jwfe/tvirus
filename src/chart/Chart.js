@@ -112,14 +112,7 @@ export default class Chart extends Component {
         const { width, height, title } = this.props;
 
         return (
-            <div
-                className="tv-chart"
-                ref={el => (this.el = el)}
-                style={{ width }}
-            >
-                {title && <div className="tv-chart-title">{title}</div>}
-                <div style={{height}} ref={el => (this.el = el)}></div>
-            </div>
+            <div className="tv-chart" style={{width, height}} ref={el => (this.el = el)}></div>
         );
     }
 }

@@ -1,14 +1,10 @@
 @import "./libs/variables.less";
 @import "./libs/utils.less";
 
-@color_1: #FF8B32;
-@color_2: rgba(0,0,0,0.85);
-@color_3: rgba(0,0,0,0.45);
-@font_family_1: Arial,'Hiragino Sans GB','Microsoft Yahei','Microsoft Sans Serif',sans-serif;
-
 .tv-datepicker{
+    width: 280px;
     &-header {
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid @dark-border-16;
     
         height: 40px;
     
@@ -27,14 +23,7 @@
         }
     }
 
-    &-year-select {
-        display: inline-block;
-        padding: 0 2px;
-        
-        color: @dark-color-85;
-        font-weight: 500;
-        line-height: 40px;
-    }
+    &-year-select,
     &-month-select {
         display: inline-block;
         padding: 0 2px;
@@ -43,6 +32,7 @@
         font-weight: 500;
         line-height: 40px;
     }
+
     &-prev-century-btn {
         display: inline-block;
         position: absolute;
@@ -53,7 +43,7 @@
 
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
 
         &::after {
@@ -70,7 +60,7 @@
 
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '»';
@@ -86,7 +76,7 @@
         
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '«';
@@ -102,7 +92,7 @@
 
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '»';
@@ -118,7 +108,7 @@
 
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '‹';
@@ -134,7 +124,7 @@
 
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '›';
@@ -150,7 +140,7 @@
         
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '«';
@@ -164,7 +154,7 @@
         padding: 0 5px;
         color: @dark-color-45;
         font-size: 16px;
-        font-family: @font_family_1;
+        font-family: @base-font-family;
         line-height: 40px;
         &::after {
             content: '»';
@@ -172,9 +162,9 @@
     }
     //=====body
     &-body{
-        border-top: 1px solid #e8e8e8;
         padding: 8px 12px;
     }
+    &-year-table,
     &-month-table,
     &-table{
         border-collapse: collapse;
@@ -205,13 +195,13 @@
     }
     &-date{
         display: block;
-        border: 1px solid transparent;
+        border: 1px solid @transparent-border;
         border-radius: 2px;
 
         margin: 0 auto;
         padding: 0;
 
-        width: 24px;
+        min-width: 24px;
         height: 24px;
 
         font-size: 12px;
@@ -229,8 +219,8 @@
     &-cell-disabled &-date {
         width: auto;
         color: @dark-color-25;
-        background: #f5f5f5;
-        border: 1px solid transparent;
+        background: @light-smoke-bgc;
+        border: 1px solid @transparent-border;
         border-radius: 0;
         cursor: not-allowed;
     }
@@ -244,8 +234,8 @@
             top: 0;
             right: 0;
 
-            border-top: 5px solid @color_1;
-            border-left: 5px solid transparent;
+            border-top: 5px solid @master-border;
+            border-left: 5px solid @transparent-border;
 
             width: 0;
             height: 0;
@@ -265,10 +255,15 @@
 
     &-active-week{
         font-weight: bold;
-        background: #FF8B32;
+        background: @master-bgc;
         .tv-datepicker-cell{
             opacity: .5;
         }
+    }
+    &-year-table,
+    &-month-table{
+        height: 210px;
+        line-height: 40px;
     }
 
     &-month-table &-date{
@@ -278,6 +273,10 @@
 
     &-range{
         display: flex;
+        width: 550px;
+        .tv-datepicker{
+            width: 50%;
+        }
     }
 
 }

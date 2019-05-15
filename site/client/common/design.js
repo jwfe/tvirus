@@ -110,9 +110,14 @@ export default class Layout extends Component{
                         title: '数据录入',
                         query: 'data'
                     },
+
                     {
                         title: '数据展示',
                         query: 'datashow'
+                    },
+                    {
+                        title: '数据可视化',
+                        query: 'datavis'
                     },
                     {
                         title: '信息反馈',
