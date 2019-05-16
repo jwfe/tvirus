@@ -46,12 +46,12 @@ class App extends Component{
     render(){
         const hash = this.getLocation();
         const children = React.Children.map(this.props.children, (child, i) => {
-            return React.cloneElement(child, {hash})
+            return React.cloneElement(child, {key: i, hash})
         });
         return (
             <I18nProvider value={i18nMaps['zh-CN']}>
                 <section>
-                    {hash.path !== 'index' && <Head hash={hash} />}
+                    {(hash.path !== 'index' && hash.path !== 'demo')&& <Head hash={hash} />}
                     {children}
                 </section>
             </I18nProvider>

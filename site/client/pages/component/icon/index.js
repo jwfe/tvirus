@@ -8,7 +8,8 @@ const iconMaps = {
     '线框风格': [
         {
             title: '操作类',
-            list: ['add',
+            list: [
+            'add',
             'caret-right',
             'edit',
             'folder',
@@ -26,6 +27,9 @@ const iconMaps = {
             'lock',
             'phone',
             'share-alt',
+
+            'eye-open',
+            'eye-close',
             
             'calendar',
             'cloud',
@@ -64,7 +68,11 @@ const iconMaps = {
 
         {
             title: '提示类',
-            list:  ["bell", "close-circle", "exception", "exclamation-circl", "history", "info-circle", "question", "success", "warning"]
+            list:  [
+                "email", 
+                "bell", 
+                "close-circle", "exception", "exclamation-circl", "history", "info-circle", "question", "success", "warning"
+            ]
         },
         {
             title: '图表类',
@@ -78,7 +86,9 @@ const iconMaps = {
     '实底风格': [
         {
             title: '面性图标',
-            list: ["bi", "module_management", "personal_center", "questionnaire", "opportunity", "price", "live_in", "overview", "quality_inspection", "review", "prediction", "user_group"]
+            list: [
+            'setup',    
+            "bi", "module_management", "personal_center", "questionnaire", "opportunity", "price", "live_in", "overview", "quality_inspection", "review", "prediction", "user_group"]
         }
     ]
     

@@ -1,10 +1,14 @@
 import React from 'react';
-import { Component, PropTypes, Transition } from '@Libs';
+import { Component, PropTypes, Transition, Animation } from '@Libs';
 import { MenuContext, addPropsIndex } from './MenuContext';
+import Popup from '@popup';
 
 export default class SubMenu extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            visible: false
+        }
     }
     static contextType = MenuContext
     static propTypes = {
@@ -37,11 +41,59 @@ export default class SubMenu extends Component {
         });
     }
 
+    handlePopupChange(showPopup){
+        const { disabled, multiple } = this.props;
+
+        if(disabled){
+            this.setState({visible: false});
+            return;
+        }
+
+        if(multiple){
+            return;
+        }
+
+        if(disabled){
+            showPopup = false
+        }
+        this.setState({visible: showPopup});
+    }
+
     render(){
+        const { visible } = this.state;
         const { children, title, index } = this.props;
-        const { handleOpened, isAnimation } = this.context;
+        const { handleOpened, isAnimation, inlineCollapsed } = this.context;
         const childrenWithProps = addPropsIndex(children, index);
         const isShow = handleOpened(index);
+
+        if(inlineCollapsed){
+            return (
+                <Popup 
+                    className="tv-menu-submenu-popup"
+                    showArrow={false} 
+                    visible={visible} 
+                    trigger="hover" 
+                    position='right top' 
+                    content={
+                        <ul className="tv-menu-submenu-children">
+                            {childrenWithProps}
+                        </ul>
+                    }
+                    onChange={this.handlePopupChange.bind(this)}
+                >
+                    <li className={this.className('tv-menu-submenu', {
+                    'tv-menu-submenu-open': isShow
+                })}>
+                        <div 
+                            className={this.className('tv-menu-submenu-title')}
+                        >
+                            { title }
+                        </div>
+                    </li>
+                </Popup>
+            )
+        }
+
         return (
             <li className={this.className('tv-menu-submenu', {
                 'tv-menu-submenu-open': isShow
@@ -56,11 +108,11 @@ export default class SubMenu extends Component {
                     })}></i>
                 </div>
                 <Transition
-                    isAnimation={isAnimation}
+                    isAnimation={ isAnimation }
                     isShow={ isShow }
                  >
                     <ul className="tv-menu-submenu-children">
-                        {childrenWithProps}
+                        { childrenWithProps }
                     </ul>
                 </Transition>
                 

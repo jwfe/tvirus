@@ -3,7 +3,7 @@
 
 .tv-menu { 
     width: 100%;
-
+    transition: background .3s, width .2s;  
     &-item{
         border-right: 3px solid @transparent-border;
         padding-left: 59px;
@@ -13,11 +13,14 @@
         }
         &-group{
             &-title{
+                position: relative;
                 padding-left: 49px;
+            }
+            &-children{
+                padding-left: 59px;
             }
         }
     }
-
     &-submenu{
         &-title{
             position: relative;
@@ -65,14 +68,18 @@
         }
     }
     
-
+    &-submenu-popup ul,
     &, ul{
         padding:0;
         margin: 0;
     }
+    &-submenu-popup ul,
     &, ul, li{
         list-style: none;
     }
+    &-submenu-popup &-item-group-title,
+    &-submenu-popup &-submenu-title,
+    &-submenu-popup &-item,
     &-item-group-title,
     &-submenu-title,
     &-item{
@@ -83,11 +90,6 @@
             margin-left: -28px;
             margin-right: 14px;
             vertical-align: baseline;
-        }
-    }
-    & > &-item{
-        .tv-icon{
-            margin-left: -37px;
         }
     }
 
@@ -110,6 +112,19 @@
         color: @master-color;
     }
 
+    &-inline-collapsed{
+        width: 80px;
+    }
+
+    &-inline-collapsed &-submenu-title,
+    &-inline-collapsed > &-item{
+        padding-left: 55px;
+        .tv-icon+span{
+            display: none;
+            max-width: 0;
+            opacity: 0;
+        }
+    }
 
     &-horizontal&{
         display: flex;

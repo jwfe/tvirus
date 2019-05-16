@@ -12,14 +12,21 @@ const POSITIONS = [
     'left center',
     'top center',
     'bottom center',
-  ]
+];
+
+function getChildNode(node){
+    if(!node){
+        return null;
+    }
+    return node.children[0];
+}
 
 export default class Popup extends Component {
     static propTypes = {
         className: PropTypes.string,
         trigger: PropTypes.string,
         title: PropTypes.string,
-        content: PropTypes.string,
+        content: PropTypes.node,
         position: PropTypes.oneOf(POSITIONS),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         visible: PropTypes.bool,
@@ -52,6 +59,7 @@ export default class Popup extends Component {
                 showPopup: nextProps.visible
             };
         }
+        return null
     }
     
     componentDidMount(){
@@ -144,7 +152,7 @@ export default class Popup extends Component {
         const { children, childrenProps } = this.props;
         return React.Children.map(children, (child, i) => {
             return (
-                <span ref={(el) => this.triggerNode = el}>
+                <span ref={(el) => this.triggerNode = getChildNode(el)}>
                     {
                         React.cloneElement(child, {
                             ...childrenProps
@@ -168,7 +176,7 @@ export default class Popup extends Component {
 
     computePopup(){
         const style = {};
-        const element = this.element;
+        const element = this.triggerNode;
         const popupNode = this.popupNode;
         const positions = this.getPostion();
         const positionsString = positions.join('');

@@ -1,0 +1,71 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
+.tv-badge {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    &-count,
+    &-dot{
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 10;
+        transform: translate(50%, -50%);
+    }
+    &-count{
+        border-radius: 10px;
+        padding: 0 8px;
+        min-width: 20px;
+        height: 20px;
+        
+        font-size: unit(@small-font-size, @font-size-unit);
+        color: @light-color;
+        line-height: 20px;
+        white-space: nowrap;
+        text-align: center;
+        background-color: @danger-color;
+    }
+    &-dot{
+        top: 3px;
+        border-radius: 100%; 
+        width: 6px;
+        height: 6px;
+        background-color: @danger-color;
+    }
+    &-status{
+        line-height: inherit;
+        vertical-align: baseline;
+    }
+    &-status &-dot{
+        display: inline-block;
+        position: relative;
+        top: 0;
+        vertical-align: middle;
+        transform: none;
+    }
+    &-status-text{
+        margin-left: 8px;
+    }
+    &-status-success&-dot{
+        background-color: @success-bgc;
+    }
+    &-status-info&-dot{
+        background-color: @info-bgc;
+    }
+    &-status-danger&-dot{
+        background-color: @danger-bgc;
+    }
+    &-status-warning&-dot{
+        background-color: @warning-bgc;
+    }
+    &-status-primary&-dot{
+        background-color: @warning-bgc;
+    }
+    &-status-default&-dot{
+        background-color: @dark-bgc-16;
+    }
+}

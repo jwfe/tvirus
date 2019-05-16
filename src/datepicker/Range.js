@@ -27,16 +27,21 @@ export default class Range extends Component {
 
     constructor(props) {
         super(props);
-        const _date = new Date();
-        const now = format(_date);
-        _date.setMonth(_date.getMonth() + 1);
-        const nextMonthDay = format(_date);
+        const now = new Date();
+
+        let left_date = parse(props.minDate || format(now));
+        let right_date = parse(props.maxDate || format(now));
+
+        if(left_date.getFullYear() === right_date.getFullYear() && left_date.getMonth() === right_date.getMonth()){
+            right_date.setMonth(right_date.getMonth() + 1);
+        }
+        
         this.state = {
             view: 'day',
-            left_date: parse(props.minDate || now),
-            right_date: parse(props.maxDate || nextMonthDay),
-            minDate: parse(props.minDate || now),
-            maxDate: parse(props.maxDate || nextMonthDay),
+            left_date: left_date,
+            right_date: right_date,
+            minDate: left_date,
+            maxDate: parse(props.maxDate) || left_date,
             rangeState: {
                 endDate: null,
                 selecting: false,

@@ -62,9 +62,9 @@ class Body extends Component{
             return (
                 <Tabs activeKey={child.children[0]}>
                     {
-                        child.children.map((item) => {
+                        child.children.map((item, index) => {
                             const itemCompoent = child.func(item);
-                            return (<Tabpanel tab={item} tabKey={item}>
+                            return (<Tabpanel key={index} tab={item} tabKey={item}>
                                 {itemCompoent}
                                 <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
                                     <Highlight>
@@ -108,7 +108,7 @@ class Body extends Component{
                         {
                             childs.map((child, index) => {
                                 return (
-                                    <div>
+                                    <div key={index}>
                                         <h2>{child.title}</h2>
                                         {
                                             child.doc ? this.creatDoc(child, index) : <Card>{this.getCodeDemo(child, index)}</Card>

@@ -5,8 +5,8 @@ import Icon from '@icon';
 export default class Input extends Component {
     static propTypes = {
         type: PropTypes.oneOf(['text', 'textarea', 'password', 'number', 'radio', 'checkbox']),
-        prefix: PropTypes.string.string,
-        suffix: PropTypes.string.string,
+        prefix: PropTypes.string,
+        suffix: PropTypes.string,
         className: PropTypes.string,
         autoComplete: PropTypes.oneOf(['on', 'off']),
         placeholder: PropTypes.string,

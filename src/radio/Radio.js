@@ -43,10 +43,10 @@ export default class Radio extends Component {
     }
 
     render() {
-        const { children, disabled, onChange, name, checked, ...otherProps } = this.props;
+        const { children, disabled, onChange, name, checked, className, ...otherProps } = this.props;
         const { stateChecked } = this.state;
         return (
-            <label className={this.className('tv-radio-label', {
+            <label className={this.className('tv-radio-label', className, {
                 'tv-radio-checked': stateChecked,
                 'tv-radio-disabled': disabled
             })}>

@@ -1,6 +1,7 @@
 @import "./utils.less";
 //--------- font -----------
 @base-font-size: 16;
+@small-font-size: 12;
 @font-size-unit: px;
 @base-font-family: 'PingFang sc', 'Microsoft YaHei', SimHei, Helvetica, arial;
 
@@ -25,6 +26,7 @@
 @dark-color-85: .setColorAlpha(@dark-color, 85%)[];
 // --------------font light--------------
 @light-color: rgba(255, 255, 255, 1);
+@light-color-84: rgba(255, 255, 255, .84);
 
 // ---------background light-------------
 @transparent-bgc: transparent;
@@ -44,6 +46,9 @@
 
 @warning-bgc: @warning-color;
 @warning-bgc-80: .setColorAlpha(@warning-color, 80%)[];
+
+@info-bgc: @info-color;
+@info-bgc-80: .setColorAlpha(@info-color, 80%)[];
 
 @table-header-bgc: #ebeff6;
 

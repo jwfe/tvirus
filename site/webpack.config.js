@@ -110,6 +110,7 @@ import { Route, HashRouter as Router } from 'react-router-dom';
 import Layout from './layout';
 
 import Index from './pages/index';
+import Demo from './pages/demo';
 import CompInstall from './pages/component/install';
 
 ${importSpec.join('\n')}
@@ -118,6 +119,7 @@ export default (
     <Router>
             <Layout>
                 <Route path="/" exact component={Index} />
+                <Route path="/demo" exact component={Demo} />
                 {/* 设计语言 */}
                 ${linkSpec.join('\n')}
                 {/* 组件 */}

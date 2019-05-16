@@ -159,6 +159,10 @@ export default class Layout extends Component{
                 title: '数据展示',
                 child: [
                     {
+                        title: 'Badge 徽标',
+                        query: 'badge'
+                    },
+                    {
                         title: 'Table 表格',
                         query: 'table'
                     },

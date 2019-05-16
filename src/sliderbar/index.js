@@ -26,6 +26,7 @@ export default class SliderBar extends Component {
         super(props);
         this.slider = React.createRef();
         this.state = {
+            showPopup: false,
             value: props.value,
             dragging: false,
             startX: 0,
@@ -37,7 +38,22 @@ export default class SliderBar extends Component {
         }
     }
 
-    onButtonDown(event) {
+    onEnter(){
+        clearTimeout(this.timer);
+        this.setState({
+            showPopup: true
+        })
+    }
+
+    onLeave(){
+        this.timer = setTimeout(() => {
+            this.setState({
+                showPopup: false
+            })
+        }, 200);
+    }
+    
+    onButtonDown (event) {
         if (this.props.disabled) return;
         this.onDragStart(event);
 
@@ -130,7 +146,7 @@ export default class SliderBar extends Component {
 
     render() {
         let { format, vertical, disabled } = this.props;
-        let { value } = this.state;
+        let { value, showPopup } = this.state;
         const styleValue = `${value}%`;
 
         value = format ? format(value) : styleValue;
@@ -156,17 +172,19 @@ export default class SliderBar extends Component {
                 onClick={this.handleSliderClick.bind(this)}
             >
                 <div className="tv-sliderbar-bar" style={style.bar}></div>
-                <Popup 
-                    trigger="hover" 
-                    position='top' 
-                    content={value}
-                    childrenProps={{
-                        'onMouseDown': this.onButtonDown.bind(this),
-                        style: style.btn
-                    }}
-                >
-                    <div className="tv-sliderbar-button"></div>
-                </Popup>
+                <div className="tv-sliderbar-button" style={style.btn} 
+                    onMouseDown={this.onButtonDown.bind(this)}
+                    onMouseEnter={this.onEnter.bind(this)}
+                    onMouseLeave={this.onLeave.bind(this)}
+                 />
+                <div className={this.className('tv-popup tv-popup-top', {
+                    'tv-popup-show': showPopup
+                })} style={style.btn}>
+                    <div className="tv-popup-arrow"></div>
+                    <div className="tv-popup-inner">
+                        <div className="tv-popup-content">{value}</div>
+                    </div>
+                </div>
             </div>
         );
     }

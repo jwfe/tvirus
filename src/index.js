@@ -1,4 +1,5 @@
 import { Component, PropTypes, Animation, Transition, Portal, Util, noop } from '../libs';
+import Badge from './badge';
 import Breadcrumb from './breadcrumb';
 import Button from './button';
 import Cascader from './cascader';
@@ -41,6 +42,7 @@ import '../assets/datepicker';
 
 import '../assets/icon';
 import '../assets/grid';
+import '../assets/badge';
 import '../assets/card';
 import '../assets/button';
 import '../assets/breadcrumb';
@@ -56,6 +58,7 @@ import '../assets/theme/dark';
 
 export {
     Component, PropTypes, Animation, Transition, Portal, Util, noop,
+    Badge,
     Breadcrumb,
     Button,
     Cascader,

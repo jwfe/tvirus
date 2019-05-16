@@ -214,6 +214,7 @@ export default class DateTable extends Component {
 
         return (
             <thead>
+                <tr>
                 {
                     head.map((item) => {
                         return (
@@ -223,6 +224,7 @@ export default class DateTable extends Component {
                         )
                     })
                 }
+                </tr>
             </thead>
         )
     }

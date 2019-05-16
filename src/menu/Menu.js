@@ -14,6 +14,7 @@ export default class Menu extends Component {
     static propTypes = {
         className: PropTypes.string,
         indent: PropTypes.number,
+        inlineCollapsed: PropTypes.bool,
         theme: PropTypes.string,
         mode: PropTypes.string,
         onClick: PropTypes.func,
@@ -24,7 +25,7 @@ export default class Menu extends Component {
         indent: 24,
         onOpenChange: noop,
         onClick: noop,
-        //todo: 定义主题名称
+        inlineCollapsed: false,
         theme: 'default',
     };
     onClick(item, index, to){
@@ -70,11 +71,12 @@ export default class Menu extends Component {
         }, () => {fn()})
     }
     render(){
-        const { children, mode, theme } = this.props;
+        const { children, mode, theme, inlineCollapsed } = this.props;
         const isHorizontal = mode === 'horizontal';
         const childrenWithProps = addPropsIndex(children, 'menu');
         return (
             <MenuContext.Provider value={{
+                inlineCollapsed,
                 handleOpened: this.handleOpened.bind(this),
                 openMenu: this.openMenu.bind(this),
                 closeMenu: this.closeMenu.bind(this),
@@ -88,6 +90,7 @@ export default class Menu extends Component {
                 <ul 
                     style={this.style()}
                     className={this.className('tv-menu', {
+                        [`tv-menu-inline-collapsed`]: inlineCollapsed,
                         [`tv-theme-${theme}-menu`]: true,
                         'tv-menu-horizontal': isHorizontal,
                         'tv-menu-vertical': !isHorizontal

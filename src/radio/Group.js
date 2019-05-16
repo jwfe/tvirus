@@ -27,7 +27,7 @@ export default class Group extends Component {
     }
 
     render() {
-        const { children, disabled, name } = this.props;
+        const { children, disabled, name, className } = this.props;
         const { defaultValue } = this.state;
 
         const cloneChildren = React.Children.map(children, child => {
@@ -40,7 +40,7 @@ export default class Group extends Component {
         });
 
         return (
-            <div className={this.className('tv-radio-group')}>
+            <div className={this.className('tv-radio-group', className)}>
                 {cloneChildren}
             </div>
         );
