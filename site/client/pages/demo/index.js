@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table } from 'tvirus';
+import { Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker } from 'tvirus';
 import { columns, data as columns_data } from './tableData';
 
 import './demo.less';
@@ -612,9 +612,14 @@ export default class DemoIndex extends Component{
                                 </Card>
                             </Col>
                         </Row>
-                        <div>
+                        <div className="fc-wrapper">
                             <Card style={{padding: 0}}>
-                                <Tabs activeKey={1}>
+                                <Tabs activeKey={1} extra={<span>
+                                        <Button type="link">按日</Button>
+                                        <Button type="link">按周</Button>
+                                        <Button type="link">按月</Button>
+                                        <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
+                                    </span>}>
                                     <Tabpanel tab={`预测报告`} tabKey={1}>
                                         <div className="fc-report">
                                             <Table 

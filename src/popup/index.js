@@ -173,12 +173,26 @@ export default class Popup extends Component {
 
         return config[postion]
     }
+    isElementInViewport (rect, dRect) {
+        let left = rect.left === 'auto' ? false : (rect.left + dRect.width) > (window.innerWidth || document.documentElement.clientWidth);
+        let right = rect.right === 'auto' ? false : rect.right > (window.innerWidth || document.documentElement.clientWidth);
+        let top = rect.top === 'auto' ? false : (rect.top + dRect.height) > (window.innerHeight || document.documentElement.clientHeight);
+        let bottom = rect.bottom === 'auot' ? false : (rect.bottom - dRect.height) < 0;
+        
 
-    computePopup(){
+        return {
+            left,
+            right,
+            top,
+            bottom
+        };
+    }
+
+    computePopup(resizePos){
         const style = {};
         const element = this.triggerNode;
         const popupNode = this.popupNode;
-        const positions = this.getPostion();
+        const positions = resizePos || this.getPostion();
         const positionsString = positions.join('');
         const coords = element.getBoundingClientRect();
         const popupCoords = popupNode.getBoundingClientRect();
@@ -232,6 +246,18 @@ export default class Popup extends Component {
                 style.top -= popupCoords.height
             }
 
+        }
+        const overflowViewport = this.isElementInViewport(style, popupCoords);
+        if(overflowViewport.left){
+            const index = positions.indexOf('left');
+            positions[index] = 'right';
+        }
+        if(overflowViewport.right){
+            const index = positions.indexOf('right');
+            positions[index] = 'left';
+        }
+        if(overflowViewport.right || overflowViewport.left){
+            return this.computePopup(positions);
         }
         
         return style

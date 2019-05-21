@@ -31,12 +31,12 @@ export default class Tabs extends Component {
         let offset = 0;
         let tabWidth = 0;
 
-        children.every((item, index) => {
+        children.forEach((item, index) => {
             let $el = tabItemNode[index];
-            const computedStyle = getComputedStyle($el);
 
-            if (item.props.tabKey !== this.state.activeStateKey) {
-                offset += $el.clientWidth + parseFloat(computedStyle.marginRight) + parseFloat(computedStyle.marginLeft);
+            if (item.props.tabKey === this.state.activeStateKey) {
+                offset = $el.offsetLeft;
+                console.log('[TAB]', $el.offsetLeft)
                 return true;
             } else {
                 tabWidth = $el.clientWidth;
@@ -92,7 +92,7 @@ export default class Tabs extends Component {
                             )
                         })
                     }
-                    {extra}
+                    {extra && <div className="tv-tabs-extra">{extra}</div>}
                     <div className="tv-tabs-nav-bar" style={barStyle}></div>
                 </div>
                 <div className="tv-tabs-content">
