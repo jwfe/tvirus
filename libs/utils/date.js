@@ -151,7 +151,7 @@ export const groupBy = (dirtyDateString, dirtyDateArray) => {
  * @param {String} [lang] - 语言zh/en
  * @returns {Object} year|number|season|month|week|weekName|dirtyYear
  */
-export const weekOfYear = (dirtyDateString, lang) => {
+export const weekOfYear = (dirtyDateString, lang='zh') => {
     const dirtyDate = parse(dirtyDateString);
     let firstMonth = parse(`${dirtyDate.getFullYear()}-01-01`);
     const firstMonthWeek = firstMonth.getDay();

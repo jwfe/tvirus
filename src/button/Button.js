@@ -23,19 +23,19 @@ export default class Button extends Component {
     }
 
     render(){
-        const { type, size, loading, plain, block, shape, icon, children, ref, ...other } = this.props;
+        const { type, size, loading, plain, className, block, shape, icon, children, ref, htmltype, ...other } = this.props;
         return (
             <button 
             className={
                 this.className('tv-button', 
-                type && `tv-button-${type}`,
-                size && `tv-button-${size}`,
-                {
-                    'tv-button-loading': loading,
-                    'tv-button-plain': plain,
-                    'tv-button-block': block,
-                    [`tv-button-${shape}`]: shape,
-                }
+                    type && `tv-button-${type}`,
+                    size && `tv-button-${size}`,
+                    {
+                        'tv-button-loading': loading,
+                        'tv-button-plain': plain,
+                        'tv-button-block': block,
+                        [`tv-button-${shape}`]: shape,
+                    }
                 )
             } 
             style={this.style()}

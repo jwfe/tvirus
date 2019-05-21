@@ -51,7 +51,7 @@ export default class PopupDemo extends Component{
             title: '十二个方向',
             children: (
                 <div className="code-demo code-demo-position">
-                    <div class="demo">
+                    <div className="demo">
                         <div style={{marginLeft: 70, whiteSpace: 'nowrap'}}>
                             <Popup 
                             position="top left"

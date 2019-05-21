@@ -12,7 +12,8 @@ export default class Component extends React.Component{
     }
 
     className(...args) {
-        return this.classNames.apply(this, args.concat([this.props.className]));
+        let newClassNames = args.concat([this.props.className]);
+        return this.classNames.apply(this, newClassNames);
     }
 
     style(args) {

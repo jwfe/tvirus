@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Component, PropTypes, noop } from '@Libs';
 
 import TablePanel from './TablePanel';
@@ -12,11 +13,13 @@ export default class Table extends Component {
         const { columns, data } = this.props;
         this.renderData = this.calculateWidth(columns, data);
         this.state = {
+            width: props.width,
             bodyHeight: '100%'
         }
     }
 
     static propTypes = {
+        bordered: PropTypes.bool,
         columns: PropTypes.array,
         data: PropTypes.array,
         className: PropTypes.string,
@@ -24,7 +27,7 @@ export default class Table extends Component {
 
     };
     static defaultProps = {
-        border: false
+        bordered: false
     };
 
     getDomNodes(nodestring, dom){
@@ -49,7 +52,11 @@ export default class Table extends Component {
 
         this.dom.header = this.getDomNodes('.tv-table-header-wrapper');
         this.dom.headerLeftFixed = this.getDomNodes('.tv-table-header-fixed-left', this.dom.header);
+        this.dom.headerLeftFixedPanel = this.getDomNodes('.tv-table-panel', this.dom.headerLeftFixed);
+
         this.dom.headerRightFixed = this.getDomNodes('.tv-table-header-fixed-right', this.dom.header);
+        this.dom.headerRightFixedPanel = this.getDomNodes('.tv-table-panel', this.dom.headerRightFixed);
+
         this.dom.headerTable = this.getDomNodes('.tv-table-header', this.dom.header);
         this.dom.headerTablePanel = this.getDomNodes('.tv-table-panel', this.dom.headerTable);
 
@@ -71,14 +78,24 @@ export default class Table extends Component {
             bodyWraperHeight: wraperHeight - headHeight
         })
     }
-
     calculateHeaderHeight() {
-        const {headerLeftFixed, headerRightFixed, headerTable} = this.dom;
-        const headerLeftRows = headerLeftFixed.querySelectorAll('.tv-table-row');
-        const headerRightRows = headerRightFixed.querySelectorAll('.tv-table-row');
-        const headerTableRows = headerTable.querySelectorAll('.tv-table-row');
+        let {headerLeftFixed, headerRightFixed, headerTable} = this.dom;
 
-        headerLeftRows.forEach((leftRow, index) => {
+        if(!headerLeftFixed){
+            headerLeftFixed = headerRightFixed || headerTable;
+        }
+
+        if(!headerRightFixed){
+            headerRightFixed = headerLeftFixed || headerTable;
+        }
+
+        let headerLeftRows = headerLeftFixed.querySelectorAll('.tv-table-row');
+        let headerRightRows = headerRightFixed.querySelectorAll('.tv-table-row');
+        let headerTableRows = headerTable.querySelectorAll('.tv-table-row');
+
+
+        headerLeftRows.forEach((item, index) => {
+            const leftRow = headerLeftRows[index];
             const rightRow = headerRightRows[index];
             const middleRow = headerTableRows[index];
 
@@ -130,6 +147,33 @@ export default class Table extends Component {
 
     }
 
+    getColumnsStyle(key, data){
+        function getKey(item){
+            return item.key || item.dataIndex;
+        }
+    
+        if(Array.isArray(data)){
+            for (var i = 0; i < data.length; i++) {
+                const d = data[i];
+                if(getKey(d) === key){
+                    return {
+                        width: d.width,
+                        align: d.align
+                    };
+                }
+                if(d.children){
+                    let childrenData = this.getColumnsStyle(key, d.children);
+                    if(childrenData){
+                        return {
+                            width: childrenData.width,
+                            align: childrenData.align
+                        }
+                    }
+                }
+            };
+        }
+    
+    }
     calculateWidth(columns, data, fixedType){
         const fixed = {};
         
@@ -140,7 +184,7 @@ export default class Table extends Component {
             fixed[fixedKey].head = fixed[fixedKey].head || [];
             fixed[fixedKey].body = fixed[fixedKey].body || [];
             if(col.dataIndex || col.key){
-                fixed[fixedKey].keys.push(col.dataIndex || col.key);
+                fixed[fixedKey].keys.push( col.key || col.dataIndex );
             }
             fixed[fixedKey].head.push(col);
 
@@ -149,37 +193,6 @@ export default class Table extends Component {
                 fixed[fixedKey].keys = fixed[fixedKey].keys.concat(childFixed[fixedKey].keys);
             }
         });
-
-        function getWidth(key, data){
-            if(Array.isArray(data) && (!data || !data.length)){
-                return ''
-            }
-            
-            if(Array.isArray(data)){
-                let width;
-                const length = data.length;
-                for(let i=0; i<length; i++){
-                    const item = data[i];
-                    if(item.children){
-                        width = getWidth(key, item.children);
-                        if(width || i >= length) break;
-                    }
-                    if(key === item.key){
-                        width = item.width;
-                        break;
-                    }
-                }
-
-                return width;
-            }
-
-            const _key = data['key'] || data['dataIndex'];
-            if(data.width && _key === key){
-                return data['width'];
-            }
-
-            return getWidth(key, data.children);
-        }
 
         !fixedType && data.forEach((item) => {
             for(let key in fixed){
@@ -192,10 +205,10 @@ export default class Table extends Component {
                         const value = item[key2] || '';
                         const headItem = head[index] || {};
                         const render = headItem.render;
-                        const width = getWidth(key2, head);
+                        const style = this.getColumnsStyle(key2, head);
                         context.push({
-                            width,
-                            value: render ? render(value, item) : value
+                            value: render ? render(value, item) : value,
+                            ...style
                         });
                     })
                     context.length && fixed[key].body.push(context);
@@ -211,7 +224,7 @@ export default class Table extends Component {
         const groupNodes = [];
 
         if(groupData.title){
-            groupNodes.push(<Cell style={{width: groupData.width}} key={groupData.key}>{groupData.title}</Cell>)
+            groupNodes.push(<Cell style={{width: groupData.width, justifyContent: groupData.align}} key={groupData.key}>{groupData.title}</Cell>)
         }
 
         if(groupData.children){
@@ -284,10 +297,10 @@ export default class Table extends Component {
                     {
                         data.body.map((item, i) => {
                             return (
-                                <Row>
+                                <Row key={i}>
                                     {
                                         item.map((item2) => {
-                                            return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
+                                            return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                         })
                                     }
                                 </Row>
@@ -309,12 +322,12 @@ export default class Table extends Component {
             <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-right')}>
                 <TablePanel>
                     {
-                        data.body.map((item) => {
+                        data.body.map((item, index) => {
                             return (
-                                <Row>
+                                <Row key={index}>
                                     {
                                         item.map((item2) => {
-                                            return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
+                                            return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                         })
                                     }
                                 </Row>
@@ -327,8 +340,8 @@ export default class Table extends Component {
     }
 
     render(){
-        const { multiple, border } = this.props;
-        const { bodyWraperHeight, bodyHeight } = this.state;
+        const { multiple, bordered} = this.props;
+        const { bodyWraperHeight, bodyHeight, width } = this.state;
         const { left, right, middle } = this.renderData;
 
         const setWrapperElement = element => {
@@ -336,8 +349,10 @@ export default class Table extends Component {
         }
 
         return (
-            <div style={this.style()} className={this.className('tv-table', {
-                'tv-table-border': border,
+            <div style={this.style({
+                width
+            })} className={this.className('tv-table', {
+                'tv-table-border': bordered,
                 'tv-table-multiple': multiple
             })} ref={setWrapperElement}>
                 <div className='tv-table-x-scrollbar'><div></div></div>
@@ -359,10 +374,10 @@ export default class Table extends Component {
                             {
                                 middle.body.map((item, i) => {
                                     return (
-                                        <Row>
+                                        <Row key={i}>
                                             {
                                                 item.map((item2) => {
-                                                    return (<Cell style={{width: item2.width}}>{item2.value}</Cell>)
+                                                    return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                                 })
                                             }
                                         </Row>

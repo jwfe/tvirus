@@ -66,7 +66,7 @@ export default class ChartDemo extends Component{
                 
                 series: [
                     {
-                        name: '差评率',
+                        name: '点评数',
                         type: 'line',
                         showSymbol: false,
                         smooth: true,

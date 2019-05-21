@@ -183,6 +183,10 @@ export default class Layout extends Component{
                         query: 'message'
                     },
                     {
+                        title: 'Progress 进度条',
+                        query: 'progress'
+                    },
+                    {
                         title: 'Card 卡片',
                         query: 'card'
                     }

@@ -90,7 +90,6 @@ export default class Chart extends Component {
             return;
         }
         let newOptions = getOptions(type, option);
-        console.log('[setOption]', JSON.stringify(newOptions));
         this.chart.setOption(newOptions, notMerge, lazyUpdate);
     }
     dispose = () => {

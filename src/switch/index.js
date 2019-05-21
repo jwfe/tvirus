@@ -35,7 +35,7 @@ export default class Switch extends Component {
                 'tv-switch-checked': checked,
                 [`tv-switch-${size}`]: size
             })}>
-                <span class="tv-switch-inner">{checked ? onText : offText}</span>
+                <span className="tv-switch-inner">{checked ? onText : offText}</span>
             </button>
         )
     }

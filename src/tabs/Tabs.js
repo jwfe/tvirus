@@ -15,7 +15,7 @@ export default class Tabs extends Component {
         className: PropTypes.string,
         activeKey: PropTypes.string,
         onChange: PropTypes.func,
-
+        extra: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
     };
     static defaultProps = {
     };
@@ -70,7 +70,7 @@ export default class Tabs extends Component {
         })
     }
     render(){
-        const { children, activeKey } = this.props;
+        const { children, extra } = this.props;
         const { activeStateKey, barStyle } = this.state;
         return (
             <div style={this.style()} className={this.className('tv-tabs')}>
@@ -92,6 +92,7 @@ export default class Tabs extends Component {
                             )
                         })
                     }
+                    {extra}
                     <div className="tv-tabs-nav-bar" style={barStyle}></div>
                 </div>
                 <div className="tv-tabs-content">

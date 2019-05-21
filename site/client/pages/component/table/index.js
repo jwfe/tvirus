@@ -166,7 +166,7 @@ export default class TableDemo extends Component{
                 children: (
                     <div className="code-demo">
                         <Table 
-                            border={true}
+                            bordered={true}
                             style={{height: '500px'}}
                             columns={columns}
                             data={data}

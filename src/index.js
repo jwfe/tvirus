@@ -1,5 +1,6 @@
 import { Component, PropTypes, Animation, Transition, Portal, Util, noop } from '../libs';
 import Badge from './badge';
+import Progress from './progress';
 import Breadcrumb from './breadcrumb';
 import Button from './button';
 import Cascader from './cascader';
@@ -43,6 +44,7 @@ import '../assets/datepicker';
 import '../assets/icon';
 import '../assets/grid';
 import '../assets/badge';
+import '../assets/progress';
 import '../assets/card';
 import '../assets/button';
 import '../assets/breadcrumb';
@@ -73,6 +75,7 @@ export {
     Input,
     Menu,
     Message,
+    Progress,
     Pagination,
     Popup,
     Radio,
