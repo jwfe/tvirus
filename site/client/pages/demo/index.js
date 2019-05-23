@@ -599,7 +599,7 @@ export default class DemoIndex extends Component{
                             <div className="sort-wrapper">
                                 <span>统计时间: 2019-02-15 ~ 2019-02-21</span>
                                 <div className="date-sort">
-                                    <Button size="small">今日</Button>
+                                    <Datepicker position="bottom" trigger="hover" minDate='2019-05-08' maxDate='2019-05-12'><Button size="small">今日</Button></Datepicker>
                                     <Button size="small">昨日</Button>
                                     <Button size="small">近2日</Button>
                                     <Button size="small">近7日</Button>

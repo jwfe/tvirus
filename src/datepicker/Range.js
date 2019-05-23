@@ -14,12 +14,14 @@ export default class Range extends Component {
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         placeholder: PropTypes.string,
         name: PropTypes.string,
+        trigger: PropTypes.string,
         disabled: PropTypes.bool,
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
     };
 
     static defaultProps = {
+        trigger: 'click',
         position: "bottom left",
         disabledDate: noop,
         onChange: noop
@@ -230,7 +232,7 @@ export default class Range extends Component {
     }
 
     render(){
-        const { position, placeholder, footer, children } = this.props;
+        const { position, placeholder, footer, children, trigger } = this.props;
         const { disabled, visible, selected } = this.state;
         const { minDate, maxDate } = selected;
 
@@ -272,7 +274,7 @@ export default class Range extends Component {
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 
-                trigger="click" 
+                trigger={trigger} 
                 position={position} 
                 content={content}
                 onChange={this.handlePopupChange.bind(this)}

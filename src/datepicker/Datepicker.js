@@ -13,6 +13,7 @@ export default class Datepicker extends Component {
         className: PropTypes.string,
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         name: PropTypes.string,
+        trigger: PropTypes.string,
         model: PropTypes.string,
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
@@ -23,6 +24,7 @@ export default class Datepicker extends Component {
     static defaultProps = {
         position: "bottom left",
         mode: 'day',
+        trigger: 'click',
         disabledDate: noop
     };
 
@@ -163,7 +165,7 @@ export default class Datepicker extends Component {
     }
 
     render(){
-        const { position, placeholder, footer, children } = this.props;
+        const { position, placeholder, footer, children, trigger } = this.props;
         const { disabled, visible, date } = this.state;
         const content = (
             <div className="tv-datepicker">
@@ -192,7 +194,7 @@ export default class Datepicker extends Component {
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 
-                trigger="click" 
+                trigger={trigger} 
                 position={position} 
                 content={content}
                 onChange={this.handlePopupChange.bind(this)}
