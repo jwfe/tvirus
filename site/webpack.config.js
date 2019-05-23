@@ -81,8 +81,8 @@ class CreateSiteTempComp{
             }
 
             const name = firstToUpperCase(compoent);
-            importComps.push(`import ${name} from './pages/component/${compoent}';`);
-            // importComps.push(`const ${name} = React.lazy(() => import('./pages/component/${compoent}'));`);
+            // importComps.push(`import ${name} from './pages/component/${compoent}';`);
+            importComps.push(`const ${name} =  lazy(() => import('./pages/component/${compoent}'));`);
             linkComps.push(`<Route path="/component/${compoent}" component={${name}} />`);
 
             const pagePath = `./client/pages/component/${compoent}/index.js`
@@ -98,34 +98,37 @@ class CreateSiteTempComp{
             }
 
             const name = firstToUpperCase(spec) + 'Spec';
-            // importSpec.push(`const ${name} = React.lazy(() => import('./pages/spec/${spec}'));`);
-            importSpec.push(`import ${name} from './pages/spec/${spec}';`);
+            // importSpec.push(`import ${name} from './pages/spec/${spec}';`);
+            importComps.push(`const ${name} =  lazy(() => import('./pages/spec/${spec}'));`);
+
             linkSpec.push(`<Route path="/spec/${spec}" component={${name}} />`);
         });
 
         fs.writeFileSync(`./client/router.js`, 
-`import React, { lazy, Suspense } from 'react';
+`import React, {lazy, Suspense} from 'react';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
 import Layout from './layout';
 
-import Index from './pages/index';
-import Demo from './pages/demo';
-import CompInstall from './pages/component/install';
+const Index =  lazy(() => import('./pages/index'));
+const Demo =  lazy(() => import('./pages/demo'));
+const CompInstall =  lazy(() => import('./pages/component/install'));
 
 ${importSpec.join('\n')}
 ${importComps.join('\n')}
 export default (
     <Router>
-            <Layout>
-                <Route path="/" exact component={Index} />
-                <Route path="/demo" exact component={Demo} />
-                {/* 设计语言 */}
-                ${linkSpec.join('\n')}
-                {/* 组件 */}
-                <Route path="/component/install" component={CompInstall} />
-                ${linkComps.join('\n')}
-            </Layout>
+            <Suspense fallback={<div>Loading</div>}>
+                <Layout>
+                    <Route path="/" exact render={() => Index} />
+                    <Route path="/demo" exact render={() => Demo} />
+                    {/* 设计语言 */}
+                    ${linkSpec.join('\n')}
+                    {/* 组件 */}
+                    <Route path="/component/install" render={() => CompInstall} />
+                    ${linkComps.join('\n')}
+                </Layout>
+            </Suspense>
     </Router>
 )
         
@@ -208,9 +211,8 @@ export default class ${name}Demo extends Component{
 const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
 
 module.exports = {
-    entry: {
-        app: './client/index.js'
-    },
+    mode: "production",
+    entry: './client/index.js',
     devtool: 'inline-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
@@ -272,6 +274,36 @@ module.exports = {
             },
         ]
     },
+    optimization: {
+        // 抽离webpack runtime到单文件
+        runtimeChunk: "single",
+        splitChunks: {
+            chunks: "all",
+            // 最大初始请求数量
+            maxInitialRequests: Infinity,
+            // 抽离体积大于80kb的chunk
+            minSize: 80 * 1024,
+            // 抽离被多个入口引用次数大于等于1的chunk
+            minChunks: 1,
+            cacheGroups: {
+                // 抽离node_modules下面的第三方库
+                vendor: {
+                test: /[\\/]node_modules[\\/]/,
+                // 从模块的路径地址中获得库的名称
+                name: function(module, chunks, chacheGroupKey) {
+                        const packageName = module.context.match(
+                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                        )[1];
+                        return `vendor_${packageName.replace("@", "")}`;
+                    }
+                }
+            }
+        },
+    // ...
+    },
+    performance: {
+        hints: false
+    },
     plugins: [
         new CreateSiteTempComp({
             output: __dirname
@@ -280,8 +312,15 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'T-virus',
             filename: 'index.html',
-            chunks:['app', 'common'],
-            template: './client/template/index.html'
+            template: './client/template/index.html',
+            minify: {
+                // 折叠空白符
+                collapseWhitespace: true,
+                // 移除注释
+                removeComments: true,
+                // 移除属性多余的引号
+                removeAttributeQuotes: true
+            }
         })
     ],
     output: {
