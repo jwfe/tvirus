@@ -22,108 +22,132 @@ export default class Bubble extends Component {
     createCanvas(){
         const bubbleNode = this.bubble;
         const canvas = document.createElement('canvas');
-        this.width = bubbleNode.clientWidth;
-        this.height = bubbleNode.clientHeight;
-
-        canvas.width = this.width;
-        canvas.height = this.height;
+        let width = bubbleNode.clientWidth;
+        let height = bubbleNode.clientHeight;
+        canvas.width = width;
+        canvas.height = height;
+        
+        this.width = canvas.width;
+        this.height = canvas.height;
         return canvas;
     }
-    randomPrefix(value) {
+    random(start, end){
+        return Math.floor(Math.random() * end);
+    }
+
+    randomPrefix() {
         const width = this.width;
         const height = this.height;
+        
+        let x = parseInt(this.random(80, width));
+        let y = parseInt(this.random(80, height));
 
-        let range = width - height;
-        let min = height;
-        let max = width;
-        if(range < 0){
-            range = height - width;
-            min = width
-            max = height;
-        }
-        let p = value/this.total;
-        let r = parseInt(min * p);
-        let x = parseInt(Math.random() * (width - (r * 2))) + r;
-        let y = parseInt(Math.random() * (height - (r * 2))) + r;
         return {
             x,
-            y,
-            r
+            y
         }
     }
+    // true: peng false:...
+    handleEgdeCollisions(circle1, circle2) {
+        let circle1X = circle1.x + circle1.r
+        let circle1Y = circle1.y + circle1.r
 
-    testOverlay (pointA, pointB) {
-        const x = Math.abs(pointA.x - pointB.x)
-        const y = Math.abs(pointA.y - pointB.y)
-        const distance = Math.sqrt((x * x) + (y * y))
-        if (distance >= (pointA.r + pointB.r)) {
-            return false
-        } else {
+        let circle2X = circle2.x + circle2.r
+        let circle2Y = circle2.y + circle2.r
+        let distance = Math.sqrt(Math.pow(circle1X - circle2X, 2) + Math.pow(circle1Y - circle2Y, 2))
+        if(distance < circle1.r + circle2.r) {
             return true
+        } else {
+            return false
         }
     }
-    testAvailable (pointArr, newPoint) {
-        let arr = Array.from(pointArr)
-        let aval = true;
-        let lastPoint = newPoint;
-        while(arr.length > 0) {
-            lastPoint = arr.pop()
-            if (this.testOverlay(lastPoint, newPoint)) {
-                aval = false
-                break;
-            }
-        }
-        return {aval, point: lastPoint}
+    // 判断两个区域是否重叠
+    testOverlay (pointA, pointB) {
+        return this.handleEgdeCollisions(pointA, pointB);
+    }
+  
+    // 检查是否越界
+    isOverflow(ball) {
+        const { x, y, r } = ball;
+        return !(x+r > this.width || x-r < 0 || y + r > this.height || y-r < 0)
     }
 
     findCircle(circle) {
         const balls = this.balls;
-        const { aval, point } = this.testAvailable(balls, circle);
-
-        if(!aval){
-            return;
+        let len = balls.length;
+        let axiosBall;
+        for (let i = 0; i < len; i++) {
+            let x1 = balls[i].x;
+            let y1 = balls[i].y;
+            let r1 = balls[i].r;
+            let x2 = circle.x;
+            let y2 = circle.y;
+            let r2 = circle.r;
+            if ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < (r2 + r1) * (r2 + r1)) {
+                axiosBall = balls[i];
+                break;
+            }
         }
-
-        return point
+        return axiosBall;
     }
 
     randomPostion(data){
-        data.forEach((item)=> {
-            let ball = this.randomPrefix(item.value);
-            let count = 0;
-            const isOverlap = this.findCircle({
-                x: ball.x,
-                y: ball.y,
-                r: ball.r
-            })
-            while(isOverlap && count < 200){
-                ball = this.randomPrefix(item.value);
-                count++;
+        this.radiusMaps.forEach((item, index)=> {
+            let count = 0
+            while(count <= 200) {
+                let newPoint = this.randomPrefix();
+                newPoint.r = item;
+                if (!this.testOverlay(this.balls, newPoint) && !this.findCircle(newPoint)) {
+                    newPoint.r = item;
+                    if(this.isOverflow(newPoint)){
+                        const dItem = data[index];
+                        newPoint.bgcolor = dItem.bgcolor;
+                        newPoint.gradient = dItem.gradient;
+
+                        newPoint.color = dItem.color;
+                        newPoint.data = dItem;
+                        this.balls.push(newPoint)
+                        break;
+                    }
+                } else {
+                    count += 1
+                }
             }
-            ball.data = item;
-            ball.color = item.color;
-            ball.textColor = item.textColor;
-            this.balls.push(ball);
         })
     }
 
     
     randomColor() {
-        return `rgba(${Math.floor(Math.random() * 256)},
-        ${Math.floor(Math.random() * 256)},
-        ${Math.floor(Math.random() * 256)})`;
+        let r = Math.floor(Math.random()*100) + 155
+        let g = Math.floor(Math.random()*100) + 155
+        let b = Math.floor(Math.random()*100) + 155
+        return  `rgb(${r},${g},${b})` 
+    }
+
+    radialGradient(x, y, r, gradientColors){
+        const gradient = this.ctx.createRadialGradient(x, y, 5, x, y, r);
+
+        // Add three color stops
+        gradient.addColorStop(0, gradientColors.start);
+        gradient.addColorStop(.9, gradientColors.end);
+
+        return gradient;
     }
 
     drawCircles (ctx, circleArr) {
         let point = circleArr.pop()
         ctx.beginPath();
-        ctx.moveTo(point.x + point.r, point.y)
         ctx.arc(point.x, point.y, point.r, 0, Math.PI * 2, true);
-        ctx.fillStyle = point.bgcolor || this.randomColor();
+        const bgcolor = point.bgcolor || this.randomColor();
+        ctx.fillStyle = point.gradient ? this.radialGradient(point.x, point.y, point.r, point.gradient) : bgcolor;
         ctx.fill();
-        ctx.fillStyle = point.color || '#fff';
-        ctx.fillText(point.data.name, point.x - point.r / 2, point.y);
-        ctx.stroke();
+        // 文本居中
+        if(point.r > 15){
+            ctx.fillStyle = point.color || '#fff';
+            ctx.font = point.font || '12px serif'
+            ctx.textAlign = point.textAlign || 'center';
+            ctx.fillText(point.data.name, point.x, point.y, point.r * 2 - 10);    
+        }
 
         if (circleArr.length > 0) {
             this.drawCircles(ctx, circleArr, point.r)
@@ -131,17 +155,43 @@ export default class Bubble extends Component {
     }
 
     componentDidMount(){
+        const canvas = this.canvas = this.createCanvas();
         const width = this.width;
         const height = this.height;
         const { data } = this.props;
         const bubbleNode = this.bubble;
-        const canvas = this.canvas = this.createCanvas();
         bubbleNode.appendChild(canvas);
         const ctx = this.ctx = canvas.getContext('2d');
+
+
+        let devicePixelRatio = window.devicePixelRatio || 1;
+        let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                            ctx.mozBackingStorePixelRatio ||
+                            ctx.msBackingStorePixelRatio ||
+                            ctx.oBackingStorePixelRatio ||
+                            ctx.backingStorePixelRatio || 1;
+        let ratio = devicePixelRatio / backingStoreRatio;
+
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+
+        canvas.width = canvas.width * ratio;
+        canvas.height = canvas.height * ratio;
+
+        ctx.scale(ratio, ratio);
+        ctx.translate(0.5, 0.5);
+
+
+        ctx.textBaseline = 'middle'; 
+        ctx.textAlign = 'center';
 
         this.total = data.reduce((t, i) => {
             return t + i.value
         }, 0);
+
+        this.radiusMaps = data.map((d) => {
+            return ( d.value / this.total ) * 100;
+        });
 
         this.randomPostion(data);
         ctx.clearRect(0, 0, width, height);

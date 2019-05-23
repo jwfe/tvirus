@@ -36,7 +36,6 @@ export default class Tabs extends Component {
 
             if (item.props.tabKey === this.state.activeStateKey) {
                 offset = $el.offsetLeft;
-                console.log('[TAB]', $el.offsetLeft)
                 return true;
             } else {
                 tabWidth = $el.clientWidth;
@@ -82,7 +81,7 @@ export default class Tabs extends Component {
                             const { tab, tabKey, disabled } = item.props;
 
                             return (
-                                <div className={this.className('tv-tabs-item', {
+                                <div key={index} className={this.className('tv-tabs-item', {
                                     'tv-tabs-item-active': tabKey === activeStateKey,
                                     'tv-tabs-disabled': disabled,
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker } from 'tvirus';
+import { Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Popup } from 'tvirus';
 import { columns, data as columns_data } from './tableData';
 
 import './demo.less';
@@ -32,7 +32,16 @@ class ChartCard extends Component{
                 <div className="meta-wrapper">
                     <div className="meta">
                         <span>{ meta }</span>
-                        <Icon type="info-circle" />
+                        <Popup
+                            content={meta}
+                            position="top left"
+                            showArrow
+                            trigger="hover"
+                            visible={false}
+                        >
+                            <Icon type="info-circle" />
+                        </Popup>
+                        
                     </div>
                     <div className="meta-totall">{ total }</div>
                 </div>
@@ -71,33 +80,46 @@ export default class DemoIndex extends Component{
         bubble: [
             {
                 name: '交通方便',
-                value: 20,
-                color: '#00ff00'
+                value: 10,
+                gradient: {
+                    start: 'rgba(96, 191, 131, 0.7)',
+                    end: 'rgba(96, 191, 131, 1)'
+                }
             }, {
                 name: '交通差',
-                value: 80,
-                color: '#ff0000'
+                value: 100,
+                gradient: {
+                    start: 'rgba(255, 114, 108, 0.7)',
+                    end: 'rgba(255, 114, 108, 1)'
+                }
             }, {
                 name: '设置不好',
-                value: 85,
+                value: 50,
+                gradient: {
+                    start: 'rgba(255, 114, 108, 0.7)',
+                    end: 'rgba(255, 114, 108, 1)'
+                }
             }, {
                 name: '设施',
                 value: 70,
+                gradient: {
+                    start: 'rgba(96, 191, 131, 0.7)',
+                    end: 'rgba(96, 191, 131, 1)'
+                }
             }, {
                 name: '早餐',
                 value: 75,
+                gradient: {
+                    start: 'rgba(96, 191, 131, 0.7)',
+                    end: 'rgba(96, 191, 131, 1)'
+                }
             }, {
                 name: '晚餐',
-                value: 30,
-            }, {
-                name: '樱桃',
-                value: 5,
-            }, {
-                name: '橙子',
-                value: 100,
-            }, {
-                name: '梨',
                 value: 80,
+                gradient: {
+                    start: 'rgba(96, 191, 131, 0.7)',
+                    end: 'rgba(96, 191, 131, 1)'
+                }
             }
         ],
         collapsed: false,
@@ -538,7 +560,7 @@ export default class DemoIndex extends Component{
                         </Row>
                         <Row gutter={20} style={{marginTop: 20, marginBottom: 20, marginLeft: -12, marginRight: -12}}>
                             <Col span={18}>
-                                <Card className="review" title="点评" extra={<a href="#">查看详情</a>} bordered={false} style={{paddingTop: 12}}>
+                                <Card className="review" title="点评" extra={<span><a href="#">查看详情</a><Icon type="right" /></span>} bordered={false} style={{paddingTop: 12}}>
                                     <Row gutter={20} style={{marginLeft: -12, marginRight: -12}}>
                                         <Col span={16}>
                                             <h4>点评趋势图</h4>
@@ -561,7 +583,7 @@ export default class DemoIndex extends Component{
                                                             {text:'马蜂窝', value:18, as: 10, isUp: true}
                                                         ].map((item, index)=>{
                                                             const cls = ['review-rankingItemNumber'];
-                                                            if(index < 4){
+                                                            if(index < 3){
                                                                 cls.push('review-active');
                                                             }
                                                             return (
@@ -596,7 +618,7 @@ export default class DemoIndex extends Component{
                                 </Card>
                             </Col>
                             <Col span={6}>
-                                <Card title="首页批评" bordered={false} style={{paddingTop: 12, paddingBottom: 12}}>
+                                <Card className="critical" title="首页批评" bordered={false} style={{paddingTop: 12, paddingBottom: 12}}>
                                     <div className="critical-item">
                                         <p>周边有不错的早餐，周边空旷，<span style={{color: '#f00'}}>出行不很方便</span>，酒店比较干净，空气湿度可以，酒店环境生态非常好，有些小动物。</p>
                                         <em>2018/10/23 来自携程</em>
@@ -631,7 +653,12 @@ export default class DemoIndex extends Component{
                                         </div>
                                     </Tabpanel>
                                     <Tabpanel tab={`预测验证`} tabKey={2}>
-                                        222
+                                        <Table 
+                                            bordered
+                                            style={{height: 396}}
+                                            columns={this.state.columns}
+                                            data={this.state.columns_data}
+                                        />
                                     </Tabpanel>
                                 </Tabs>
                             </Card>

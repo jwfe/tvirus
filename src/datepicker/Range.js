@@ -42,6 +42,10 @@ export default class Range extends Component {
             right_date: right_date,
             minDate: left_date,
             maxDate: parse(props.maxDate) || left_date,
+            selected: {
+                minDate: left_date,
+                maxDate: parse(props.maxDate) || left_date,
+            },
             rangeState: {
                 endDate: null,
                 selecting: false,
@@ -68,7 +72,9 @@ export default class Range extends Component {
             this.setState({ visible: true, view: 'day', minDate, maxDate });
             return;
         };
-        this.setState({ visible: false, view: 'day', minDate, maxDate });
+        this.setState({ visible: false, view: 'day', minDate, maxDate, selected: {
+            minDate, maxDate,
+        }});
         onChange([minDate, maxDate], false)
     }
     handleMoveRange({ endDate }){
@@ -224,8 +230,9 @@ export default class Range extends Component {
     }
 
     render(){
-        const { position, placeholder, footer } = this.props;
-        const { disabled, visible, minDate, maxDate } = this.state;
+        const { position, placeholder, footer, children } = this.props;
+        const { disabled, visible, selected } = this.state;
+        const { minDate, maxDate } = selected;
 
         const content = [
             (
@@ -270,9 +277,9 @@ export default class Range extends Component {
                 content={content}
                 onChange={this.handlePopupChange.bind(this)}
                 >
-                    <div className="tv-datepicker-trigger">
+                    {children || <div className="tv-datepicker-trigger">
                         <Button>{ min && max ? `${min} ~ ${max}` : placeholder}</Button>
-                    </div>
+                    </div>}
                 </Popup>
             </div>
         );

@@ -163,7 +163,7 @@ export default class Datepicker extends Component {
     }
 
     render(){
-        const { position, placeholder, footer } = this.props;
+        const { position, placeholder, footer, children } = this.props;
         const { disabled, visible, date } = this.state;
         const content = (
             <div className="tv-datepicker">
@@ -197,9 +197,9 @@ export default class Datepicker extends Component {
                 content={content}
                 onChange={this.handlePopupChange.bind(this)}
                 >
-                    <div className="tv-datepicker-trigger">
+                    {children || <div className="tv-datepicker-trigger">
                         <Button>{dateString}</Button>
-                    </div>
+                    </div>}
                 </Popup>
             </div>
         );
