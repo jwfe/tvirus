@@ -1,4 +1,4 @@
-ul,li{
+p, ul,li{
     margin: 0;
     padding: 0;
     list-style: none;
@@ -30,8 +30,8 @@ ul,li{
 .root-menu{
     width: 180px;
     .logo{
+        position: relative;
         box-sizing: border-box;
-        padding: 15px 0 17px 21px;
         height: 60px;
         color: #fff;
         background-color: #ff8b3d;
@@ -40,9 +40,14 @@ ul,li{
             margin-right: 18px;
             width: 104px;
             height: 28px;
-            font-size: 0;
-            background: url(./img/logo.png) no-repeat;
+            font-size: 120px;
             vertical-align: middle;
+            .tv-icon{
+                position: absolute;
+                top: -59%;
+                left: 50%;
+                transform: translate(-50%);
+            }
         }
     }
 }

@@ -155,7 +155,19 @@ export default class DemoIndex extends Component{
                         bottom: 0
                     },
                     tooltip: {
-                        trigger: 'axis'
+                        confine: true,
+                        trigger: 'axis',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        textStyle: {
+                            color: '#5b5b5b'
+                        },
+                        extraCssText: 'box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);',
+                        padding: [5, 3],
+                        formatter(datas){
+                            let html = '';
+                            datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.name}</span><span>${data.value}</span></p>`);
+                            return html;
+                        }
                     },
                     legend: {
                         x: 0,
@@ -163,7 +175,17 @@ export default class DemoIndex extends Component{
                     },
                     xAxis: {
                         show: false,
-                        type : 'category'
+                        type: 'category',
+                        boundaryGap: false,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#e0e0e0'
+                            }
+                        },
+                        axisLabel: {
+                            color: '#333'
+                        },
+                        data: ['12-01','12-02','12-03','12-04','12-05','12-06','12-07']
                     },
                     yAxis : { 
                         show: false,
@@ -230,7 +252,19 @@ export default class DemoIndex extends Component{
                         bottom: 0
                     },
                     tooltip: {
-                        trigger: 'axis'
+                        confine: true,
+                        trigger: 'axis',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        textStyle: {
+                            color: '#5b5b5b'
+                        },
+                        extraCssText: 'box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);',
+                        padding: [5, 3],
+                        formatter(datas){
+                            let html = '';
+                            datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.name}</span><span>${data.value}</span></p>`);
+                            return html;
+                        }
                     },
                     xAxis: {
                         show: false, 
@@ -244,7 +278,7 @@ export default class DemoIndex extends Component{
                         axisLabel: {
                             color: '#333'
                         },
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        data: ['12-01','12-02','12-03','12-04','12-05','12-06','12-07']
                     },
                     yAxis : { 
                         show: false, 
@@ -311,7 +345,20 @@ export default class DemoIndex extends Component{
                     bottom: 19
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    backgroundColor: '#fff',
+                    textStyle: {
+                        color: '#5b5b5b'
+                    },
+                    padding: [7, 10],
+                    formatter(datas){
+                        // alert(JSON.stringify(datas));
+                        let html = '';
+                        let name = `<h6 style="margin-bottom: 10px;color:#8e8e8e">${datas[0].name}</h6>`;
+                        html += name;
+                        datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.seriesName}</span><span>${data.value}</span></p>`);
+                        return html;
+                    }
                 },
                 legend: {
                     x: 80,
@@ -381,7 +428,20 @@ export default class DemoIndex extends Component{
                     bottom: 19
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    backgroundColor: '#fff',
+                    textStyle: {
+                        color: '#5b5b5b'
+                    },
+                    padding: [7, 10],
+                    formatter(datas){
+                        // alert(JSON.stringify(datas));
+                        let html = '';
+                        let name = `<h6 style="margin-bottom: 10px;color:#8e8e8e">${datas[0].name}</h6>`;
+                        html += name;
+                        datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.seriesName}</span><span>${data.value}</span></p>`);
+                        return html;
+                    }
                 },
                 legend: {
                     left: 10,
@@ -478,8 +538,8 @@ export default class DemoIndex extends Component{
             <div className="root-wraper">
                 <div className="root-menu" style={{width: this.state.collapsed ? 80 : ''}}>
                     <div className="logo">
-                        <a href="#">logo</a>
-                        <span onClick={this.toggleCollapsed}><Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} /></span>
+                        <a href="#"><Icon type="bwlogo" /></a>
+                        {/* <span onClick={this.toggleCollapsed}><Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} /></span> */}
                     </div>
                     <Menu theme="dark" inlineCollapsed={this.state.collapsed}>
                         <Menu.Item><span><Icon type="overview" /><span>概览</span></span></Menu.Item>
