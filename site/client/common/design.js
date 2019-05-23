@@ -47,7 +47,7 @@ export default class Layout extends Component{
     createMenus(){
         return [
             {
-                title: '设计语言',
+                title: '设计原则',
                 child: [
                     {
                         title: '人文体验',
