@@ -118,7 +118,7 @@ ${importSpec.join('\n')}
 ${importComps.join('\n')}
 export default (
     <Router>
-            <Suspense fallback={<div>Loading</div>}>
+            <Suspense fallback={<div></div>}>
                 <Layout>
                     <Route path="/" exact component= {Index} />
                     <Route path="/demo" exact component={Demo} />
@@ -225,6 +225,9 @@ module.exports = {
             tvirus: outputPath
         }
     },
+    externals: {
+        'echarts': 'echarts'
+    },
     module: {
         rules: [
             {
@@ -285,7 +288,7 @@ module.exports = {
             cacheGroups: {
                 vendors: { // 基本框架
                   chunks: 'all',
-                  test: /(react|react-dom|react-dom-router|babel-polyfill|mobx)/,
+                  test: /(react|react-dom|react-dom-router)/,
                   priority: 100,
                   name: 'vendors',
                 },
