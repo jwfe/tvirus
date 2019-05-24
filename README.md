@@ -1,13 +1,13 @@
 # T-Virus
 
-[![npm][npm-svg]][npm-home]
+[![npm][npm-svg]](npm-home)
 
 T-Virus 是一套服务于公司内部的设计语言和React实现。
 
 
 ### UI Design
 
-T-Virus 设计原则 [点击查看][http://tvirus.art/#/spec/arts]。
+T-Virus 设计原则 [点击查看](http://tvirus.art/#/spec/arts)。
 
 ## 支持的平台
 
@@ -51,4 +51,4 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### 文档
 
-您可以阅读[完整文档][http://tvirus.art/#/component/install]，或者从下面几个章节开始学习
+您可以阅读[完整文档](http://tvirus.art/#/component/install)，或者从下面几个章节开始学习
