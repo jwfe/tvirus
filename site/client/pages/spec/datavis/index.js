@@ -256,7 +256,7 @@ export default class DatashowDemo extends Component{
             pie: {
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    formatter: "{b}: {c}<br />占比：{d}%"
                 },
                 legend: {
                     orient: 'horizontal',

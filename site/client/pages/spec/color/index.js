@@ -2,7 +2,26 @@ import React, { Component } from 'react';
 import Layout from '../../../common/design';
 import { I18nReceiver as Receiver, Row, Col } from 'tvirus';
 
-import './index.less'
+import './index.less';
+const funColors = {
+    feel: {
+        'bad': '#ff7e7a',
+        'good': '#6ec590',
+        'medium': '#ffd16b',
+        'nomarl': '#efefef',
+    },
+    fun: {
+        'fail': '#f32736',
+        'success': '#57c22d',
+        'warn': '#f8ac2f',
+        'link': '#2592fb',
+    },
+    season: {
+        'hot': '#ff5e59',
+        'cool': '#2592fb',
+        'menu': '#33415c'
+    }
+} 
 
 export default class ColorDemo extends Component{
     constructor(props){
@@ -11,10 +30,11 @@ export default class ColorDemo extends Component{
     renderColorCard(data){
         const arr = [];
 
-        function colorChild(childData){
+        function colorChild(childData, masterKey){
             const arr2 = [];
+            const data = funColors[masterKey];
             for(let key in childData){
-                arr2.push(<span className={key}>{childData[key]}</span>);
+                arr2.push(<span style={{backgroundColor: data[key]}}><em>{data[key]}</em>{childData[key]}</span>);
             }
             return arr2;
         }
@@ -25,7 +45,7 @@ export default class ColorDemo extends Component{
                     <Col span={8}>
                         <div className={key}>
                             {
-                                colorChild(data[key])
+                                colorChild(data[key], key)
                             }
                             
                         </div>
@@ -48,18 +68,22 @@ export default class ColorDemo extends Component{
             <h3>主色</h3>
             <p>色彩是体现产品特性和传播理念最直观的视觉元素之一，主色色值为#ff9645，色彩：保留智慧、商务、通透。<br />应用场景包括：关键行动点，操作状态、重要信息高亮，图形化等场景。同时根据主色延伸出一套色板共8色，可以根据不同场景进行克制的使用</p>
             <div className="color1-r">
-                <i className="r1"></i>
-                <i className="r2"></i>
-                <i className="r3"></i>
+                {
+                    ['#e18342', '#fc6034', '#e15f61'].map((color) => {
+                        return <i style={{backgroundColor: color}}></i>
+                    })
+                }
             </div>
             <div className="color1">
-                <span className="c1">C-1</span>
-                <span className="c2">C-2</span>
-                <span className="c3">C-3</span>
-                <span className="c4">C-4</span>
-                <span className="c5 master">主色</span>
-                <span className="c6">C-6</span>
-                <span className="c7">C-7</span>
+                {
+                    ['#fff4e9', '#fee0c1', '#fecb99', '#fdb073', '#ff9645', '#d7733a', '#b15527'].map((color, index) => {
+                        let text = `C-${index + 1}`;
+                        if(index === 4){
+                            text = '主色'
+                        }
+                        return <span className={`c${index+1}`} style={{backgroundColor: color}}>{text}<em>{color}</em></span>
+                    })
+                }
             </div>
 
             <h3>功能色</h3>
@@ -81,27 +105,31 @@ export default class ColorDemo extends Component{
             <h3>数据可视化色板</h3>
             <p>数据可视化色板是在基础色板以及中性色板的基础上，依照『有效、清晰、准确、美』的原则产生的。</p>
             <div className="color4">
-                <span className="c1">图表-竞对平均</span>
-                <span className="c2">图表色1</span>
-                <span className="c3">图表色2</span>
-                <span className="c4">图表色3</span>
-                <span className="c5">图表色4</span>
+                {
+                    ['#fc9539', '#45a2fc', '#57ca77', '#fed465', '#9766e1'].map((color, index) => {
+                        let text = `图表色${index}`;
+                        if(!index) text = '图表-竞对平均';
+                        return <span style={{backgroundColor: color}}>{text}<em>{color}</em></span>
+                    })
+                }
             </div>
 
             <div className="color4">
-                <span className="c6">图表色5</span>
-                <span className="c7">图表色6</span>
-                <span className="c8">图表色7</span>
-                <span className="c9">图表色8</span>
-                <span className="c10">图表色9</span>
+                {
+                    ['#ff856a', '#87c4ff', '#e559ea', '#5de1c1', '#fb5838'].map((color, index) => {
+                        let text = `图表色${index+5}`;
+                        return <span style={{backgroundColor: color}}>{text}<em>{color}</em></span>
+                    })
+                }
             </div>
 
             <div className="color4">
-                <span className="c11">图表色10</span>
-                <span className="c12">图表色11</span>
-                <span className="c13">图表色12</span>
-                <span className="c14">图表色13</span>
-                <span className="c15">图表色14</span>
+                {
+                    ['#65eeec', '#dbaffa', '#60fcbb', '#ff8533', '#fbbe95'].map((color, index) => {
+                        let text = `图表色${index+10}`;
+                        return <span style={{backgroundColor: color}}>{text}<em>{color}</em></span>
+                    })
+                }
             </div>
             
             <h3>色彩使用原则</h3>
