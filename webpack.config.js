@@ -56,6 +56,7 @@ module.exports = {
             commonjs: 'prop-types',
             amd: 'prop-types',
         },
+        'echarts': 'echarts'
     },
     resolve: {
         extensions: [".js", ".json", ".less"],

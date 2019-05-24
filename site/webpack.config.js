@@ -120,12 +120,12 @@ export default (
     <Router>
             <Suspense fallback={<div>Loading</div>}>
                 <Layout>
-                    <Route path="/" exact render={() => Index} />
-                    <Route path="/demo" exact render={() => Demo} />
+                    <Route path="/" exact component= {Index} />
+                    <Route path="/demo" exact component={Demo} />
                     {/* 设计语言 */}
                     ${linkSpec.join('\n')}
                     {/* 组件 */}
-                    <Route path="/component/install" render={() => CompInstall} />
+                    <Route path="/component/install" component={CompInstall} />
                     ${linkComps.join('\n')}
                 </Layout>
             </Suspense>
@@ -211,7 +211,7 @@ export default class ${name}Demo extends Component{
 const outputPath = path.resolve(__dirname, '../dist/tvirus.js');
 
 module.exports = {
-    mode: "production",
+    // mode: "production",
     entry: './client/index.js',
     devtool: 'inline-source-map',
     devServer: {
@@ -275,31 +275,29 @@ module.exports = {
         ]
     },
     optimization: {
-        // 抽离webpack runtime到单文件
-        runtimeChunk: "single",
         splitChunks: {
-            chunks: "all",
-            // 最大初始请求数量
-            maxInitialRequests: Infinity,
-            // 抽离体积大于80kb的chunk
-            minSize: 80 * 1024,
-            // 抽离被多个入口引用次数大于等于1的chunk
-            minChunks: 1,
+            chunks: 'all',   // initial、async和all
+            minSize: 30000,   // 形成一个新代码块最小的体积
+            maxAsyncRequests: 5,   // 按需加载时候最大的并行请求数
+            maxInitialRequests: 3,   // 最大初始化请求数
+            automaticNameDelimiter: '~',   // 打包分割符
+            name: true,
             cacheGroups: {
-                // 抽离node_modules下面的第三方库
-                vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                // 从模块的路径地址中获得库的名称
-                name: function(module, chunks, chacheGroupKey) {
-                        const packageName = module.context.match(
-                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                        )[1];
-                        return `vendor_${packageName.replace("@", "")}`;
-                    }
-                }
-            }
-        },
-    // ...
+                vendors: { // 基本框架
+                  chunks: 'all',
+                  test: /(react|react-dom|react-dom-router|babel-polyfill|mobx)/,
+                  priority: 100,
+                  name: 'vendors',
+                },
+                commons: { // 其余同步加载包
+                  chunks: 'all',
+                  minChunks: 2,
+                  name: 'commons',
+                  priority: 80,
+                },
+              }
+
+          },
     },
     performance: {
         hints: false
@@ -324,7 +322,7 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].bundle[hash:8].js',
+        filename: '[name].[hash:8].js',
         path: path.resolve(__dirname, 'dist')
     }
 };
