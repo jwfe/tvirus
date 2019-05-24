@@ -112,7 +112,7 @@ export default class DialogDemo extends Component{
         return <Layout {...this.props} 
             className="main-dialog-box"
             title="Dialog"
-            desc="Dialog的说明"
+            desc="通过一个操作引发的反馈浮层位于页面中心，反馈内容可通过确认或取消按钮进行关闭，用户在反馈层出现时不可进行任何的操作，用于重要的反馈。"
             childs={childs}
         />
     }

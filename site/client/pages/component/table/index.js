@@ -185,7 +185,7 @@ export default class TableDemo extends Component{
         return <Layout {...this.props} 
             className="main-table-box"
             title="Table"
-            desc="Table的说明"
+            desc="表格被公认为是展现数据最为清晰、高效的形式之一。"
             childs={childs}
         />
     }
