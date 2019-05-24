@@ -118,8 +118,8 @@ ${importSpec.join('\n')}
 ${importComps.join('\n')}
 export default (
     <Router>
+        <Layout>
             <Suspense fallback={<div></div>}>
-                <Layout>
                     <Route path="/" exact component= {Index} />
                     <Route path="/demo" exact component={Demo} />
                     {/* 设计语言 */}
@@ -127,8 +127,8 @@ export default (
                     {/* 组件 */}
                     <Route path="/component/install" component={CompInstall} />
                     ${linkComps.join('\n')}
-                </Layout>
             </Suspense>
+        </Layout>
     </Router>
 )
         

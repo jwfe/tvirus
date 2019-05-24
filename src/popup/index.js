@@ -29,6 +29,7 @@ export default class Popup extends Component {
         content: PropTypes.node,
         position: PropTypes.oneOf(POSITIONS),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
+        prefix: PropTypes.oneOf(['popup', 'tooltip']),
         visible: PropTypes.bool,
         disabled: PropTypes.bool,
         showArrow: PropTypes.bool,
@@ -36,6 +37,7 @@ export default class Popup extends Component {
     };
 
     static defaultProps = {
+        prefix: 'popup',
         position: 'top left',
         visible: false,
         showArrow: true
@@ -264,10 +266,12 @@ export default class Popup extends Component {
     }
 
     render() {
-        const { title, content, showArrow, className } = this.props;
+        let { title, content, showArrow, className, prefix } = this.props;
         const { showPopup, style } = this.state;
         const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
+
+        prefix = `tv-${prefix}`;
 
         return [
             cloneChildren,
@@ -281,14 +285,14 @@ export default class Popup extends Component {
                     <div 
                     style={this.style(style)}
                     ref={el => this.popupNode = el}
-                    className={this.className('tv-popup', className, {
-                        'tv-popup-show': showPopup,
-                        [`tv-popup-${postion.join('-')}`]: postion
+                    className={this.className(prefix, className, {
+                        [`${prefix}-show`]: showPopup,
+                        [`${prefix}-${postion.join('-')}`]: postion
                     })}>
-                        { showArrow && <div className="tv-popup-arrow" /> }
-                        <div className="tv-popup-inner">
-                            {title && <h3 className="tv-popup-title">{title}</h3>}
-                            <div className="tv-popup-content">
+                        { showArrow && <div className={`${prefix}-arrow`} /> }
+                        <div className={`${prefix}-inner`}>
+                            {title && <h3 className={`${prefix}-title`}>{title}</h3>}
+                            <div className={`${prefix}-content`}>
                                 {content}
                             </div>
                         </div>

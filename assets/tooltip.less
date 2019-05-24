@@ -1,7 +1,7 @@
 @import "./libs/variables.less";
 @import "./libs/utils.less";
 
-.tv-popup{
+.tv-tooltip{
     display: none;
 
     position: absolute;
@@ -20,30 +20,15 @@
     &-inner{
         box-sizing: border-box;
         border-radius: 4px;
+        padding: 6px 8px;
 
-        background-color: @light-bgc;
+        color: @light-color;
+
+        background-color: @dark-bgc-80;
         background-clip: padding-box;
 
         filter: drop-shadow(0 1px 8px rgba(0,0,0,.12));
         box-shadow: 0 1px 8px rgba(0,0,0,.12);
-        h3{
-            display: flex;
-            align-items: center;
-            margin-top: 0; 
-            margin-bottom: 5px;
-            padding: 5px 16px 4px;
-            min-width: 170px;
-            min-height: 32px;
-
-            color: @dark-color-85;
-            line-height: 2;
-            font-size: 14px;
-            font-weight: 500;
-            border-bottom: 1px solid @dark-border-10;
-        }
-        .tv-popup-content{
-            padding: 12px 16px;
-        }
     }
 
     &-top,
@@ -104,8 +89,8 @@
     &-top-right &-arrow {
         bottom: 6.2px;
         border-top-color: @transparent-border;
-        border-right-color: @light-border;
-        border-bottom-color: @light-border;
+        border-right-color: @dark-border-80;
+        border-bottom-color: @dark-border-80;
         border-left-color: @transparent-border;
         box-shadow: 3px 3px 7px rgba(0,0,0,0.07);
         transform: translateX(-50%) rotate(45deg)
@@ -129,8 +114,8 @@
         left: 6px;
         border-top-color: @transparent-border;
         border-right-color: @transparent-border;
-        border-bottom-color: @light-border;
-        border-left-color: @light-border;
+        border-bottom-color: @dark-border-80;
+        border-left-color: @dark-border-80;
         box-shadow: -3px 3px 7px rgba(0,0,0,0.07);
         transform: translateY(-50%) rotate(45deg)
     }
@@ -151,10 +136,10 @@
     &-bottom-left &-arrow,
     &-bottom-right &-arrow {
         top: 6px;
-        border-top-color: @light-border;
+        border-top-color: @dark-border-80;
         border-right-color: @transparent-border;
         border-bottom-color: @transparent-border;
-        border-left-color: @light-border;
+        border-left-color: @dark-border-80;
         box-shadow: -2px -2px 5px rgba(0,0,0,0.06);
         transform: translateX(-50%) rotate(45deg)
     }
@@ -176,8 +161,8 @@
     &-left-top &-arrow,
     &-left-bottom &-arrow {
         right: 6px;
-        border-top-color: @light-border;
-        border-right-color: @light-border;
+        border-top-color: @dark-border-80;
+        border-right-color: @dark-border-80;
         border-bottom-color: @transparent-border;
         border-left-color: @transparent-border;
         box-shadow: 3px -3px 7px rgba(0,0,0,0.07);

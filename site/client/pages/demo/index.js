@@ -37,6 +37,7 @@ class ChartCard extends Component{
                             position="top left"
                             showArrow
                             trigger="hover"
+                            prefix="tooltip"
                             visible={false}
                         >
                             <Icon type="info-circle" />

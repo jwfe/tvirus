@@ -51,6 +51,7 @@ import '../assets/breadcrumb';
 import '../assets/pagination';
 import '../assets/tabs';
 import '../assets/table';
+import '../assets/tooltip';
 import '../assets/popup';
 import '../assets/dialog';
 import '../assets/message';
