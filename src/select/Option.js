@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
+import Icon from '@icon';
 
 export default class Select extends Component {
     static propTypes = {
@@ -41,7 +42,7 @@ export default class Select extends Component {
         })
     }
     render() {
-        const { children, disabled } = this.props;
+        const { children, disabled, icon } = this.props;
         const { selected } = this.state;
         return (
             <li 
@@ -51,6 +52,7 @@ export default class Select extends Component {
             })}
             onClick={this.handleClick.bind(this)}
             >
+                {icon && <Icon type={icon} />}
                 {children}
             </li>
         );

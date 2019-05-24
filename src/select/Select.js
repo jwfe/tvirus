@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes } from '@Libs';
+import { Component, PropTypes, noop } from '@Libs';
 import Tag from '@tag';
 import Button from '@button';
 import Search from '@search';
@@ -11,15 +11,18 @@ export default class Select extends Component {
         value: PropTypes.string,
         name: PropTypes.string,
         position: PropTypes.string,
+        showSearch: PropTypes.bool,
         multiple: PropTypes.bool,
         placeholder: PropTypes.string,
         onChange: PropTypes.func,
     };
 
     static defaultProps = {
+        showSearch: false,
         multiple: false,
         placeholder: '请选择',
-        position: "bottom left"
+        position: "bottom left",
+        onChange: noop
     };
 
     constructor(props) {
@@ -32,6 +35,16 @@ export default class Select extends Component {
             childrens: null,
             data: []
         }
+
+        React.Children.map(props.children, (child) => {
+            const { selected, children, value } = child.props;
+            if(selected){
+                this.state.selectedTitle.push(children);
+                this.state.selectedVals.push(value);
+            }
+            this.state.searchVals.push(value);
+            this.state.data.push(value);
+        });
     }
 
     componentDidMount(){
@@ -50,18 +63,18 @@ export default class Select extends Component {
             selectedVals = [value];
             selectedTitle = [title];
         }
-        
-        this.renderOptionsData(selectedVals);
 
         this.setState({
             visible: false,
             selectedVals,
             selectedTitle
+        }, () => {
+            this.renderOptionsData(selectedVals);
+            this.props.onChange(selectedVals);
         })
     }
 
     renderOptionsData(optionVals){
-        const data = [];
         const { children } = this.props;
         let { selectedValue, searchVals } = this.state;
         if(!children){
@@ -74,8 +87,7 @@ export default class Select extends Component {
 
         const childrens = React.Children.map(children, (child) => {
             const value = child.props.value;
-            if(!searchVals.length || searchVals.indexOf(value) !== -1){
-                data.push(value);
+            if(searchVals.indexOf(value) !== -1){
                 return React.cloneElement(child, {
                     onClick: this.handleOptionClick.bind(this),
                     selected: selectedValue ? selectedValue.indexOf(value) !== -1 : child.props.selected
@@ -84,8 +96,7 @@ export default class Select extends Component {
             return false;
         });
         this.setState({
-            childrens,
-            data
+            childrens
         }) 
     }
 
@@ -93,7 +104,7 @@ export default class Select extends Component {
         this.setState({
             searchVals: values
         }, () => {
-            this.renderOptionsData();
+            this.renderOptionsData(values);
         }) 
     }
 
@@ -115,21 +126,31 @@ export default class Select extends Component {
         this.setState({visible: showPopup});
     }
     render() {
-        const { placeholder, disabled, multiple, position } = this.props;
+        const { placeholder, disabled, multiple, position, showSearch, extra } = this.props;
         const { childrens, data, visible, selectedTitle } = this.state;
+
+        const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false;
+        const isShowSearch = showSearch && !isShowMultiple;
+
+        const childNode = (
+            <span>
+                { isShowSearch && <Search data={data} value={selectedTitle[0]} onSearch={this.handleSearch.bind(this)}>搜索</Search> }
+                { !isShowSearch && <Button style={{display: isShowMultiple ? 'none' : 'block'}}>{selectedTitle[0] || placeholder}</Button> }
+            </span>
+        );
 
         if(!childrens){
             return null;
         }
 
-        const renderOptions = (<div>
-            <Search data={data} onSearch={this.handleSearch.bind(this)}>搜索</Search>
-            <ul>
-                {childrens}
-            </ul>
-        </div>)
-
-        const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false
+        const renderOptions = (
+            <div>
+                <ul>
+                    {childrens}
+                </ul>
+                {extra && <div className="tv-select-extra">{extra}</div>}
+            </div>
+        )
 
         return (
             <div className={this.className('tv-select', {
@@ -137,14 +158,15 @@ export default class Select extends Component {
             })}>
 
                 <Popup 
-                className="tv-select-options-wraper"
-                disabled={disabled}
-                showArrow={false} 
-                visible={visible} 
-                trigger="click" 
-                position={position} 
-                content={renderOptions}
-                onChange={this.handlePopupChange.bind(this)}
+                    className="tv-select-options-wraper"
+                    disabled={disabled}
+                    showArrow={false} 
+                    showMinWidth={true} 
+                    visible={visible} 
+                    trigger="click" 
+                    position={position} 
+                    content={renderOptions}
+                    onChange={this.handlePopupChange.bind(this)}
                 >
                     <div className="tv-select-trigger">
                         {isShowMultiple && (
@@ -154,7 +176,7 @@ export default class Select extends Component {
                                 }
                             </div>
                         )}
-                        <Button style={{display: isShowMultiple ? 'none' : 'block'}}>{selectedTitle[0] || placeholder}</Button>
+                        {childNode}
                     </div>
                 </Popup>
             </div>

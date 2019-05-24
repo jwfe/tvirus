@@ -24,6 +24,7 @@ export default class Search extends Component {
             values: []
         }
     }
+
     handleClick(key){
         const { onClick } = this.props;
         this.setState({
@@ -47,7 +48,7 @@ export default class Search extends Component {
     }
 
     render() {
-        const { showDropdown } = this.props;
+        const { showDropdown, value } = this.props;
         const { values, currentValue } = this.state;
         let listNode = null;
 
@@ -68,7 +69,7 @@ export default class Search extends Component {
                 <Input
                     name={name}
                     type="text"
-                    value={currentValue}
+                    value={currentValue || value}
                     onChange={this.handleChange.bind(this)}
                 />
                 {showDropdown && listNode}

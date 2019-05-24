@@ -2,10 +2,19 @@
 @import "./libs/utils.less";
 
 .tv-select{
+    &-trigger{
+        display: inline-block;
+        .tv-button{
+            margin: 0;
+        }
+    }
     &-options{
         &-wraper{
             .tv-popup-inner{
                 padding: 0;
+                .tv-popup-content{
+                    padding: 0;
+                }
             }
             ul{
                 margin: 0;
@@ -31,10 +40,16 @@
         line-height: 1.5;
 
         cursor: pointer;
+        &-selected,
         &:hover{
             border-color: @master-border;
             background: #ffeed3;
             color: @master-color;
         }
+    }
+    &-extra{
+        border-top: 1px solid @dark-border-10;
+        margin-top: 4px;
+        padding-top: 4px; 
     }
 }

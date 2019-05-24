@@ -62,6 +62,27 @@ export default class SelectDemo extends Component{
                 </div>
             )
         });
+        
+        childs.push({
+            title: '带搜索',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Select showSearch extra={<div className="select-logout">退出</div>}>
+                                <Select.Option value="may" selected>may</Select.Option>
+                                <Select.Option value="amy">amy</Select.Option>
+                                <Select.Option value="ming">ming</Select.Option>
+                            </Select>
+                        </Col>
+                        <Col span={12}>
+                            
+                        </Col>
+                    </Row>
+                    
+                </div>
+            )
+        });
 
         this.setState({childs})
     }

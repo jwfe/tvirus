@@ -32,6 +32,7 @@ export default class Popup extends Component {
         prefix: PropTypes.oneOf(['popup', 'tooltip']),
         visible: PropTypes.bool,
         disabled: PropTypes.bool,
+        showMinWidth: PropTypes.bool,
         showArrow: PropTypes.bool,
         onChange: PropTypes.func,
     };
@@ -40,6 +41,7 @@ export default class Popup extends Component {
         prefix: 'popup',
         position: 'top left',
         visible: false,
+        showMinWidth: false,
         showArrow: true
     };
 
@@ -191,6 +193,7 @@ export default class Popup extends Component {
     }
 
     computePopup(resizePos){
+        const { showMinWidth } = this.props;
         const style = {};
         const element = this.triggerNode;
         const popupNode = this.popupNode;
@@ -261,6 +264,11 @@ export default class Popup extends Component {
         if(overflowViewport.right || overflowViewport.left){
             return this.computePopup(positions);
         }
+
+        // 使用最小宽度
+        if(showMinWidth){
+            style.minWidth = coords.width;  
+        }
         
         return style
     }
@@ -270,7 +278,6 @@ export default class Popup extends Component {
         const { showPopup, style } = this.state;
         const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
-
         prefix = `tv-${prefix}`;
 
         return [
