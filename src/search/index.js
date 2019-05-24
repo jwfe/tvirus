@@ -10,7 +10,7 @@ export default class Search extends Component {
         onSearch: PropTypes.func,
         onClick: PropTypes.func,
     };
-
+    
     static defaultProps = {
         showDropdown: false,
         onSearch: noop,
@@ -20,8 +20,16 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentValue: '',
+            currentValue: undefined,
             values: []
+        }
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(nextProps.value !== prevState.currentValue && nextProps.value !== prevState.prevValue){
+            return {
+                prevValue: nextProps.value,
+                currentValue: nextProps.value
+            }
         }
     }
 
@@ -48,7 +56,7 @@ export default class Search extends Component {
     }
 
     render() {
-        const { showDropdown, value } = this.props;
+        const { showDropdown } = this.props;
         const { values, currentValue } = this.state;
         let listNode = null;
 
@@ -69,7 +77,7 @@ export default class Search extends Component {
                 <Input
                     name={name}
                     type="text"
-                    value={currentValue || value}
+                    value={currentValue}
                     onChange={this.handleChange.bind(this)}
                 />
                 {showDropdown && listNode}
