@@ -8,8 +8,11 @@ import Popup from '@popup';
 export default class Select extends Component {
     static propTypes = {
         className: PropTypes.string,
+        childrenClassName: PropTypes.string,
         value: PropTypes.string,
+        trigger: PropTypes.string,
         name: PropTypes.string,
+        autoButton: PropTypes.node,
         position: PropTypes.string,
         showSearch: PropTypes.bool,
         multiple: PropTypes.bool,
@@ -22,6 +25,7 @@ export default class Select extends Component {
         multiple: false,
         placeholder: '请选择',
         position: "bottom left",
+        trigger: 'click',
         onChange: noop
     };
 
@@ -126,18 +130,22 @@ export default class Select extends Component {
         this.setState({visible: showPopup});
     }
     render() {
-        const { placeholder, disabled, multiple, position, showSearch, extra } = this.props;
+        const { placeholder, disabled, multiple, position, showSearch, extra, autoButton, childrenClassName, trigger } = this.props;
         const { childrens, data, visible, selectedTitle } = this.state;
 
         const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false;
         const isShowSearch = showSearch && !isShowMultiple;
 
-        const childNode = (
+        let childNode = (
             <span>
                 { isShowSearch && <Search data={data} value={selectedTitle[0]} onSearch={this.handleSearch.bind(this)}>搜索</Search> }
                 { !isShowSearch && <Button style={{display: isShowMultiple ? 'none' : 'block'}}>{selectedTitle[0] || placeholder}</Button> }
             </span>
         );
+
+        if(autoButton){
+            childNode = autoButton;
+        }
 
         if(!childrens){
             return null;
@@ -158,12 +166,12 @@ export default class Select extends Component {
             })}>
 
                 <Popup 
-                    className="tv-select-options-wraper"
+                    className={this.classNames(["tv-select-options-wraper", childrenClassName])}
                     disabled={disabled}
                     showArrow={false} 
                     showMinWidth={true} 
                     visible={visible} 
-                    trigger="click" 
+                    trigger={trigger} 
                     position={position} 
                     content={renderOptions}
                     onChange={this.handlePopupChange.bind(this)}

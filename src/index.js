@@ -6,6 +6,7 @@ import Button from './button';
 import Cascader from './cascader';
 import Card from './card';
 import Chart from './chart';
+import Form from './form';
 import Checkbox from './checkbox';
 import Datepicker from './datepicker';
 import Dialog from './dialog';
@@ -73,6 +74,7 @@ export {
     Row, Col,
     I18nProvider, I18nReceiver,
     Icon,
+    Form,
     Input,
     Menu,
     Message,

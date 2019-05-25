@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import { Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Popup } from 'tvirus';
+import { 
+    Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Popup, Select,
+    Input, Checkbox, Form
+} from 'tvirus';
 import { columns, data as columns_data } from './tableData';
 
 import './demo.less';
@@ -76,6 +79,7 @@ export default class DemoIndex extends Component{
 
     }
     state = {
+        view: 'login',
         columns,
         columns_data,
         bubble: [
@@ -526,15 +530,17 @@ export default class DemoIndex extends Component{
             }
         }
     }
-    componentDidMount(){
-
+    onLogout = (evt) =>{
+        this.setState({
+            view: 'login'
+        })
     }
     toggleCollapsed = () => {
         this.setState({
             collapsed: !this.state.collapsed
         })
     }
-    render() {
+    renderIndex() {
         return (
             <div className="root-wraper">
                 <div className="root-menu" style={{width: this.state.collapsed ? 80 : ''}}>
@@ -588,8 +594,14 @@ export default class DemoIndex extends Component{
                                         <span className="text">May</span>
                                     </li>
                                     <li>
-                                        <Icon type="setup" />
-                                        <span className="text">设置</span>
+                                        <Select 
+                                            childrenClassName="demo-setup"
+                                            trigger="hover"
+                                            autoButton={<span><Icon type="setup" /><span className="text">设置</span></span>}
+                                            extra={<div className="select-logout" onClick={this.onLogout}><Icon type="logout" />退出</div>}>
+                                            <Select.Option icon="user" value="ucenter" selected>个人中心</Select.Option>
+                                            <Select.Option icon="setup" value="userset">个人设置</Select.Option>
+                                        </Select>
                                     </li>
                                 </ul>
                             </Col>
@@ -728,5 +740,55 @@ export default class DemoIndex extends Component{
                 </main>
             </div>
         )
+    }
+    renderLogin(){
+        return (
+            <div className="tv-user-layout">
+                <div className="tv-user-layout-top">
+                    <div className="tv-user-layout-header">
+                        <a href="/">
+                            <Icon type="bwlogo" />
+                        </a>
+                    </div>
+                    <div className="tv-user-layout-desc">
+                        酒店智慧解决之道
+                    </div>
+                </div>
+                <div className="tv-components-login-index-login">
+                    <Form onSubmit={() => {}}>
+                        <Form.Item name="username">
+                            <Input size="large" placeholder="用户名" prefix="user" />
+                        </Form.Item>
+                        <Form.Item name="password">
+                            <Input size="large" placeholder="密码" showToggle prefix="unlock" type="password" />
+                        </Form.Item>
+                        <Form.Item>
+                            <Checkbox
+                                checked={true}
+                            >
+                                记住密码
+                            </Checkbox>
+                            <Button type="link" style={{float: 'right'}}>忘记密码</Button>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button
+                                className="tv-submit"
+                                size="large"
+                                type="primary"
+                            >
+                                登录
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </div>
+        )
+    }
+    render(){
+        const { view } = this.state;
+        if(view === 'index'){
+            return this.renderIndex();
+        }
+        return this.renderLogin()
     }
 }

@@ -6,7 +6,6 @@ export default class Checkbox extends Component {
     static propTypes = {
         className: PropTypes.string,
         checked: PropTypes.bool,
-        defaultChecked: PropTypes.bool,
         disabled: PropTypes.bool,
         value: PropTypes.string,
         name: PropTypes.string,
@@ -17,7 +16,6 @@ export default class Checkbox extends Component {
 
     static defaultProps = {
         checked: false,
-        defaultChecked: false,
         disabled: false,
     };
 

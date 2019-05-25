@@ -10,7 +10,7 @@
         box-sizing: border-box;
         margin: 0;
 
-        border: .size(1)[] solid #d9d9d9;
+        border: .size(1)[] solid @dark-border-10;
         border-radius: .size(4)[];
 
         padding: .size(4)[] .size(11)[];
@@ -56,6 +56,9 @@
         .tv-input-suffix + &{
             padding-right: 30px;
         }
+        .tv-input-prefix + .tv-input-suffix + &{
+            padding-left: 30px;
+        }
     }
     
     &-size {
@@ -72,6 +75,7 @@
     &-wraper{
         display: inline-block;
         position: relative;
+        width: 100%;
     }
     &-prefix,
     &-suffix{
