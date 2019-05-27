@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Component, PropTypes, noop } from '@Libs';
+import Icon from '@icon';
 
 import TablePanel from './TablePanel';
 import Row from './Row';
@@ -11,8 +12,8 @@ export default class Table extends Component {
         super(props);
         this.dom = {};
         const { columns, data } = this.props;
-        this.renderData = this.calculateWidth(columns, data);
         this.state = {
+            data: this.calculateWidth(columns, data),
             width: props.width,
             bodyHeight: '100%'
         }
@@ -219,12 +220,36 @@ export default class Table extends Component {
         console.log('[TABLE]', 'calculateWidth', fixed)
         return fixed;
     }
+    handleOnSort(columnsItem) {
+        const { columns, data } = this.props;
+        const sortdata = data.sort((a, b) => {
+            const item = columnsItem.sort(a[columnsItem.key], b[columnsItem.key]);
+            return !this.state.sortState ? item : (0-item);
+        });
 
+        const newdata = this.calculateWidth(columns, sortdata);
+
+        this.setState({
+            sortState: !this.state.sortState,
+            data: newdata
+        })
+    }
     renderGroupCell(groupData){
         const groupNodes = [];
 
         if(groupData.title){
-            groupNodes.push(<Cell style={{width: groupData.width, justifyContent: groupData.align}} key={groupData.key}>{groupData.title}</Cell>)
+            const hasSort = groupData.sort;
+            groupNodes.push(<Cell 
+                    onClick={this.handleOnSort.bind(this, groupData)}
+                    style={{width: groupData.width, justifyContent: groupData.align}} 
+                    className={hasSort ? 'has-sort' : ''} 
+                    key={groupData.key}>
+                <span className="tv-table-column-title">{groupData.title}</span>
+                {groupData.sort && <span className="tv-table-column-sorter">
+                    <Icon type="caret-up" className={this.state.sortState ? 'on' : 'off'} />
+                    <Icon type="caret-down" className={!this.state.sortState ? 'on' : 'off'}  />
+                </span>}
+            </Cell>)
         }
 
         if(groupData.children){
@@ -341,8 +366,8 @@ export default class Table extends Component {
 
     render(){
         const { multiple, bordered} = this.props;
-        const { bodyWraperHeight, bodyHeight, width } = this.state;
-        const { left, right, middle } = this.renderData;
+        const { bodyWraperHeight, bodyHeight, width, data } = this.state;
+        const { left, right, middle } = data;
 
         const setWrapperElement = element => {
             if(element) this.dom.wrapper = element;
