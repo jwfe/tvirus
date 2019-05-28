@@ -12,7 +12,7 @@ export default class TextDemo extends Component{
             columns: [
                 { title: '标点名称', key: 'name', width: 260},
                 { title: '字符', key: 'character', width: 260 },
-                { title: '描述', key: 'desc', width: 260 }
+                { title: '描述', key: 'desc', width: 480 }
             ],
             data: [
                 {
@@ -57,15 +57,13 @@ export default class TextDemo extends Component{
         return <Layout {...this.props} 
             className="main-text-box"
             title="文案"
-            desc="
-            在界面中，我们需要通过对话的方式与用户产生共鸣。精准、清晰的语言会更容易让用户理解，合适的语气更容易让用户建立信任感。<br />
-            在书写文案时有以下几点需要注意：<br />
-            1.从用户角度出发<br />
-            2.表述一致<br />
-            3.重要的信息放在显著位置<br />
-            4.专业、精准、完整<br />
-            5.精简、友好、正面
-            "
+            desc={<div>在界面中，我们需要通过对话的方式与用户产生共鸣。精准、清晰的语言会更容易让用户理解，合适的语气更容易让用户建立信任感。<br />
+                在书写文案时有以下几点需要注意：<br />
+                1.从用户角度出发<br />
+                2.表述一致<br />
+                3.重要的信息放在显著位置<br />
+                4.专业、精准、完整<br />
+                5.精简、友好、正面</div>}
         >
             
             <h3>语言</h3>
@@ -134,7 +132,7 @@ export default class TextDemo extends Component{
             <p>具体使用请参考1995年中国标准出版社出版的《标点符号用法》，右图列出的在设计中需要注意的部分。</p>
             <div>
                 <Table 
-                    style={{height: '400px'}}
+                    style={{width: 1000, height: '400px'}}
                     columns={columns}
                     data={data}
                 />
