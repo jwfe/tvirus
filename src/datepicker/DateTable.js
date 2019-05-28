@@ -119,6 +119,7 @@ export default class DateTable extends Component {
             // 周视图下第一列展示对应的周
             if(mode === modes.WEEK && index%7 === 0 && showWeekNumber){
                 const obj = JSON.parse(JSON.stringify(dateObj));
+                obj.isNotClick = true;
                 obj.text = obj.week;
                 rows[rowIndex].push(obj);
             }
@@ -159,12 +160,12 @@ export default class DateTable extends Component {
     }
 
     isWeekActive(cell){
-        const { mode, value } = this.props;
+        const { mode, date } = this.props;
         if(mode !== modes.WEEK){
             return false;
         }
 
-        return cell.week === weekOfYear(format(value)).number;
+        return cell.week === weekOfYear(format(date)).number;
     }
     handleMouseMove(cell){
         const { onMoveRange, rangeState, mode, disabledDate } = this.props;
@@ -175,6 +176,10 @@ export default class DateTable extends Component {
         onMoveRange(rangeState)
     }
     handleDateClick(cell){
+        if(cell.isNotClick){
+            return;
+        }
+
         let { mode, onChange, rangeState, minDate, maxDate } = this.props;
 
         if(cell.disabled){
@@ -202,14 +207,14 @@ export default class DateTable extends Component {
             return;
         }
 
-        onChange(cell.date);
+        onChange(cell.date, cell);
     }
 
     renderHead(head){
         const { mode } = this.props;
 
         if(mode === modes.WEEK){
-            head.push('');
+            head.unshift(' ');
         }
 
         return (
@@ -229,49 +234,43 @@ export default class DateTable extends Component {
         )
     }
 
-    renderBody(rows){
-        return (
-            <tbody className="tv-datepicker-tbody">
-            {
-                rows.map((row) => {
-                    const isWeekActive = this.isWeekActive(row[1]);
-                    return (
-                        <tr className={this.className({
-                            'tv-datepicker-active-week': isWeekActive
-                        })}>
-                            {
-                                row.map((cell) => {
-                                    return (
-                                        <td 
-                                        onClick={this.handleDateClick.bind(this, cell)}
-                                        onMouseMove={this.handleMouseMove.bind(this, cell)}
-                                        title={`${cell.year}年${cell.month}月${cell.day}日`} 
-                                        className={this.className('tv-datepicker-cell', {
-                                            'tv-datepicker-cell-selected': cell.start || cell.end || cell.selected,
-                                            'tv-datepicker-cell-in-range': cell.inRange,
-                                            'tv-datepicker-cell-today': cell.today,
-                                            'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
-                                            'tv-datepicker-cell-disabled': cell.disabled
-                                        })}>
-                                            <div className="tv-datepicker-date">{cell.text || cell.day}</div>
-                                        </td>
-                                    )
-                                })
-                            }
-                        </tr>
-                    )
-                })
-            }
-        </tbody>
-        )
-    }
-
     render(){
         const { head, rows } = this.getRow();
         return (
             <table className="tv-datepicker-table" cellspacing="0" style={this.style()}>
                 { this.renderHead(head) }
-                { this.renderBody(rows) }                        
+                <tbody className="tv-datepicker-tbody">
+                {
+                    rows.map((row) => {
+                        const isWeekActive = this.isWeekActive(row[1]);
+                        return (
+                            <tr className={this.className({
+                                'tv-datepicker-active-week': isWeekActive
+                            })}>
+                                {
+                                    row.map((cell) => {
+                                        return (
+                                            <td 
+                                            onClick={this.handleDateClick.bind(this, cell)}
+                                            onMouseMove={this.handleMouseMove.bind(this, cell)}
+                                            title={`${cell.year}年${cell.month}月${cell.day}日`} 
+                                            className={this.className('tv-datepicker-cell', {
+                                                'tv-datepicker-cell-selected': cell.start || cell.end || cell.selected,
+                                                'tv-datepicker-cell-in-range': cell.inRange,
+                                                'tv-datepicker-cell-today': cell.today,
+                                                'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
+                                                'tv-datepicker-cell-disabled': cell.disabled
+                                            })}>
+                                                <div className="tv-datepicker-date">{cell.text || cell.day}</div>
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })
+                }
+            </tbody>                      
             </table>
         )
     }

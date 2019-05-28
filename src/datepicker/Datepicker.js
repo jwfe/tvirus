@@ -14,7 +14,7 @@ export default class Datepicker extends Component {
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         name: PropTypes.string,
         trigger: PropTypes.string,
-        model: PropTypes.string,
+        mode: PropTypes.string,
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
         disabledDate: PropTypes.func,
@@ -30,14 +30,15 @@ export default class Datepicker extends Component {
 
     constructor(props) {
         super(props);
-
+        const date = props.value ? parse(props.value) : parse(format(new Date()));
         this.state = {
             view: 'day',
-            date: props.value ? parse(props.value) : parse(format(new Date()))
+            date: date,
+            currentDateObj: weekOfYear(format(date))
         }
     }
 
-    handlePopupChange(showPopup){
+    handlePopupChange = (showPopup) => {
         const { disabled } = this.props;
 
         if(disabled){
@@ -50,14 +51,19 @@ export default class Datepicker extends Component {
         this.setState({visible: showPopup});
     }
 
-    handleDate(value) {
-        const { onChange, name } = this.props;
+    handleDate = (value, obj) => {
+        const { mode, onChange, name } = this.props;
         const { view } = this.state;
-        onChange && onChange(value, name)
+        if(mode !== 'day'){
+            onChange && onChange(obj, name);
+        } else {
+            onChange && onChange(value, name);
+        }
         this.setState({
             visible: view !== 'day',
             view: 'day',
-            date: value
+            date: value,
+            currentDateObj: obj
         });
     }
 
@@ -149,26 +155,26 @@ export default class Datepicker extends Component {
             <YearTable 
                 disabledDate={disabledDate} 
                 date={date} 
-                onChange={this.handleDate.bind(this)} 
+                onChange={this.handleDate} 
                 style={{display: view === 'year' ? '' : 'none'}} />,
             <MonthTable 
                 disabledDate={disabledDate} 
                 date={date} 
-                onChange={this.handleDate.bind(this)} 
+                onChange={this.handleDate} 
                 style={{display: view === 'month' ? '' : 'none'}} />,
             <DateTable 
                 disabledDate={disabledDate} 
                 style={{display: (view !== 'year' &&  view !== 'month') ? '' : 'none'}}
                 mode={mode} 
                 date={date} 
-                onChange={this.handleDate.bind(this)}
+                onChange={this.handleDate}
             /> 
         ]
     }
 
     render(){
-        const { position, placeholder, footer, children, trigger } = this.props;
-        const { disabled, visible, date } = this.state;
+        const { position, placeholder, footer, children, trigger, mode } = this.props;
+        const { disabled, visible, date, currentDateObj } = this.state;
         const content = (
             <div className="tv-datepicker">
                 { this.renderSearch() }
@@ -188,7 +194,15 @@ export default class Datepicker extends Component {
             </div>
         )
 
-        const dateString = date ? format(date) : placeholder;
+        let dateString = date ? format(date) : placeholder;
+
+        if(mode !== 'day'){
+            let __date = currentDateObj[mode];
+            if(mode === 'week'){
+                __date = `${currentDateObj['year']}年${__date}周`
+            }
+            dateString = date ? __date : placeholder;
+        }
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>
@@ -199,7 +213,7 @@ export default class Datepicker extends Component {
                 trigger={trigger} 
                 position={position} 
                 content={content}
-                onChange={this.handlePopupChange.bind(this)}
+                onChange={this.handlePopupChange}
                 >
                     {children || <div className="tv-datepicker-trigger">
                         <Button>{dateString}</Button>

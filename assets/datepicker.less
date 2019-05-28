@@ -257,10 +257,15 @@
     }
 
     &-active-week{
-        font-weight: bold;
-        background: @master-bgc;
+        background-color: @master-bgc-20;
         .tv-datepicker-cell{
-            opacity: .5;
+            &:first-child,
+            &:last-child{
+                background-color: @master-bgc;
+            }
+            .tv-datepicker-date{
+                color: @light-color;
+            }
         }
     }
     &-year-table,

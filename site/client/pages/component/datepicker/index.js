@@ -35,7 +35,7 @@ export default class DatepickerDemo extends Component{
                             <Datepicker />
                         </Col>
                         <Col span={12}>
-                            <Datepicker model="week" />
+                            <Datepicker mode="week" showWeekNumber />
                         </Col>
                     </Row>
                 </div>
