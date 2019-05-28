@@ -175,7 +175,7 @@ export default class DateTable extends Component {
         onMoveRange(rangeState)
     }
     handleDateClick(cell){
-        let { mode, onChange, rangeState, minDate, maxDate, disabledDate } = this.props;
+        let { mode, onChange, rangeState, minDate, maxDate } = this.props;
 
         if(cell.disabled){
             return;

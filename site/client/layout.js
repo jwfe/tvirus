@@ -47,13 +47,14 @@ class App extends Component{
     }
     render(){
         const hash = this.getLocation();
+        const showHead = hash.path === 'component' || hash.path === 'spec';
         const children = React.Children.map(this.props.children, (child, i) => {
             return React.cloneElement(child, {key: i, hash})
         });
         return (
             <I18nProvider value={i18nMaps['zh-CN']}>
                 <section>
-                    {(hash.path !== 'index' && hash.path !== 'demo')&& <Head hash={hash} />}
+                    {showHead && <Head hash={hash} />}
                     {children}
                 </section>
             </I18nProvider>

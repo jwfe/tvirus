@@ -29,7 +29,7 @@ export default class Checkbox extends Component {
     handleChange(evt){
         const checked = evt.target.checked;
         const { onChange, value } = this.props;
-        onChange && onChange(evt, value, checked);
+        onChange && onChange(value, checked, name, evt);
         this.setState({
             stateChecked: checked
         })

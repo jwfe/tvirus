@@ -51,7 +51,9 @@ export default class Datepicker extends Component {
     }
 
     handleDate(value) {
+        const { onChange, name } = this.props;
         const { view } = this.state;
+        onChange && onChange(value, name)
         this.setState({
             visible: view !== 'day',
             view: 'day',

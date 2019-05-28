@@ -109,7 +109,7 @@ export default class SliderBar extends Component {
     }
 
     setPosition(newPosition) {
-        const { max, min, step, onChange } = this.props;
+        const { max, min, step, onChange, name } = this.props;
 
         if (newPosition < 0) {
             newPosition = 0;
@@ -124,7 +124,7 @@ export default class SliderBar extends Component {
         this.setState({
             value: value
         }, () => {
-            onChange(value);
+            onChange(value, name);
         })
     }
 

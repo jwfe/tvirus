@@ -1,0 +1,45 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+
+.tv-form{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    color: @dark-color-65;
+    font-size: 14px;
+    line-height: 1.5;
+    &-item{
+        box-sizing: border-box;
+        margin: 0 0 24px;
+        padding: 0;
+
+        color: @dark-color-65;
+        font-size: 14px;
+        line-height: 1.5;
+        list-style: none;
+        vertical-align: top;
+        .tv-submit{
+            width: 100%;
+        }
+    }
+    &-explain{
+        clear: both;
+        margin-top: 5px;
+        min-height: 22px;
+        color: @dark-color-45;
+        font-size: 14px;
+        line-height: 1.5;
+        transition: color .3s cubic-bezier(.215, .61, .355, 1);
+    }
+    .has-error {
+        .tv-input, 
+        .tv-input:hover {
+            background-color: @light-bgc;
+            border-color: @danger-border;
+        }
+    }
+    .has-error &-explain{
+        color: @danger-color;
+    }
+}

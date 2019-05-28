@@ -69,7 +69,7 @@ export default class Range extends Component {
     }
 
     handleDate({ minDate, maxDate }, isClose) {
-        const { onChange } = this.props
+        const { onChange, name } = this.props
         if (!isClose){
             this.setState({ visible: true, view: 'day', minDate, maxDate });
             return;
@@ -77,7 +77,7 @@ export default class Range extends Component {
         this.setState({ visible: false, view: 'day', minDate, maxDate, selected: {
             minDate, maxDate,
         }});
-        onChange([minDate, maxDate], false)
+        onChange([minDate, maxDate], false, name)
     }
     handleMoveRange({ endDate }){
         const { rangeState, minDate } = this.state

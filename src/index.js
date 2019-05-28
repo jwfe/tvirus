@@ -41,6 +41,7 @@ import '../assets/checkbox';
 import '../assets/cascader';
 import '../assets/switch';
 import '../assets/datepicker';
+import '../assets/form';
 
 import '../assets/icon';
 import '../assets/grid';

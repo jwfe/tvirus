@@ -60,8 +60,8 @@ export default class DateTable extends Component {
     }
 
     handleClick(cell){
-        const { onChange, rangeKey } = this.props
-        onChange(cell.date, rangeKey);
+        const { onChange, rangeKey, name } = this.props
+        onChange(cell.date, rangeKey, name);
     }
 
     render(){

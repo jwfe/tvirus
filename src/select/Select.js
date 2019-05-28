@@ -57,7 +57,7 @@ export default class Select extends Component {
 
     handleOptionClick(value, title){
         let { selectedVals, selectedTitle } = this.state;
-        const { multiple } = this.props;
+        const { multiple, name } = this.props;
         if(multiple){
             if(selectedVals.indexOf(value) === -1){
                 selectedVals.push(value);
@@ -74,7 +74,7 @@ export default class Select extends Component {
             selectedTitle
         }, () => {
             this.renderOptionsData(selectedVals);
-            this.props.onChange(selectedVals);
+            this.props.onChange(selectedVals, name);
         })
     }
 

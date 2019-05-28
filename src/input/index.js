@@ -35,19 +35,22 @@ export default class Input extends Component {
         }
     }
     handleChange(evt){
-        const { onChange } = this.props;
-        onChange(evt)
+        const { onChange, name } = this.props;
+        const { value } = evt.target
+        onChange(value, name, evt);
     }
     handleFocus(evt){
-        const { onFocus } = this.props;
-        onFocus(evt)
+        const { onFocus, name } = this.props;
+        const { value } = evt.target
+        onFocus(value, name, evt);
     }
     handleBlur(evt){
-        const { onBlur } = this.props;
-        onBlur(evt)
+        const { onBlur, name } = this.props;
+        const { value } = evt.target
+        onBlur(value, name, evt);
     }
     handlePressEnter(evt){
-        const { autosize, onPressEnter } = this.props;
+        const { autosize, onPressEnter, name } = this.props;
         if(autosize){
             const { target } = evt;
             const height = target.scrollHeight;
@@ -56,7 +59,8 @@ export default class Input extends Component {
             })
         }
 
-        onPressEnter && onPressEnter(evt)
+        const { value } = evt.target
+        onPressEnter && onPressEnter(value, name, evt);
     }
     addPasswdVisible(){
         const { type, showToggle } = this.props;

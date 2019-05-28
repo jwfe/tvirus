@@ -18,10 +18,10 @@ export default class Switch extends Component {
     };
 
     handleClick(){
-        const { onChange } = this.props;
+        const { onChange, name } = this.props;
         const { checked } = this.state;
         this.setState({checked: !checked});
-        onChange && onChange(!checked);
+        onChange && onChange(!checked, name);
     }
 
     render(){

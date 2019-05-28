@@ -20,9 +20,9 @@ export default class Group extends Component {
             defaultValue: props.defaultValue
         }
     }
-    handleChange(evt, value){
-        const { onChange } = this.props;
-        onChange && onChange(evt, value);
+    handleChange(value, key, evt){
+        const { onChange, name } = this.props;
+        onChange && onChange(value, name, evt);
         this.setState({defaultValue: value})
     }
 

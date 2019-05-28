@@ -1,9 +1,12 @@
 import React from 'react';
-import { Component, PropTypes, Transition, Animation } from '@Libs';
+import AsyncValidator from 'async-validator';
+
+import { Component, noop } from '@Libs';
 import { Row, Col } from '@grid';
 import { FormContext } from './FormContext';
+import { FormItemContext } from './FormItemContext';
 
-export default class SubMenu extends Component {
+export default class FormItem extends Component {
     state = {
         explain: null
     }
@@ -14,21 +17,79 @@ export default class SubMenu extends Component {
     static propTypes = {
     }
 
+    componentDidMount() {
+        const { name } = this.props;
+
+        if (name) {
+            this.context.addField(this);
+        }
+    }
+
+    componentWillUnmount() {
+        this.context.removeField(this);
+    }
+
+    onBlur = () => {
+        this.validate();
+    }
+
+    validate(callback = noop){
+        const { name } = this.props;
+        const { rules } = this.context;
+        const _rules = rules[name];
+        const descriptor = { [name]: _rules };
+        const validator = new AsyncValidator(descriptor);
+
+        this.setState({pending: true});
+
+        const data = { [name]: this.fieldValue() };
+
+
+        validator.validate(data, { firstFields: true }, (errors) => {
+            this.setState({
+                explain: errors ? errors[0].message : '',
+                pending: false,
+                valid: !errors
+            }, () => {
+                callback(errors);
+            });
+        })
+    }
+
+    fieldValue() {
+        const model = this.context.model;
+        if (!model || !this.props.name) { return; }
+        const temp = this.props.name.split(':');
+        return temp.length > 1 ? model[temp[0]][temp[1]] : model[this.props.name];
+    }
+    renderChildren(){
+        const { children } = this.props;
+        const { explain, pending } = this.state;
+        return (
+            <FormItemContext.Provider value={{
+                onFieldBlur: this.onBlur,
+                onFieldChange: this.context.onFieldChange
+            }}
+            >
+                <div className={this.className('tv-form-item-control', {
+                    'has-error': explain,
+                    'is-pending': pending,
+                })}>
+                    <span className="tv-form-item-children">
+                        {children}
+                    </span>
+                    {explain && <div className="tv-form-explain">{explain}</div>}
+                </div>
+            </FormItemContext.Provider>
+        )
+    }
     render(){
-        const { label, children } = this.props;
-        const { explain } = this.state;
+        const { label } = this.props;
 
         if(!label){
             return (
                 <div className={this.className('tv-form-item')}>
-                    <div className={this.className('tv-form-item-control', {
-                        'has-error': explain
-                    })}>
-                        <span className="tv-form-item-children">
-                            {children}
-                        </span>
-                        {explain && <div className="tv-form-explain">{explain}</div>}
-                    </div>
+                    {this.renderChildren()}
                 </div>
             )
         }
@@ -39,14 +100,7 @@ export default class SubMenu extends Component {
                     <label title={label}>{ label }</label>
                 </Col>
                 <Col span="12">
-                    <div className={this.className('tv-form-item-control', {
-                        'has-error': explain
-                    })}>
-                        <span className="tv-form-item-children">
-                            {children}
-                        </span>
-                        {explain && <div className="tv-form-explain">{explain}</div>}
-                    </div>
+                    {this.renderChildren()}
                 </Col>
             </Row>
         )

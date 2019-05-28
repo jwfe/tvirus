@@ -5,73 +5,10 @@ import {
     Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Popup, Select,
     Input, Checkbox, Form
 } from 'tvirus';
+import ChartCard from './component/ChartCard';
 import { columns, data as columns_data } from './tableData';
 
-import './demo.less';
-
-class ChartCard extends Component{
-    state = {}
-    constructor(props){
-        super(props);
-    }
-    renderChart(){
-        const { chart } = this.props;
-        if(chart.type === 'progress'){
-            return <Progress status={chart.status} value={chart.value} />
-        }
-        if(chart.type === 'colorProgress'){
-            return <Progress type="color" status={chart.status} value={chart.value} />
-        }
-        return <Chart height={40} option={chart} />
-    }
-    render(){
-        const { meta, total, chart, trend } = this.props;
-        return (
-            <Card
-                className="chart-card-wraper" 
-                bordered={false} 
-                style={{paddingTop: 12, paddingBottom: 12}} ref={(el) => {this.chartNode = el}}
-            >
-                <div className="meta-wrapper">
-                    <div className="meta">
-                        <span>{ meta }</span>
-                        <Popup
-                            content={meta}
-                            position="top left"
-                            showArrow
-                            trigger="hover"
-                            prefix="tooltip"
-                            visible={false}
-                        >
-                            <Icon type="info-circle" />
-                        </Popup>
-                        
-                    </div>
-                    <div className="meta-totall">{ total }</div>
-                </div>
-                <div className="chart-wrapper">
-                    {this.renderChart()}
-                </div>
-                <div className="trend-footer">
-                    {
-                        trend.map((item, index) => {
-                            return (
-                                <div className="trend-item" key={index}>
-                                    <span>
-                                        <span>{item.text}</span>
-                                        {item.value && <span className="trend-item-value">{item.value}</span>}
-                                    </span>
-                                    {item.isUp && <span className="trend-item-up up"></span>}
-                                    {item.isDown && <span className="trend-item-down down"></span>}
-                                </div> 
-                            )
-                        })
-                    }
-                </div>
-            </Card>
-        )
-    }
-}
+import './css/demo.less';
 
 export default class DemoIndex extends Component{
     constructor(props){
@@ -79,7 +16,6 @@ export default class DemoIndex extends Component{
 
     }
     state = {
-        view: 'login',
         columns,
         columns_data,
         bubble: [
@@ -531,16 +467,14 @@ export default class DemoIndex extends Component{
         }
     }
     onLogout = (evt) =>{
-        this.setState({
-            view: 'login'
-        })
+        this.props.history.push("/login");
     }
     toggleCollapsed = () => {
         this.setState({
             collapsed: !this.state.collapsed
         })
     }
-    renderIndex() {
+    render() {
         return (
             <div className="root-wraper">
                 <div className="root-menu" style={{width: this.state.collapsed ? 80 : ''}}>
@@ -740,55 +674,5 @@ export default class DemoIndex extends Component{
                 </main>
             </div>
         )
-    }
-    renderLogin(){
-        return (
-            <div className="tv-user-layout">
-                <div className="tv-user-layout-top">
-                    <div className="tv-user-layout-header">
-                        <a href="/">
-                            <Icon type="bwlogo" />
-                        </a>
-                    </div>
-                    <div className="tv-user-layout-desc">
-                        酒店智慧解决之道
-                    </div>
-                </div>
-                <div className="tv-components-login-index-login">
-                    <Form onSubmit={() => {}}>
-                        <Form.Item name="username">
-                            <Input size="large" placeholder="用户名" prefix="user" />
-                        </Form.Item>
-                        <Form.Item name="password">
-                            <Input size="large" placeholder="密码" showToggle prefix="unlock" type="password" />
-                        </Form.Item>
-                        <Form.Item>
-                            <Checkbox
-                                checked={true}
-                            >
-                                记住密码
-                            </Checkbox>
-                            <Button type="link" style={{float: 'right'}}>忘记密码</Button>
-                        </Form.Item>
-                        <Form.Item>
-                            <Button
-                                className="tv-submit"
-                                size="large"
-                                type="primary"
-                            >
-                                登录
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </div>
-        )
-    }
-    render(){
-        const { view } = this.state;
-        if(view === 'index'){
-            return this.renderIndex();
-        }
-        return this.renderLogin()
     }
 }

@@ -3,7 +3,11 @@ import { Util } from 'tvirus';
 const { weekOfYear } = Util.date;
 
 const columns = [
-    {title: '日期', key: 'date', fixed: 'left', align: 'center'},
+    {
+        title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
+            return Util.date.parse(a) - Util.date.parse(b);
+        }
+    },
     {title: '星期', width: 80, dataIndex: 'week', key: 'week', fixed: 'left', align: 'center'},
     {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center'},
     {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center'},

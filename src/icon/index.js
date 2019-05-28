@@ -23,7 +23,7 @@ export default class Icon extends Component {
     }
 
     render() {
-        const { type, spin, ...otherProps } = this.props;
+        const { type, spin, className, ...otherProps } = this.props;
 
         return (
             <i 

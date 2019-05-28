@@ -20,7 +20,7 @@ export default class Group extends Component {
             defaultValue: props.defaultValue || []
         }
     }
-    handleChange(evt, value, checked){
+    handleChange(value, checked, key, evt){
         const { onChange } = this.props;
         let { defaultValue } = this.state;
 
@@ -30,7 +30,7 @@ export default class Group extends Component {
             defaultValue.push(value);
         }
 
-        onChange && onChange(defaultValue);
+        onChange && onChange(defaultValue, key);
         this.setState({defaultValue})
     }
     filterValues(value){

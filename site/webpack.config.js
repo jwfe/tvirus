@@ -112,6 +112,7 @@ import Layout from './layout';
 
 const Index =  lazy(() => import('./pages/index'));
 const Demo =  lazy(() => import('./pages/demo'));
+const DemoLogin =  lazy(() => import('./pages/demo/login.js'));
 const CompInstall =  lazy(() => import('./pages/component/install'));
 
 ${importSpec.join('\n')}
@@ -122,6 +123,7 @@ export default (
             <Suspense fallback={<div></div>}>
                     <Route path="/" exact component= {Index} />
                     <Route path="/demo" exact component={Demo} />
+                    <Route path="/login" exact component={DemoLogin} />
                     {/* 设计语言 */}
                     ${linkSpec.join('\n')}
                     {/* 组件 */}
@@ -149,7 +151,7 @@ export default (
 import React, { Component } from 'react';
 import Layout from '../../../common/compLayout';
 
-import ${name} from '@${comp}';
+import {${name}} from 'tvirus';
 import './index.less'
 
 export default class ${name}Demo extends Component{

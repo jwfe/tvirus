@@ -4,7 +4,7 @@ import { FormContext } from './FormContext';
 
 export default class Form extends Component {
     static propTypes = {
-        
+        rules: PropTypes.object
     };
 
     static defaultProps = {
@@ -12,7 +12,8 @@ export default class Form extends Component {
     };
 
     state = {
-
+        model: {},
+        fields: []
     }
 
     constructor(props) {
@@ -21,17 +22,62 @@ export default class Form extends Component {
 
     onHandleSubmit = (evt) => {
         evt.preventDefault();
-        this.props.onSubmit();
+        this.validate();
     }
 
-    onChange = (key) => {
+    onChange = (key, value) => {
+        const { model } = this.state;
+        model[key] = value;
+        this.setState({model});
+    }
 
+    addField = (field) => {
+        const { fields } = this.state;
+        fields.push(field);
+        
+        this.setState({
+            fields
+        })
+    }
+
+    removeField = (field) => {
+        if(field.props.name){
+            const { fields } = this.state;
+            fields.splice(fields.indexOf(field), 1);
+            this.setState({fields});
+        }
+    }
+
+    validate(){
+        const { fields } = this.state;
+        const { onSubmit } = this.props;
+        let valid = true;
+        let count = 0;
+
+        if (fields.length === 0) {
+            return onSubmit(valid);
+        }
+
+        fields.forEach(field => {
+            field.validate(errors => {
+                if (errors) {
+                    valid = false;
+                }
+                if (++count === fields.length) {
+                    onSubmit(valid);
+                }
+            });
+        });
     }
 
     render(){
         return (
             <FormContext.Provider value={{
-                onChange: this.onChange
+                model: this.state.model,
+                rules: this.props.rules,
+                addField: this.addField,
+                removeField: this.removeField,
+                onFieldChange: this.onChange
             }}
             >
             <form 
