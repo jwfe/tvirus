@@ -4,6 +4,7 @@ import Highlight from 'react-highlight'
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
 import { Tabs, Tabpanel, Card } from 'tvirus';
+import './main.less';
 
 const style = {
     main: {
@@ -20,11 +21,13 @@ const style = {
     },
     right: {
         flexGrow: 1,
+        margin: '0 60px',
+        width: 800
     }
 }
 
 
-class Body extends Component{
+export default class LayoutDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -124,5 +127,3 @@ class Body extends Component{
         
     }
 }
-
-export default Body;

@@ -7,6 +7,9 @@ import {
 } from 'tvirus';
 import './css/login.less';
 
+import BwLogo from './logo';
+
+
 const rules = {
     username: [
         {
@@ -33,9 +36,7 @@ export default class DemoLogin extends Component{
             <div className="tv-user-layout">
                 <div className="tv-user-layout-top">
                     <div className="tv-user-layout-header">
-                        <a href="/">
-                            <Icon type="bwlogo" />
-                        </a>
+                        <a href="#"><BwLogo /></a>
                     </div>
                     <div className="tv-user-layout-desc">
                         酒店智慧解决之道

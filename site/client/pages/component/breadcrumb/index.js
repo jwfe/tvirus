@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from '../../../common/compLayout';
+import Layout from '../../../common/webcomponent';
 import { Link } from 'react-router-dom';
 
 import { Breadcrumb } from 'tvirus';

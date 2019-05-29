@@ -149,7 +149,7 @@ export default (
             const name = firstToUpperCase(comp);
             fs.writeFileSync(`${dirpath}/index.js`, `
 import React, { Component } from 'react';
-import Layout from '../../../common/compLayout';
+import Layout from '../../../common/webcomponent';
 
 import {${name}} from 'tvirus';
 import './index.less'
@@ -237,6 +237,20 @@ module.exports = {
                 use: [{
                     loader: "babel-loader"
                 }]
+            },
+            {
+                test: /\.svg$/,
+                include: [
+                    path.resolve(__dirname, './client/pages/'),
+                ],
+                use: [
+                    {
+                        loader: 'svg-sprite-loader',
+                        options: {
+                            symbolId: 'icon-[name]'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,

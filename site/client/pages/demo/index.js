@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 import { 
-    Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Popup, Select,
-    Input, Checkbox, Form
+    Menu, Icon, Row, Col, Badge, Card, Button, Chart, Progress, Tabs, Tabpanel, Table, Datepicker, Select,
 } from 'tvirus';
 import ChartCard from './component/ChartCard';
 import { columns, data as columns_data } from './tableData';
 
+import BwLogo from './logo';
 import './css/demo.less';
 
 export default class DemoIndex extends Component{
@@ -479,7 +479,7 @@ export default class DemoIndex extends Component{
             <div className="root-wraper">
                 <div className="root-menu" style={{width: this.state.collapsed ? 80 : ''}}>
                     <div className="logo">
-                        <a href="#"><Icon type="bwlogo" /></a>
+                        <a href="#"><BwLogo /></a>
                         {/* <span onClick={this.toggleCollapsed}><Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} /></span> */}
                     </div>
                     <Menu theme="dark" inlineCollapsed={this.state.collapsed}>

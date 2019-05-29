@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import Layout from '../../../common/compLayout';
+import Layout from '../../../common/webcomponent';
 
 import { Switch, Icon, Row, Col } from 'tvirus';
 import './index.less'

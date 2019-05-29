@@ -26,10 +26,29 @@ const i18nMaps = {
 }
 
 import Head from './common/head';
+import Menu from './common/menu';
 
 import './normalize';
 import './loading';
 import '../../dist/tvirus.css';
+
+const style = {
+    main: {
+        display: 'flex'
+    },
+    left: {
+        flexGrow: 0,
+        width: 299, 
+        minWidth: 299,
+        maxWidth: 299,
+        height: 'auto',
+
+        borderRight: '1px solid #ebebeb'
+    },
+    right: {
+        flexGrow: 1,
+    }
+}
 
 
 // 父组件
@@ -51,11 +70,22 @@ class App extends Component{
         const children = React.Children.map(this.props.children, (child, i) => {
             return React.cloneElement(child, {key: i, hash})
         });
+
+        let child = children;
+        if(hash.query){
+            child = (
+                <main style={style.main} className="main">
+                    <Menu />
+                    {children}
+                </main>
+            )
+        }
+
         return (
             <I18nProvider value={i18nMaps['zh-CN']}>
                 <section>
                     {showHead && <Head hash={hash} />}
-                    {children}
+                    {child}
                 </section>
             </I18nProvider>
         )
