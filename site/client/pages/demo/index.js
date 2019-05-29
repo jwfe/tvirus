@@ -287,17 +287,17 @@ export default class DemoIndex extends Component{
                 },
                 tooltip: {
                     trigger: 'axis',
-                    backgroundColor: '#fff',
+                    backgroundColor: 'transparent',
                     textStyle: {
                         color: '#5b5b5b'
                     },
                     padding: [7, 10],
                     formatter(datas){
-                        // alert(JSON.stringify(datas));
-                        let html = '';
+                        let html = '<div class="tv-chart-tooltip">';
                         let name = `<h6 style="margin-bottom: 10px;color:#8e8e8e">${datas[0].name}</h6>`;
                         html += name;
-                        datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.seriesName}</span><span>${data.value}</span></p>`);
+                        datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">点评趋势</span><span>${data.value}</span></p>`);
+                        html += '</div>'
                         return html;
                     }
                 },
@@ -370,17 +370,17 @@ export default class DemoIndex extends Component{
                 },
                 tooltip: {
                     trigger: 'axis',
-                    backgroundColor: '#fff',
+                    backgroundColor: 'transparent',
                     textStyle: {
                         color: '#5b5b5b'
                     },
                     padding: [7, 10],
                     formatter(datas){
-                        // alert(JSON.stringify(datas));
-                        let html = '';
+                        let html = '<div class="tv-chart-tooltip">';
                         let name = `<h6 style="margin-bottom: 10px;color:#8e8e8e">${datas[0].name}</h6>`;
                         html += name;
                         datas.forEach((data) => html += `<p>${data.marker}<span style="display:inline-block;width:120px">${data.seriesName}</span><span>${data.value}</span></p>`);
+                        html += '</div>'
                         return html;
                     }
                 },

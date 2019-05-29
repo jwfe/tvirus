@@ -3,6 +3,45 @@
 
 @radius: 90;
 @circumference: (pi() * (2 * @radius));
+.tv-chart{
+  &-tooltip{
+    padding: 7px;
+    border-radius: 1px;
+    background-color: @light-bgc;
+    box-shadow: 0 1px 4px 0 @dark-bgc-10;
+    h6, strong, p{
+        font-weight: normal;
+        font-size: 12px;
+        color: @dark-color-45;
+    }
+    h6{
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    p{
+        color: @dark-color-65;
+        span{
+            &::nth-child(1){
+                display:inline-block;
+                margin-right:5px;
+                border-radius:10px;
+                width:10px;
+                height:10px;
+                background-color: @info-bgc;
+            }
+            &::nth-child(2){
+                display: inline-block;
+                min-width: 100px;
+            }
+            &::nth-child(3){
+                min-width: 100px;
+            }
+        }
+    }
+
+  }
+}
 
 .tv-progress-circle {
     position: relative;
@@ -56,27 +95,27 @@
   }
   
   
-  @keyframes donutTitleFadeLeft {
-    from {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    
-    to {
-      opacity: 1;
-      transform: translateX(-10px);
-    }
+@keyframes donutTitleFadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(0);
   }
   
-  @keyframes donutTitleFadeRight {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateX(-10px);
   }
+}
+
+@keyframes donutTitleFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
   
   
