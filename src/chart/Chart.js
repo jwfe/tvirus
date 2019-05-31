@@ -3,7 +3,7 @@ import * as echarts from 'echarts';
 import { Util, Component, PropTypes } from '@Libs';
 import { getOptions } from './dataSet';
 
-export default class Chart extends Component {
+class Chart extends Component {
     constructor(props) {
         super(props);
         this.chart = null;
@@ -55,6 +55,10 @@ export default class Chart extends Component {
     }
     initChart = el => {
         const { renderer } = this.props;
+
+        if(!echarts || !echarts.ini){
+            return;
+        }
 
         return new Promise(resolve => {
             setTimeout(() => {
@@ -115,3 +119,6 @@ export default class Chart extends Component {
         );
     }
 }
+
+
+export default Chart;

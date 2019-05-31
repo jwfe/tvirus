@@ -4,7 +4,7 @@ import Icon from '@icon'
 
 export default class Button extends Component {
     static propTypes = {
-        type: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning']),
+        type: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning', 'link']),
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         htmlType: PropTypes.oneOf(['button', 'submit', 'reset']),
         className: PropTypes.string,
@@ -23,9 +23,10 @@ export default class Button extends Component {
     }
 
     render(){
-        const { type, size, loading, plain, className, block, shape, icon, children, ref, htmltype, ...other } = this.props;
+        const { type, size, loading, plain, className, block, shape, icon, children, ref, htmlType, ...other } = this.props;
         return (
             <button 
+            type={htmlType}
             className={
                 this.className('tv-button', 
                     type && `tv-button-${type}`,

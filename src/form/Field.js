@@ -14,8 +14,15 @@ import Datepicker from '@datepicker';
 import { FormItemContext } from './FormItemContext';
 
 export default class FormField extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            currentValue: props.value || ''
+        }
+    }
     static contextType = FormItemContext;
     onFieldChange = (value) => {
+        this.setState({currentValue: value});
         this.context.onFieldChange(this.props.name, value);
     }
     getComponent(str){
@@ -48,11 +55,13 @@ export default class FormField extends Component {
         }
     }
     render(){
-        const { tagName, children, ...other } = this.props;
+        const { tagName, children, value, ...other } = this.props;
+        const { currentValue } = this.state;
 
         return React.createElement(this.getComponent(tagName), {
             onChange: this.onFieldChange || noop,
             onBlur: this.onFieldBlur,
+            value: currentValue,
             ...other
         }, children)
 

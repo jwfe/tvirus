@@ -64,7 +64,7 @@ export default class Form extends Component {
                     valid = false;
                 }
                 if (++count === fields.length) {
-                    onSubmit(valid);
+                    onSubmit(valid, this.state.model);
                 }
             });
         });

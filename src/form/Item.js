@@ -37,6 +37,10 @@ export default class FormItem extends Component {
         const { name } = this.props;
         const { rules } = this.context;
         const _rules = rules[name];
+        if(!_rules){
+            return callback(null);
+        }
+
         const descriptor = { [name]: _rules };
         const validator = new AsyncValidator(descriptor);
 

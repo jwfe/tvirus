@@ -45,7 +45,7 @@ export default class DemoLogin extends Component{
                 <div className="tv-components-login-index-login">
                     <Form onSubmit={this.handleOnSubmit} rules={rules}>
                         <Form.Item name="username">
-                            <Form.Field name="username" tagName="input" size="large" placeholder="用户名" prefix="user" />
+                            <Form.Field value="admin" name="username" tagName="input" size="large" placeholder="用户名" prefix="user" />
                         </Form.Item>
                         <Form.Item name="password">
                             <Form.Field name="password" tagName="input" size="large" placeholder="密码" showToggle prefix="unlock" type="password" />

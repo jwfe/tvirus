@@ -35,8 +35,17 @@ export default class Input extends Component {
         }
     }
     handleChange(evt){
-        const { onChange, name } = this.props;
-        const { value } = evt.target
+        const { onChange, name, type, multiple } = this.props;
+        const { value, files } = evt.target;
+        if(type === 'file'){
+            let count = multiple ? files.length : 1;
+            for (let i = 0; i < count; i++) {
+                files[i].thumb = URL.createObjectURL(files[i])
+            }
+            const uploadfiles = Array.prototype.slice.call(files, 0);
+            onChange(uploadfiles, name, evt);
+            return;
+        }
         onChange(value, name, evt);
     }
     handleFocus(evt){
@@ -76,7 +85,10 @@ export default class Input extends Component {
         }
     }
     render() {
-        let { prefix, suffix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, ...otherProps } = this.props;
+        let { 
+            prefix, suffix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, 
+            showToggle,
+            ...otherProps } = this.props;
         const { textareaHeight } = this.state;
         const { passwdToggle } = this.state;
 
