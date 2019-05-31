@@ -221,9 +221,9 @@ export default class DateTable extends Component {
             <thead>
                 <tr>
                 {
-                    head.map((item) => {
+                    head.map((item, index) => {
                         return (
-                            <th title={`周${item}`} className="tv-datepicker-column-header">
+                            <th key={index} title={`周${item}`} className="tv-datepicker-column-header">
                                 <span className="tv-datepicker-column-header-inner">{item}</span>
                             </th>
                         )
@@ -241,16 +241,17 @@ export default class DateTable extends Component {
                 { this.renderHead(head) }
                 <tbody className="tv-datepicker-tbody">
                 {
-                    rows.map((row) => {
+                    rows.map((row, index) => {
                         const isWeekActive = this.isWeekActive(row[1]);
                         return (
-                            <tr className={this.className({
+                            <tr key={index} className={this.className({
                                 'tv-datepicker-active-week': isWeekActive
                             })}>
                                 {
-                                    row.map((cell) => {
+                                    row.map((cell, index2) => {
                                         return (
                                             <td 
+                                            key={index2}
                                             onClick={this.handleDateClick.bind(this, cell)}
                                             onMouseMove={this.handleMouseMove.bind(this, cell)}
                                             title={`${cell.year}年${cell.month}月${cell.day}日`} 

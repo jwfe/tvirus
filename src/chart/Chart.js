@@ -13,15 +13,21 @@ class Chart extends Component {
         title: PropTypes.string,
         theme: PropTypes.string,
         type: PropTypes.string,
-        option: PropTypes.Object,
+        option: PropTypes.object,
         renderer: PropTypes.string,
 
         notMerge: PropTypes.bool,
         lazyUpdate: PropTypes.bool,
         showLoading: PropTypes.bool,
         loadingOption: PropTypes.bool,
-        width: PropTypes.number,
-        height: PropTypes.number,
+        width: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        height: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
         onChartReady: PropTypes.func,
     };
 
@@ -56,7 +62,7 @@ class Chart extends Component {
     initChart = el => {
         const { renderer } = this.props;
 
-        if(!echarts || !echarts.ini){
+        if(!echarts || !echarts.init){
             return;
         }
 

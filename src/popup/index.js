@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 import { Component, PropTypes, Portal, Animation } from '@Libs';
 
 const POSITIONS = [
+    'top',
+    'bottom',
+    'left',
+    'right',
     'top left',
     'top right',
     'bottom right',
@@ -156,7 +160,7 @@ export default class Popup extends Component {
         const { children, childrenProps } = this.props;
         return React.Children.map(children, (child, i) => {
             return (
-                <span ref={(el) => this.triggerNode = getChildNode(el)}>
+                <span key={i} ref={(el) => this.triggerNode = getChildNode(el)}>
                     {
                         React.cloneElement(child, {
                             ...childrenProps

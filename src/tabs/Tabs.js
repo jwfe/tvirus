@@ -15,7 +15,7 @@ export default class Tabs extends Component {
         className: PropTypes.string,
         activeKey: PropTypes.string,
         onChange: PropTypes.func,
-        extra: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+        extra: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     };
     static defaultProps = {
     };

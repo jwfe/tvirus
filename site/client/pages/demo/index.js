@@ -643,13 +643,13 @@ export default class DemoIndex extends Component{
                         </Row>
                         <div className="fc-wrapper">
                             <Card style={{padding: 0}}>
-                                <Tabs activeKey={1} extra={<span>
+                                <Tabs activeKey="1" extra={<span>
                                         <Button type="link">按日</Button>
                                         <Button type="link">按周</Button>
                                         <Button type="link">按月</Button>
                                         <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
                                     </span>}>
-                                    <Tabpanel tab={`预测报告`} tabKey={1}>
+                                    <Tabpanel tab={`预测报告`} tabKey="1">
                                         <div className="fc-report">
                                             <Table 
                                                 bordered
@@ -659,7 +659,7 @@ export default class DemoIndex extends Component{
                                             />
                                         </div>
                                     </Tabpanel>
-                                    <Tabpanel tab={`预测验证`} tabKey={2}>
+                                    <Tabpanel tab={`预测验证`} tabKey="2">
                                         <Table 
                                             bordered
                                             style={{height: 396}}

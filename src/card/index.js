@@ -6,12 +6,12 @@ export default class Card extends Component {
         className: PropTypes.string,
         title: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.node,
+            PropTypes.element,
         ]),
         // 这里的style设置的是body的
         style: PropTypes.object,
         bordered: PropTypes.bool,
-        extra: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+        extra: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     };
     
     static defaultProps = {

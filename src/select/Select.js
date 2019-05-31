@@ -89,10 +89,11 @@ export default class Select extends Component {
             selectedValue = optionVals;
         }
 
-        const childrens = React.Children.map(children, (child) => {
+        const childrens = React.Children.map(children, (child, index) => {
             const value = child.props.value;
             if(searchVals.indexOf(value) !== -1){
                 return React.cloneElement(child, {
+                    key: index,
                     onClick: this.handleOptionClick.bind(this),
                     selected: selectedValue ? selectedValue.indexOf(value) !== -1 : child.props.selected
                 })
@@ -180,7 +181,7 @@ export default class Select extends Component {
                         {isShowMultiple && (
                             <div className="tv-tags">
                                 {
-                                    selectedTitle.map((title) => <Tag>{title}</Tag>)
+                                    selectedTitle.map((title, index) => <Tag key={index}>{title}</Tag>)
                                 }
                             </div>
                         )}
