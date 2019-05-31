@@ -242,7 +242,7 @@ export default class Range extends Component {
                     {
                         ['left', 'right'] .map((key) => {
                             return (
-                                <div className={this.className('tv-datepicker')}>
+                                <div key={key} className={this.className('tv-datepicker')}>
                                     { this.renderSearch(key) }
                                     <div className={this.className('tv-datepicker-body')}>
                                         { this.renderTable(key) }

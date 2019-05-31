@@ -234,12 +234,13 @@ export default class Table extends Component {
             data: newdata
         })
     }
-    renderGroupCell(groupData){
+    renderGroupCell(groupData, index){
         const groupNodes = [];
 
         if(groupData.title){
             const hasSort = groupData.sort;
             groupNodes.push(<Cell 
+                    key={index}
                     onClick={this.handleOnSort.bind(this, groupData)}
                     style={{width: groupData.width, justifyContent: groupData.align}} 
                     className={hasSort ? 'has-sort' : ''} 
@@ -253,13 +254,13 @@ export default class Table extends Component {
         }
 
         if(groupData.children){
-            const array = groupData.children.map((child) => {
-                return this.renderGroupCell(child);
+            const array = groupData.children.map((child, index) => {
+                return this.renderGroupCell(child, index);
             });
-            groupNodes.push(<div className="tv-table-cell-group">{array}</div>);
+            groupNodes.push(<div key={index} className="tv-table-cell-group">{array}</div>);
         }
 
-        return groupNodes.length === 1 ? groupNodes : <div className="tv-table-cell-group-wraper">{groupNodes}</div>
+        return groupNodes.length === 1 ? groupNodes : <div key={index} className="tv-table-cell-group-wraper">{groupNodes}</div>
     }
 
     renderHead(data){
@@ -268,7 +269,7 @@ export default class Table extends Component {
                 <Row>
                 {
                         data.map((item, index) => {
-                            return this.renderGroupCell(item)
+                            return this.renderGroupCell(item, index)
                         })
                     }
                 </Row>
@@ -324,8 +325,8 @@ export default class Table extends Component {
                             return (
                                 <Row key={i}>
                                     {
-                                        item.map((item2) => {
-                                            return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
+                                        item.map((item2, index2) => {
+                                            return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                         })
                                     }
                                 </Row>
@@ -351,8 +352,8 @@ export default class Table extends Component {
                             return (
                                 <Row key={index}>
                                     {
-                                        item.map((item2) => {
-                                            return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
+                                        item.map((item2, index2) => {
+                                            return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                         })
                                     }
                                 </Row>
@@ -401,8 +402,8 @@ export default class Table extends Component {
                                     return (
                                         <Row key={i}>
                                             {
-                                                item.map((item2) => {
-                                                    return (<Cell style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
+                                                item.map((item2, index2) => {
+                                                    return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
                                                 })
                                             }
                                         </Row>

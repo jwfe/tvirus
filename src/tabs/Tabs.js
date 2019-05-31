@@ -85,7 +85,7 @@ export default class Tabs extends Component {
                                     'tv-tabs-item-active': tabKey === activeStateKey,
                                     'tv-tabs-disabled': disabled,
 
-                                })} tabKey={tabKey} onClick={this.handleClick.bind(this, item.props, index)}>
+                                })} onClick={this.handleClick.bind(this, item.props, index)}>
                                     {tab}
                                 </div>
                             )
@@ -96,8 +96,8 @@ export default class Tabs extends Component {
                 </div>
                 <div className="tv-tabs-content">
                     {
-                        React.Children.map(children, (child) => {
-                            return React.cloneElement(child, {activeKey: activeStateKey})
+                        React.Children.map(children, (child, index) => {
+                            return React.cloneElement(child, {key: index, activeKey: activeStateKey})
                         })   
                     }
                 </div>

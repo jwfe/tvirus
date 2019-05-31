@@ -237,41 +237,41 @@ export default class DateTable extends Component {
     render(){
         const { head, rows } = this.getRow();
         return (
-            <table className="tv-datepicker-table" cellspacing="0" style={this.style()}>
+            <table className="tv-datepicker-table" cellSpacing="0" style={this.style()}>
                 { this.renderHead(head) }
                 <tbody className="tv-datepicker-tbody">
-                {
-                    rows.map((row, index) => {
-                        const isWeekActive = this.isWeekActive(row[1]);
-                        return (
-                            <tr key={index} className={this.className({
-                                'tv-datepicker-active-week': isWeekActive
-                            })}>
-                                {
-                                    row.map((cell, index2) => {
-                                        return (
-                                            <td 
-                                            key={index2}
-                                            onClick={this.handleDateClick.bind(this, cell)}
-                                            onMouseMove={this.handleMouseMove.bind(this, cell)}
-                                            title={`${cell.year}年${cell.month}月${cell.day}日`} 
-                                            className={this.className('tv-datepicker-cell', {
-                                                'tv-datepicker-cell-selected': cell.start || cell.end || cell.selected,
-                                                'tv-datepicker-cell-in-range': cell.inRange,
-                                                'tv-datepicker-cell-today': cell.today,
-                                                'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
-                                                'tv-datepicker-cell-disabled': cell.disabled
-                                            })}>
-                                                <div className="tv-datepicker-date">{cell.text || cell.day}</div>
-                                            </td>
-                                        )
-                                    })
-                                }
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>                      
+                    {
+                        rows.map((row, index) => {
+                            const isWeekActive = this.isWeekActive(row[1]);
+                            return (
+                                <tr key={index} className={this.className({
+                                    'tv-datepicker-active-week': isWeekActive
+                                })}>
+                                    {
+                                        row.map((cell, index2) => {
+                                            return (
+                                                <td 
+                                                key={index2}
+                                                onClick={this.handleDateClick.bind(this, cell)}
+                                                onMouseMove={this.handleMouseMove.bind(this, cell)}
+                                                title={`${cell.year}年${cell.month}月${cell.day}日`} 
+                                                className={this.className('tv-datepicker-cell', {
+                                                    'tv-datepicker-cell-selected': cell.start || cell.end || cell.selected,
+                                                    'tv-datepicker-cell-in-range': cell.inRange,
+                                                    'tv-datepicker-cell-today': cell.today,
+                                                    'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
+                                                    'tv-datepicker-cell-disabled': cell.disabled
+                                                })}>
+                                                    <div className="tv-datepicker-date">{cell.text || cell.day}</div>
+                                                </td>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>                      
             </table>
         )
     }

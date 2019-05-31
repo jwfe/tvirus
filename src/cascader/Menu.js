@@ -70,7 +70,7 @@ export default class CascaderMenu extends Component {
         const { activeValue } = this.state;
         return this.getActiveOptions().map((menu, index)=>{
 
-            const menuItem = menu.map((item) => {
+            const menuItem = menu.map((item, index2) => {
                 const events = {};
 
                 if(!item.disabled){
@@ -81,6 +81,7 @@ export default class CascaderMenu extends Component {
 
                 return (
                     <li
+                        key={index2}
                         className={this.className('tv-cascader-menu', {
                             'tv-cascader-menu-active': item.value === activeValue[index],
                             'tv-cascader-menu-disabled': item.disabled,
@@ -95,7 +96,7 @@ export default class CascaderMenu extends Component {
             })
 
             return (
-                <ul>
+                <ul key={index}>
                     {menuItem}
                 </ul>
             )

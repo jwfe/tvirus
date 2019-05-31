@@ -57,8 +57,9 @@ export default class Group extends Component {
     render() {
         const { children, disabled, name } = this.props;
 
-        const cloneChildren = React.Children.map(children, child => {
+        const cloneChildren = React.Children.map(children, (child, index) => {
             return React.cloneElement(child, Object.assign({}, child.props, {
+                key: index,
                 name: !name ? (+new Date) : name,
                 onChange: this.handleChange.bind(this),
                 checked: this.childChecked(child.props),

@@ -28,6 +28,7 @@ export default class Select extends Component {
                 selected: nextProps.selected
             }
         }
+        return {}
     }
 
     handleClick(){
@@ -42,10 +43,11 @@ export default class Select extends Component {
         })
     }
     render() {
-        const { children, disabled, icon } = this.props;
+        const { value, children, disabled, icon } = this.props;
         const { selected } = this.state;
         return (
             <li 
+            key={value}
             className={this.className('tv-select-option', {
                 'tv-select-option-disabled': disabled,
                 'tv-select-option-selected': selected

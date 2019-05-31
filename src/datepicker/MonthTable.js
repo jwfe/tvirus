@@ -58,30 +58,33 @@ export default class DateTable extends Component {
     render(){
         return (
             <table className="tv-datepicker-month-table" style={this.style()}>
-            {
-                this.getRowsDays().map((row) => {
-                    return (
-                        <tr>
-                            {
-                                row.map((cell) => {
-                                    return (
-                                        <td 
-                                        onClick={this.handleClick.bind(this, cell)}
-                                        title={`${cell.year}年`} 
-                                        className={this.className('tv-datepicker-cell', {
-                                            'tv-datepicker-cell-selected-day': cell.selected,
-                                            'tv-datepicker-cell-disabled-day': cell.disabled
-                                        })}>
-                                            <div className="tv-datepicker-date">{cell.text}</div>
-                                        </td>
-                                    )
-                                })
-                            }
-                        </tr>
-                    )
-                })
-            }
-        </table>
+                <tbody>
+                {
+                    this.getRowsDays().map((row, index) => {
+                        return (
+                            <tr key={index}>
+                                {
+                                    row.map((cell, index2) => {
+                                        return (
+                                            <td 
+                                            key={index2}
+                                            onClick={this.handleClick.bind(this, cell)}
+                                            title={`${cell.year}年`} 
+                                            className={this.className('tv-datepicker-cell', {
+                                                'tv-datepicker-cell-selected-day': cell.selected,
+                                                'tv-datepicker-cell-disabled-day': cell.disabled
+                                            })}>
+                                                <div className="tv-datepicker-date">{cell.text}</div>
+                                            </td>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )
+                    })
+                }
+                </tbody>
+            </table>
         )
     }
 

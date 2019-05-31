@@ -64,8 +64,8 @@ export default class Search extends Component {
             listNode = (
                 <div className="tv-search-dropdown">
                     <ul>
-                        {values.map((key) => {
-                            return <li onClick={this.handleClick.bind(this, key)}>{key}</li>
+                        {values.map((key, index) => {
+                            return <li key={index} onClick={this.handleClick.bind(this, key)}>{key}</li>
                         })}
                     </ul>
                 </div>

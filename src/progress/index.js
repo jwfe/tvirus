@@ -19,8 +19,8 @@ export default class Progress extends Component {
             return (
                 <div className="tv-progress">
                     {
-                        value.map((item) => {
-                            return <div className="tv-progress-inner" style={{width: `${percentage}%`, backgroundColor: item.color}}></div>
+                        value.map((item, index) => {
+                            return <div key={index} className="tv-progress-inner" style={{width: `${percentage}%`, backgroundColor: item.color}}></div>
                         })
                     }
                 </div>

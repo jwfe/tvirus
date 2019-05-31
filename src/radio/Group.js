@@ -30,8 +30,9 @@ export default class Group extends Component {
         const { children, disabled, name, className } = this.props;
         const { defaultValue } = this.state;
 
-        const cloneChildren = React.Children.map(children, child => {
+        const cloneChildren = React.Children.map(children, (child, index) => {
             return React.cloneElement(child, Object.assign({}, child.props, {
+                key: index,
                 name: !name ? (+new Date) : name,
                 onChange: this.handleChange.bind(this),
                 checked: typeof defaultValue == 'undefined' ? child.props.checked : child.props.value === defaultValue,
