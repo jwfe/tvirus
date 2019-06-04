@@ -17,6 +17,7 @@ export default class Range extends Component {
         name: PropTypes.string,
         trigger: PropTypes.string,
         disabled: PropTypes.bool,
+        expand: PropTypes.object,
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
     };
@@ -41,6 +42,7 @@ export default class Range extends Component {
         }
         
         this.state = {
+            mode: props.mode,
             view: {
                 ['day']: props.mode === 'day',
                 ['leftyear']: props.mode === 'year',
@@ -99,7 +101,7 @@ export default class Range extends Component {
         onChange([minDate, maxDate], false, name)
     }
     handleMoveRange = ({ endDate }) => {
-        const { mode } = this.props;
+        const { mode } = this.state;
         if(mode == 'week'){
             return;
         }
@@ -112,8 +114,7 @@ export default class Range extends Component {
         })
     }
     handleYearDate = (cell, key, name, isClose) => {
-        const { mode } = this.props;
-        const { view } = this.state;
+        const { view, mode } = this.state;
         if(mode === 'day' || mode === 'month'){
             let date = this.state[`${key}_date`];
             let { year } = weekOfYear(format(cell));
@@ -131,8 +132,8 @@ export default class Range extends Component {
         this.setOtherRange(cell, 'month', name, isClose)
     }
     setOtherRange(cell, currMode, name, isClose){
-        const { onChange, mode } = this.props;
-        const { view } = this.state;
+        const { onChange } = this.props;
+        const { view, mode } = this.state;
         const { minDate, maxDate } = cell;
         if (!isClose){
             this.setState({ 
@@ -151,8 +152,7 @@ export default class Range extends Component {
         onChange([minDate, maxDate], false, name)
     }
     handleMonthDate = (cell, rangeKey, name, isClose) => {
-        const { mode } = this.props;
-        const { view } = this.state;
+        const { view, mode } = this.state;
 
         if(mode === 'day'){
             let date = this.state[`${rangeKey}_date`];
@@ -240,8 +240,8 @@ export default class Range extends Component {
     }
 
     disabledDate = (value, key) => {
-        let { view } = this.state;
-        let { disabledDate, mode } = this.props;
+        let { view, mode } = this.state;
+        let { disabledDate } = this.props;
         
         if(view[`${key}year`]){
             return false;
@@ -301,8 +301,7 @@ export default class Range extends Component {
 
     renderTable(key){
         let rangeMode = 'range';
-        let { mode } = this.props;
-        let { view, rangeState, minDate, maxDate } = this.state;
+        let { view, rangeState, minDate, maxDate, mode } = this.state;
         let date = this.state[`${key}_date`];
         const monthMode = mode === 'day' ? 'sigle' : rangeMode;
         const yearMode = mode !== 'year' ? 'sigle' : rangeMode;
@@ -339,6 +338,38 @@ export default class Range extends Component {
             </div>
         );
     }
+    update({mode}, index){
+        this.setState({
+            expandSelectedIndex: index,
+            mode,
+            view: {
+                ['day']: mode === 'day',
+                ['leftyear']: mode === 'year',
+                ['rightyear']: mode === 'year',
+                ['leftmonth']: mode === 'month',
+                ['rightmonth']: mode === 'month',
+                ['leftweek']: mode === 'week',
+                ['rightweek']: mode === 'week'
+            }
+        })
+    }
+    renderExpand(){
+        const { expand } = this.props;
+        let { expandSelectedIndex } = this.state;
+        if(!expand){
+            return null;
+        }
+        return (
+            <div className="tv-datepicker-expand">
+                {expand.map((item, index) => {
+                    const {text, onClick, ...other} = item;
+                    return <Button className={this.className({
+                        'tv-datepicker-expand-selected': index === expandSelectedIndex
+                    })} {...other} onClick={onClick.bind(this, index)}>{text}</Button>
+                })}
+            </div>
+        )
+    }
 
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
@@ -348,13 +379,13 @@ export default class Range extends Component {
         const content = [
             (
                 <div className={this.className('tv-datepicker-range')}>
+                    {this.renderExpand()}
                     {
                         ['left', 'right'] .map((key) => {
                             return (
                                 <div key={key} className={this.className('tv-datepicker')}>
                                     { this.renderSearch(key) }
                                     { this.renderTable(key) }
-                                    
                                 </div>
                             )
                         })

@@ -65,7 +65,32 @@ export default class DatepickerDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="week" />
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="week" expand={[
+                                {
+                                    text: '按日',
+                                    onClick: function(index){
+                                        this.update({mode: 'day'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按月',
+                                    onClick: function(index){
+                                        this.update({mode: 'month'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按周',
+                                    onClick: function(index){
+                                        this.update({mode: 'week'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按年',
+                                    onClick: function(index){
+                                        this.update({mode: 'year'}, index)
+                                    }
+                                }
+                            ]} />
                         </Col>
 
                         <Col span={12}>
