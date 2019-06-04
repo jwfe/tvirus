@@ -11,6 +11,10 @@ class Alert extends Component{
             visible: false
         }
     }
+    static defaultProps = {
+        onClose: noop
+    }
+
     onShow(){
         const { onClose } = this.props;
 
@@ -35,15 +39,13 @@ class Alert extends Component{
     }
 }
 
-
 const reWrite = function (contentType, content, properties) {
     const { ...props } = properties || {};
     props.contentType = contentType;
+    props.icon = contentType;
     let div;
-
     div = document.createElement('div');
     document.body.appendChild(div);
-
     return ReactDOM.render(<Alert {...props}>{ content }</Alert>, div);
 };
 

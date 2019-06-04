@@ -21,9 +21,13 @@ export default class FormField extends Component {
         }
     }
     static contextType = FormItemContext;
+    componentDidMount(){
+        this.context.onFieldChange(this.props.name, this.state.currentValue);
+    }
     onFieldChange = (value) => {
-        this.setState({currentValue: value});
-        this.context.onFieldChange(this.props.name, value);
+        this.setState({currentValue: value}, () => {
+            this.context.onFieldChange(this.props.name, value);
+        });
     }
     getComponent(str){
         if(str === 'input'){

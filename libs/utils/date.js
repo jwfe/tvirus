@@ -144,20 +144,35 @@ export const groupBy = (dirtyDateString, dirtyDateArray) => {
         end
     }
 }
+
+const getWeekOfYear = function(date, weekStart) { 
+    // weekStart：每周开始于周几：周日：0，周一：1，周二：2 ...，默认为周日
+    weekStart = (weekStart || 0) - 0;  
+    if(isNaN(weekStart) || weekStart > 6)  
+        weekStart = 0;
+    var year = date.getFullYear();  
+    var firstDay = new Date(year, 0, 1);  
+    var firstWeekDays = 7 - firstDay.getDay() + weekStart;  
+    var dayOfYear = (((new Date(year, date.getMonth(), date.getDate())) - firstDay) / (24 * 3600 * 1000)) + 1;  
+    return Math.ceil((dayOfYear - firstWeekDays) / 7) + 1;  
+}
+
+
 /**
  * 获取日期是一年中的第几周，几
  * @module utils/date
  * @param {String} dirtyDateString - 日期
  * @param {String} [lang] - 语言zh/en
+ * @param {String} [weekStart] - 语言zh/en
  * @returns {Object} year|number|season|month|week|weekName|dirtyYear
  */
-export const weekOfYear = (dirtyDateString, lang='zh') => {
+export const weekOfYear = (dirtyDateString, lang='zh', weekStart=1) => {
     const dirtyDate = parse(dirtyDateString);
     let firstMonth = parse(`${dirtyDate.getFullYear()}-01-01`);
     const firstMonthWeek = firstMonth.getDay();
 
     if(firstMonthWeek !== 0){
-        let firstMonthDay = 1+(7-firstMonthWeek);
+        let firstMonthDay = (7 - firstMonthWeek) + weekStart;
         firstMonthDay = firstMonthDay < 10 ? ('0' + firstMonthDay) : firstMonthDay;
         firstMonth = parse(`${dirtyDate.getFullYear()}-01-${firstMonthDay}`);
         if((dirtyDate - firstMonth) < 0){
@@ -165,7 +180,7 @@ export const weekOfYear = (dirtyDateString, lang='zh') => {
         }
     }
 
-    const number = Math.floor(((dirtyDate - firstMonth) / 86400000) / 7) + 1;
+    const number = getWeekOfYear(dirtyDate, weekStart);
     const season = {
         1: 1, 2: 1, 3: 1,
         4: 2, 5: 2, 6: 2,

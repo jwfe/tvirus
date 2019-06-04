@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 import { 
+    Dialog,
     Icon,  Button,
     Input, Checkbox, Form
 } from 'tvirus';
 import './css/login.less';
 
 import BwLogo from './logo';
-
 
 const rules = {
     username: [
@@ -26,10 +26,16 @@ const rules = {
 }
 
 export default class DemoLogin extends Component{
+    state = {loading: false}
     handleOnSubmit = (valid) => {
-        if(valid){
-            this.props.history.push('/demo');
+        if(!valid){
+            return false;
         }
+        this.setState({loading: true})
+        //todo: 模拟异步登录
+        setTimeout(() => {
+            this.props.history.push('/demo');
+        }, 5000);
     }
     render(){
         return (
@@ -58,6 +64,8 @@ export default class DemoLogin extends Component{
                         </Form.Item>
                         <Form.Item>
                             <Button
+                                loading={this.state.loading}
+                                htmlType="submit"
                                 className="tv-submit"
                                 size="large"
                                 type="primary"

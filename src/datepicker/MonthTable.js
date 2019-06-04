@@ -2,6 +2,11 @@ import React from 'react';
 import { Component, PropTypes, noop, Util } from '@Libs';
 
 const { fixedYM, weekOfYear, parse, format } = Util.date;
+const clearHours = function (time) {
+    const cloneDate = new Date(time);
+    cloneDate.setHours(0, 0, 0, 0);
+    return cloneDate.getTime();
+};
 
 export default class DateTable extends Component {
     static propTypes = {
@@ -22,7 +27,7 @@ export default class DateTable extends Component {
     }
 
     getRowsDays(){
-        const { date, disabledDate } = this.props
+        const { date, disabledDate, rangeKey } = this.props
         const { year, month } = weekOfYear(format(date));
 
         const monthTables = [];
@@ -37,11 +42,12 @@ export default class DateTable extends Component {
             const time = date.getTime();
             const _date = new Date(time);
             _date.setMonth(value - 1);
+            _date.setDate(1);
 
             monthTables[rowIndex].push({
                 year,
                 selected: month === value,
-                disabled: disabledDate(value),
+                disabled: disabledDate(_date, rangeKey),
                 date: _date,
                 month: value,
                 text: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][i] + '月'
@@ -51,7 +57,33 @@ export default class DateTable extends Component {
     }
 
     handleClick(cell){
-        const { rangeKey, onChange, name } = this.props
+        let { range, onChange, rangeKey, name, rangeState, minDate, maxDate } = this.props;
+
+        if(cell.disabled){
+            return;
+        }
+
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
+
+        if(range === 'range'){
+            if (rangeState.ing) {
+                if (cell.date < min) {
+                    rangeState.ing = true;
+                    onChange({ minDate: cell.date, maxDate: null }, rangeKey, name, false)
+                } else if (cell.date >= min) {
+                    rangeState.ing = false;
+                    onChange({ minDate, maxDate: cell.date }, rangeKey, name, true)
+                }
+            }else {
+                if (min && max || !min) {
+                    rangeState.ing = true;
+                    onChange({ minDate: cell.date, maxDate: null }, rangeKey, name, false)
+                }
+            }
+            return;
+        }
+
         onChange(cell.date, rangeKey, name);
     }
 
@@ -71,8 +103,8 @@ export default class DateTable extends Component {
                                             onClick={this.handleClick.bind(this, cell)}
                                             title={`${cell.year}年`} 
                                             className={this.className('tv-datepicker-cell', {
-                                                'tv-datepicker-cell-selected-day': cell.selected,
-                                                'tv-datepicker-cell-disabled-day': cell.disabled
+                                                'tv-datepicker-cell-selected': cell.selected,
+                                                'tv-datepicker-cell-disabled': cell.disabled
                                             })}>
                                                 <div className="tv-datepicker-date">{cell.text}</div>
                                             </td>

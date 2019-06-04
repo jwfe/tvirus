@@ -6,10 +6,10 @@ const modes = {
     WEEK: 'week',
     YEAR: 'year',
     MONTH: 'month',
-    DAY: 'day',
-    RANGE: 'range'
+    DAY: 'day'
 }
 
+const RANGE = 'range';
 const DAY_DURATION = 86400000;
 
 const clearHours = function (time) {
@@ -119,6 +119,7 @@ export default class DateTable extends Component {
             // 周视图下第一列展示对应的周
             if(mode === modes.WEEK && index%7 === 0 && showWeekNumber){
                 const obj = JSON.parse(JSON.stringify(dateObj));
+                obj.isWeekNumber = true;
                 obj.isNotClick = true;
                 obj.text = obj.week;
                 rows[rowIndex].push(obj);
@@ -131,10 +132,10 @@ export default class DateTable extends Component {
     }
 
     getRow(){
-        let {showWeekNumber, minDate, mode, rangeState} = this.props;
+        let {showWeekNumber, minDate, range, rangeState} = this.props;
 
         const { head, rows } = this.getRowsDays();
-        if (!(mode === modes.RANGE && rangeState.ing && rangeState.endDate)) {
+        if (!(range === RANGE && rangeState.ing && rangeState.endDate)) {
             return { head, rows };
         }
 
@@ -168,9 +169,9 @@ export default class DateTable extends Component {
         return cell.week === weekOfYear(format(date)).number;
     }
     handleMouseMove(cell){
-        const { onMoveRange, rangeState, mode, disabledDate } = this.props;
+        const { onMoveRange, rangeState, range, disabledDate } = this.props;
 
-        if (!(mode === modes.RANGE && rangeState.ing) || cell.disabled) return;
+        if (!(range === RANGE && rangeState.ing) || cell.disabled) return;
 
         rangeState.endDate = cell.date;
         onMoveRange(rangeState)
@@ -180,7 +181,7 @@ export default class DateTable extends Component {
             return;
         }
 
-        let { mode, onChange, rangeState, minDate, maxDate } = this.props;
+        let { range, onChange, rangeState, minDate, maxDate } = this.props;
 
         if(cell.disabled){
             return;
@@ -189,7 +190,7 @@ export default class DateTable extends Component {
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
 
-        if(mode === modes.RANGE){
+        if(range === RANGE){
             if (rangeState.ing) {
                 if (cell.date < min) {
                     rangeState.ing = true;
@@ -235,6 +236,8 @@ export default class DateTable extends Component {
     }
 
     render(){
+        const { mode } = this.props;
+        const isWeek = mode === modes.WEEK;
         const { head, rows } = this.getRow();
         return (
             <table className="tv-datepicker-table" cellSpacing="0" style={this.style()}>
@@ -256,8 +259,9 @@ export default class DateTable extends Component {
                                                 onMouseMove={this.handleMouseMove.bind(this, cell)}
                                                 title={`${cell.year}年${cell.month}月${cell.day}日`} 
                                                 className={this.className('tv-datepicker-cell', {
-                                                    'tv-datepicker-cell-selected': cell.start || cell.end || cell.selected,
-                                                    'tv-datepicker-cell-in-range': cell.inRange,
+                                                    'tv-datepicker-cell-weeknumber': cell.isWeekNumber,
+                                                    'tv-datepicker-cell-selected': !isWeek && (cell.start || cell.end || cell.selected),
+                                                    'tv-datepicker-cell-in-range': !isWeek && cell.inRange,
                                                     'tv-datepicker-cell-today': cell.today,
                                                     'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
                                                     'tv-datepicker-cell-disabled': cell.disabled

@@ -13,6 +13,7 @@ export default class Range extends Component {
         className: PropTypes.string,
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         placeholder: PropTypes.string,
+        mode: PropTypes.string,
         name: PropTypes.string,
         trigger: PropTypes.string,
         disabled: PropTypes.bool,
@@ -21,6 +22,7 @@ export default class Range extends Component {
     };
 
     static defaultProps = {
+        mode: 'day',
         trigger: 'click',
         position: "bottom left",
         disabledDate: noop,
@@ -39,7 +41,15 @@ export default class Range extends Component {
         }
         
         this.state = {
-            view: 'day',
+            view: {
+                ['day']: props.mode === 'day',
+                ['leftyear']: props.mode === 'year',
+                ['rightyear']: props.mode === 'year',
+                ['leftmonth']: props.mode === 'month',
+                ['rightmonth']: props.mode === 'month',
+                ['leftweek']: props.mode === 'week',
+                ['rightweek']: props.mode === 'week'
+            },
             left_date: left_date,
             right_date: right_date,
             minDate: left_date,
@@ -68,18 +78,31 @@ export default class Range extends Component {
         this.setState({visible: showPopup});
     }
 
-    handleDate({ minDate, maxDate }, isClose) {
-        const { onChange, name } = this.props
+    handleDate = ({ minDate, maxDate }, isClose) => {
+        const { onChange, name } = this.props;
+        minDate = minDate || this.state['left_date'];
+        maxDate =  maxDate || this.state['right_date'];
         if (!isClose){
-            this.setState({ visible: true, view: 'day', minDate, maxDate });
+            this.setState({ 
+                visible: true, view: {'day': true}, minDate, maxDate, 
+                left_date: minDate, right_date: maxDate 
+            });
             return;
         };
-        this.setState({ visible: false, view: 'day', minDate, maxDate, selected: {
-            minDate, maxDate,
-        }});
+        this.setState({ 
+            visible: false, view: {'day': true}, minDate, maxDate, 
+            left_date: minDate, right_date: maxDate,
+            selected: {
+                minDate, maxDate,
+            }
+        });
         onChange([minDate, maxDate], false, name)
     }
-    handleMoveRange({ endDate }){
+    handleMoveRange = ({ endDate }) => {
+        const { mode } = this.props;
+        if(mode == 'week'){
+            return;
+        }
         const { rangeState, minDate } = this.state
         if (endDate <= minDate) endDate = null
 
@@ -88,31 +111,63 @@ export default class Range extends Component {
             maxDate: endDate,
         })
     }
-    handleYearDate(cell, key){
-        let date = this.state[`${key}_date`];
-        let { year } = weekOfYear(format(cell));
+    handleYearDate = (cell, key, name, isClose) => {
+        const { mode } = this.props;
+        const { view } = this.state;
+        if(mode === 'day' || mode === 'month'){
+            let date = this.state[`${key}_date`];
+            let { year } = weekOfYear(format(cell));
 
-        date.setFullYear(year);
+            date.setFullYear(year);
+            // 把当前打开的辅助层关掉
+            this.setState({
+                visible: true, 
+                view: {...view, [`${key}year`]: false, 'day': true},
+                [`${key}_date`]: date
+            });
+            return;
+        }
 
-        this.setState({
-            visible: true, 
-            view: 'day',
-            [`${key}_date`]: date
-        });
+        this.setOtherRange(cell, 'month', name, isClose)
     }
-    handleMonthDate(cell, key){
-        let date = this.state[`${key}_date`];
-        const { year, month } = weekOfYear(format(cell));
-        const array  = fixedYM(year, month - 1);
-
-        date.setFullYear(array[0]);
-        date.setMonth(array[1]);
-
-        this.setState({
-            visible: true, 
-            view: 'day',
-            [`${key}_date`]: date
+    setOtherRange(cell, currMode, name, isClose){
+        const { onChange, mode } = this.props;
+        const { view } = this.state;
+        const { minDate, maxDate } = cell;
+        if (!isClose){
+            this.setState({ 
+                visible: true, view: mode === currMode ? view : {...view, 'day': true}, 
+                minDate, maxDate, [`left_date`]: minDate 
+            });
+            return;
+        };
+        this.setState({ 
+            visible: false, 
+            view: mode === currMode ? view : {...view, 'day': true}, 
+            minDate, maxDate, [`left_date`]: minDate, [`right_date`]: maxDate, selected: {
+                minDate, maxDate
+            }
         });
+        onChange([minDate, maxDate], false, name)
+    }
+    handleMonthDate = (cell, rangeKey, name, isClose) => {
+        const { mode } = this.props;
+        const { view } = this.state;
+
+        if(mode === 'day'){
+            let date = this.state[`${rangeKey}_date`];
+            const { year, month } = weekOfYear(format(cell));
+            const array  = fixedYM(year, month - 1);
+
+            date.setFullYear(array[0]);
+            date.setMonth(array[1]);
+            return this.setState({
+                visible: true, 
+                view: {...view, [`${rangeKey}month`]: false, 'day': true},
+                [`${rangeKey}_date`]: date
+            });
+        }
+        this.setOtherRange(cell, 'month', name, isClose)
     }
     // 上年
     handlePrevYearClick(key){
@@ -169,17 +224,58 @@ export default class Range extends Component {
     }
 
     showYearPicker(key){
+        const { view } = this.state;
         this.setState({
             visible: true, 
-            view: key + 'year'
+            view: {...view, [key + 'year']: true}
         })
     }
 
     showMonthPicker(key){
+        const { view } = this.state;
         this.setState({
             visible: true, 
-            view: key + 'month'
+            view: {...view, [key + 'month']: true}
         })
+    }
+
+    disabledDate = (value, key) => {
+        let { view } = this.state;
+        let { disabledDate, mode } = this.props;
+        
+        if(view[`${key}year`]){
+            return false;
+        }
+
+        const otherKey = key === 'left' ? 'right' : 'left';
+        const otherDate = this.state[`${otherKey}_date`];
+        let dateObj = weekOfYear(format(value));
+        let otherDateObj = weekOfYear(format(otherDate));
+        const dateObjMonth = parse(`${dateObj.year}-${dateObj.month}-01`);
+        const otherDateObjMonth = parse(`${otherDateObj.year}-${otherDateObj.month}-01`);
+
+        if(mode === 'year'){
+            if((otherKey !== 'left' && dateObj.year < otherDateObj.year) 
+            || (otherKey === 'left' && dateObj.year > otherDateObj.year)) {
+                return false
+            }
+            return true;
+        }
+
+        if(mode === 'month' || view[`${key}month`]){
+            if(otherKey !== 'left'){
+                if(dateObjMonth < otherDateObjMonth){
+                    return false
+                }
+            } else {
+                if(dateObjMonth > otherDateObjMonth){
+                    return false
+                }
+            }
+    
+            return true;
+        }
+        return disabledDate(value);
     }
 
     renderSearch(key){
@@ -194,7 +290,7 @@ export default class Range extends Component {
                     <a className="tv-datepicker-prev-month-btn" title="上个月" onClick={this.handlePrevMonthClick.bind(this, key)}></a>
                     <span className="tv-datepicker-ym-select">
                         <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this, key)}>{array[0]}年</a>
-                        <a style={{display: (view !== key + 'year' &&  view !== key + 'month') ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}月</a>
+                        <a style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}月</a>
                     </span>
                     <a className="tv-datepicker-next-month-btn" title="下个月" onClick={this.handleNextMonthClick.bind(this, key)}></a>
                     <a className="tv-datepicker-next-year-btn" title="下一年" onClick={this.handleNextYearClick.bind(this, key)}></a>
@@ -204,31 +300,44 @@ export default class Range extends Component {
     }
 
     renderTable(key){
-        const mode = 'range';
+        let rangeMode = 'range';
+        let { mode } = this.props;
         let { view, rangeState, minDate, maxDate } = this.state;
-        let { disabledDate } = this.props;
         let date = this.state[`${key}_date`];
+        const monthMode = mode === 'day' ? 'sigle' : rangeMode;
+        const yearMode = mode !== 'year' ? 'sigle' : rangeMode;
 
-        return [
-            <YearTable 
-                disabledDate={disabledDate} 
-                rangeKey={key} date={date} onChange={this.handleYearDate.bind(this)} 
-                style={{display: view === key + 'year' ? '' : 'none'}} />,
-            <MonthTable 
-                disabledDate={disabledDate} 
-                rangeKey={key} date={date} onChange={this.handleMonthDate.bind(this)} 
-                style={{display: view === key + 'month' ? '' : 'none'}} />,
-            <DateTable 
-                disabledDate={disabledDate} 
-                style={{display: (view !== key + 'year' &&  view !== key + 'month') ? '' : 'none'}}
-                key={key}
-                mode={mode} rangeState={rangeState} date={date} 
+        return (
+            <div className={this.className('tv-datepicker-body')}>
+                <YearTable 
+                range={yearMode}
+                rangeState={rangeState}
                 minDate={minDate}
                 maxDate={maxDate}
-                onMoveRange={this.handleMoveRange.bind(this)}
-                onChange={this.handleDate.bind(this)}
-            /> 
-        ]
+                disabledDate={this.disabledDate} 
+                rangeKey={key} date={date} onChange={this.handleYearDate} 
+                style={{display: view[key + 'year'] ? '' : 'none'}} />
+                {mode !== 'year' && <MonthTable 
+                    range={monthMode}
+                    rangeState={rangeState}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    disabledDate={this.disabledDate} 
+                    rangeKey={key} date={date} onChange={this.handleMonthDate} 
+                    style={{display: view[key + 'month'] ? '' : 'none'}} />}
+                {mode !== 'year' && mode !== 'month' && <DateTable 
+                    disabledDate={this.disabledDate} 
+                    style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}}
+                    key={key}
+                    mode={mode}
+                    range={rangeMode} rangeState={rangeState} date={date} 
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    onMoveRange={this.handleMoveRange}
+                    onChange={this.handleDate}
+                />}
+            </div>
+        );
     }
 
     render(){
@@ -244,9 +353,8 @@ export default class Range extends Component {
                             return (
                                 <div key={key} className={this.className('tv-datepicker')}>
                                     { this.renderSearch(key) }
-                                    <div className={this.className('tv-datepicker-body')}>
-                                        { this.renderTable(key) }
-                                    </div>
+                                    { this.renderTable(key) }
+                                    
                                 </div>
                             )
                         })
