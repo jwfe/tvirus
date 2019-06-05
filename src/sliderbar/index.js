@@ -38,14 +38,14 @@ export default class SliderBar extends Component {
         }
     }
 
-    onEnter(){
+    onEnter = () => {
         clearTimeout(this.timer);
         this.setState({
             showPopup: true
         })
     }
 
-    onLeave(){
+    onLeave = () => {
         this.timer = setTimeout(() => {
             this.setState({
                 showPopup: false
@@ -53,20 +53,22 @@ export default class SliderBar extends Component {
         }, 200);
     }
     
-    onButtonDown (event) {
+    onButtonDown = (event) => {
         if (this.props.disabled) return;
         this.onDragStart(event);
 
-        window.addEventListener('mousemove', this.onDragging.bind(this));
-        window.addEventListener('mouseup', this.onDragEnd.bind(this));
+        window.addEventListener('mousemove', this.onDragging, false);
+        window.addEventListener('mouseup', this.onDragEnd, false);
     }
 
     currentPosition() {
-        const { min, max, value } = this.props;
+        const { min, max } = this.props;
+        const { value } = this.state;
         return `${ (value - min) / (max - min) * 100 }%`;
     }
 
     onDragStart(event) {
+        const { startPosition } = this.state;
         this.setState({
             dragging: true,
             startX: event.clientX,
@@ -75,26 +77,29 @@ export default class SliderBar extends Component {
         });
     }
 
-    onDragging(event) {
-        if (this.state.dragging) {
-            this.state.currentX = event.clientX;
-            this.state.currentY = event.clientY;
-
+    onDragging = (event) => {
+        let { dragging, currentX, currentY, startY, startX, startPosition, newPosition } = this.state;
+        if (dragging) {
+            currentX = event.clientX;
+            currentY = event.clientY;
             let diff;
 
             if (this.props.vertical) {
-                diff = (this.state.startY - this.state.currentY) / this.sliderSize() * 100;
+                diff = (startY - currentY) / this.sliderSize() * 100;
             } else {
-                diff = (this.state.currentX - this.state.startX) / this.sliderSize() * 100;
+                diff = (currentX - startX) / this.sliderSize() * 100;
             }
 
-            this.state.newPosition = this.state.startPosition + diff;
-
-            this.setPosition(this.state.newPosition);
+            newPosition = startPosition + diff;
+            this.setState({
+                currentX, currentY, newPosition
+            }, () => {
+                this.setPosition(newPosition);
+            })
         }
     }
 
-    onDragEnd() {
+    onDragEnd = () => {
         if (this.state.dragging) {
             setTimeout(() => {
                 this.setState({
@@ -133,7 +138,7 @@ export default class SliderBar extends Component {
         return parseInt(this.props.vertical ? slider.offsetHeight : slider.offsetWidth, 10);
     }
 
-    handleSliderClick(event){
+    handleSliderClick = (event) => {
         if (this.props.disabled || this.state.dragging) return;
         const { left, bottom } = this.slider.getBoundingClientRect()
 
@@ -169,13 +174,13 @@ export default class SliderBar extends Component {
                     'tv-sliderbar-disabled': disabled,
                     'tv-sliderbar-vertical': vertical,
                 })}
-                onClick={this.handleSliderClick.bind(this)}
+                onClick={this.handleSliderClick}
             >
                 <div className="tv-sliderbar-bar" style={style.bar}></div>
                 <div className="tv-sliderbar-button" style={style.btn} 
-                    onMouseDown={this.onButtonDown.bind(this)}
-                    onMouseEnter={this.onEnter.bind(this)}
-                    onMouseLeave={this.onLeave.bind(this)}
+                    onMouseDown={this.onButtonDown}
+                    onMouseEnter={this.onEnter}
+                    onMouseLeave={this.onLeave}
                  />
                 <div className={this.className('tv-popup tv-popup-top', {
                     'tv-popup-show': showPopup
