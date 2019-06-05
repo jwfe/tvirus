@@ -257,6 +257,7 @@
     }
 
     &-active-week{
+        font-weight: 500;
         background-color: @master-bgc-20;
         .tv-datepicker-cell{
             &:first-child,
@@ -267,6 +268,9 @@
                 color: @light-color;
             }
         }
+    }
+    &-cell-weeknumber &-date{
+        color: @dark-color-25;
     }
     &-year-table,
     &-month-table{

@@ -13,11 +13,12 @@ export default class Range extends Component {
         className: PropTypes.string,
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         placeholder: PropTypes.string,
+        format: PropTypes.string,
         mode: PropTypes.string,
         name: PropTypes.string,
         trigger: PropTypes.string,
         disabled: PropTypes.bool,
-        expand: PropTypes.object,
+        expand: PropTypes.array,
         disabledDate: PropTypes.func,
         onChange: PropTypes.func
     };
@@ -43,6 +44,7 @@ export default class Range extends Component {
         
         this.state = {
             mode: props.mode,
+            format: props.format,
             view: {
                 ['day']: props.mode === 'day',
                 ['leftyear']: props.mode === 'year',
@@ -363,8 +365,9 @@ export default class Range extends Component {
             <div className="tv-datepicker-expand">
                 {expand.map((item, index) => {
                     const {text, onClick, ...other} = item;
+                    const isSelected = typeof expandSelectedIndex === 'undefined' ? item.selected : index === expandSelectedIndex;
                     return <Button className={this.className({
-                        'tv-datepicker-expand-selected': index === expandSelectedIndex
+                        'tv-datepicker-expand-selected': isSelected
                     })} {...other} onClick={onClick.bind(this, index)}>{text}</Button>
                 })}
             </div>
@@ -404,8 +407,8 @@ export default class Range extends Component {
         }
 
 
-        const min = minDate ? format(minDate) : null;
-        const max = maxDate ? format(maxDate) : null;
+        const min = minDate ? format(minDate, this.state.format) : null;
+        const max = maxDate ? format(maxDate, this.state.format) : null;
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>

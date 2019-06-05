@@ -64,8 +64,8 @@ export default class DateTable extends Component {
     }
 
     isSelected(dateObj){
-        const { mode, date } = this.props
-        if(mode !== modes.DAY || !date){
+        const { mode, date, range } = this.props
+        if(mode !== modes.DAY || range === RANGE || !date){
             return false;
         }
 

@@ -16,13 +16,13 @@ export default class I18nReceiver extends Component{
 
     receive() {
         const { componentName, defaultI18n } = this.props;
-        const zentI18n = this.context;
-        const i18n = (zentI18n && zentI18n[componentName]) || {};
+        const tvI18n = this.context;
+        const i18n = (tvI18n && tvI18n[componentName]) || {};
 
         return {
             ...(typeof defaultI18n === 'function' ? defaultI18n() : defaultI18n),
             ...(typeof i18n === 'function' ? i18n() : i18n),
-            mark: (zentI18n && zentI18n.mark) || 'zh-CN'
+            mark: (tvI18n && tvI18n.mark) || 'zh-CN'
         };
     }
 

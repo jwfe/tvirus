@@ -13,8 +13,10 @@ export default class Datepicker extends Component {
         className: PropTypes.string,
         defaultValue: PropTypes.arrayOf(PropTypes.string),
         name: PropTypes.string,
+        format: PropTypes.string,
         trigger: PropTypes.string,
         mode: PropTypes.string,
+        expand: PropTypes.array,
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
         disabledDate: PropTypes.func,
@@ -32,6 +34,8 @@ export default class Datepicker extends Component {
         super(props);
         const date = props.value ? parse(props.value) : parse(format(new Date()));
         this.state = {
+            mode: props.mode,
+            format: props.format,
             view: 'day',
             date: date,
             currentDateObj: weekOfYear(format(date))
@@ -52,8 +56,8 @@ export default class Datepicker extends Component {
     }
 
     handleDate = (value, obj) => {
-        const { mode, onChange, name } = this.props;
-        const { view } = this.state;
+        const { onChange, name } = this.props;
+        const { mode, view } = this.state;
         if(mode !== 'day'){
             onChange && onChange(obj, name);
         } else {
@@ -128,6 +132,38 @@ export default class Datepicker extends Component {
         })
     }
 
+    update({mode}, index){
+        this.setState({
+            expandSelectedIndex: index,
+            mode,
+            view: {
+                ['day']: mode === 'day',
+                ['year']: mode === 'year',
+                ['rightyear']: mode === 'year',
+                ['month']: mode === 'month',
+                ['week']: mode === 'week'
+            }
+        })
+    }
+    renderExpand(){
+        const { expand } = this.props;
+        let { expandSelectedIndex } = this.state;
+        if(!expand){
+            return null;
+        }
+        return (
+            <div className="tv-datepicker-expand">
+                {expand.map((item, index) => {
+                    const {text, onClick, ...other} = item;
+                    const isSelected = typeof expandSelectedIndex === 'undefined' ? item.selected : index === expandSelectedIndex;
+                    return <Button className={this.className({
+                        'tv-datepicker-expand-selected': isSelected
+                    })} {...other} onClick={onClick.bind(this, index)}>{text}</Button>
+                })}
+            </div>
+        )
+    }
+
     renderSearch(){
         const { date, view } = this.state;
         const { year, month } = weekOfYear(format(date));
@@ -148,8 +184,8 @@ export default class Datepicker extends Component {
     }
 
     renderTable(){
-        const { mode, disabledDate } = this.props;
-        const { date, view } = this.state;
+        const { disabledDate } = this.props;
+        const { mode, date, view } = this.state;
 
         return [
             <YearTable 
@@ -173,8 +209,8 @@ export default class Datepicker extends Component {
     }
 
     render(){
-        const { position, placeholder, footer, children, trigger, mode } = this.props;
-        const { disabled, visible, date, currentDateObj } = this.state;
+        const { position, placeholder, footer, children, trigger } = this.props;
+        const { disabled, visible, date } = this.state;
         const content = (
             <div className="tv-datepicker">
                 { this.renderSearch() }
@@ -194,15 +230,7 @@ export default class Datepicker extends Component {
             </div>
         )
 
-        let dateString = date ? format(date) : placeholder;
-
-        if(mode !== 'day'){
-            let __date = currentDateObj[mode];
-            if(mode === 'week'){
-                __date = `${currentDateObj['year']}年${__date}周`
-            }
-            dateString = date ? __date : placeholder;
-        }
+        let dateString = date ? format(date, this.state.format) : placeholder;
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>
