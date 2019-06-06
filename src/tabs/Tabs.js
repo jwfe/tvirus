@@ -97,7 +97,10 @@ export default class Tabs extends Component {
                 <div className="tv-tabs-content">
                     {
                         React.Children.map(children, (child, index) => {
-                            return React.cloneElement(child, {key: index, activeKey: activeStateKey})
+                            if(child.props.tabKey === activeStateKey){
+                                return React.cloneElement(child, {key: index, activeKey: activeStateKey})
+                            }
+                            return null;
                         })   
                     }
                 </div>

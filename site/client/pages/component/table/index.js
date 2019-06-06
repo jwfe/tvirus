@@ -24,22 +24,22 @@ export default class TableDemo extends Component{
             const columns = [
                 {title: 'Full Name', key: 'name', fixed: 'left'},
                 {title: 'Age', width: 80, dataIndex: 'age', key: 'age', fixed: 'left'},
-                {title: 'Column 1', dataIndex: 'address', key: '1', width: 200},
-                {title: 'Column 2', dataIndex: 'address', key: '2', width: 200},
-                {title: 'Column 3', dataIndex: 'address', key: '3', width: 200},
-                {title: 'Column 4', dataIndex: 'address', key: '4', width: 200},
-                {title: 'Column 5', dataIndex: 'address', key: '5', width: 200},
-                {title: 'Column 6', dataIndex: 'address', key: '6', width: 200},
-                {title: 'Column 7', dataIndex: 'address', key: '7', width: 200},
-                {title: 'Column 8', dataIndex: 'address', key: '8'},
+                {title: 'Column 1', dataIndex: 'address1', width: 200},
+                {title: 'Column 2', dataIndex: 'address2', width: 200},
+                {title: 'Column 3', dataIndex: 'address3', width: 200},
+                {title: 'Column 4', dataIndex: 'address4', width: 200},
+                {title: 'Column 5', dataIndex: 'address5', width: 200},
+                {title: 'Column 6', dataIndex: 'address6', width: 200},
+                {title: 'Column 7', dataIndex: 'address7', width: 200},
+                {title: 'Column 8', dataIndex: 'address8'},
                 {
                     title: 'Action',
                     key: 'operation',
                     fixed: 'right',
-                    width: 100,
+                    width: 180,
                     render: (text, record) => (
                         <span>
-                            <a href="javascript:;">Invite {record.name}</a>
+                            <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
                             <a href="javascript:;">Delete</a>
                         </span>
                     ),
@@ -52,7 +52,14 @@ export default class TableDemo extends Component{
                     key: i,
                     name: `Edrward ${i}`,
                     age: 32,
-                    address: `London Park no. ${i}`,
+                    address1: `London Park no. ${i}`,
+                    address2: `London Park no. ${i}`,
+                    address3: `London Park no. ${i}`,
+                    address4: `London Park no. ${i}`,
+                    address5: `London Park no. ${i}`,
+                    address6: `London Park no. ${i}`,
+                    address7: `London Park no. ${i}`,
+                    address8: `London Park no. ${i}`
                 });
             }
               

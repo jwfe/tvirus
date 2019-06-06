@@ -68,7 +68,6 @@ export default class SliderBar extends Component {
     }
 
     onDragStart(event) {
-        const { startPosition } = this.state;
         this.setState({
             dragging: true,
             startX: event.clientX,

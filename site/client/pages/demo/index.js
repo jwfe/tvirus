@@ -660,12 +660,14 @@ export default class DemoIndex extends Component{
                                         </div>
                                     </Tabpanel>
                                     <Tabpanel tab={`预测验证`} tabKey="2">
-                                        <Table 
-                                            bordered
-                                            style={{height: 396}}
-                                            columns={this.state.columns}
-                                            data={this.state.columns_data}
-                                        />
+                                        <div className="fc-report">
+                                            <Table 
+                                                bordered
+                                                style={{height: 396}}
+                                                columns={this.state.columns}
+                                                data={this.state.columns_data}
+                                            />
+                                        </div>
                                     </Tabpanel>
                                 </Tabs>
                             </Card>
