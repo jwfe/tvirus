@@ -59,9 +59,22 @@ export default class Select extends Component {
         let { selectedVals, selectedTitle } = this.state;
         const { multiple, name } = this.props;
         if(multiple){
-            if(selectedVals.indexOf(value) === -1){
+            const selectedIndex = selectedVals.indexOf(value);
+            if( selectedIndex === -1){
                 selectedVals.push(value);
                 selectedTitle.push(title);
+            } else {
+                // 取消
+                if(selectedVals.length === 1 || !selectedIndex){
+                    selectedVals.splice(0);
+                    selectedTitle.splice(0);
+                } else if((selectedVals.length - 1) === selectedIndex){
+                    selectedVals.pop();
+                    selectedTitle.pop();
+                } else {
+                    selectedVals.splice(selectedIndex, selectedIndex);
+                    selectedTitle.splice(selectedIndex, selectedIndex);
+                }
             }
         } else {
             selectedVals = [value];
@@ -93,12 +106,13 @@ export default class Select extends Component {
             const value = child.props.value;
             if(searchVals.indexOf(value) !== -1){
                 return React.cloneElement(child, {
+                    autoCtrol: true,
                     key: index,
                     onClick: this.handleOptionClick.bind(this),
                     selected: selectedValue ? selectedValue.indexOf(value) !== -1 : child.props.selected
                 })
             }
-            return false;
+            return null;
         });
         this.setState({
             childrens

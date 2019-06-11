@@ -31,8 +31,8 @@ export default class SelectDemo extends Component{
                         </Col>
                         <Col span={12}>
                             <Select multiple={true}>
-                                <Select.Option value="113">内容1</Select.Option>
-                                <Select.Option value="223">内容2</Select.Option>
+                                <Select.Option value="113" selection={true}>内容1</Select.Option>
+                                <Select.Option value="223" selection={true}>内容2</Select.Option>
                             </Select>
                         </Col>
                     </Row>

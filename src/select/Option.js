@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
 import Icon from '@icon';
+import Checkbox from '@checkbox';
 
 export default class Select extends Component {
     static propTypes = {
@@ -31,11 +32,12 @@ export default class Select extends Component {
         return {}
     }
 
-    handleClick(){
-        const { value, children, onClick, disabled} = this.props;
+    handleClick = () => {
+        const { value, children, onClick, disabled } = this.props;
         if(disabled){
             return;
         }
+
         this.setState({
             selected: true
         }, () => {
@@ -43,7 +45,7 @@ export default class Select extends Component {
         })
     }
     render() {
-        const { value, children, disabled, icon } = this.props;
+        const { value, children, disabled, icon, selection, autoCtrol } = this.props;
         const { selected } = this.state;
         return (
             <li 
@@ -52,10 +54,20 @@ export default class Select extends Component {
                 'tv-select-option-disabled': disabled,
                 'tv-select-option-selected': selected
             })}
-            onClick={this.handleClick.bind(this)}
+            onClick={this.handleClick}
             >
                 {icon && <Icon type={icon} />}
-                {children}
+                {
+                    selection && <div className={this.classNames(["tv-checkbox-label", "tv-checkbox-label-size-small", {
+                        'tv-checkbox-checked': selected,
+                        'tv-checkbox-disabled': disabled
+                    }])}>
+                            <span className="tv-input-wraper">
+                                <input className="tv-input tv-input-size-small tv-input-checkbox" type="checkbox" autocomplete="off" value="" />
+                            </span>{children}
+                        </div>
+                }
+                {!selection && children}
             </li>
         );
     }
