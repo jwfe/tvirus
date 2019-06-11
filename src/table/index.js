@@ -1,422 +1,334 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
 import { Component, PropTypes, noop } from '@Libs';
-import Icon from '@icon';
+import Loading from '@loading';
 
-import TablePanel from './TablePanel';
-import Row from './Row';
-import Cell from './Cell';
+import Thead from './Thead';
+import Tbody from './Tbody';
 
-export default class Table extends Component {
-    constructor(props) {
+let columnIDSeed = 1;
+let tableIDSeed = 1;
+
+export default class Table extends Component{
+    state = {
+        tableData: [],
+        columns: [],
+        columnRows: []
+    }
+    constructor(props){
         super(props);
-        this.dom = {};
-        const { columns, data } = this.props;
-        this.state = {
-            data: this.calculateWidth(columns, data),
-            width: props.width,
-            bodyHeight: '100%'
-        }
+        const { columns, data } = props;
+        const columnData = this.updateColumns(columns);
+        const tableData = this.filterData(data, columnData.columns);
+        this.state = Object.assign(this.state, {fit: true, ...columnData}, {tableData: tableData});
     }
-
-    static propTypes = {
-        bordered: PropTypes.bool,
-        columns: PropTypes.array,
-        data: PropTypes.array,
-        className: PropTypes.string,
-        onChange: PropTypes.func,
-
-    };
-    static defaultProps = {
-        bordered: false
-    };
-
-    getDomNodes(nodestring, dom){
-        return (dom || this.dom.wrapper).querySelector(nodestring);
-    } 
-    onScrollX(){
-        const scrollLeft = Math.max(this.dom.bodyXWrapper.scrollLeft, 0);
-        this.dom.headerTablePanel.style.transform = 'translate(' + (-1 * scrollLeft) + 'px, 0) translateZ(0)';
-    }
-   
-    getDom(){
-        if (!this.dom.wrapper) {
-            return;
-        }
-        this.dom.bodyTable = this.getDomNodes('.tv-table-body-wrapper .tv-table-body .tv-table-panel');
-        this.dom.bodyXWrapper = this.getDomNodes('.tv-table-body-wrapper .tv-table-body');
-        this.dom.bodyYWrapper = this.getDomNodes('.tv-table-body-wrapper');
-
-        this.dom.bodyLeftFixed = this.getDomNodes('.tv-table-body-fixed-left', this.dom.bodyYWrapper);
-        this.dom.bodyRightFixed = this.getDomNodes('.tv-table-body-fixed-right', this.dom.bodyYWrapper);
-        
-
-        this.dom.header = this.getDomNodes('.tv-table-header-wrapper');
-        this.dom.headerLeftFixed = this.getDomNodes('.tv-table-header-fixed-left', this.dom.header);
-        this.dom.headerLeftFixedPanel = this.getDomNodes('.tv-table-panel', this.dom.headerLeftFixed);
-
-        this.dom.headerRightFixed = this.getDomNodes('.tv-table-header-fixed-right', this.dom.header);
-        this.dom.headerRightFixedPanel = this.getDomNodes('.tv-table-panel', this.dom.headerRightFixed);
-
-        this.dom.headerTable = this.getDomNodes('.tv-table-header', this.dom.header);
-        this.dom.headerTablePanel = this.getDomNodes('.tv-table-panel', this.dom.headerTable);
-
-        this.dom.bodyXWrapper.addEventListener('scroll', this.onScrollX.bind(this));
-    }
-    
     componentDidMount(){
-        this.getDom();
-        const {headerLeftFixed, headerRightFixed} = this.dom;
-        if(headerLeftFixed || headerRightFixed){
-            this.calculateHeaderHeight();
-        }
-
-        const wraperHeight = this.dom.wrapper.offsetHeight;
-        const headHeight = this.dom.header.offsetHeight;
-        const bodyHeight = this.dom.bodyTable.offsetHeight;
+        this.caculateWidth(() => {
+            this.getHeight();
+        });
+    }
+    getHeight(){
+        const { height } = this.props;
+        const { headerWrapper, bodyWrapper } = this;
+        const heightClient = headerWrapper.getBoundingClientRect();
+        const bodyHeight = height - heightClient.height;
         this.setState({
-            bodyHeight,
-            bodyWraperHeight: wraperHeight - headHeight
+            bodyTop: heightClient.height,
+            bodyHeight
         })
     }
-    calculateHeaderHeight() {
-        let {headerLeftFixed, headerRightFixed, headerTable} = this.dom;
+    convertToRows(columns){
+        let maxLevel = 1;
 
-        if(!headerLeftFixed){
-            headerLeftFixed = headerRightFixed || headerTable;
+        function traverse(column, parent) {
+            if (parent) {
+                column.level = parent.level + 1;
+                if (maxLevel < column.level) {
+                    maxLevel = column.level;
+                }
+            } else {
+                column.level = 1;
+            }
+
+            if (column.children) {
+                let colSpan = 0;
+                column.children.forEach((subColumn) => {
+                    traverse(subColumn, column);
+                    colSpan += subColumn.colSpan;
+                });
+                column.colSpan = colSpan;
+            } else {
+                column.colSpan = 1;
+            }
         }
 
-        if(!headerRightFixed){
-            headerRightFixed = headerLeftFixed || headerTable;
+        columns.forEach((column) => {
+            traverse(column);
+        });
+
+        const rows = [];
+        for (let i = 0; i < maxLevel; i++) {
+            rows.push([]);
         }
 
-        let headerLeftRows = headerLeftFixed.querySelectorAll('.tv-table-row');
-        let headerRightRows = headerRightFixed.querySelectorAll('.tv-table-row');
-        let headerTableRows = headerTable.querySelectorAll('.tv-table-row');
+        const allColumns = [];
+        const queue = columns.slice();
+        for (let i = 0; queue[i]; i++) {
+            allColumns.push(queue[i]);
+            if (queue[i].children) queue.push(...queue[i].children);
+        }
 
-
-        headerLeftRows.forEach((item, index) => {
-            const leftRow = headerLeftRows[index];
-            const rightRow = headerRightRows[index];
-            const middleRow = headerTableRows[index];
-
-            const leftHeight = leftRow.offsetHeight;
-            const rightHeight = rightRow.offsetHeight;
-            const middleHeight = middleRow.offsetHeight;
-
-            const height = Math.max(leftHeight, rightHeight, middleHeight);
-            if(!isNaN(height)) {
-                leftRow.style.height = middleRow.style.height = rightRow.style.height = `${height}px`;
-            };
+        allColumns.forEach((column) => {
+            if (!column.children) {
+                column.rowSpan = maxLevel - column.level + 1;
+            } else {
+                column.rowSpan = 1;
+            }
+            rows[column.level - 1].push(column);
         });
-
-        // group
-        const leftGroup = headerLeftFixed.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
-        const middleGroup = headerTable.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
-        const rightGroup = headerRightFixed.querySelectorAll('.tv-table-row > .tv-table-cell-group-wraper > .tv-table-cell-group');
-
-        const leftMaxGroup = [];
-        leftGroup.forEach((group) => {
-            const height = group.offsetHeight;
-            leftMaxGroup.push(height);
-        });
-        const leftGroupHeight = Math.max(...leftMaxGroup);
-        leftGroup.forEach((group) => {
-            group.style.height = `${leftGroupHeight}px`;
-        });
-
-
-        const middleMaxGroup = [];
-        middleGroup.forEach((group) => {
-            const height = group.offsetHeight;
-            middleMaxGroup.push(height);
-        });
-        const middleGroupHeight = Math.max(...middleMaxGroup);
-        middleGroup.forEach((group) => {
-            group.style.height = `${middleGroupHeight}px`;
-        });
-
-        const rightMaxGroup = [];
-        rightGroup.forEach((group) => {
-            const height = group.offsetHeight;
-            rightMaxGroup.push(height);
-        });
-        const rightGroupHeight = Math.max(...rightMaxGroup);
-        rightGroup.forEach((group) => {
-            group.style.height = `${rightGroupHeight}px`;
-        });
-
+        return rows;
     }
-
-    getColumnsStyle(key, data){
-        function getKey(item){
-            return item.key || item.dataIndex;
+    caculateWidth(callback) {
+        const { columns, fixedColumns, rightFixedColumns, fit } = this.state;
+        const { gutterWidth } = this.state;
+        const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
+    
+        let bodyWidth = this.table.clientWidth;
+        let scrollX;
+        let fixedWidth;
+        let rightFixedWidth;
+    
+        // mutate props (TableStore's state[columns])
+        const flexColumns = columns.filter(column => typeof column.width !== 'number');
+        if (flexColumns.length && fit) {
+          if (bodyMinWidth < bodyWidth - gutterWidth) { // no scroll bar
+            scrollX = false;
+    
+            const totalFlexWidth = bodyWidth - gutterWidth - bodyMinWidth;
+            if (flexColumns.length === 1) {
+              flexColumns[0].realWidth = flexColumns[0].minWidth + totalFlexWidth;
+            } else {
+              const allColumnsWidth = flexColumns.reduce((pre, col) => pre + col.minWidth, 0);
+              const flexWidthPerPixel = totalFlexWidth / allColumnsWidth;
+    
+              let widthWithoutFirst = 0;
+    
+              flexColumns.forEach((column, index) => {
+                if (index === 0) return;
+                const flexWidth = Math.floor(column.minWidth * flexWidthPerPixel);
+                widthWithoutFirst += flexWidth;
+                column.realWidth = column.minWidth + flexWidth;
+              });
+    
+              flexColumns[0].realWidth = flexColumns[0].minWidth + totalFlexWidth - widthWithoutFirst;
+            }
+          } else { // have horizontal scroll bar
+            scrollX = true;
+            flexColumns.forEach((column) => {
+              column.realWidth = column.minWidth;
+            });
+          }
+    
+          bodyWidth = Math.max(bodyMinWidth, bodyWidth);
+        } else {
+          scrollX = bodyMinWidth > bodyWidth;
+          bodyWidth = bodyMinWidth;
         }
     
-        if(Array.isArray(data)){
-            for (var i = 0; i < data.length; i++) {
-                const d = data[i];
-                if(getKey(d) === key){
-                    return {
-                        width: d.width,
-                        align: d.align
-                    };
-                }
-                if(d.children){
-                    let childrenData = this.getColumnsStyle(key, d.children);
-                    if(childrenData){
-                        return {
-                            width: childrenData.width,
-                            align: childrenData.align
-                        }
-                    }
-                }
-            };
+        if (fixedColumns.length) {
+          fixedWidth = fixedColumns.reduce((pre, col) => pre + col.realWidth, 0);
         }
     
+        if (rightFixedColumns.length) {
+          rightFixedWidth = rightFixedColumns.reduce((pre, col) => pre + col.realWidth, 0);
+        }
+    
+        this.setState({
+            scrollX,
+            bodyWidth,
+            fixedWidth,
+            rightFixedWidth
+        }, () => {
+            callback && callback()
+        });
     }
-    calculateWidth(columns, data, fixedType){
-        const fixed = {};
+    filterData(data, columns) {
+        return columns.reduce((preData, column) => {
+            const { filterable, filterMultiple, filteredValue, filterMethod } = column;
+            if (filterable) {
+                if (filterMultiple && Array.isArray(filteredValue) && filteredValue.length) {
+                    return preData.filter(_data => filteredValue.some(value => filterMethod(value, _data)))
+                } else if (filteredValue) {
+                    return preData.filter(_data => filterMethod(filteredValue, _data));
+                }
+            }
+            return preData;
+        }, data);
+    }
+    normalizeColumns(columns, tableIDSeed) {
+        return columns.map((column) => {
+            let _column;
+            if (column.children) {
+            // renderHeader
+            _column = Object.assign({}, column);
+            _column.children = this.normalizeColumns(column.children, tableIDSeed);
+            } else {
+            let { width, minWidth } = column;
         
-        columns.forEach((col, index) => {
-            const fixedKey = fixedType || col.fixed || 'middle';
-            fixed[fixedKey] = fixed[fixedKey] || {};
-            fixed[fixedKey].keys = fixed[fixedKey].keys || [];
-            fixed[fixedKey].head = fixed[fixedKey].head || [];
-            fixed[fixedKey].body = fixed[fixedKey].body || [];
-            if(col.dataIndex || col.key){
-                fixed[fixedKey].keys.push( col.key || col.dataIndex );
+            if (width !== undefined) {
+                width = parseInt(width, 10);
+                if (isNaN(width)) {
+                width = null;
+                }
             }
-            fixed[fixedKey].head.push(col);
-
-            if(col.children){
-                const childFixed = this.calculateWidth(col.children, data, fixedKey);
-                fixed[fixedKey].keys = fixed[fixedKey].keys.concat(childFixed[fixedKey].keys);
+        
+            if (minWidth !== undefined) {
+                minWidth = parseInt(minWidth, 10);
+                if (isNaN(minWidth)) {
+                minWidth = 80;
+                }
+            } else {
+                minWidth = 80;
+            }
+        
+            const id = `tvTable${tableIDSeed}Column${columnIDSeed++}`;
+        
+            _column = Object.assign({
+                id,
+                sortable: false,
+                resizable: true,
+                showOverflowTooltip: false,
+                align: 'left',
+                filterMultiple: true
+            }, column, {
+                columnKey: column.columnKey || id,
+                width,
+                minWidth,
+                realWidth: width || minWidth,
+                property: column.prop || column.property,
+                render: column.render || function(data){return data},
+                align: column.align ? 'is-' + column.align : null,
+                headerAlign: column.headerAlign ? 'is-' + column.headerAlign : column.align ? 'is-' + column.align : null,
+                filterable: column.filters && column.filterMethod,
+                filterOpened: false,
+                filteredValue: column.filteredValue || null,
+                filterPlacement: column.filterPlacement || 'bottom',
+            });
+            }
+        
+            return _column;
+        })
+    }
+    getLeafColumns(columns) {
+        const result = [];
+        columns.forEach((column) => {
+            if (column.children) {
+            result.push(...this.getLeafColumns(column.children));
+            } else {
+            result.push(column);
             }
         });
-
-        !fixedType && data.forEach((item) => {
-            for(let key in fixed){
-                const context = []
-                const fixedItem = fixed[key];
-                const keys = fixedItem.keys;
-                if(keys){
-                    const head = fixedItem.head;
-                    keys.map((key2, index) => {
-                        const value = item[key2] || '';
-                        const headItem = head[index] || {};
-                        const render = headItem.render;
-                        const style = this.getColumnsStyle(key2, head);
-                        context.push({
-                            value: render ? render(value, item) : value,
-                            ...style
-                        });
-                    })
-                    context.length && fixed[key].body.push(context);
-                }
-                
-            }
-        })
-        console.log('[TABLE]', 'calculateWidth', fixed)
-        return fixed;
+        return result;
     }
-    handleOnSort(columnsItem) {
-        const { columns, data } = this.props;
-        const sortdata = data.sort((a, b) => {
-            const item = columnsItem.sort(a[columnsItem.key], b[columnsItem.key]);
+      
+    updateColumns(columns) {
+        let _columns = this.normalizeColumns(columns, tableIDSeed++);
+    
+        const fixedColumns = _columns.filter(column => column.fixed === true || column.fixed === 'left');
+        const rightFixedColumns = _columns.filter(column => column.fixed === 'right');
+    
+        let selectable;
+        if (_columns[0] && _columns[0].type === 'selection') {
+            selectable = _columns[0].selectable;
+            if (fixedColumns.length && !_columns[0].fixed) {
+                _columns[0].fixed = true;
+                fixedColumns.unshift(_columns[0]);
+            }
+        }
+    
+        _columns = [].concat(fixedColumns, _columns.filter(column => !column.fixed), rightFixedColumns);
+    
+        return Object.assign(this.state || {}, {
+            fixedColumns,
+            rightFixedColumns,
+            columnRows: this.convertToRows(_columns),
+            columns: this.getLeafColumns(_columns),
+            isComplex: fixedColumns.length > 0 || rightFixedColumns.length > 0,
+            selectable
+        });
+    }
+    onScroll = () => {
+        const { headerWrapper, fixedBodyWrapper, rightFixedBodyWrapper, bodyWrapper } = this;
+        if (headerWrapper) {
+            headerWrapper.scrollLeft = bodyWrapper.scrollLeft;
+        }
+        if (fixedBodyWrapper) {
+            fixedBodyWrapper.scrollTop = bodyWrapper.scrollTop;
+        }
+        if (rightFixedBodyWrapper) {
+            rightFixedBodyWrapper.scrollTop = bodyWrapper.scrollTop;
+        }
+    }
+    onSort = (key, cell, sortState) => {
+        const sortdata = this.state.tableData.sort((a, b) => {
+            const item = cell.sort(a[key], b[key]);
             return !this.state.sortState ? item : (0-item);
         });
-
-        const newdata = this.calculateWidth(columns, sortdata);
-
         this.setState({
-            sortState: !this.state.sortState,
-            data: newdata
+            sortState,
+            tableData: sortdata
         })
     }
-    renderGroupCell(groupData, index){
-        const groupNodes = [];
-
-        if(groupData.title){
-            const hasSort = groupData.sort;
-            groupNodes.push(<Cell 
-                    key={index}
-                    onClick={this.handleOnSort.bind(this, groupData)}
-                    style={{width: groupData.width, justifyContent: groupData.align}} 
-                    className={hasSort ? 'has-sort' : ''} 
-                    key={groupData.key}>
-                <span className="tv-table-column-title">{groupData.title}</span>
-                {groupData.sort && <span className="tv-table-column-sorter">
-                    <Icon type="caret-up" className={this.state.sortState ? 'on' : 'off'} />
-                    <Icon type="caret-down" className={!this.state.sortState ? 'on' : 'off'}  />
-                </span>}
-            </Cell>)
-        }
-
-        if(groupData.children){
-            const array = groupData.children.map((child, index) => {
-                return this.renderGroupCell(child, index);
-            });
-            groupNodes.push(<div key={index} className="tv-table-cell-group">{array}</div>);
-        }
-
-        return groupNodes.length === 1 ? groupNodes : <div key={index} className="tv-table-cell-group-wraper">{groupNodes}</div>
-    }
-
-    renderHead(data){
-        return (
-            <TablePanel>
-                <Row>
-                {
-                        data.map((item, index) => {
-                            return this.renderGroupCell(item, index)
-                        })
-                    }
-                </Row>
-            </TablePanel>
-        )
-    }
-
-    renderLeftHead(data = {}){
-        const isFixed = data.head && !!data.head.length;
-        if(!isFixed){
-            return null;
-        }
-    
-        return (
-            <div className={this.className('tv-table-header-fixed-left', 'tv-table-header-fixed', {
-                'tv-table-hidden': isFixed
-            })}>
-                {
-                    this.renderHead(data.head)
-                }
-            </div>
-        )
-    }
-
-    renderRightHead(data = {}){
-        const isFixed = data.head && !!data.head.length;
-        if(!isFixed){
-            return null;
-        }
-    
-        return (
-            <div className={this.className('tv-table-header-fixed-right', 'tv-table-header-fixed', {
-                'tv-table-hidden': isFixed
-            })}>
-                {
-                    this.renderHead(data.head)
-                }
-            </div>
-        )
-    }
-
-    renderLeftBody(data = {}){
-        const isFixed = data.head && !!data.head.length;
-        if(!isFixed || !data.body.length){
-            return null;
-        }
-    
-        return (
-            <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-left')}>
-                <TablePanel>
-                    {
-                        data.body.map((item, i) => {
-                            return (
-                                <Row key={i}>
-                                    {
-                                        item.map((item2, index2) => {
-                                            return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
-                                        })
-                                    }
-                                </Row>
-                            )
-                        })
-                    }
-                </TablePanel>
-            </div>
-        )
-    }
-
-    renderRightBody(data = {}){
-        const isFixed = data.head && !!data.head.length;
-        if(!isFixed || !data.body.length){
-            return null;
-        }
-    
-        return (
-            <div className={this.className('tv-table-body-fixed', 'tv-table-body-fixed-right')}>
-                <TablePanel>
-                    {
-                        data.body.map((item, index) => {
-                            return (
-                                <Row key={index}>
-                                    {
-                                        item.map((item2, index2) => {
-                                            return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
-                                        })
-                                    }
-                                </Row>
-                            )
-                        })
-                    }
-                </TablePanel>
-            </div>
-        )
-    }
-
     render(){
-        const { multiple, bordered} = this.props;
-        const { bodyWraperHeight, bodyHeight, width, data } = this.state;
-        const { left, right, middle } = data;
-
-        const setWrapperElement = element => {
-            if(element) this.dom.wrapper = element;
-        }
-
+        const { height, bordered, loading } = this.props;
+        const { fit, 
+            tableData, columns, columnRows, fixedWidth, rightFixedWidth, bodyWidth, bodyHeight, bodyTop 
+        } = this.state
         return (
-            <div style={this.style({
-                width
-            })} className={this.className('tv-table', {
-                'tv-table-border': bordered,
-                'tv-table-multiple': multiple
-            })} ref={setWrapperElement}>
-                <div className='tv-table-x-scrollbar'><div></div></div>
-                <div className='tv-table-y-scrollbar'><div></div></div>
-                <div className="tv-table-header-wrapper">
-                    { this.renderLeftHead(left) }
-                    <div className={this.className('tv-table-header')}>
-                        {
-                            this.renderHead(middle.head)
-                        }
-                    </div>
-                    { this.renderRightHead(right) }
+            <div 
+                className={this.className('tv-table', {
+                    'tv-table-fit': fit,
+                     'tv-table-border': bordered
+                })} 
+                style={{height: height, width: '100%'}}
+                ref={(el) => this.table = el}
+            >
+                <div className="tv-table-header-wrapper" ref={(el) => this.headerWrapper = el}>
+                    <Thead onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
                 </div>
-
-                <div className="tv-table-body-wrapper" style={{height: bodyWraperHeight}}>
-                    { this.renderLeftBody(left) }
-                    <div className={this.className('tv-table-body')} style={{height: bodyHeight}}>
-                        <TablePanel>
-                            {
-                                middle.body.map((item, i) => {
-                                    return (
-                                        <Row key={i}>
-                                            {
-                                                item.map((item2, index2) => {
-                                                    return (<Cell key={index2} style={{ width: item2.width, justifyContent: item2.align }}>{item2.value}</Cell>)
-                                                })
-                                            }
-                                        </Row>
-                                    )
-                                })
-                            }
-                        </TablePanel>
-                    </div>
-
-                    { this.renderRightBody(right) }
+                <div className="tv-table-body-wrapper" 
+                    onScroll={this.onScroll}
+                    style={{ height: bodyHeight}}
+                    ref={(el) => {this.bodyWrapper = el}}
+                >
+                    <Tbody data={tableData} columns={columns} bodyWidth={bodyWidth} />
                 </div>
+                <div className="tv-table-fixed" style={{bottom: -1, width: fixedWidth}}>
+                    <div className="tv-table-fixed-header-wrapper">
+                        <Thead onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
+                    </div>
+                    <div 
+                        className="tv-table-fixed-body-wrapper" 
+                        ref={(el) => {this.fixedBodyWrapper = el}}
+                        style={{ top: bodyTop, height: bodyHeight}}
+                    >
+                        <Tbody data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                    </div>
+                </div>
+                <div className="tv-table-fixed-right" style={{bottom: -1, width: rightFixedWidth}}>
+                    <div className="tv-table-fixed-header-wrapper">
+                        <Thead onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
+                    </div>
+                    <div 
+                        className="tv-table-fixed-body-wrapper" 
+                        ref={(el) => {this.rightFixedBodyWrapper = el}}
+                        style={{ top: bodyTop, height: bodyHeight}}
+                    >
+                        <Tbody data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                    </div>
+                </div>
+                {loading && <Loading />}
             </div>
         )
     }
 }
-

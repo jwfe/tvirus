@@ -653,7 +653,7 @@ export default class DemoIndex extends Component{
                                         <div className="fc-report">
                                             <Table 
                                                 bordered
-                                                style={{height: 396}}
+                                                height={396}
                                                 columns={this.state.columns}
                                                 data={this.state.columns_data}
                                             />
@@ -663,7 +663,7 @@ export default class DemoIndex extends Component{
                                         <div className="fc-report">
                                             <Table 
                                                 bordered
-                                                style={{height: 396}}
+                                                height={396}
                                                 columns={this.state.columns}
                                                 data={this.state.columns_data}
                                             />

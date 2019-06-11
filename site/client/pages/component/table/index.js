@@ -1,8 +1,7 @@
-
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Table } from 'tvirus';
+import { Util, Table } from 'tvirus';
 import './index.less'
 
 export default class TableDemo extends Component{
@@ -21,9 +20,9 @@ export default class TableDemo extends Component{
         const childs = [];
         
         (()=>{
-            const columns = [
-                {title: 'Full Name', key: 'name', fixed: 'left'},
-                {title: 'Age', width: 80, dataIndex: 'age', key: 'age', fixed: 'left'},
+            const columns2 = [
+                {title: 'Full Name', width: 150, key: 'name'},
+                {title: 'Age', width: 100, dataIndex: 'age', key: 'age'},
                 {title: 'Column 1', dataIndex: 'address1', width: 200},
                 {title: 'Column 2', dataIndex: 'address2', width: 200},
                 {title: 'Column 3', dataIndex: 'address3', width: 200},
@@ -31,11 +30,10 @@ export default class TableDemo extends Component{
                 {title: 'Column 5', dataIndex: 'address5', width: 200},
                 {title: 'Column 6', dataIndex: 'address6', width: 200},
                 {title: 'Column 7', dataIndex: 'address7', width: 200},
-                {title: 'Column 8', dataIndex: 'address8'},
+                {title: 'Column 8', dataIndex: 'address8', width: 200},
                 {
                     title: 'Action',
                     key: 'operation',
-                    fixed: 'right',
                     width: 180,
                     render: (text, record) => (
                         <span>
@@ -46,9 +44,9 @@ export default class TableDemo extends Component{
                 },
             ];
     
-            const data = [];
+            const data2 = [];
             for (let i = 0; i < 100; i++) {
-                data.push({
+                data2.push({
                     key: i,
                     name: `Edrward ${i}`,
                     age: 32,
@@ -68,11 +66,14 @@ export default class TableDemo extends Component{
                 title: '正常',
                 children: (
                     <div className="code-demo">
-                        <Table 
-                            style={{height: '200px'}}
-                            columns={columns}
-                            data={data}
-                         />
+                        <Table
+                            loading={false}
+                            style={{width: '100%'}}
+                            columns={columns2}
+                            data={data2}
+                            bordered={true}
+                            height={250}
+                        />
                     </div>
                 )
             });
@@ -80,104 +81,112 @@ export default class TableDemo extends Component{
 
         (()=>{
             const columns = [
-                    {
-                        title: 'Name',
-                        dataIndex: 'name',
-                        key: 'name',
-                        width: 100,
-                        fixed: 'left'
-                    }, 
-                    {
-                        title: 'Other',
-                        children: [
-                            {
-                                title: 'Age',
-                                dataIndex: 'age',
-                                key: 'age',
-                                width: 200,
-                                sorter: (a, b) => a.age - b.age,
-                            }, 
-                            {
-                                title: 'Address',
-                                children: [
-                                    {
-                                        title: 'Street',
-                                        dataIndex: 'street',
-                                        key: 'street',
-                                        width: 200,
-                                    },
-                                    {
-                                        title: 'Block',
-                                        children: [
-                                            {
-                                                title: 'Building',
-                                                dataIndex: 'building',
-                                                key: 'building',
-                                                width: 100,
-                                            },
-                                            {
-                                                title: 'Door No.',
-                                                dataIndex: 'number',
-                                                key: 'number',
-                                                width: 100,
-                                            }
-                                        ],
-                                    }
-                                ],
-                            }
-                        ],
-                    }, 
-                    {
-                        title: 'Company',
-                        children: [
-                            {
-                                title: 'Company Address',
-                                dataIndex: 'companyAddress',
-                                key: 'companyAddress',
-                                width: 200,
-                            }, 
-                            {
-                                title: 'Company Name',
-                                dataIndex: 'companyName',
-                                key: 'companyName',
-                                width: 200,
-                            }
-                        ],
-                    }, 
-                    {
-                        title: 'Gender',
-                        dataIndex: 'gender',
-                        key: 'gender',
-                        width: 80,
-                        fixed: 'right',
+                {
+                    width: 150,
+                    title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
+                        return Util.date.parse(a) - Util.date.parse(b);
                     }
-                ];
-                
+                },
+                {title: '星期', width: 120, dataIndex: 'week', key: 'week', align: 'center'},
+                {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center'},
+                {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center'},
+                {title: '已有/实际', dataIndex: 'otb', key: 'otb', width: 200, align: 'center'},
+                {
+                    title: 'vs 去年同星期实际', align: 'center',
+                    
+                    children: [
+                        {
+                            title: '差值',
+                            dataIndex: 'dv', 
+                            width: 200, align: 'center'
+                        },
+                        {
+                            title: '差异率',
+                            dataIndex: 'd_rate', 
+                            width: 200, align: 'center'
+                        }
+                    ]
+                },
+                {
+                    title: 'vs 已有/实际', align: 'center',
+                    children: [
+                        {
+                            title: '差值',
+                            dataIndex: 'otb_dv', 
+                            width: 200, align: 'center'
+                        },
+                        {
+                            title: '差异率',
+                            dataIndex: 'otb_d_rate', 
+                            width: 200, align: 'center'
+                        }
+                    ]
+                },
+                {
+                    title: 'vs 预算', 
+                    align: 'center',
+                    children: [
+                        {
+                            title: '差值',
+                            dataIndex: 'budget_dv', 
+                            width: 200, align: 'center'
+                        },
+                        {
+                            title: '差异率',
+                            dataIndex: 'budget_d_rate', 
+                            width: 200, align: 'center'
+                        }
+                    ]
+                }
+            ];
+            
             const data = [];
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 31; i++) {
+                const index = i + 1;
+                const _date = `2019-05-${index > 9 ? i : ('0' + index)}`;
                 data.push({
-                    key: i,
-                    name: 'John Brown',
-                    age: i + 1,
-                    street: 'Lake Park',
-                    building: 'C',
-                    number: 2035,
-                    companyAddress: 'Lake Street 42',
-                    companyName: 'SoftLake Co',
-                    gender: 'M',
+                    date: _date,
+                    week: '星期1',
+                    fc: parseInt(Math.random() * 100),
+                    last_year: parseInt(Math.random() * 100),
+                    otb: '-',
+                    dv: parseInt(Math.random() * 100),
+                    d_rate: parseInt(Math.random() * 100),
+                    otb_dv: parseInt(Math.random() * 100),
+                    otb_d_rate: parseInt(Math.random() * 100),
+                    budget_dv: parseInt(Math.random() * 100),
+                    budget_d_rate: parseInt(Math.random() * 100)
                 });
             }
+
+            childs.push({
+                title: 'loading',
+                children: (
+                    <div className="code-demo">
+                        <Table
+                            loading={true}
+                            style={{width: '100%'}}
+                            columns={columns}
+                            data={data}
+                            bordered={true}
+                            height={350}
+                        />
+                    </div>
+                )
+            });
     
             childs.push({
                 title: '多行头',
                 children: (
                     <div className="code-demo">
-                        <Table 
-                            bordered={true}
-                            style={{height: '500px'}}
+                        <Table
+                            loading={false}
+                            style={{width: '100%'}}
                             columns={columns}
                             data={data}
-                         />
+                            bordered={true}
+                            height={450}
+                        />
                     </div>
                 )
             });

@@ -1,17 +1,22 @@
 import React from 'react';
 
-import { 
-    Component, PropTypes, Portal, noop, Animation
-} from 'tvirus';
+import { Component, PropTypes, noop } from '@Libs';
 
 export default class Tbody extends Component{
     getCellValue(row, column){
-        return row[column.key || column.dataIndex]
+        const data = row[column.key || column.dataIndex];
+        return column.render(data, column)
     }
     renderTd(data){
         return this.props.columns.map((item, index) => {
             return (
-                <td className="is-center is-hidden" key={index}>
+                <td 
+                className={this.classNames([
+                    {
+                        [item.align]: item.align
+                    }
+                ])}
+                key={index}>
                     <div className="cell">{this.getCellValue(data, item)}</div>
                 </td>
             )
@@ -20,7 +25,7 @@ export default class Tbody extends Component{
     renderRow(){
         return this.props.data.map((row, index) => {
             return (
-                <tr className="tv-table2-row" key={index}>
+                <tr className="tv-table-row" key={index}>
                     {this.renderTd(row)}
                 </tr>
             )
@@ -28,7 +33,7 @@ export default class Tbody extends Component{
     }
     render(){
         return (
-            <table className="el-table__body" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
+            <table className="tv-table-body" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
                 <colgroup>
                     {
                         this.props.columns.map((item, index) => {

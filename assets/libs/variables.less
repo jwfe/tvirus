@@ -33,7 +33,11 @@
 
 // ---------background light-------------
 @transparent-bgc: transparent;
-@light-bgc: rgba(255, 255, 255, 1);
+@light-bgc: #fff;
+@light-bgc-10: .setColorAlpha(@light-bgc, 10%)[];
+@light-bgc-20: .setColorAlpha(@light-bgc, 20%)[];
+@light-bgc-80: .setColorAlpha(@light-bgc, 80%)[];
+
 @light-smoke-bgc: #f5f5f5;
 // ---------background master------------
 @master-bgc: @master-color;
@@ -88,8 +92,6 @@
 @warning-border: @warning-color;
 @warning-border-80: .setColorAlpha(@warning-border, 80%)[];
 
-@table-header-border: #ebeff6;
-
 //---------border dark color------------
 @dark-border: #000;
 @dark-border-10: .setColorAlpha(@dark-border, 10%)[];
@@ -104,6 +106,7 @@
 @dark-border-80: .setColorAlpha(@dark-border, 80%)[];
 @dark-border-85: .setColorAlpha(@dark-border, 85%)[];
 
+@table-header-border: .setColorAlpha(#e8e8e8, 80%)[];
 
 // box-shadow
 @master-shadow: @master-color;

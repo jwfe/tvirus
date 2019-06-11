@@ -26,6 +26,7 @@ import Switch from './switch';
 import Table from './table';
 import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
+import Loading from './loading';
 
 
 import '../assets/animation';
@@ -52,6 +53,7 @@ import '../assets/button';
 import '../assets/breadcrumb';
 import '../assets/pagination';
 import '../assets/tabs';
+import '../assets/loading';
 import '../assets/table';
 import '../assets/tooltip';
 import '../assets/popup';
@@ -89,5 +91,6 @@ export {
     Switch,
     Table,
     Tabs, Tabpanel,
-    Tag
+    Tag,
+    Loading
 }
