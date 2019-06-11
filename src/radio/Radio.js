@@ -33,13 +33,13 @@ export default class Radio extends Component {
     getChecked(props){
         return Boolean(props.checked)
     }
-    handleChange(evt){
+    handleChange(value, name, evt){
         const checked = evt.target.checked;
         if(checked){
             const { onChange, value, name } = this.props;
             onChange && onChange(value, name, evt)
         }
-        this.setState({stateChecked:checked})
+        this.setState({ stateChecked: checked })
     }
 
     render() {

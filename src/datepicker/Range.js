@@ -281,21 +281,25 @@ export default class Range extends Component {
     }
 
     renderSearch(key){
-        const { view } = this.state;
+        const { view, mode } = this.state;
         let date = this.state[`${key}_date`];
         let { year, month } = weekOfYear(format(date));
         const array = fixedYM(year, month);
+
+        const isHideRight = mode === 'day' && key === 'left';
+        const isHideLeft = mode === 'day' && key === 'right';
+
         return (
             <div className={this.className('tv-datepicker-header')}>
                 <div className="tv-datepicker-header-wraper">
-                    <a className="tv-datepicker-prev-year-btn" title="上一年" onClick={this.handlePrevYearClick.bind(this, key)}></a>
-                    <a className="tv-datepicker-prev-month-btn" title="上个月" onClick={this.handlePrevMonthClick.bind(this, key)}></a>
+                    {!isHideLeft && <a className="tv-datepicker-prev-year-btn" title="上一年" onClick={this.handlePrevYearClick.bind(this, key)}></a>}
+                    {!isHideLeft && <a className="tv-datepicker-prev-month-btn" title="上个月" onClick={this.handlePrevMonthClick.bind(this, key)}></a>}
                     <span className="tv-datepicker-ym-select">
                         <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this, key)}>{array[0]}年</a>
                         <a style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}月</a>
                     </span>
-                    <a className="tv-datepicker-next-month-btn" title="下个月" onClick={this.handleNextMonthClick.bind(this, key)}></a>
-                    <a className="tv-datepicker-next-year-btn" title="下一年" onClick={this.handleNextYearClick.bind(this, key)}></a>
+                    {!isHideRight && <a className="tv-datepicker-next-month-btn" title="下个月" onClick={this.handleNextMonthClick.bind(this, key)}></a>}
+                    {!isHideRight && <a className="tv-datepicker-next-year-btn" title="下一年" onClick={this.handleNextYearClick.bind(this, key)}></a>}
                 </div>
             </div>
         )
@@ -406,9 +410,16 @@ export default class Range extends Component {
             </div>
         }
 
+        // 防止反向控制的问题
+        let min = minDate;
+        let max = maxDate;
+        if(min > max){
+            min = maxDate;
+            max = minDate;
+        }
 
-        const min = minDate ? format(minDate, this.state.format) : null;
-        const max = maxDate ? format(maxDate, this.state.format) : null;
+        min = min ? format(min, this.state.format) : null;
+        max = max ? format(max, this.state.format) : null;
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>

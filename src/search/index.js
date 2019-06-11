@@ -43,9 +43,8 @@ export default class Search extends Component {
         })
     }
 
-    handleChange(evt){
+    handleChange(value, name){
         const { data, onSearch } = this.props;
-        const { value } = evt.target;
         const values = data.filter((val) => {
             return val.indexOf(value) !== -1
         });

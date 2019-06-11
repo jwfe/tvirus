@@ -1,0 +1,141 @@
+p, ul,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.el-table {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    background-color: #fff;
+    border: 1px solid #dfe6ec;
+    font-size: 14px;
+    color: #1f2d3d;
+    & tr{
+        background-color: #fff;
+    }
+    &, & td, & th {
+        box-sizing: border-box;
+        position: relative;
+    }
+    & td,& th {
+        height: 40px;
+        min-width: 0;
+        text-overflow: ellipsis;
+        vertical-align: middle
+    }
+    
+    &::after,&::before {
+        content: '';
+        position: absolute;
+        background-color: #dfe6ec;
+        z-index: 1
+    }
+
+    &__body, 
+    &__footer, 
+    &__header{
+        border-collapse: collapse;
+        table-layout: fixed;
+        white-space: nowrap;
+    }
+    & .cell{
+        box-sizing: border-box;
+        padding: 0 18px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    & .cell,
+    &__footer-wrapper,
+    &__header-wrapper {
+        overflow: hidden;
+    }
+    &__body-wrapper {
+        overflow: auto;
+        position: relative;
+    }
+
+    &__fixed,&__fixed-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: 1px 0 8px #d3d4d6;
+        overflow-x: hidden
+    }
+
+    &__fixed-right::before,&__fixed::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #dfe6ec;
+        z-index: 4
+    }
+
+    &__fixed-right-patch {
+        position: absolute;
+        top: -1px;
+        right: 0;
+        background-color: #eef1f6
+    }
+
+    &__fixed-right {
+        top: 0;
+        left: auto;
+        right: 0;
+        box-shadow: -1px 0 8px #d3d4d6
+    }
+
+    &__fixed-body-wrapper {
+        position: absolute;
+        left: 0;
+        top: 37px;
+        overflow: hidden;
+        z-index: 3;
+    }
+
+    &__fixed-right &__fixed-body-wrapper,
+    &__fixed-right &__fixed-footer-wrapper,
+    &__fixed-right &__fixed-header-wrapper {
+        left: auto;
+        right: 0
+    }
+
+    &__fixed-header-wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 3
+    }
+
+    &__fixed-header-wrapper thead div {
+        background-color: #eef1f6;
+        color: #1f2d3d
+    }
+
+    &__fixed-footer-wrapper {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 3
+    }
+
+    &__fixed-footer-wrapper tbody td {
+        border-top: 1px solid #dfe6ec;
+        background-color: #fbfdff;
+        color: #1f2d3d
+    }
+
+    &__fixed-body-wrapper {
+        position: absolute;
+        left: 0;
+        top: 37px;
+        overflow: hidden;
+        z-index: 3
+    }
+
+}
+

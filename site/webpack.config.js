@@ -112,6 +112,7 @@ import Layout from './layout';
 
 const Index =  lazy(() => import('./pages/index'));
 const Demo =  lazy(() => import('./pages/demo'));
+const DemoTest =  lazy(() => import('./pages/demo/test.js'));
 const DemoLogin =  lazy(() => import('./pages/demo/login.js'));
 const CompInstall =  lazy(() => import('./pages/component/install'));
 
@@ -124,6 +125,7 @@ export default (
                     <Route path="/" exact component= {Index} />
                     <Route path="/demo" exact component={Demo} />
                     <Route path="/login" exact component={DemoLogin} />
+                    <Route path="/test" exact component={DemoTest} />
                     {/* 设计语言 */}
                     ${linkSpec.join('\n')}
                     {/* 组件 */}
