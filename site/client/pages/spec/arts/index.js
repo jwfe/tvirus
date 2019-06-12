@@ -14,12 +14,9 @@ export default class ArtsDemo extends Component{
             title="人文体验"
             desc="当用户在使用一个产品时，如果他能很顺畅的进行操作获得想要的信息的时候，他是不会关注到交互和体验的，反而当他不能顺畅使用以及获取信息时，才会关注到产品的交互体验。"
         >
-            <blockquote>
-                “好的体验是满足甚至超出用户的期望，减少阻碍，“牵着用户的手”，让他感觉不到是在“使用”我们的产品——《腾讯网UED体验设计之旅》
-            </blockquote>
-            <p>设计不只是关乎好看，更关乎好用。产品体验的提升能够助力产品业绩的增长，让产品体验 可度 、可优化、可监控。</p>
-            <blockquote>“If you cannot measure it, you cannot improve it.” Lord Kelvin</blockquote>
-            <div className="values"></div>
+            <p style={{marginTop: -15, marginBottom: 0}}>设计不只是关乎好看，更关乎好用。产品体验的提升能够助力产品业绩的增长，让产品体验 可度 、可优化、可监控。</p>
+            <cite>“If you cannot measure it, you cannot improve it.” Lord Kelvin</cite>
+            <div className="values" style={{marginTop: 20}}></div>
             <h3>一致</h3>
             <ul>
                 <li>1.好的体验是润物细无声的，产品的设计与现实生活的规律保持一致，设计者应该多分析用户行为，并运用到当下的设计工作中。</li>

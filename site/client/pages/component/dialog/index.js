@@ -44,7 +44,9 @@ export default class DialogDemo extends Component{
                 </div>
             ),
             {
-                onClose: () => {this.childs();},
+                onClose: () => {
+                    // this.childs();
+                },
                 title: "Alert",
                 type: "alert",
                 footer: true,
@@ -58,11 +60,6 @@ export default class DialogDemo extends Component{
             dom.onShow();
         });
     }
-
-    handleAlertCancel(){
-        this.state.alertDom.onClose();
-    }
-
     childs(){
         const childs = [];
         childs.push({

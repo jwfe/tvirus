@@ -22,13 +22,13 @@ export default class JumpDemo extends Component{
             </blockquote>
 
             <h3>弹层</h3>
-            <p>二次确认覆盖层：避免滥用 二次确认，应该勇敢的让用户去尝试，给用户机会『撤销』即可。</p>
+            <p style={{marginBottom: 80}}>二次确认覆盖层：避免滥用 二次确认，应该勇敢的让用户去尝试，给用户机会『撤销』即可。</p>
             <strong>推荐示例</strong>
-            <div className="jump1"></div>
+            <div className="jump1" style={{marginBottom: 30}}></div>
             <strong>不推荐示例</strong>
-            <div className="jump2"></div>
-            <p>一般在列表中，通过用户『悬停』/『点击』某个区块，在当前页加载该条列表项的更多详情信息。<cite>注：使用『悬停』激活时，当鼠标移入时，需要设置 0.5 秒左右的延迟触发；当鼠标移出时，立刻关闭覆盖层</cite></p>
-            <div className="jump3"></div>
+            <div className="jump2" style={{marginBottom: 30}}></div>
+            <p>一般在列表中，通过用户『悬停』/『点击』某个区块，在当前页加载该条列表项的更多详情信息。<br /><cite>注：使用『悬停』激活时，当鼠标移入时，需要设置 0.5 秒左右的延迟触发；当鼠标移出时，立刻关闭覆盖层</cite></p>
+            <div className="jump3" style={{marginBottom: 30}}></div>
             <strong>点击输入弹层</strong>
             <p>在覆盖层上，让用户直接进行少量字段的输入。</p>
             <div className="jump4"></div>

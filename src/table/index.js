@@ -10,6 +10,23 @@ let columnIDSeed = 1;
 let tableIDSeed = 1;
 
 export default class Table extends Component{
+    static propTypes = {
+        bordered: PropTypes.bool,
+        height: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+        columns: PropTypes.array,
+        data: PropTypes.array,
+        className: PropTypes.string,
+        onChange: PropTypes.func,
+
+    };
+    static defaultProps = {
+        bordered: false,
+        height: 'auto'
+    };
+
     state = {
         tableData: [],
         columns: [],

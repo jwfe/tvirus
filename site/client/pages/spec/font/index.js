@@ -10,7 +10,8 @@ export default class FontDemo extends Component{
         this.state = {
             fontweight_columns: [
                 {
-                    title: 'css number', key: 'number', width: 260
+                    title: 'css number', key: 'number', width: 260,
+                    align: 'center'
                 },
                 {
                     title: 'css value', key: 'value', width: 260
@@ -122,7 +123,7 @@ export default class FontDemo extends Component{
             <p>设计字体默认使用无版权字体，技术调用优先使用系统默认的界面字体，同时提供一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持易读性和可读性。</p>
             <div>
                 <Table 
-                    style={{width: '780px', height: '460px'}}
+                    style={{width: 780}}
                     columns={columns}
                     data={data}
                 />
@@ -143,7 +144,7 @@ export default class FontDemo extends Component{
             <p>下面是字重参照表</p>
             <div>
                 <Table 
-                    style={{width: '780px', height: '460px'}}
+                    style={{width: 780}}
                     columns={fontweight_columns}
                     data={fontweight_data}
                 />
