@@ -58,6 +58,7 @@ export default class SwitchDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="switch"
             className="main-switch-box"
             title="Switch"
             desc="用于切换单个选项的状态。『开关』的内联标签应该显示清楚，例如：禁用/启用，不允许/允许等。"

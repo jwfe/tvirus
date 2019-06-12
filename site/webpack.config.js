@@ -6,6 +6,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const execSync = require('child_process').execSync
 const glob = require('glob')
 
+const docJSON = require('./doc.json');
+
 function fsExistsSync(path) {
     try{
         fs.accessSync(path, fs.F_OK);
@@ -186,6 +188,7 @@ export default class ${name}Demo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="${comp}"
             className="main-${comp}-box"
             title="${name}"
             desc="${name}的说明"
@@ -200,11 +203,38 @@ export default class ${name}Demo extends Component{
     remove(){
         execSync(`rm -rf ${this.siteTempComp}`);
     }
+
+    createApi(){
+        const dataMaps = {};
+        for(let key in docJSON){
+            const keyArr = key.split('/');
+            const doc = docJSON[key];
+            dataMaps[keyArr[1]] = dataMaps[keyArr[1]] || [];
+            const data = [];
+            for(let key in doc.props){
+                const props = doc.props[key];
+                const type = (props.type ? props.type.raw : '').replace('PropTypes.', '');
+                data.push({
+                    param: key,
+                    desc: props.description,
+                    type,
+                    defaultVal: props.defaultValue ? props.defaultValue.value : '-'
+                })
+            }
+            const fname = keyArr[2].replace('.js', '');
+            dataMaps[keyArr[1]].push({
+                filename: fname,
+                data
+            })
+        }
+        fs.writeFileSync(`./client/common/doc.json`, JSON.stringify(dataMaps));
+    }
     
     apply(compiler) {
         compiler.plugin("entryOption",  (compilation, callback) => {
             // this.optimizeIcon()
             this.remove()
+            this.createApi();
             this.copy();
             this.mkdir();
             // callback();

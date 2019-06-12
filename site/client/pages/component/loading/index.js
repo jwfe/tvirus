@@ -34,6 +34,7 @@ export default class LoadingDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="loading"
             className="main-loading-box"
             title="Loading"
             desc="模块的loading，可以使用这个组件。"

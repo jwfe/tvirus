@@ -365,6 +365,7 @@ export default class ChartDemo extends Component{
         const {childs} = this.state;
         
         return <Layout {...this.props} 
+			key="chart"
             className="main-chart-box"
             title="Chart"
             desc="图表让数据表达更符合用户心理，帮助『设计者』孵化出更具业务特性的可视化解决方案以满足个性化设计需求。注：需要手工引入Echart"

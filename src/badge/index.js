@@ -3,9 +3,13 @@ import { Component, PropTypes } from '@Libs';
 
 export default class Badge extends Component {
     static propTypes = {
+        /** 指定自定义样式 */
         className: PropTypes.string,
+        /** 设置徽标的状态, 可选 'default', 'primary', 'success', 'danger', 'warning' */
         status: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning']),
+        /** 设置徽标的颜色 */
         color: PropTypes.string,
+        /** 设置徽标内的值 */
         count: PropTypes.number,
     };
     

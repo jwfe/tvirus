@@ -91,6 +91,7 @@ export default class MenuDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="menu"
             className="main-menu-box"
             title="导航菜单"
             desc="导航菜单是一个网站的灵魂，用户依赖导航在各个页面中进行跳转。采用侧边导航提供多级结构来收纳和排列网站架构。"

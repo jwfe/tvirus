@@ -145,6 +145,7 @@ export default class IconDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="icon"
             className="main-icon-box"
             title="图标"
             desc="汇总了常用的图标集合。"

@@ -204,6 +204,7 @@ export default class TableDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="table"
             className="main-table-box"
             title="Table"
             desc="表格被公认为是展现数据最为清晰、高效的形式之一。"

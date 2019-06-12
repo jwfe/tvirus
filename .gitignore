@@ -17,6 +17,7 @@ filemaps.json
 sftp-config.json
 .eslintrc
 .vscode
+doc.json
 
 site/components/
 site/libs/

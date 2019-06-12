@@ -6,8 +6,11 @@ import Icon from '@icon'
 
 export default class Breadcrumb extends Component {
     static propTypes = {
+        /** 指定自定义样式 */
         className: PropTypes.string,
+        /** 分隔符自定义 */
         separator: PropTypes.string,
+        /** 前置的icon */
         icon: PropTypes.string
     };
     

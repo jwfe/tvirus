@@ -170,6 +170,7 @@ export default class PopupDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="popup"
             className="main-popup-box"
             title="Popup"
             desc="常用语提示信息。点击/鼠标移入，弹出气泡卡片。"

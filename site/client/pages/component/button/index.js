@@ -93,6 +93,7 @@ export default class ButtonDemo extends Component{
         const {childs} = this.state;
         return (
             <Layout {...this.props} 
+            keyword="button"
             title="按钮"
             desc="按钮有四种类型：主按钮、次按钮、虚线按钮、情感按钮、图标按钮。主按钮在同一个操作区域最多出现一次。按钮状态分为正常、加载中、不可点等三种状态。"
             childs={childs}

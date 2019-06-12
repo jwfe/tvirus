@@ -109,6 +109,7 @@ export default class DatepickerDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+			key="datepicker"
             className="main-datepicker-box"
             title="Datepicker"
             desc="日期选择器为用户提供了一种可视化的方式去浏览和选择一个日期或者日期范围。"

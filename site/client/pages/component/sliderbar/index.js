@@ -61,6 +61,7 @@ export default class SliderbarDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="sliderbar"
             className="main-sliderbar-box"
             title="Sliderbar"
             desc="滑块选择可以在连续或间断的区间内，通过滑动锚点来选择一个合适的数值。这种交互特性使得它在设置诸如音量，亮度，色彩饱和度等需要反映强度等级的选项时是一种极好的选择。"

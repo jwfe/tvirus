@@ -80,6 +80,7 @@ export default class I18nDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="install"
             className="main-install-box"
             title="快速上手"
             desc="T-virus 是一套服务于公司内部的底层UI组件库。"

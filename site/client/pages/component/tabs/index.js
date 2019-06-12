@@ -84,6 +84,7 @@ export default class TabsDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="tabs"
             className="main-tabs-box"
             title="Tabs"
             desc="分隔内容上有关联但属于不同类别的数据集合。"

@@ -52,6 +52,7 @@ export default class BadgeDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="progress"
             className="main-progress-box"
             title="Progress"
             desc="展示操作的当前进度。当需要显示一个操作完成的百分比时请使用它。 "

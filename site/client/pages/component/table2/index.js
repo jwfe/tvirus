@@ -35,6 +35,7 @@ export default class Table2Demo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="table2"
             className="main-table2-box"
             title="Table2"
             desc="Table2的说明"

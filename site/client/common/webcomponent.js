@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import Highlight from 'react-highlight' 
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { Tabs, Tabpanel, Card } from 'tvirus';
+import { Tabs, Tabpanel, Card, Table } from 'tvirus';
+import docJSON from './doc.json';
 import './main.less';
 
 const style = {
@@ -26,15 +27,38 @@ const style = {
     }
 }
 
-
 export default class LayoutDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
+            docColumns: [
+                {
+                    key: 'param',
+                    title: '参数',
+                    width: 200
+                },
+                {
+                    key: 'desc',
+                    title: '描述',
+                    width: 300
+                },
+                {
+                    key: 'type',
+                    title: '类型',
+                    width: 200
+                },
+                {
+                    key: 'defaultVal',
+                    title: '默认值',
+                    width: 150
+                }
+            ],
+            docs: docJSON,
             childs: [],
             controlTitle: '显示',
             codebox: {}
         }
+        console.log(this.state.docs)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
@@ -99,6 +123,21 @@ export default class LayoutDemo extends Component{
             </div>
         )
     }
+    createApi(){
+        const { keyword } = this.props;
+        return this.state.docs[keyword].map((d) => {
+            const name = d.filename === 'index' ? keyword : d.filename;
+            return (
+                <div>
+                    <h4>{name}</h4>
+                    <Table
+                        columns={this.state.docColumns}
+                        data={d.data}
+                    />
+                </div>
+            )
+        })
+    }
     render() {
         const { title, desc, className } = this.props;
         const { childs } = this.state;
@@ -121,6 +160,10 @@ export default class LayoutDemo extends Component{
                             })
                         }
                     </section>
+                    <div>
+                        <h3>API</h3>
+                        { this.createApi() }
+                    </div>
                 </article>
             </section>    
         )

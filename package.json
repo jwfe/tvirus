@@ -10,6 +10,7 @@
   "dependencies": {
     "async-validator": "^1.11.2",
     "classnames": "^2.2.6",
+    "doc-scripts": "^1.7.29",
     "echarts": "^4.1.0",
     "lodash.merge": "^4.6.1",
     "raf": "^3.4.1",
@@ -51,6 +52,7 @@
     "precss": "^2.0.0",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
+    "react-docgen": "^4.1.1",
     "style-loader": "^0.23.1",
     "svg-sprite-loader": "^4.1.6",
     "webpack": "^4.30.0",
@@ -59,7 +61,7 @@
     "webpack-parallel-uglify-plugin": "^1.1.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack -c webpack.config.js"
+    "build": "./node_modules/.bin/react-docgen src -o ./site/doc.json && ./node_modules/.bin/webpack -c webpack.config.js"
   },
   "repository": {
     "type": "git",

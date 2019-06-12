@@ -92,6 +92,7 @@ export default class GridDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="grid"
             className="main-grid-box"
             title="Grid"
             desc="布局的栅格化系统，我们是基于行（row）和列（col）来定义信息区块的外部框架，以保证页面的每个区域能够稳健地排布起来。"

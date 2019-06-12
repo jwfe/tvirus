@@ -65,6 +65,7 @@ export default class RadioDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="radio"
             className="main-radio-box"
             title="Radio"
             desc="单选按钮允许用户从多个选项中选择一个选项。Radio 所有选项默认可见，方便用户在比较中选择，因此选项不宜过多。"

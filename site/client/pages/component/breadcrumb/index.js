@@ -70,6 +70,7 @@ export default class BreadcrumbDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="breadcrumb"
             className="main-breadcrumb-box"
             title="面包屑"
             desc="显示当前页面在系统层级结构中的位置，并能向上返回。"

@@ -35,6 +35,7 @@ export default class SearchDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="search"
             className="main-search-box"
             title="Search"
             desc="搜索可以让用户在巨大的信息池中缩小目标范围，并快速获取需要的信息。"

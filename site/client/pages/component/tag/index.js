@@ -35,6 +35,7 @@ export default class TagDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
+            keyword="tag"
             className="main-tag-box"
             title="Tag"
             desc="Tag的说明"
