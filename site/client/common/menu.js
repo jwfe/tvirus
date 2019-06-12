@@ -182,6 +182,10 @@ export default class CommonMenu extends Component{
                     {
                         title: 'Card 卡片',
                         query: 'card'
+                    },
+                    {
+                        title: 'Loading 加载',
+                        query: 'loading'
                     }
                 ]
             }

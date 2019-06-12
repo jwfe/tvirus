@@ -1,8 +1,7 @@
-
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import {Loading} from 'tvirus';
+import { Loading } from 'tvirus';
 import './index.less'
 
 export default class LoadingDemo extends Component{
@@ -23,7 +22,7 @@ export default class LoadingDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Loading></Loading>
+                    <Loading />
                 </div>
             )
         });
@@ -37,7 +36,7 @@ export default class LoadingDemo extends Component{
         return <Layout {...this.props} 
             className="main-loading-box"
             title="Loading"
-            desc="Loading的说明"
+            desc="模块的loading，可以使用这个组件。"
             childs={childs}
         />
     }
