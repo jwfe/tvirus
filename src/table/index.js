@@ -5,6 +5,7 @@ import Loading from '@loading';
 
 import Thead from './Thead';
 import Tbody from './Tbody';
+import Tfooter from './Tfooter';
 
 let columnIDSeed = 1;
 let tableIDSeed = 1;
@@ -12,6 +13,7 @@ let tableIDSeed = 1;
 export default class Table extends Component{
     static propTypes = {
         bordered: PropTypes.bool,
+        footer: PropTypes.bool,
         height: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
@@ -19,11 +21,13 @@ export default class Table extends Component{
         columns: PropTypes.array,
         data: PropTypes.array,
         className: PropTypes.string,
+        sumFirstText: PropTypes.string,
         onChange: PropTypes.func,
-
+        onSum: PropTypes.func,
     };
     static defaultProps = {
         bordered: false,
+        footer: false,
         height: 'auto'
     };
 
@@ -46,9 +50,10 @@ export default class Table extends Component{
     }
     getHeight(){
         const { height } = this.props;
-        const { headerWrapper, bodyWrapper } = this;
-        const heightClient = headerWrapper.getBoundingClientRect();
-        const bodyHeight = height - heightClient.height;
+        const { headerWrapper, footerWrapper, bodyWrapper } = this;
+        let heightClient = headerWrapper ? headerWrapper.getBoundingClientRect() : {height: 0};
+        let footerClient = footerWrapper ? footerWrapper.getBoundingClientRect() : {height: 0};
+        const bodyHeight = height - heightClient.height - footerClient.height;
         this.setState({
             bodyTop: heightClient.height,
             bodyHeight
@@ -223,7 +228,11 @@ export default class Table extends Component{
                 minWidth,
                 realWidth: width || minWidth,
                 property: column.prop || column.property,
-                render: column.render || function(data){return data},
+                render: column.render || function(data){
+                    return {
+                        children: data
+                    }
+                },
                 align: column.align ? 'is-' + column.align : null,
                 headerAlign: column.headerAlign ? 'is-' + column.headerAlign : column.align ? 'is-' + column.align : null,
                 filterable: column.filters && column.filterMethod,
@@ -275,9 +284,12 @@ export default class Table extends Component{
         });
     }
     onScroll = () => {
-        const { headerWrapper, fixedBodyWrapper, rightFixedBodyWrapper, bodyWrapper } = this;
+        const { headerWrapper, fixedBodyWrapper, rightFixedBodyWrapper, bodyWrapper, footerWrapper } = this;
         if (headerWrapper) {
             headerWrapper.scrollLeft = bodyWrapper.scrollLeft;
+        }
+        if (footerWrapper) {
+            footerWrapper.scrollLeft = bodyWrapper.scrollLeft;
         }
         if (fixedBodyWrapper) {
             fixedBodyWrapper.scrollTop = bodyWrapper.scrollTop;
@@ -297,7 +309,7 @@ export default class Table extends Component{
         })
     }
     render(){
-        const { height, bordered, loading } = this.props;
+        const { footer, sumFirstText, height, bordered, loading, onSum } = this.props;
         const { fit, 
             tableData, columns, columnRows, fixedWidth, rightFixedWidth, bodyWidth, bodyHeight, bodyTop 
         } = this.state
@@ -320,6 +332,15 @@ export default class Table extends Component{
                 >
                     <Tbody data={tableData} columns={columns} bodyWidth={bodyWidth} />
                 </div>
+
+                { 
+                    footer && <div className="tv-table-footer-wrapper"
+                        ref={(el) => this.footerWrapper = el}
+                    >
+                        <Tfooter firstText={sumFirstText} onSum={onSum} data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                    </div>
+                }
+
                 <div className="tv-table-fixed" style={{bottom: -1, width: fixedWidth}}>
                     <div className="tv-table-fixed-header-wrapper">
                         <Thead onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />

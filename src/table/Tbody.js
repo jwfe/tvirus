@@ -3,21 +3,24 @@ import React from 'react';
 import { Component, PropTypes, noop } from '@Libs';
 
 export default class Tbody extends Component{
-    getCellValue(row, column){
+    getCellValue(row, column, index){
         const data = row[column.key || column.dataIndex];
-        return column.render(data, column)
+        return column.render(data, column, index)
     }
     renderTd(data){
         return this.props.columns.map((item, index) => {
+            const { children, className, props } = this.getCellValue(data, item, index);
             return (
                 <td 
-                className={this.classNames([
-                    {
-                        [item.align]: item.align
-                    }
-                ])}
-                key={index}>
-                    <div className="cell">{this.getCellValue(data, item)}</div>
+                    className={this.classNames(className, [
+                        {
+                            [item.align]: item.align
+                        }
+                    ])}
+                    key={index}
+                    {...props}
+                >
+                    <div className="cell">{children}</div>
                 </td>
             )
         })

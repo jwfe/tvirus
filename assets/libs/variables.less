@@ -61,6 +61,7 @@
 
 //---------background dark color------------
 @dark-bgc: #000;
+@dark-bgc-02: .setColorAlpha(@dark-bgc, 2%)[];
 @dark-bgc-10: .setColorAlpha(@dark-bgc, 10%)[];
 @dark-bgc-16: .setColorAlpha(@dark-bgc, 16%)[];
 @dark-bgc-20: .setColorAlpha(@dark-bgc, 20%)[];
@@ -106,7 +107,8 @@
 @dark-border-80: .setColorAlpha(@dark-border, 80%)[];
 @dark-border-85: .setColorAlpha(@dark-border, 85%)[];
 
-@table-header-border: .setColorAlpha(#e8e8e8, 80%)[];
+@table-border: #e8e8e8;
+@table-header-border: @table-border;
 
 // box-shadow
 @master-shadow: @master-color;

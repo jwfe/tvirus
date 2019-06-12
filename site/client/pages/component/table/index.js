@@ -35,12 +35,16 @@ export default class TableDemo extends Component{
                     title: 'Action',
                     key: 'operation',
                     width: 180,
-                    render: (text, record) => (
-                        <span>
-                            <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
-                            <a href="javascript:;">Delete</a>
-                        </span>
-                    ),
+                    render: function (text, record){
+                        return {
+                            children: (
+                                <span>
+                                    <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
+                                    <a href="javascript:;">Delete</a>
+                                </span>
+                            )
+                        }
+                    },
                 },
             ];
     
@@ -67,12 +71,13 @@ export default class TableDemo extends Component{
                 children: (
                     <div className="code-demo">
                         <Table
-                            loading={false}
+                            footer={true}
+                            sumFirstText="总计"
                             style={{width: '100%'}}
                             columns={columns2}
                             data={data2}
                             bordered={true}
-                            height={250}
+                            height={550}
                         />
                     </div>
                 )
