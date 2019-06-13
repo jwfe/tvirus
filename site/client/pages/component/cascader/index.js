@@ -113,7 +113,7 @@ export default class CascaderDemo extends Component{
         const {childs} = this.state;
 
 		return <Layout {...this.props} 
-			key="cascader"
+			keyword="cascader"
             className="main-cascader-box"
             title="Cascader"
             desc="当一个数据集合有清晰的层级结构时，可通过级联选择器逐级查看并选择。"

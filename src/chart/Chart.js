@@ -2,13 +2,16 @@ import React from 'react';
 import * as echarts from 'echarts';
 import { Util, Component, PropTypes } from '@Libs';
 import { getOptions } from './dataSet';
-
+/**
+ * 内部使用echart, api参考echart
+ */
 class Chart extends Component {
     constructor(props) {
         super(props);
         this.chart = null;
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         title: PropTypes.string,
         theme: PropTypes.string,

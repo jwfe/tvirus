@@ -224,6 +224,7 @@ export default class ${name}Demo extends Component{
             const fname = keyArr[2].replace('.js', '');
             dataMaps[keyArr[1]].push({
                 filename: fname,
+                desc: doc.description,
                 data
             })
         }

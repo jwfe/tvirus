@@ -17,8 +17,11 @@ export default class Message extends Component {
         }
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 消失时间，单位：毫秒 */
         duration: PropTypes.number,
+        /** 弹出层的内容类型，可选 'info', 'success', 'danger', 'warning' */
         contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning']),
     };
     static defaultProps = {

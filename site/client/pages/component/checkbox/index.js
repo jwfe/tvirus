@@ -67,7 +67,7 @@ export default class CheckboxDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
-			key="checkbox"
+			keyword="checkbox"
             className="main-checkbox-box"
             title="Checkbox"
             desc="复选框用于在一组可选项中进行多项选择时。复选框（Checkbox）一般用于状态标记，需要和提交操作配合；单个复选框可以表示两种状态之间的切换。"

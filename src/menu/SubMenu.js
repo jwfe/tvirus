@@ -12,7 +12,24 @@ export default class SubMenu extends Component {
     }
     static contextType = MenuContext
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置每一项的索引，默认可以不设置 */
+        index: PropTypes.string,
+        /** 标题 */
+        title: PropTypes.oneOf([
+            PropTypes.element,
+            PropTypes.string
+        ]),
+        /** 禁用 */
+        disabled: PropTypes.bool, 
+        /** 是否允许多选 */
+        multiple: PropTypes.bool
+    }
+
+    static defaultProps = {
+        disabled: false,
+        multiple: false
     }
 
     componentDidMount(){

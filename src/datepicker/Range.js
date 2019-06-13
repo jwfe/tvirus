@@ -10,16 +10,24 @@ import { weekOfYear, parse, fixedYM, format, nextMonth } from './utils';
 
 export default class Range extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
-        defaultValue: PropTypes.arrayOf(PropTypes.string),
+        /** 默认填充的值 */
         placeholder: PropTypes.string,
+        /** 设置日期格式，默认 yyyy-MM-dd */
         format: PropTypes.string,
+        /** 日期面板的状态，可以选'day', 'week', 'year', 'month' 或不设，不设时默认 day */
         mode: PropTypes.string,
+        /** 表单name */
         name: PropTypes.string,
+        /** 事件名：默认click */
         trigger: PropTypes.string,
         disabled: PropTypes.bool,
+        /** 增加自定义拓展，会放在日历面板的左侧。例：[{"text":"按日", onClick: function(index){this.update({mode: 'day'}, index)}},{"text":"按月"},{"selected":true,"text":"按周"},{"text":"按年"}] */
         expand: PropTypes.array,
+        /** 禁用某些规则的日期，该方法可以接收一个日期对象，需要返回true/false */
         disabledDate: PropTypes.func,
+        /** 数据变化的回调 */
         onChange: PropTypes.func
     };
 

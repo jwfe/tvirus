@@ -3,10 +3,15 @@ import { Component, PropTypes } from '@Libs';
 
 export default class Group extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 组合后的默认选中项 */
         defaultValue: PropTypes.arrayOf(PropTypes.string),
+        /** 必须设置name，用来控制是否同组 */
         name: PropTypes.string,
+        /** 是否整组禁用 */
         disabled: PropTypes.bool,
+        /** change回调 */
         onChange: PropTypes.func
     };
 

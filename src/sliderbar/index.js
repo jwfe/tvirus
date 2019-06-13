@@ -4,12 +4,19 @@ import Popup from '@popup';
 
 export default class SliderBar extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 禁用 */
         disabled: PropTypes.bool,
+        /** 设置最小值 0 - 99 */
         min: PropTypes.number,
+        /** 设置最大值 1-100 */
         max: PropTypes.number,
+        /** 默认值 */
         value: PropTypes.number,
+        /** 自定义弹出层上的值 */
         format: PropTypes.func,
+        /** 变化后的回调 */
         onChange: PropTypes.func
     };
 

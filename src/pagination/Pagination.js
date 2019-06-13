@@ -12,14 +12,19 @@ export default class Pagination extends Component {
         }
     }
     static propTypes = {
-        // size用来控制视觉的大小
-        size: PropTypes.number,
+        /** 设置分页大小，可选值 'large', 'medium', small' 或不设 */
+        size: PropTypes.oneOf(['large', 'medium', 'small']),
+        /** 每页的数量 */
         pageSize: PropTypes.number,
+        /** 总条数 */
         total: PropTypes.number,
+        /** 默认选中页 */
         defaultActive: PropTypes.number,
+        /** 切换后的回调 */
         onChange: PropTypes.func
     };
     static defaultProps = {
+        size: 'medium',
         defaultActive: 1,
         pageSize: 20,
         onChange: noop
@@ -181,9 +186,12 @@ export default class Pagination extends Component {
 
     }
     render(){
+        const { size } = this.props;
         const { pageTotal, activeIndex } = this.state;
         return (
-            <ul className={this.className('tv-pagination')}>
+            <ul className={this.className('tv-pagination', {
+                [`tv-pagination-size-${size}`]: size
+            })}>
                 <li 
                     onClick={this.onClick.bind(this, 'prev')} 
                     className={this.className('tv-pagination-prev', {

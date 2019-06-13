@@ -12,12 +12,19 @@ export default class Menu extends Component {
         }
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 缩进，目前未启用 */
         indent: PropTypes.number,
+        /** 子节点的展示方式 */
         inlineCollapsed: PropTypes.bool,
+        /** 设置皮肤 */
         theme: PropTypes.string,
+        /** 展示方式，可选 horizontal, vertical */
         mode: PropTypes.string,
+        /** 点击的回调 */
         onClick: PropTypes.func,
+        /** 展开回调 */
         onOpenChange: PropTypes.func,
 
     };
@@ -27,6 +34,7 @@ export default class Menu extends Component {
         onClick: noop,
         inlineCollapsed: false,
         theme: 'default',
+        mode: 'vertical'
     };
     onClick(item, index, to){
         this.openMenu(index);

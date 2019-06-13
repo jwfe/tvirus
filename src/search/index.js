@@ -4,10 +4,15 @@ import Input from '@input';
 
 export default class Search extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置是否显示下拉，可以通过该项定制自定义的下拉 */
         showDropdown: PropTypes.bool,
+        /** 全量的数据源 */
         data: PropTypes.object,
+        /** 检索完成的回调 */
         onSearch: PropTypes.func,
+        /** 点击下拉的回调 */
         onClick: PropTypes.func,
     };
     

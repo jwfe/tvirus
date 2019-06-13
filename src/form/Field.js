@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, noop } from '@Libs';
+import { Component, noop, PropTypes } from '@Libs';
 
 import Input from '@input';
 import Search from '@search';
@@ -12,8 +12,25 @@ import Cascader from '@cascader';
 import Datepicker from '@datepicker';
 
 import { FormItemContext } from './FormItemContext';
-
+/**
+ * form子节点，其他属性可以参考各组件参数
+ */
 export default class FormField extends Component {
+    static propTypes = {
+        /** 节点名称，可选 'input', 'search', 'sliderbar', 'radio', 'checkbox', 'switch', 'select', 'cascader', 'datepicker' */
+        tagName: PropTypes.oneOf([
+            'input', 'search', 'sliderbar', 'radio', 'checkbox',
+            'switch', 'select', 'cascader', 'datepicker'
+        ]),
+        /** 默认值 */
+        value: PropTypes.string
+    };
+    static defaultProps = {
+        tagName: 'input',
+        mode: 'day',
+        trigger: 'click',
+        disabledDate: noop
+    };
     constructor(props){
         super(props);
         this.state = {

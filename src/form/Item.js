@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncValidator from 'async-validator';
 
-import { Component, noop } from '@Libs';
+import { Component, noop, PropTypes } from '@Libs';
 import { Row, Col } from '@grid';
 import { FormContext } from './FormContext';
 import { FormItemContext } from './FormItemContext';
@@ -14,8 +14,18 @@ export default class FormItem extends Component {
         super(props);
     }
     static contextType = FormContext
+
     static propTypes = {
-    }
+        /** 标题项 */
+        label: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.element
+        ]),
+        /** form name 需要和field组件一致 */
+        name: PropTypes.string
+    };
+    static defaultProps = {
+    };
 
     componentDidMount() {
         const { name } = this.props;

@@ -7,10 +7,15 @@ export default class Col extends Component{
     static contextType = GridContext
 
     static propTypes = {
+        /** 栅格展位的格数 */
         span: PropTypes.number,
+        /** 栅格的顺序 */
         order: PropTypes.number,
+        /** 栅格的间隔格数，间隔内不可以有栅格 */
         offset: PropTypes.number,
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置栅格的节点 */
         tag: PropTypes.string,
     };
 

@@ -6,6 +6,7 @@ export default class Tag extends Component {
         super(props);
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
 
     };

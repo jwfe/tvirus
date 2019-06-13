@@ -8,6 +8,7 @@ const clearHours = function (time) {
 };
 export default class DateTable extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         key: PropTypes.string,
         date: PropTypes.instanceOf(Date),

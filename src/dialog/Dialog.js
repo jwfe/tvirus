@@ -5,21 +5,32 @@ import Icon from '@icon';
 
 export default class Dialog extends Component {
     static propTypes = {
+        /** 设置蒙层是否显示 */
         mask: PropTypes.bool,
+        /** 自主控制显示隐藏，不受组件内部干扰。 */
         visible: PropTypes.bool,
+        /** 设置宽度 */
         width: PropTypes.number,
+        /** 设置标题 */
         title: PropTypes.string,
 
+        /** 自定义样式 */
         className: PropTypes.string,
-        type: PropTypes.string,
-        // 内容类型
+        /** 设置是否为组件内部特殊定制的组件，目前支持alert */
+        type: PropTypes.oneOf(['alert']),
+        /** 设置内容的类型，不同类型显示不一致。可选 'info', 'success', 'danger', 'warning'，可不设。不设为info */
         contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning']),
+        /** 设置style */
         style: PropTypes.object,
-
+        /** 设置是否限制确认按钮 */
         ok: PropTypes.bool, 
+        /** 设置是否限制取消按钮 */
         cancel: PropTypes.bool,
+        /** 接管onClose方法 */
         onClose: PropTypes.func,
+        /** 接管取消方法 */
         onCancel: PropTypes.func,
+        /** 接管点击确定按钮的方法 */
         onOk: PropTypes.func
     };
 

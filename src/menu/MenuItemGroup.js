@@ -8,6 +8,7 @@ export default class MenuItemGroup extends Component {
     }
     static contextType = MenuContext;
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
     };
 

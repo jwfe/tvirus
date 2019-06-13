@@ -1,18 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Component, PropTypes } from '@Libs';
-
+/**
+ * 绘制圆环，支持渐变
+ */
 export default class ProgressCircle extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 圆环中间的数值后缀 */
         suffix: PropTypes.string,
+        /** 渐变开始的颜色，如果startColor=endColor，则为纯色 */
         startColor: PropTypes.string,
+        /** 渐变结束的颜色，如果startColor=endColor，则为纯色 */
         endColor: PropTypes.string,
+        /** 圆环的弧度，以及显示的数值 */
         value: PropTypes.number,
+        /** 圆环的背景环的颜色 */
         backgroundColor: PropTypes.string,
+        /** 半径 */
         radius: PropTypes.number,
+        /** 宽度 */
         width: PropTypes.number,
+        /** 高度 */
         height: PropTypes.number,
+        /** 圆环的粗细 */
         borderWidth: PropTypes.number,
     };
 

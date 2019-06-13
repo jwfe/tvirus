@@ -4,17 +4,29 @@ import Icon from '@icon';
 
 export default class Input extends Component {
     static propTypes = {
+        /** 设置目前支持的节点类型，可选 'text', 'textarea', 'password', 'number', 'radio', 'checkbox' */
         type: PropTypes.oneOf(['text', 'textarea', 'password', 'number', 'radio', 'checkbox']),
+        /** 带前缀icon的input */
         prefix: PropTypes.string,
+        /** 带后缀icon的input */
         suffix: PropTypes.string,
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 是否自动填充 */
         autoComplete: PropTypes.oneOf(['on', 'off']),
+        /** 默认显示 */
         placeholder: PropTypes.string,
+        /** 设置input大小，可选'large', 'medium', 'small' */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
+        /** 设置默认值 */
         value: PropTypes.string,
+        /** 内容变化时的回调 */
         onChange: PropTypes.func,
+        /** 聚焦时的回调 */
         onFocus: PropTypes.func,
+        /** 失焦时的回调 */
         onBlur: PropTypes.func,
+        /** onKeyPress时的回调 */
         onPressEnter: PropTypes.func,
     };
 

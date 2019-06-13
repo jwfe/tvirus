@@ -10,7 +10,9 @@ requireAll(req);
 
 export default class Icon extends Component {
     static propTypes = {
+        /** icon名，可以参考上面的文档 */
         type: PropTypes.string.isRequired,
+        /** 是否有旋转动画 */
         spin: PropTypes.bool,
     };
 
@@ -23,7 +25,11 @@ export default class Icon extends Component {
     }
 
     render() {
-        const { type, spin, className, ...otherProps } = this.props;
+        let { type, spin, className, ...otherProps } = this.props;
+
+        if(type === 'loading'){
+            spin = true;
+        }
 
         return (
             <i 

@@ -6,10 +6,12 @@ export default class Tabs extends Component {
         super(props);
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
-        tab: PropTypes.string,
+        /** 当前这项的key  */
         tabKey: PropTypes.string,
-        disabled: PropTypes.bool,
+        /** 是否禁用 */
+        disabled: PropTypes.bool
     };
     static defaultProps = {
         disabled: false

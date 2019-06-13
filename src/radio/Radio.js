@@ -4,12 +4,14 @@ import Input from '@input';
 
 export default class Radio extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** raido 值 */
         value: PropTypes.string,
+        /** radio name */
         name: PropTypes.string,
-        onChange: PropTypes.func,
-        onFocus: PropTypes.func,
-        onBlur: PropTypes.func
+        /** checked变化后的回调 */
+        onChange: PropTypes.func
     };
 
     static defaultProps = {

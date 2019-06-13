@@ -5,14 +5,19 @@ import CascaderMenu from './Menu';
 
 export default class Cascader extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 数据源 */ 
         options: PropTypes.arrayOf(PropTypes.shape({
             value: PropTypes.string
         })).isRequired,
-        name: PropTypes.string,
+        /** 默认下拉出现的位置，请参考popup组件  */
         position: PropTypes.string,
+        /** 点击每一个选项值都会变  */
         changeOnSelect: PropTypes.bool,
+        /** 占位符  */
         placeholder: PropTypes.string,
+        /** 变化的回调  */
         onChange: PropTypes.func,
     };
 

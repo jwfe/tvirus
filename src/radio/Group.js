@@ -3,9 +3,12 @@ import { Component, PropTypes } from '@Libs';
 
 export default class Group extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 默认选中项的value */
         defaultValue: PropTypes.string,
         name: PropTypes.string,
+        /** 禁用整个分组 */
         disabled: PropTypes.bool,
         onChange: PropTypes.func
     };

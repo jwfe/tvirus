@@ -12,9 +12,15 @@ export default class Tabs extends Component {
         }
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 选中的key */
         activeKey: PropTypes.string,
+        /** 是否禁用 */
+        disabled: PropTypes.bool,
+        /** 切换后的回调 */
         onChange: PropTypes.func,
+        /** tabNav 右侧的内容 */
         extra: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     };
     static defaultProps = {

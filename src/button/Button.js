@@ -10,14 +10,20 @@ export default class Button extends Component {
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         /** 设置按钮原生的type，可选值 'submit', 'reset' 或不设 */
         htmlType: PropTypes.oneOf(['button', 'submit', 'reset']),
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置按钮形状， 可选 'circle' 或不设 */
         shape: PropTypes.string,
+        /** 设置前置图标 */
         icon: PropTypes.string,
+        /** 继承父级宽度 */
         block: PropTypes.bool,
-        component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+        /** 按钮失效 */
         disabled: PropTypes.bool,
+        /** 按钮loading状态 */
         loading: PropTypes.bool,
-        plain: PropTypes.bool,
+        /** 简单按钮状态 */
+        plain: PropTypes.bool
     };
     
     static defaultProps = {

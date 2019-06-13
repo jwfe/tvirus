@@ -8,6 +8,7 @@ function noop () {console.log(...arguments)};
 
 export default class Animation extends React.Component{
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         style: PropTypes.object,
         onEnter: PropTypes.func,

@@ -8,6 +8,7 @@ export default class Row extends Component {
 
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         onChange: PropTypes.func,
 

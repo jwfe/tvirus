@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 export default class Component extends React.Component{
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         style: PropTypes.object,
     };

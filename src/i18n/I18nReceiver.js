@@ -7,8 +7,11 @@ export default class I18nReceiver extends Component{
         super(props);
     }
     static propTypes = {
+        /** 组件名 */
         componentName: PropTypes.string,
+        /** 指定默认的配置  */
         defaultI18n: PropTypes.func,
+        /** 设置子节点 */
         children: PropTypes.element
     }
 

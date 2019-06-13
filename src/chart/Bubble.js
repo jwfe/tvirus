@@ -1,11 +1,17 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
-
+/**
+ * 画布中绘制不重复的圆，圆按照同比绘制
+ */
 export default class Bubble extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 数据项, 例： [{name: '交通方便', value: 10, gradient: {start: 'rgba(96, 191, 131, 0.7)', end: 'rgba(96, 191, 131, 1)'}}*/
         data: PropTypes.array,
+        /** canvas宽度 */
         width: PropTypes.number, 
+        /** canvas高度 */
         height: PropTypes.number
     };
 

@@ -17,9 +17,12 @@ const clearHours = function (time) {
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
 };
-
+/**
+ * 该组件为内部组件，不对外暴露
+ */
 export default class DateTable extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
         date: PropTypes.instanceOf(Date),
         mode: PropTypes.string,

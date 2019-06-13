@@ -130,6 +130,7 @@ export default class LayoutDemo extends Component{
             return (
                 <div>
                     <h4>{name}</h4>
+                    <p>{d.desc}</p>
                     <Table
                         columns={this.state.docColumns}
                         data={d.data}

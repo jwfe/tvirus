@@ -4,8 +4,11 @@ import { GridContext } from './GridContext';
 
 export default class Row extends Component{
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置行的节点 */
         tag: PropTypes.string,
+        /** 设置栅格的间隔 */
         gutter: PropTypes.number
     };
 

@@ -23,6 +23,7 @@ export default class Table extends Component {
         bordered: PropTypes.bool,
         columns: PropTypes.array,
         data: PropTypes.array,
+        /** 自定义样式 */
         className: PropTypes.string,
         onChange: PropTypes.func,
 

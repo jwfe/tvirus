@@ -12,17 +12,24 @@ let tableIDSeed = 1;
 
 export default class Table extends Component{
     static propTypes = {
+        /** 是否展示外边框和列边框 */
         bordered: PropTypes.bool,
+        /** 是否启用尾部内容 */
         footer: PropTypes.bool,
+        /** 容器高度，默认auto */
         height: PropTypes.oneOfType([
             PropTypes.number,
             PropTypes.string
         ]),
+        /** 表格列的配置描述, 例：[{key: 'date', title: '日期', width: 150, fixed: 'left', sort: function(){//排序方法}, align: 'center'}] */
         columns: PropTypes.array,
+        /** 数据源 */
         data: PropTypes.array,
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 求和项的第一列展示的内容，例：总计 */
         sumFirstText: PropTypes.string,
-        onChange: PropTypes.func,
+        /** 自定义求和的规则，默认只对数值求和 */
         onSum: PropTypes.func,
     };
     static defaultProps = {

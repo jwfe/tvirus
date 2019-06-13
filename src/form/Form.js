@@ -1,10 +1,15 @@
 import React from 'react';
 import { Component, PropTypes, Portal, noop, Animation } from '@Libs';
 import { FormContext } from './FormContext';
-
+/**
+ * 表单组件，只在验证是有实际意义
+ */
 export default class Form extends Component {
     static propTypes = {
-        rules: PropTypes.object
+        /** 验证规则 {"username":[{"required":true,"message":"请填写用户名"}],"password":[{"required":true,"message":"请填写密码"}]} */
+        rules: PropTypes.object,
+        /** submit回调函数，第一个参数为验证项，第二个参数为所有需要验证项的key:value */
+        onSubmit: PropTypes.func
     };
 
     static defaultProps = {

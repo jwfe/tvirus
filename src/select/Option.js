@@ -1,15 +1,19 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
 import Icon from '@icon';
-import Checkbox from '@checkbox';
 
 export default class Select extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** option value */
         value: PropTypes.string,
+        /** 默认是否选中 */
         selected: PropTypes.bool,
+        /** 是否禁用 */
         disabled: PropTypes.bool,
-        onClick: PropTypes.func,
+        /** 点击后的回调 */
+        onClick: PropTypes.func
     };
 
     static defaultProps = {

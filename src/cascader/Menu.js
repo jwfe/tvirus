@@ -3,11 +3,15 @@ import { Component, PropTypes } from '@Libs';
 
 export default class CascaderMenu extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 点击每一个选项值都会变  */
         changeOnSelect: PropTypes.bool,
+        /** 数据源 */ 
         options: PropTypes.arrayOf(PropTypes.shape({
             value: PropTypes.string
         })).isRequired,
+        /** 变化的回调  */
         onChange: PropTypes.func,
     };
 

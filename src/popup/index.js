@@ -27,18 +27,33 @@ function getChildNode(node){
 
 export default class Popup extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 展示popup需要的事件 */
         trigger: PropTypes.string,
-        title: PropTypes.string,
-        content: PropTypes.node,
+        /** 标题  */
+        title: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.string
+        ]),
+        /** 子节点 */
+        content: PropTypes.element,
+        /** 需要展示的位置, 可选 ["top","bottom","left","right","top left","top right","bottom right","bottom left","right center","left center","top center","bottom center"] */
         position: PropTypes.oneOf(POSITIONS),
+        /** 层的大小 */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
+        /** 前缀，可选 'popup', 'tooltip'，默认popup，如果为tooltip，则为黑色半透明背景。 */
         prefix: PropTypes.oneOf(['popup', 'tooltip']),
+        /** 设置是否自主控制展示 */
         visible: PropTypes.bool,
+        /** 设置是否禁用 */
         disabled: PropTypes.bool,
+        /** 是否启用最小宽度 */
         showMinWidth: PropTypes.bool,
+        /** 是否展示箭头 */
         showArrow: PropTypes.bool,
-        onChange: PropTypes.func,
+        /** 值变化回调 */
+        onChange: PropTypes.func
     };
 
     static defaultProps = {

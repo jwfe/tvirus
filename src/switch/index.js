@@ -9,12 +9,17 @@ export default class Switch extends Component {
         }
     }
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 设置大小，可选 'large', 'medium', 'small' */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
+        /** 默认是否打开 */
         checked: PropTypes.bool,
+        /** 变化后回调 */
         onChange: PropTypes.func,
     };
     static defaultProps = {
+        size: 'medium'
     };
 
     handleClick(){

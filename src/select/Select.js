@@ -7,16 +7,27 @@ import Popup from '@popup';
 
 export default class Select extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 自定义子节点样式 */
         childrenClassName: PropTypes.string,
+        /** 设置select的值 */
         value: PropTypes.string,
+        /** 展示下拉用到的事件 */
         trigger: PropTypes.string,
+        /** select name */
         name: PropTypes.string,
-        autoButton: PropTypes.node,
+        /** 设置自定义的可操作项 */
+        autoButton: PropTypes.element,
+        /** 下拉的位置, 参照popup */
         position: PropTypes.string,
+        /** 是否启用模糊搜索 */
         showSearch: PropTypes.bool,
+        /** 是否支持多选 */
         multiple: PropTypes.bool,
+        /** 默认展示 */
         placeholder: PropTypes.string,
+        /** 数据变化后的回调 */
         onChange: PropTypes.func,
     };
 

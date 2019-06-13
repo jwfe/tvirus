@@ -3,14 +3,18 @@ import { Component, PropTypes } from '@Libs';
 
 export default class Card extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 卡片标题 */
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.element,
         ]),
-        // 这里的style设置的是body的
+        /** 设置卡片body的样式 */
         style: PropTypes.object,
+        /** 设置是否有边框 */
         bordered: PropTypes.bool,
+        /** 增加title的拓展，一般是右上角 */
         extra: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     };
     

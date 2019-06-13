@@ -1,6 +1,8 @@
 import React from 'react';
 import { Component, PropTypes, noop } from '@Libs';
-
+/**
+ * 页面/模块loading
+ */
 export default class Loading extends Component {
     static propTypes = {
         className: PropTypes.string

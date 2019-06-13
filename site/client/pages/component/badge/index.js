@@ -68,10 +68,10 @@ export default class BadgeDemo extends Component{
         const {childs} = this.state;
 
         return <Layout {...this.props} 
-            keyword="card"
-            className="main-card-box"
-            title="Card"
-            desc="卡片是一种承载信息的容器，对可承载的内容类型无过多限制，它让一类信息集中化，增强区块感的同时更易于操作。"
+            keyword="badge"
+            className="main-badge-box"
+            title="Badge"
+            desc="元素右上角的圆形徽标数字"
             childs={childs}
         />
     }

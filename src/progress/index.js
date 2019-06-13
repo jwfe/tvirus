@@ -3,9 +3,14 @@ import { Component, PropTypes } from '@Libs';
 
 export default class Progress extends Component {
     static propTypes = {
+        /** 自定义样式 */
         className: PropTypes.string,
+        /** 进度条可选项 'default', 'primary', 'success', 'danger', 'warning'，展示不同的颜色 */
         status: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning']),
-        type: PropTypes.string
+        /** 类型，类型为color时，通过 value的length 来控制进度显示 */
+        type: PropTypes.string,
+        /** 通过value来控制每一个色卡的颜色 */
+        value: PropTypes.array,
     };
     
     static defaultProps = {
