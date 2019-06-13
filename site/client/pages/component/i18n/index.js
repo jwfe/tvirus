@@ -68,7 +68,7 @@ export const Select = {
         const {childs} = this.state;
 
         return <Layout {...this.props} 
-            keyword="grid"
+            keyword="i18n"
             className="main-i18n-box"
             title="国际化"
             desc="T-virus 目前的默认文案是中文，如果需要使用其他语言，可以参考下面的方案。"

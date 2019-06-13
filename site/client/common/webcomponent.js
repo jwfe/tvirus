@@ -125,8 +125,12 @@ export default class LayoutDemo extends Component{
     }
     createApi(){
         const { keyword } = this.props;
-        return this.state.docs[keyword].map((d) => {
+        if(!this.state.docs[keyword]){
+            return null;
+        }
+        const map = this.state.docs[keyword].map((d) => {
             const name = d.filename === 'index' ? keyword : d.filename;
+            if(!d.data.length) return null;
             return (
                 <div>
                     <h4>{name}</h4>
@@ -138,6 +142,13 @@ export default class LayoutDemo extends Component{
                 </div>
             )
         })
+
+        return (
+            <div>
+                <h3>API</h3>
+                {map}
+            </div>
+        )
     }
     render() {
         const { title, desc, className } = this.props;
@@ -161,10 +172,8 @@ export default class LayoutDemo extends Component{
                             })
                         }
                     </section>
-                    <div>
-                        <h3>API</h3>
-                        { this.createApi() }
-                    </div>
+                    { this.createApi() }
+                    
                 </article>
             </section>    
         )
