@@ -42,9 +42,9 @@ export default class RadioDemo extends Component{
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Radio.Group defaultValue={1} name="test1">
-                                <Radio value={1}>分组1</Radio>
-                                <Radio value={2}>分组2</Radio>
+                            <Radio.Group defaultValue="1" name="test1">
+                                <Radio value="1">分组1</Radio>
+                                <Radio value="2">分组2</Radio>
                             </Radio.Group>
                         </Col>
                         <Col span={12}>

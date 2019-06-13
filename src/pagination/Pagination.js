@@ -116,7 +116,7 @@ export default class Pagination extends Component {
             return (
                 <li
                     onClick={this.onClick.bind(this, item)}
-                    key={index}
+                    key={`${index}_item`}
                     className={this.className('tv-pagination-item', {
                         'tv-pagination-item-active': activeIndex === item
                     })}

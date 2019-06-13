@@ -18,6 +18,8 @@ export default class Input extends Component {
         placeholder: PropTypes.string,
         /** 设置input大小，可选'large', 'medium', 'small' */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
+        /** 设置是否自适应输入，只对textarea生效 */
+        autosize: PropTypes.bool,
         /** 设置默认值 */
         value: PropTypes.string,
         /** 内容变化时的回调 */
@@ -100,6 +102,7 @@ export default class Input extends Component {
         let { 
             prefix, suffix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, 
             showToggle,
+            autosize,
             ...otherProps } = this.props;
         const { textareaHeight } = this.state;
         const { passwdToggle } = this.state;
@@ -122,8 +125,9 @@ export default class Input extends Component {
                         onFocus={this.handleFocus.bind(this)}
                         onBlur={this.handleBlur.bind(this)}
                         onKeyPress={this.handlePressEnter.bind(this)}
+                        value={value || ''}
                         {...otherProps}
-                    >{value || ''}</textarea>
+                    />
                 </span>
             )
         }
@@ -155,7 +159,6 @@ export default class Input extends Component {
                     onBlur={this.handleBlur.bind(this)}
                     onKeyPress={this.handlePressEnter.bind(this)}
                     {...otherProps}
-
                 />
             </span>
         );

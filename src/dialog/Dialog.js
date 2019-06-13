@@ -58,6 +58,7 @@ export default class Dialog extends Component {
                 visible: nextProps.visible
             };
         }
+        return null;
     }
 
     handleClose(){

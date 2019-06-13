@@ -63,7 +63,7 @@ export default class Table extends Component{
         const bodyHeight = height - heightClient.height - footerClient.height;
         this.setState({
             bodyTop: heightClient.height,
-            bodyHeight
+            bodyHeight: height === 'auto' ? 'auto' : bodyHeight
         })
     }
     convertToRows(columns){

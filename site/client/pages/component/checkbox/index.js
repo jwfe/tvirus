@@ -42,11 +42,11 @@ export default class CheckboxDemo extends Component{
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Checkbox.Group defaultValue={[1,2,3,4]} name="test1">
-                                <Checkbox value={1}>Checkbox 1</Checkbox>
-                                <Checkbox value={2}>Checkbox 2</Checkbox>
-                                <Checkbox value={3}>Checkbox 3</Checkbox>
-                                <Checkbox value={4}>Checkbox 4</Checkbox>
+                            <Checkbox.Group defaultValue={['1','2','3','4']} name="test1">
+                                <Checkbox value="1">Checkbox 1</Checkbox>
+                                <Checkbox value="2">Checkbox 2</Checkbox>
+                                <Checkbox value="3">Checkbox 3</Checkbox>
+                                <Checkbox value="4">Checkbox 4</Checkbox>
                             </Checkbox.Group>
                         </Col>
                         <Col span={12}>

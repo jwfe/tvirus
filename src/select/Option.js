@@ -62,12 +62,12 @@ export default class Select extends Component {
             >
                 {icon && <Icon type={icon} />}
                 {
-                    selection && <div className={this.classNames(["tv-checkbox-label", "tv-checkbox-label-size-small", {
+                    selection && <div key={value} className={this.classNames(["tv-checkbox-label", "tv-checkbox-label-size-small", {
                         'tv-checkbox-checked': selected,
                         'tv-checkbox-disabled': disabled
                     }])}>
-                            <span className="tv-input-wraper">
-                                <input className="tv-input tv-input-size-small tv-input-checkbox" type="checkbox" autocomplete="off" value="" />
+                            <span key={value} className="tv-input-wraper">
+                                <input className="tv-input tv-input-size-small tv-input-checkbox" type="checkbox" autoComplete="off" value="" />
                             </span>{children}
                         </div>
                 }

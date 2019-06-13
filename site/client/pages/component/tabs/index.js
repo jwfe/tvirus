@@ -26,7 +26,7 @@ export default class TabsDemo extends Component{
                         {
                             ['选项卡1', '选项卡2', '选项卡3'].map((item) => {
                                 return (
-                                    <Tabpanel tab={item} tabKey={item}>
+                                    <Tabpanel key={item} tab={item} tabKey={item}>
                                         内容区：{item}
                                     </Tabpanel>
                                 )
@@ -46,7 +46,7 @@ export default class TabsDemo extends Component{
                         {
                             ['选项卡1', '选项卡2', '选项卡3'].map((item) => {
                                 return (
-                                    <Tabpanel disabled={item==='选项卡2'} tab={item} tabKey={item}>
+                                    <Tabpanel key={item} disabled={item==='选项卡2'} tab={item} tabKey={item}>
                                         内容区：{item}
                                     </Tabpanel>
                                 )
@@ -64,9 +64,9 @@ export default class TabsDemo extends Component{
                     <Tabs activeKey={`选项卡1`}>
                         {
                             [{title: '选项卡1', icon: 'bell'}, {title: '选项卡2', icon: 'cloud'}, {title: '选项卡3', icon: 'fire'}].map((item) => {
-                                const navItem = <span><Icon type={item.icon} />{item.title}</span>;
+                                const navItem = <span key={item.icon}><Icon type={item.icon} />{item.title}</span>;
                                 return (
-                                    <Tabpanel tab={navItem} tabKey={item.title}>
+                                    <Tabpanel key={item.icon} tab={navItem} tabKey={item.title}>
                                         内容区：{item.title}
                                     </Tabpanel>
                                 )

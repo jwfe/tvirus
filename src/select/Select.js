@@ -77,8 +77,8 @@ export default class Select extends Component {
             } else {
                 // 取消
                 if(selectedVals.length === 1 || !selectedIndex){
-                    selectedVals.splice(0);
-                    selectedTitle.splice(0);
+                    selectedVals.shift(0);
+                    selectedTitle.shift(0);
                 } else if((selectedVals.length - 1) === selectedIndex){
                     selectedVals.pop();
                     selectedTitle.pop();

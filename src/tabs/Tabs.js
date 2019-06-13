@@ -87,7 +87,7 @@ export default class Tabs extends Component {
                             const { tab, tabKey, disabled } = item.props;
 
                             return (
-                                <div key={index} className={this.className('tv-tabs-item', {
+                                <div key={tabKey} className={this.className('tv-tabs-item', {
                                     'tv-tabs-item-active': tabKey === activeStateKey,
                                     'tv-tabs-disabled': disabled,
 
@@ -104,7 +104,7 @@ export default class Tabs extends Component {
                     {
                         React.Children.map(children, (child, index) => {
                             if(child.props.tabKey === activeStateKey){
-                                return React.cloneElement(child, {key: index, activeKey: activeStateKey})
+                                return React.cloneElement(child, {key: child.props.tabKey, activeKey: activeStateKey})
                             }
                             return null;
                         })   

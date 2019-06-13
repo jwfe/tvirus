@@ -17,7 +17,7 @@ export default class SubMenu extends Component {
         /** 设置每一项的索引，默认可以不设置 */
         index: PropTypes.string,
         /** 标题 */
-        title: PropTypes.oneOf([
+        title: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.string
         ]),

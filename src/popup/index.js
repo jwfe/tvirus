@@ -8,14 +8,21 @@ const POSITIONS = [
     'bottom',
     'left',
     'right',
+
     'top left',
     'top right',
+    'top center',
+
     'bottom right',
     'bottom left',
-    'right center',
-    'left center',
-    'top center',
     'bottom center',
+
+    'right top',
+    'right center',
+    'right bottom',
+    'left top',
+    'left center',
+    'left bottom'
 ];
 
 function getChildNode(node){
@@ -24,6 +31,8 @@ function getChildNode(node){
     }
     return node.children[0];
 }
+
+let keySpeed = 1;
 
 export default class Popup extends Component {
     static propTypes = {
@@ -37,8 +46,8 @@ export default class Popup extends Component {
             PropTypes.string
         ]),
         /** 子节点 */
-        content: PropTypes.element,
-        /** 需要展示的位置, 可选 ["top","bottom","left","right","top left","top right","bottom right","bottom left","right center","left center","top center","bottom center"] */
+        content: PropTypes.node,
+        /** 需要展示的位置, 可选 ["top","bottom","left","right","top left","top right","top center","bottom right","bottom left","bottom center","right top","right center","right bottom","left top","left center","left bottom"] */
         position: PropTypes.oneOf(POSITIONS),
         /** 层的大小 */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
@@ -68,6 +77,7 @@ export default class Popup extends Component {
         super(props);
         this.triggerNode = null;
         this.popupNode = null;
+        keySpeed++;
 
         this.state = {
             visible: props.visible,
@@ -169,21 +179,6 @@ export default class Popup extends Component {
     getPostion(){
         const { position } = this.props;
         return position.split(' ');
-    }
-
-    renderCloneChildren(){
-        const { children, childrenProps } = this.props;
-        return React.Children.map(children, (child, i) => {
-            return (
-                <span key={i} ref={(el) => this.triggerNode = getChildNode(el)}>
-                    {
-                        React.cloneElement(child, {
-                            ...childrenProps
-                        })
-                    }
-                </span>
-            )
-        });
     }
 
     getArrowPostion(postion){
@@ -293,38 +288,46 @@ export default class Popup extends Component {
     }
 
     render() {
-        let { title, content, showArrow, className, prefix } = this.props;
+        let { title, content, showArrow, className, prefix, children, childrenProps } = this.props;
         const { showPopup, style } = this.state;
-        const cloneChildren = this.renderCloneChildren();
         const postion = this.getPostion();
         prefix = `tv-${prefix}`;
 
-        return [
-            cloneChildren,
-            <Portal>
-                <Animation
-                    animatedIn="fadeIn" 
-                    animatedOut="fadeOut" 
-                    inProp={showPopup}
-                    unmountOnExit={false}
-                >
-                    <div 
-                    style={this.style(style)}
-                    ref={el => this.popupNode = el}
-                    className={this.className(prefix, className, {
-                        [`${prefix}-show`]: showPopup,
-                        [`${prefix}-${postion.join('-')}`]: postion
-                    })}>
-                        { showArrow && <div className={`${prefix}-arrow`} /> }
-                        <div className={`${prefix}-inner`}>
-                            {title && <h3 className={`${prefix}-title`}>{title}</h3>}
-                            <div className={`${prefix}-content`}>
-                                {content}
+        return (
+            <span key={keySpeed} ref={(el) => this.triggerNode = getChildNode(el)}>
+                {
+                    React.cloneElement(children, {
+                        key: `${keySpeed}_trigger`,
+                        ...childrenProps
+                    })
+                }
+                <Portal key={keySpeed}>
+                    <Animation
+                        key={keySpeed}
+                        animatedIn="fadeIn" 
+                        animatedOut="fadeOut" 
+                        inProp={showPopup}
+                        unmountOnExit={false}
+                    >
+                        <div 
+                        key={keySpeed}
+                        style={this.style(style)}
+                        ref={el => this.popupNode = el}
+                        className={this.className(prefix, className, {
+                            [`${prefix}-show`]: showPopup,
+                            [`${prefix}-${postion.join('-')}`]: postion
+                        })}>
+                            { showArrow && <div className={`${prefix}-arrow`} /> }
+                            <div key={keySpeed} className={`${prefix}-inner`}>
+                                {title && <h3 className={`${prefix}-title`}>{title}</h3>}
+                                <div className={`${prefix}-content`}>
+                                    {content}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Animation>
-            </Portal>
-        ];
+                    </Animation>
+                </Portal>
+            </span>
+        )
     }
 }

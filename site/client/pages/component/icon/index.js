@@ -112,14 +112,14 @@ export default class IconDemo extends Component{
         return (
             <div>
                 {
-                    iconData.map((data) => {
+                    iconData.map((data, index) => {
                         return (
-                            <div class="icon-wrapper">
+                            <div className="icon-wrapper" key={index}>
                                 <h3>{data.title}</h3>
                                 <ul>
                                     {
                                         data.list.map((icon) => {
-                                            return <li><Icon type={icon} />{icon}</li>
+                                            return <li key={icon}><Icon key={icon} type={icon} />{icon}</li>
                                         })
                                     }
                                 </ul>

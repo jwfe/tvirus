@@ -24,34 +24,34 @@ export default class GridDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Row>
-                        <Col span={24}><div class="orange"></div></Col>
+                        <Col span={24}><div className="orange"></div></Col>
                     </Row>
 
                     <Row>
-                        <Col span={12}><div class="orange"></div></Col>
-                        <Col span={12}><div class="orange"></div></Col>
+                        <Col span={12}><div className="orange"></div></Col>
+                        <Col span={12}><div className="orange"></div></Col>
                     </Row>
 
                     <Row>
-                        <Col span={8}><div class="orange"></div></Col>
-                        <Col span={8}><div class="orange"></div></Col>
-                        <Col span={8}><div class="orange"></div></Col>
+                        <Col span={8}><div className="orange"></div></Col>
+                        <Col span={8}><div className="orange"></div></Col>
+                        <Col span={8}><div className="orange"></div></Col>
                     </Row>
 
                     <Row>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
                     </Row>
 
                     <Row>
-                        <Col span={4}><div class="orange"></div></Col>
-                        <Col span={4}><div class="orange"></div></Col>
-                        <Col span={4}><div class="orange"></div></Col>
-                        <Col span={4}><div class="orange"></div></Col>
-                        <Col span={4}><div class="orange"></div></Col>
-                        <Col span={4}><div class="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
+                        <Col span={4}><div className="orange"></div></Col>
                     </Row>
                 </div>
             )
@@ -63,10 +63,10 @@ export default class GridDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Row gutter={16}>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
                     </Row>
                 </div>
             )
@@ -77,9 +77,9 @@ export default class GridDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Row gutter={16}>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6}><div class="orange"></div></Col>
-                        <Col span={6} offset={6}><div class="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6}><div className="orange"></div></Col>
+                        <Col span={6} offset={6}><div className="orange"></div></Col>
                     </Row>
                 </div>
             )

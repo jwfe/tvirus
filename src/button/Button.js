@@ -4,8 +4,8 @@ import Icon from '@icon'
 
 export default class Button extends Component {
     static propTypes = {
-        /** 设置按钮类型，可选值 'primary', 'success', 'danger', 'warning', 'link' 或不设 */
-        type: PropTypes.oneOf(['default', 'primary', 'success', 'danger', 'warning', 'link']),
+        /** 设置按钮类型，可选值 'primary', 'success', 'dashed', 'danger', 'warning', 'link' 或不设 */
+        type: PropTypes.oneOf(['default', 'primary', 'success', 'dashed', 'danger', 'warning', 'link']),
         /** 设置按钮大小，可选值 'large', 'small' 或不设 */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
         /** 设置按钮原生的type，可选值 'submit', 'reset' 或不设 */

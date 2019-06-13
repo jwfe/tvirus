@@ -189,16 +189,16 @@ export default class CommonMenu extends Component{
                     }
                 ]
             }
-        ].map((item) => {
+        ].map((item, index2) => {
             const SubmenuTitle = <span>{item.title}</span>;
-            const child = item.child.map((child) => {
+            const child = item.child.map((child, index) => {
                 const isShow = this.opened(child.query);
-                return <Menu.Item opened={isShow} to={`/component/${child.query}`}>
+                return <Menu.Item key={index} opened={isShow} to={`/component/${child.query}`}>
                     {child.title}
                 </Menu.Item>
             })
             return (
-                <Menu.SubMenu title={SubmenuTitle}>
+                <Menu.SubMenu key={index2} title={SubmenuTitle}>
                     {child}
                 </Menu.SubMenu>
             )    
@@ -289,16 +289,16 @@ export default class CommonMenu extends Component{
                     }
                 ]
             }
-        ].map((item) => {
+        ].map((item, index2) => {
             const SubmenuTitle = <span>{item.title}</span>;
-            const child = item.child.map((child) => {
+            const child = item.child.map((child, index) => {
                 const isShow = this.opened(child.query);
-                return <Menu.Item opened={isShow} to={`/spec/${child.query}`}>
+                return <Menu.Item key={index} opened={isShow} to={`/spec/${child.query}`}>
                     {child.title}
                 </Menu.Item>
             })
             return (
-                <Menu.SubMenu title={SubmenuTitle}>
+                <Menu.SubMenu key={index2} title={SubmenuTitle}>
                     {child}
                 </Menu.SubMenu>
             )    

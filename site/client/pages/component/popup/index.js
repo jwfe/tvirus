@@ -23,7 +23,7 @@ export default class PopupDemo extends Component{
             children: (
                 <div className="code-demo">
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Popup 
                             trigger="click"
                             title="竟然还有title"
@@ -32,13 +32,23 @@ export default class PopupDemo extends Component{
                                 <Button>click me !</Button>
                             </Popup>
                         </Col>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Popup 
                             trigger="hover"
                             title="竟然还有title"
                             content="鼠标滑过"
                             >
                                 <Button>hover me !</Button>
+                            </Popup>
+                        </Col>
+
+                        <Col span={8}>
+                            <Popup 
+                            prefix="tooltip"
+                            trigger="hover"
+                            content="鼠标滑过"
+                            >
+                                <Button>tooltip</Button>
                             </Popup>
                         </Col>
                     </Row>

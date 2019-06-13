@@ -91,15 +91,17 @@ export default class LayoutDemo extends Component{
                     {
                         child.children.map((item, index) => {
                             const itemCompoent = child.func(item);
-                            return (<Tabpanel key={index} tab={item} tabKey={item}>
-                                {itemCompoent}
-                                <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
-                                    <Highlight>
-                                        {reactElementToJSXString(itemCompoent, {tabStop: 4})}
-                                    </Highlight>
-                                </div>
-                                <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
-                            </Tabpanel>)
+                            return (
+                                <Tabpanel key={index} tab={item} tabKey={item}>
+                                    {itemCompoent}
+                                    <div key={index} className="language-jsx" style={{display: isShow ? '' : 'none'}}>
+                                        <Highlight>
+                                            {reactElementToJSXString(itemCompoent, {tabStop: 4})}
+                                        </Highlight>
+                                    </div>
+                                    <div  key={index + '_2'} className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
+                                </Tabpanel>
+                            )
                         })
                     }
                 </Tabs>
@@ -128,14 +130,15 @@ export default class LayoutDemo extends Component{
         if(!this.state.docs[keyword]){
             return null;
         }
-        const map = this.state.docs[keyword].map((d) => {
+        const map = this.state.docs[keyword].map((d, index) => {
             const name = d.filename === 'index' ? keyword : d.filename;
             if(!d.data.length) return null;
             return (
-                <div>
+                <div key={index}>
                     <h4>{name}</h4>
                     <p>{d.desc}</p>
                     <Table
+                        key={index}
                         columns={this.state.docColumns}
                         data={d.data}
                     />
@@ -163,7 +166,7 @@ export default class LayoutDemo extends Component{
                             childs.map((child, index) => {
                                 return (
                                     <div key={index}>
-                                        <h2>{child.title}</h2>
+                                        <h2 key={index}>{child.title}</h2>
                                         {
                                             child.doc ? this.creatDoc(child, index) : <Card>{this.getCodeDemo(child, index)}</Card>
                                         }

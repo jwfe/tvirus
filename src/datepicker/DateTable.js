@@ -222,7 +222,7 @@ export default class DateTable extends Component {
         }
 
         return (
-            <thead>
+            <thead key="thead">
                 <tr>
                 {
                     head.map((item, index) => {
@@ -245,7 +245,7 @@ export default class DateTable extends Component {
         return (
             <table className="tv-datepicker-table" cellSpacing="0" style={this.style()}>
                 { this.renderHead(head) }
-                <tbody className="tv-datepicker-tbody">
+                <tbody className="tv-datepicker-tbody" key="tbody">
                     {
                         rows.map((row, index) => {
                             const isWeekActive = this.isWeekActive(row[1]);
@@ -254,10 +254,10 @@ export default class DateTable extends Component {
                                     'tv-datepicker-active-week': isWeekActive
                                 })}>
                                     {
-                                        row.map((cell) => {
+                                        row.map((cell, index2) => {
                                             return (
                                                 <td 
-                                                key={cell.day}
+                                                key={index2}
                                                 onClick={this.handleDateClick.bind(this, cell)}
                                                 onMouseMove={this.handleMouseMove.bind(this, cell)}
                                                 title={`${cell.year}年${cell.month}月${cell.day}日`} 
@@ -269,7 +269,7 @@ export default class DateTable extends Component {
                                                     'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
                                                     'tv-datepicker-cell-disabled': cell.disabled
                                                 })}>
-                                                    <div key={cell.day} className="tv-datepicker-date">{cell.text || cell.day}</div>
+                                                    <div key={index2 + index} className="tv-datepicker-date">{cell.text || cell.day}</div>
                                                 </td>
                                             )
                                         })
