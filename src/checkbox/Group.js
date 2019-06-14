@@ -40,7 +40,7 @@ export default class Group extends Component {
     }
     filterValues(value){
         const { defaultValue } = this.state;
-        return defaultValue.map((val) => {
+        return defaultValue.filter((val) => {
             return value !== val;
         });
     }

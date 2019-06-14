@@ -319,7 +319,6 @@ export default class Range extends Component {
         let date = this.state[`${key}_date`];
         const monthMode = mode === 'day' ? 'sigle' : rangeMode;
         const yearMode = mode !== 'year' ? 'sigle' : rangeMode;
-
         return (
             <div className={this.className('tv-datepicker-body')}>
                 <YearTable 
@@ -328,7 +327,9 @@ export default class Range extends Component {
                 minDate={minDate}
                 maxDate={maxDate}
                 disabledDate={this.disabledDate} 
-                rangeKey={key} date={date} onChange={this.handleYearDate} 
+                rangeKey={key} 
+                date={date} 
+                onChange={this.handleYearDate} 
                 style={{display: view[key + 'year'] ? '' : 'none'}} />
                 {mode !== 'year' && <MonthTable 
                     range={monthMode}
@@ -336,14 +337,17 @@ export default class Range extends Component {
                     minDate={minDate}
                     maxDate={maxDate}
                     disabledDate={this.disabledDate} 
-                    rangeKey={key} date={date} onChange={this.handleMonthDate} 
+                    rangeKey={key} 
+                    date={date} 
+                    onChange={this.handleMonthDate} 
                     style={{display: view[key + 'month'] ? '' : 'none'}} />}
                 {mode !== 'year' && mode !== 'month' && <DateTable 
                     disabledDate={this.disabledDate} 
                     style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}}
-                    key={key}
+                    rangeKey={key}
                     mode={mode}
-                    range={rangeMode} rangeState={rangeState} date={date} 
+                    range={rangeMode} rangeState={rangeState} 
+                    date={date} 
                     minDate={minDate}
                     maxDate={maxDate}
                     onMoveRange={this.handleMoveRange}

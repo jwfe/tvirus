@@ -25,14 +25,14 @@ export default class SelectDemo extends Component{
                     <Row>
                         <Col span={12}>
                             <Select>
-                                <Select.Option value="113">内容1</Select.Option>
-                                <Select.Option value="223">内容2</Select.Option>
+                                <Select.Option value="1">内容1</Select.Option>
+                                <Select.Option value="2">内容2</Select.Option>
                             </Select>
                         </Col>
                         <Col span={12}>
                             <Select multiple={true}>
-                                <Select.Option value="113" selection={true}>内容1</Select.Option>
-                                <Select.Option value="223" selection={true}>内容2</Select.Option>
+                                <Select.Option value="3" selection={true}>内容1</Select.Option>
+                                <Select.Option value="4" selection={true}>内容2</Select.Option>
                             </Select>
                         </Col>
                     </Row>
@@ -47,14 +47,14 @@ export default class SelectDemo extends Component{
                     <Row>
                         <Col span={12}>
                             <Select disabled>
-                                <Select.Option value="113">内容1</Select.Option>
-                                <Select.Option value="223">内容2</Select.Option>
+                                <Select.Option value="5">内容1</Select.Option>
+                                <Select.Option value="6">内容2</Select.Option>
                             </Select>
                         </Col>
                         <Col span={12}>
-                            <Select multiple={true}>
-                                <Select.Option value="113" disabled>内容1</Select.Option>
-                                <Select.Option value="223">内容2</Select.Option>
+                            <Select>
+                                <Select.Option value="7" disabled>内容1</Select.Option>
+                                <Select.Option value="8">内容2</Select.Option>
                             </Select>
                         </Col>
                     </Row>

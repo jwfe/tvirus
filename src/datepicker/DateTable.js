@@ -45,6 +45,7 @@ export default class DateTable extends Component {
 
     constructor(props) {
         super(props);
+        console.log('[date]', props.date);
         this.state = {
             date: props.date ? props.date : clearHours(format(new Date()))
         }
@@ -164,12 +165,19 @@ export default class DateTable extends Component {
     }
 
     isWeekActive(cell){
-        const { mode, date } = this.props;
+        const { mode, date, range, rangeKey, maxDate, minDate } = this.props;
         if(mode !== modes.WEEK){
             return false;
         }
 
-        return cell.week === weekOfYear(format(date)).number;
+        if(range !== RANGE){
+            return cell.week === weekOfYear(format(date)).number;
+        }
+
+        if(rangeKey === 'left'){
+            return cell.week === weekOfYear(format(minDate)).number; 
+        }
+        return cell.week === weekOfYear(format(maxDate)).number; 
     }
     handleMouseMove(cell){
         const { onMoveRange, rangeState, range, disabledDate } = this.props;

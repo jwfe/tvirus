@@ -30,14 +30,14 @@ export default class DatepickerDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Row>
+                    {/* <Row>
                         <Col span={12}>
                             <Datepicker />
                         </Col>
                         <Col span={12}>
                             <Datepicker mode="week" showWeekNumber />
                         </Col>
-                    </Row>
+                    </Row> */}
                 </div>
             )
         });
@@ -47,14 +47,14 @@ export default class DatepickerDemo extends Component{
             title: '范围选择',
             children: (
                 <div className="code-demo">
-                    <Row>
+                    {/* <Row>
                         <Col span={12}>
                             <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
                         </Col>
                         <Col span={12}>
                             <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' disabledDate={this.disabledDate.bind(this)} />
                         </Col>
-                    </Row>
+                    </Row> */}
                 </div>
             )
         });
@@ -95,7 +95,7 @@ export default class DatepickerDemo extends Component{
                         </Col>
 
                         <Col span={12}>
-                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="month" />
+                            {/* <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="month" /> */}
                         </Col>
                     </Row>
                 </div>

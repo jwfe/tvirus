@@ -32,7 +32,7 @@ function getChildNode(node){
     return node.children[0];
 }
 
-let keySpeed = 1;
+let popupSpeedKey = 1;
 
 export default class Popup extends Component {
     static propTypes = {
@@ -77,7 +77,7 @@ export default class Popup extends Component {
         super(props);
         this.triggerNode = null;
         this.popupNode = null;
-        keySpeed++;
+        popupSpeedKey++;
 
         this.state = {
             visible: props.visible,
@@ -92,67 +92,34 @@ export default class Popup extends Component {
                 showPopup: nextProps.visible
             };
         }
-        return null
+        return null;
     }
     
     componentDidMount(){
-        const { trigger, disabled } = this.props;
-        const triggerNode = this.triggerNode;
-        const popupNode = this.popupNode;
-
-        this.element = ReactDOM.findDOMNode(this);
-        if(!triggerNode || disabled){
-            return ;
-        }
+        const { trigger } = this.props;
 
         if(trigger === 'click'){
-            triggerNode.addEventListener('click', () => {
-                this.setPopupState(!this.state.showPopup);
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!e.target || !this.element || this.element.contains(e.target) ||
-                !triggerNode || triggerNode.contains(e.target) ||
-                !popupNode || popupNode.contains(e.target)) return;
-                this.setPopupState(false);
-            });
-        } else if (trigger === 'hover') {
-            triggerNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-            triggerNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-            if(!popupNode){
-                return;
-            }
-            popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-            popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-        } else {
-            if (triggerNode.nodeName === 'INPUT' 
-            || triggerNode.nodeName === 'TEXTAREA'
-            || triggerNode.className.indexOf('tv-input-wraper') != -1
-            ) {
-                let node = triggerNode;
-                if(triggerNode.className.indexOf('tv-input-wraper') != -1){
-                    node = triggerNode.querySelector('input');
-                }
-
-                node.addEventListener('focus', this.handleMouseEnter.bind(this));
-                node.addEventListener('blur', this.handleMouseLeave.bind(this));
-                if(!popupNode){
-                    return;
-                }
-                popupNode.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
-                popupNode.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-            } else {
-                triggerNode.addEventListener('mousedown', () => {
-                    this.setPopupState(true);
-                });
-                triggerNode.addEventListener('mouseup', () => { this.setState({ showPopup: false })});
-            }
+            document.addEventListener('click', this.onUnmount);
         }
 
     }
+    componentWillUnmount(){
+        document.removeEventListener('click', this.onUnmount);
+    }
+    onUnmount = (e) => {
+        const triggerNode = this.triggerNode;
+        const popupNode = this.popupNode;
 
+        if (!e.target || !triggerNode || triggerNode.contains(e.target) || !popupNode || popupNode.contains(e.target)) {
+            return false;
+        };
+        this.setPopupState(false);
+    }
     setPopupState(showPopup){
-        const { onChange } = this.props;
+        const { onChange, disabled } = this.props;
+        if(disabled || !this.triggerNode){
+            return;
+        }
         this.setState({
             showPopup
         }, () => {
@@ -160,17 +127,32 @@ export default class Popup extends Component {
             this.setState({style: this.computePopup()})
         });
     }
-    handleMouseEnter(){
+    handleOnClick = () => {
+        const { trigger } = this.props;
+        if(trigger === 'click'){
+            this.setPopupState(!this.state.showPopup);
+        }
+    }
+    handleMouseEnter = () => {
+        const { trigger } = this.props;
+        if(trigger === 'click'){
+            return;
+        }
         clearTimeout(this.timer);
 
         this.setPopupState(true);
     }
 
-    handleMouseLeave(){
+    handleMouseLeave = () => {
+        const { trigger } = this.props;
+        if(trigger === 'click'){
+            return;
+        }
         this.timer = setTimeout(() => {
             this.setPopupState(false);
         }, 200);
     }
+
 
     includes(values, val){
         return values.indexOf(val) !== -1
@@ -287,6 +269,58 @@ export default class Popup extends Component {
         return style
     }
 
+    renderCloneChildren(){	
+        const { children, childrenProps, trigger } = this.props;	
+        return React.Children.map(children, (child, i) => {	
+            return (	
+                <span key={`${popupSpeedKey}_${i}`} ref={(el) => this.triggerNode = getChildNode(el)}>	
+                    {	
+                        React.cloneElement(child, {	
+                            onMouseEnter: this.handleMouseEnter,
+                            onMouseLeave: this.handleMouseLeave,
+                        
+                            onFocus: (evt) => {
+                                if (evt.target.nodeName === 'INPUT' 
+                                || evt.target.nodeName === 'TEXTAREA'
+                                || evt.target.className.indexOf('tv-input-wraper') != -1
+                                ){
+                                    this.handleMouseEnter()
+                                }
+                            },
+                            onBlur: (evt) => {
+                                if (evt.target.nodeName === 'INPUT' 
+                                || evt.target.nodeName === 'TEXTAREA'
+                                || evt.target.className.indexOf('tv-input-wraper') != -1
+                                ){
+                                    this.handleMouseLeave()
+                                }
+                            },
+
+                            onMouseDown: (evt) => {
+                                if (evt.target.nodeName !== 'INPUT' 
+                                && evt.target.nodeName !== 'TEXTAREA'
+                                && evt.target.className.indexOf('tv-input-wraper') === -1
+                                ){
+                                    this.handleMouseEnter()
+                                }
+                            },
+                            onMouseUp: (evt) => {
+                                if (evt.target.nodeName !== 'INPUT' 
+                                && evt.target.nodeName !== 'TEXTAREA'
+                                && evt.target.className.indexOf('tv-input-wraper') === -1
+                                ){
+                                    this.handleMouseLeave()
+                                }
+                            },
+                            onClick: this.handleOnClick,
+                            ...childrenProps	
+                        })	
+                    }	
+                </span>	
+            )	
+        });	
+    }
+
     render() {
         let { title, content, showArrow, className, prefix, children, childrenProps } = this.props;
         const { showPopup, style } = this.state;
@@ -294,31 +328,29 @@ export default class Popup extends Component {
         prefix = `tv-${prefix}`;
 
         return (
-            <span key={keySpeed} ref={(el) => this.triggerNode = getChildNode(el)}>
-                {
-                    React.cloneElement(children, {
-                        key: `${keySpeed}_trigger`,
-                        ...childrenProps
-                    })
-                }
-                <Portal key={keySpeed}>
+            <React.Fragment>
+                { this.renderCloneChildren() }
+                <Portal key={popupSpeedKey}>
                     <Animation
-                        key={keySpeed}
+                        key={popupSpeedKey}
                         animatedIn="fadeIn" 
                         animatedOut="fadeOut" 
                         inProp={showPopup}
                         unmountOnExit={false}
                     >
                         <div 
-                        key={keySpeed}
+                        key={popupSpeedKey}
                         style={this.style(style)}
                         ref={el => this.popupNode = el}
                         className={this.className(prefix, className, {
                             [`${prefix}-show`]: showPopup,
                             [`${prefix}-${postion.join('-')}`]: postion
-                        })}>
+                        })}
+                        onMouseEnter={this.handleMouseEnter}
+                        onMouseLeave={this.handleMouseLeave}
+                        >
                             { showArrow && <div className={`${prefix}-arrow`} /> }
-                            <div key={keySpeed} className={`${prefix}-inner`}>
+                            <div key={popupSpeedKey} className={`${prefix}-inner`}>
                                 {title && <h3 className={`${prefix}-title`}>{title}</h3>}
                                 <div className={`${prefix}-content`}>
                                     {content}
@@ -327,7 +359,7 @@ export default class Popup extends Component {
                         </div>
                     </Animation>
                 </Portal>
-            </span>
+            </React.Fragment>
         )
     }
 }

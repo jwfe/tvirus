@@ -51,4 +51,4 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### 文档
 
-您可以阅读[完整文档](http://tvirus.art/#/component/install)，或者从下面几个章节开始学习
+您可以阅读[完整文档](http://tvirus.art/#/component/install)
