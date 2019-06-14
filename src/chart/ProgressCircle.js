@@ -61,13 +61,13 @@ export default class ProgressCircle extends Component {
         return (
             <div className={this.className('tv-progress-circle')} style={{width,height}}>
                 <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" className="tv-progress-circle-svg">
-                    <circle  className="tv-progress-circle-backgroud" r="90" cy={width/2} cx={height/2} stroke-width={borderWidth-1} stroke={backgroundColor} fill="none" />
-                    <circle ref={el => this.circleFront = el} className="tv-progress-circle-front" r="90" cy={width/2} cx={height/2} stroke-width={borderWidth} stroke="url(#tvPurple)" stroke-linejoin="round" stroke-linecap="round" fill="none" />
+                    <circle className="tv-progress-circle-backgroud" r="90" cy={width/2} cx={height/2} strokeWidth={borderWidth-1} stroke={backgroundColor} fill="none" />
+                    <circle ref={el => this.circleFront = el} className="tv-progress-circle-front" r="90" cy={width/2} cx={height/2} strokeWidth={borderWidth} stroke="url(#tvPurple)"strokeLinejoin="round" strokeLinecap="round" fill="none" />
 
                     <defs>
                         <linearGradient id="tvPurple" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color={endColor} />
-                            <stop offset="100%" stop-color={startColor} />
+                            <stop offset="0%" stopColor={endColor} />
+                            <stop offset="100%" stopColor={startColor} />
                         </linearGradient>
                     </defs>
 

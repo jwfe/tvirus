@@ -6,7 +6,7 @@ export default class Group extends Component {
         /** 自定义样式 */
         className: PropTypes.string,
         /** 组合后的默认选中项 */
-        defaultValue: PropTypes.arrayOf(PropTypes.string),
+        value: PropTypes.arrayOf(PropTypes.string),
         /** 必须设置name，用来控制是否同组 */
         name: PropTypes.string,
         /** 是否整组禁用 */
@@ -16,13 +16,14 @@ export default class Group extends Component {
     };
 
     static defaultProps = {
+        value: [],
         disabled: false
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            defaultValue: props.defaultValue || []
+            defaultValue: props.value
         }
     }
     handleChange(value, checked, key, evt){

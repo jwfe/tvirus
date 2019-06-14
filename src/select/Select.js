@@ -5,6 +5,20 @@ import Button from '@button';
 import Search from '@search';
 import Popup from '@popup';
 
+function getDiffArray(val, val2){
+    if(val.length !== val2.length){
+        return true;
+    }
+
+    const arr = [];
+    val.forEach((item)=>{
+        if(val2.indexOf(item) === -1){
+            arr.push(item);
+        }
+    });
+    return arr.length;
+}
+
 export default class Select extends Component {
     static propTypes = {
         /** 自定义样式 */
@@ -12,7 +26,7 @@ export default class Select extends Component {
         /** 自定义子节点样式 */
         childrenClassName: PropTypes.string,
         /** 设置select的值 */
-        value: PropTypes.string,
+        value: PropTypes.array,
         /** 展示下拉用到的事件 */
         trigger: PropTypes.string,
         /** select name */
@@ -32,6 +46,7 @@ export default class Select extends Component {
     };
 
     static defaultProps = {
+        value: [],
         showSearch: false,
         multiple: false,
         placeholder: '请选择',
@@ -43,27 +58,34 @@ export default class Select extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedVals: [],
-            searchVals: [],
-            selectedTitle: [],
+            selectedVals: props.value,
             visible: false,
             childrens: null,
-            data: []
+            ...this.getInitValue(props)
         }
-
-        React.Children.map(props.children, (child) => {
-            const { selected, children, value } = child.props;
-            if(selected){
-                this.state.selectedTitle.push(children);
-                this.state.selectedVals.push(value);
-            }
-            this.state.searchVals.push(value);
-            this.state.data.push(value);
-        });
     }
 
-    componentDidMount(){
-        this.renderOptionsData();
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(getDiffArray(nextProps.value, prevState.selectedVals)){
+            return {
+                childrens: null,
+                selectedVals: nextProps.value
+            };
+        }
+        return null;
+    }
+
+    getInitValue(props){
+        const map = {selectedTitle: [], searchVals: [], data: []}
+        React.Children.map(props.children, (child) => {
+            const { children, value } = child.props;
+            if(props.value.indexOf(value) !== -1){
+                map.selectedTitle.push(children);
+            }
+            map.searchVals.push(value);
+            map.data.push(value);
+        });
+        return map;
     }
 
     handleOptionClick(value, title){
@@ -97,44 +119,35 @@ export default class Select extends Component {
             selectedVals,
             selectedTitle
         }, () => {
-            this.renderOptionsData(selectedVals);
             this.props.onChange(selectedVals, name);
         })
     }
 
-    renderOptionsData(optionVals){
+    renderOptionsData(){
         const { children } = this.props;
-        let { selectedValue, searchVals } = this.state;
+        const { selectedVals, searchVals } = this.state;
+        let values = selectedVals;
         if(!children){
             return null;
         }
 
-        if(optionVals){
-            selectedValue = optionVals;
-        }
-
-        const childrens = React.Children.map(children, (child, index) => {
+        return React.Children.map(children, (child, index) => {
             const value = child.props.value;
             if(searchVals.indexOf(value) !== -1){
                 return React.cloneElement(child, {
                     autoCtrol: true,
                     key: index,
                     onClick: this.handleOptionClick.bind(this),
-                    selected: selectedValue ? selectedValue.indexOf(value) !== -1 : child.props.selected
+                    selected: values.indexOf(value) !== -1
                 })
             }
             return null;
         });
-        this.setState({
-            childrens
-        }) 
     }
 
     handleSearch(values){
         this.setState({
             searchVals: values
-        }, () => {
-            this.renderOptionsData(values);
         }) 
     }
 
@@ -157,8 +170,8 @@ export default class Select extends Component {
     }
     render() {
         const { placeholder, disabled, multiple, position, showSearch, extra, autoButton, childrenClassName, trigger } = this.props;
-        const { childrens, data, visible, selectedTitle } = this.state;
-
+        const { data, visible, selectedTitle } = this.state;
+        const childrens = this.renderOptionsData();
         const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false;
         const isShowSearch = showSearch && !isShowMultiple;
 

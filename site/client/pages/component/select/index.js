@@ -8,6 +8,7 @@ export default class SelectDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
+            oneValues: ['1'],
             childs: []
         }
     }
@@ -24,7 +25,7 @@ export default class SelectDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Select>
+                            <Select value={this.state.oneValues}>
                                 <Select.Option value="1">内容1</Select.Option>
                                 <Select.Option value="2">内容2</Select.Option>
                             </Select>
@@ -69,8 +70,8 @@ export default class SelectDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Select showSearch extra={<div className="select-logout">退出</div>}>
-                                <Select.Option value="may" selected>may</Select.Option>
+                            <Select value={['may']} showSearch extra={<div className="select-logout">退出</div>}>
+                                <Select.Option value="may">may</Select.Option>
                                 <Select.Option value="amy">amy</Select.Option>
                                 <Select.Option value="ming">ming</Select.Option>
                             </Select>

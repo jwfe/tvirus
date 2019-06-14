@@ -12,12 +12,7 @@ export default class ChartDemo extends Component{
             child: [],
             line: {
                 title: {
-                    text: '多条折线图模板',
-                    left: 10,
-                    textStyle: {
-                        fontWeight: 'normal',
-                        fontSize: 16
-                    }
+                    text: '多条折线图模板'
                 },
                 grid: {
                     top: 100,
@@ -107,12 +102,7 @@ export default class ChartDemo extends Component{
             },
             bar: {
                 title: {
-                    text: '普通柱状图',
-                    left: 10,
-                    textStyle: {
-                        fontWeight: 'normal',
-                        fontSize: 16
-                    }
+                    text: '普通柱状图'
                 },
                 grid: {
                     top: 100,
@@ -182,12 +172,7 @@ export default class ChartDemo extends Component{
             },
             bar2: {
                 title: {
-                    text: '普通条形图',
-                    left: 10,
-                    textStyle: {
-                        fontWeight: 'normal',
-                        fontSize: 16
-                    }
+                    text: '普通条形图'
                 },
                 grid: {
                     top: 100,

@@ -13,9 +13,9 @@ import './css/demo.less';
 export default class DemoIndex extends Component{
     constructor(props){
         super(props);
-
     }
     state = {
+        ucenterSelected: ['ucenter'],
         columns,
         columns_data,
         bubble: [
@@ -466,6 +466,13 @@ export default class DemoIndex extends Component{
             }
         }
     }
+    componentDidMount(){
+        setTimeout(() => {
+            this.setState({
+                ucenterSelected: []
+            })
+        }, 2000)
+    }
     onLogout = (evt) =>{
         this.props.history.push("/login");
     }
@@ -529,11 +536,12 @@ export default class DemoIndex extends Component{
                                     </li>
                                     <li>
                                         <Select 
+                                            value={this.state.ucenterSelected}
                                             childrenClassName="demo-setup"
                                             trigger="hover"
                                             autoButton={<span><Icon type="setup" /><span className="text">设置</span></span>}
                                             extra={<div className="select-logout" onClick={this.onLogout}><Icon type="logout" />退出</div>}>
-                                            <Select.Option icon="user" value="ucenter" selected>个人中心</Select.Option>
+                                            <Select.Option icon="user" value="ucenter">个人中心</Select.Option>
                                             <Select.Option icon="setup" value="userset">个人设置</Select.Option>
                                         </Select>
                                     </li>

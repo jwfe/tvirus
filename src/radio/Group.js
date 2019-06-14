@@ -6,7 +6,7 @@ export default class Group extends Component {
         /** 自定义样式 */
         className: PropTypes.string,
         /** 默认选中项的value */
-        defaultValue: PropTypes.string,
+        value: PropTypes.string,
         /** radioButton的风格样式，支持描边和填色2种 */
         buttonStyle: PropTypes.oneOf(['solid', 'outline']),
         /** input name */
@@ -23,7 +23,7 @@ export default class Group extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            defaultValue: props.defaultValue
+            defaultValue: props.value
         }
     }
     handleChange(value, key, evt){

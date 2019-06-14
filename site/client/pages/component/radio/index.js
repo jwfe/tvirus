@@ -42,7 +42,7 @@ export default class RadioDemo extends Component{
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Radio.Group defaultValue="1" name="test1">
+                            <Radio.Group value="1" name="test1">
                                 <Radio value="1">分组1</Radio>
                                 <Radio value="2">分组2</Radio>
                             </Radio.Group>
@@ -64,7 +64,7 @@ export default class RadioDemo extends Component{
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Radio.Group buttonStyle="solid" defaultValue="1" name="test1">
+                            <Radio.Group buttonStyle="solid" value="1" name="test1">
                                 <Radio value="1">分组1</Radio>
                                 <Radio value="2" disabled>分组2</Radio>
                                 <Radio value="3">分组2</Radio>
