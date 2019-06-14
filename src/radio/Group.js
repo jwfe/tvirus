@@ -7,6 +7,9 @@ export default class Group extends Component {
         className: PropTypes.string,
         /** 默认选中项的value */
         defaultValue: PropTypes.string,
+        /** radioButton的风格样式，支持描边和填色2种 */
+        buttonStyle: PropTypes.oneOf(['solid', 'outline']),
+        /** input name */
         name: PropTypes.string,
         /** 禁用整个分组 */
         disabled: PropTypes.bool,
@@ -30,7 +33,7 @@ export default class Group extends Component {
     }
 
     render() {
-        const { children, disabled, name, className } = this.props;
+        const { children, disabled, name, className, buttonStyle } = this.props;
         const { defaultValue } = this.state;
 
         const cloneChildren = React.Children.map(children, (child, index) => {
@@ -44,7 +47,9 @@ export default class Group extends Component {
         });
 
         return (
-            <div className={this.className('tv-radio-group', className)}>
+            <div className={this.className('tv-radio-group', className, {
+                [`tv-radio-group-${buttonStyle}`]: buttonStyle
+            })}>
                 {cloneChildren}
             </div>
         );
