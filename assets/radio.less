@@ -109,5 +109,111 @@
             }
         }
     }
-    
+    &-group{
+        &-solid{
+            .tv-radio-label{
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                margin-right: 0; 
+                border-radius: 0;
+
+                border: 1px solid @dark-border-10;
+                padding: 0 15px;
+                height: 32px;
+                color: @dark-color-80;
+
+                background-color: @light-bgc;
+
+                cursor: pointer;
+
+                .tv-input-wraper{
+                    position: absolute;
+                    top: 0;
+                    opacity: 0;
+                }
+
+                &:first-child:not(:last-child){
+                    border-top-left-radius: 1px;
+                    border-bottom-left-radius: 1px;
+                }
+                &:last-child:not(:first-child){
+                    border-top-right-radius: 1px;
+                    border-bottom-right-radius: 1px;
+                }
+                &+.tv-radio-label{
+                    margin-left: -1px;
+                }
+                &.tv-radio-checked{
+                    border-color: @master-border;
+                    color: @light-color;
+                    background-color: @master-bgc;
+                }
+                &.tv-radio-disabled{
+                    opacity: 0.6;
+                    text-shadow: none;
+                    &, &[disabled]{
+                        border-color: @dark-border-10;
+                        color: @dark-color-25;
+                        background-color: @light-smoke-bgc;
+                        cursor: not-allowed;
+                        text-shadow: none;
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+        &-outline{
+            .tv-radio-label{
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                margin-right: 0; 
+                border-radius: 0;
+
+                border: 1px solid @dark-border-10;
+                padding: 0 15px;
+                height: 32px;
+                color: @dark-color-80;
+
+                background-color: @light-bgc;
+
+                cursor: pointer;
+
+                .tv-input-wraper{
+                    position: absolute;
+                    top: 0;
+                    opacity: 0;
+                }
+
+                &:first-child:not(:last-child){
+                    border-top-left-radius: 1px;
+                    border-bottom-left-radius: 1px;
+                }
+                &:last-child:not(:first-child){
+                    border-top-right-radius: 1px;
+                    border-bottom-right-radius: 1px;
+                }
+                &+.tv-radio-label{
+                    margin-left: -1px;
+                }
+                &.tv-radio-checked{
+                    z-index: 1;
+                    border-color: @master-border;
+                    color: @master-color;
+                }
+                &.tv-radio-disabled{
+                    opacity: 0.6;
+                    text-shadow: none;
+                    &, &[disabled]{
+                        border-color: @dark-border-10;
+                        color: @dark-color-25;
+                        cursor: not-allowed;
+                        text-shadow: none;
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+    }
 }
