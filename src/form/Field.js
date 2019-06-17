@@ -76,7 +76,7 @@ export default class FormField extends Component {
         }
     }
     render(){
-        const { tagName, children, value, ...other } = this.props;
+        const { tagName, children, value, disabledDate, ...other } = this.props;
         const { currentValue } = this.state;
 
         return React.createElement(this.getComponent(tagName), {

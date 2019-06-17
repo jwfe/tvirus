@@ -37,6 +37,9 @@ export default class DemoLogin extends Component{
             this.props.history.push('/demo');
         }, 5000);
     }
+    onHandleChange = (...arg) => {
+        console.log(...arg);
+    }
     render(){
         return (
             <div className="tv-user-layout">
@@ -57,7 +60,7 @@ export default class DemoLogin extends Component{
                             <Form.Field name="password" tagName="input" size="large" placeholder="密码" showToggle prefix="unlock" type="password" />
                         </Form.Item>
                         <Form.Item>
-                            <Checkbox checked={true}>
+                            <Checkbox checked={true} onChange={this.onHandleChange} value="1" name="key">
                                 记住密码
                             </Checkbox>
                             <Button type="link" style={{float: 'right'}}>忘记密码</Button>

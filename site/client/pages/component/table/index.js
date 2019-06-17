@@ -49,6 +49,7 @@ export default class TableDemo extends Component{
             ];
     
             const data2 = [];
+            const sum = [];
             for (let i = 0; i < 100; i++) {
                 data2.push({
                     key: i,
@@ -63,6 +64,7 @@ export default class TableDemo extends Component{
                     address7: `London Park no. ${i}`,
                     address8: `London Park no. ${i}`
                 });
+                sum.push();
             }
               
     
@@ -93,8 +95,12 @@ export default class TableDemo extends Component{
                     }
                 },
                 {title: '星期', width: 120, dataIndex: 'week', key: 'week', align: 'center'},
-                {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center'},
-                {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center'},
+                {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center' , sort: (a, b)=>{
+                    return a-b;
+                }},
+                {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center', sort: (a, b)=>{
+                    return a-b;
+                }},
                 {title: '已有/实际', dataIndex: 'otb', key: 'otb', width: 200, align: 'center'},
                 {
                     title: 'vs 去年同星期实际', align: 'center',

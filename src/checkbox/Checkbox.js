@@ -35,9 +35,9 @@ export default class Checkbox extends Component {
         }
     }
 
-    handleChange(val, key, evt){
+    handleChange = (val, key, evt) => {
         const checked = evt.target.checked;
-        const { onChange, value, autoCtrol } = this.props;
+        const { onChange, value, autoCtrol, name } = this.props;
         if(autoCtrol){
             return;
         }
@@ -63,7 +63,7 @@ export default class Checkbox extends Component {
                     size={size}
                     checked={autoCtrol ? checked : stateChecked}
                     disabled={disabled}
-                    onChange={this.handleChange.bind(this)}
+                    onChange={this.handleChange}
                     {...otherProps}
                 />
                 {children}

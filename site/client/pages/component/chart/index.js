@@ -14,21 +14,6 @@ export default class ChartDemo extends Component{
                 title: {
                     text: '多条折线图模板'
                 },
-                grid: {
-                    top: 100,
-                    left: 50,
-                    right: 0,
-                    bottom: 25
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    left: 10,
-                    top: 40,
-                    itemWidth: 10,
-                    itemHeight: 10,
-                },
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,

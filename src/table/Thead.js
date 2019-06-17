@@ -5,7 +5,7 @@ import Icon from '@icon';
 
 export default class Thead extends Component{
     state = {
-        sortState: false
+        sortState: {}
     }
     static defaultProps = {
         onSort: noop
@@ -15,19 +15,23 @@ export default class Thead extends Component{
             return null;
         }
         const { onSort } = this.props;
-
-        this.setState({ sortState: !this.state.sortState }, () => {
-            onSort(cell.key, cell, this.state.sortState)
+        const key = cell.key || cell.dataIndex;
+        const state = !this.state.sortState[key];
+        const map = this.state.sortState;
+        map[key] = state;
+        this.setState({ sortState: map }, () => {
+            onSort(key, cell, state)
         })
     }
     renderSort(cell){
         if(!cell.sort){
             return null;
         }
+        const state = this.state.sortState[cell.key || cell.dataIndex];
         return (
             <span className="tv-table-column-sorter" key={cell.columnKey}>
-                <Icon type="caret-up" className={this.state.sortState ? 'on' : 'off'} />
-                <Icon type="caret-down" className={!this.state.sortState ? 'on' : 'off'}  />
+                <Icon type="caret-up" className={state ? 'on' : 'off'} />
+                <Icon type="caret-down" className={!state ? 'on' : 'off'}  />
             </span>
         )
     }

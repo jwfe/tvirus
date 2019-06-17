@@ -1,26 +1,8 @@
 import React from 'react';
+import merge from 'lodash.merge';
 import * as echarts from 'echarts';
-import { Util, Component, PropTypes } from '@Libs';
+import { Util, Component, PropTypes, noop } from '@Libs';
 import defaultOption from './echartConfig';
-
-function deepClone (sourceObj, targetObj) {
-    let cloneObj = targetObj || {}
-    if(!sourceObj || typeof sourceObj !== "object"){
-        return sourceObj
-    }
-    if(sourceObj instanceof Array){
-        cloneObj = sourceObj.concat()
-    } else {
-        for(let key in sourceObj){
-            if (typeof sourceObj[key] === 'object') {
-                deepClone(sourceObj[key], cloneObj[key])
-            } else {
-                cloneObj[key] = cloneObj[key] || sourceObj[key]
-            }
-        }
-    }
-    return cloneObj
-}
 
 export default class Chart extends Component{
     static propTypes = {
@@ -32,18 +14,72 @@ export default class Chart extends Component{
         width: PropTypes.number, 
         /** 容器高度，chart会继承这个高度 */
         height: PropTypes.number,
-        /** echart 相关的配置 */
+        /** echart 相关的配置，默认配置：@example {
+        title: {
+            left: 10,
+            textStyle: {
+                fontWeight: 'normal',
+                fontSize: 16
+            }
+        },
+        grid: {
+            top: 100,
+            left: 50,
+            right: 0,
+            bottom: 25
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            left: 10,
+            top: 40,
+            itemWidth: 10,
+            itemHeight: 10,
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLine: {
+                lineStyle: {
+                    color: '#e0e0e0'
+                }
+            },
+            axisLabel: {
+                color: '#333'
+            }
+        },
+        yAxis : { 
+            type : 'value',
+            axisLine: {
+                show: false
+            },
+            axisTick:{ 
+                show: false
+            },
+            splitLine:{ 
+                show: true, 
+                lineStyle:{ 
+                    type:'dashed',
+                    color: '#E9E9E9'
+                }
+            } 
+        }
+    } */
         options: PropTypes.object,
         /** echart合并选项 */
         notMerge: PropTypes.bool,
         /** echart lazyUpdate选项 */
         lazyUpdate: PropTypes.bool,
+        /** 可以通过该方法获取实例化后的chart对象 */
+        onChartReady: PropTypes.func
     };
     static defaultProps = {
         height: 500,
         renderer: 'canvas',
         notMerge: true, 
-        lazyUpdate: false
+        lazyUpdate: false,
+        onChartReady: noop
     }
 
     constructor(props){
@@ -58,17 +94,19 @@ export default class Chart extends Component{
         this.chart && this.chart.resize();
     }
     update(){
-        const { notMerge, lazyUpdate } = this.props;
+        const { notMerge, lazyUpdate, onChartReady } = this.props;
         this.chartInit().then(() => {
             if (!this.chart) {
                 return;
             }
+            onChartReady(this.chart);
             let newOptions = this.getOptions(this.props.option);
+            console.log('Chart', newOptions, JSON.stringify(newOptions));
             this.chart.setOption(newOptions, notMerge, lazyUpdate);
         })
     }
     getOptions(option){
-        return deepClone(defaultOption, option);
+        return merge(defaultOption, option);
     }
     chartInit(){
         const { renderer } = this.props;
