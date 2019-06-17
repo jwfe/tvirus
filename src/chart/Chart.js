@@ -69,6 +69,8 @@ export default class Chart extends Component{
         options: PropTypes.object,
         /** echart合并选项 */
         notMerge: PropTypes.bool,
+        /** 是否默认禁用内置的默认配置 */
+        notUseDefault: PropTypes.bool,
         /** echart lazyUpdate选项 */
         lazyUpdate: PropTypes.bool,
         /** 可以通过该方法获取实例化后的chart对象 */
@@ -79,6 +81,7 @@ export default class Chart extends Component{
         renderer: 'canvas',
         notMerge: true, 
         lazyUpdate: false,
+        notUseDefault: false,
         onChartReady: noop
     }
 
@@ -99,13 +102,16 @@ export default class Chart extends Component{
             if (!this.chart) {
                 return;
             }
-            onChartReady(this.chart);
             let newOptions = this.getOptions(this.props.option);
-            console.log('Chart', newOptions, JSON.stringify(newOptions));
             this.chart.setOption(newOptions, notMerge, lazyUpdate);
+            onChartReady(this.chart);
         })
     }
     getOptions(option){
+        const { notUseDefault } = this.props;
+        if(notUseDefault){
+            return option;
+        }
         return merge(defaultOption, option);
     }
     chartInit(){

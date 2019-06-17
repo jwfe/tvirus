@@ -314,7 +314,7 @@ export default class ChartDemo extends Component{
             title: '饼',
             children: (
                 <div className="code-demo">
-                    <Chart type="pie" option={this.state.pie}/>
+                    <Chart notUseDefault={true} option={this.state.pie}/>
                 </div>
             )
         });
