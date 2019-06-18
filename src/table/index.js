@@ -14,6 +14,8 @@ export default class Table extends Component{
     static propTypes = {
         /** 是否展示外边框和列边框 */
         bordered: PropTypes.bool,
+        /** 是否需要模块loading */
+        loading: PropTypes.bool,
         /** 是否启用尾部内容 */
         footer: PropTypes.bool,
         /** 容器高度，默认auto */
@@ -46,16 +48,25 @@ export default class Table extends Component{
     }
     constructor(props){
         super(props);
-        const { columns, data } = props;
-        const columnData = this.updateColumns(columns);
-        const tableData = this.filterData(data, columnData.columns);
-        this.state = Object.assign(this.state, {fit: true, ...columnData}, {tableData: tableData});
     }
     componentDidMount(){
-        this.caculateWidth(() => {
-            this.getHeight();
-        });
+        this.formatData();
     }
+
+    formatData(){
+        const { columns, data } = this.props;
+        const currentData = JSON.stringify(this.props.data);
+        const columnData = this.updateColumns(columns);
+        const tableData = this.filterData(data, columnData.columns);
+        this.setState({currentData, ...Object.assign(this.state, {
+            fit: true, ...columnData}, {tableData: tableData})
+        }, () => {
+            this.caculateWidth(() => {
+                this.getHeight();
+            });
+        })
+    }
+
     getHeight(){
         const { height } = this.props;
         const { headerWrapper, footerWrapper, bodyWrapper } = this;
@@ -198,55 +209,61 @@ export default class Table extends Component{
         return columns.map((column) => {
             let _column;
             if (column.children) {
-            // renderHeader
-            _column = Object.assign({}, column);
-            _column.children = this.normalizeColumns(column.children, tableIDSeed);
+                _column = Object.assign({
+                    property: column.prop || column.property,
+                    render: column.render || function(data){
+                        return {
+                            children: data
+                        }
+                    },
+                    headerAlign: column.headerAlign ? 'is-' + column.headerAlign : column.align ? 'is-' + column.align : null,
+                }, column);
+                _column.children = this.normalizeColumns(column.children, tableIDSeed);
             } else {
-            let { width, minWidth } = column;
+                let { width, minWidth } = column;
         
-            if (width !== undefined) {
-                width = parseInt(width, 10);
-                if (isNaN(width)) {
-                width = null;
-                }
-            }
-        
-            if (minWidth !== undefined) {
-                minWidth = parseInt(minWidth, 10);
-                if (isNaN(minWidth)) {
-                minWidth = 80;
-                }
-            } else {
-                minWidth = 80;
-            }
-        
-            const id = `tvTable${tableIDSeed}Column${columnIDSeed++}`;
-        
-            _column = Object.assign({
-                id,
-                sortable: false,
-                resizable: true,
-                showOverflowTooltip: false,
-                align: 'left',
-                filterMultiple: true
-            }, column, {
-                columnKey: column.columnKey || id,
-                width,
-                minWidth,
-                realWidth: width || minWidth,
-                property: column.prop || column.property,
-                render: column.render || function(data){
-                    return {
-                        children: data
+                if (width !== undefined) {
+                    width = parseInt(width, 10);
+                    if (isNaN(width)) {
+                        width = null;
                     }
-                },
-                align: column.align ? 'is-' + column.align : null,
-                headerAlign: column.headerAlign ? 'is-' + column.headerAlign : column.align ? 'is-' + column.align : null,
-                filterable: column.filters && column.filterMethod,
-                filterOpened: false,
-                filteredValue: column.filteredValue || null,
-                filterPlacement: column.filterPlacement || 'bottom',
-            });
+                }
+        
+                if (minWidth !== undefined) {
+                    minWidth = parseInt(minWidth, 10);
+                    if (isNaN(minWidth)) {
+                        minWidth = 80;
+                    }
+                } else {
+                    minWidth = 80;
+                }
+        
+                const id = `tvTable${tableIDSeed}Column${columnIDSeed++}`;
+            
+                _column = Object.assign({
+                    id,
+                    resizable: true,
+                    showOverflowTooltip: false,
+                    align: 'left',
+                    filterMultiple: true
+                }, column, {
+                    columnKey: column.columnKey || id,
+                    width,
+                    minWidth,
+                    realWidth: width || minWidth,
+                    property: column.prop || column.property,
+                    render: column.render || function(data){
+                        return {
+                            children: data
+                        }
+                    },
+                    align: column.align ? 'is-' + column.align : null,
+                    headerAlign: column.headerAlign ? 'is-' + column.headerAlign : column.align ? 'is-' + column.align : null,
+                    filterable: column.filters && column.filterMethod,
+                    filterOpened: false,
+                    filteredValue: column.filteredValue || null,
+                    filterPlacement: column.filterPlacement || 'bottom',
+                });
             }
         
             return _column;

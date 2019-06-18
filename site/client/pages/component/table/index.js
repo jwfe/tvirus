@@ -23,29 +23,29 @@ export default class TableDemo extends Component{
             const columns2 = [
                 {title: 'Full Name', width: 150, key: 'name'},
                 {title: 'Age', width: 100, dataIndex: 'age', key: 'age'},
-                {title: 'Column 1', dataIndex: 'address1', minWidth: 200},
-                // {title: 'Column 2', dataIndex: 'address2', width: 200},
-                // {title: 'Column 3', dataIndex: 'address3', width: 200},
-                // {title: 'Column 4', dataIndex: 'address4', width: 200},
-                // {title: 'Column 5', dataIndex: 'address5', width: 200},
-                // {title: 'Column 6', dataIndex: 'address6', width: 200},
-                // {title: 'Column 7', dataIndex: 'address7', width: 200},
-                // {title: 'Column 8', dataIndex: 'address8', width: 200},
-                // {
-                //     title: 'Action',
-                //     key: 'operation',
-                //     width: 180,
-                //     render: function (text, record){
-                //         return {
-                //             children: (
-                //                 <span>
-                //                     <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
-                //                     <a href="javascript:;">Delete</a>
-                //                 </span>
-                //             )
-                //         }
-                //     },
-                // },
+                {title: 'Column 1', dataIndex: 'address1', width: 200},
+                {title: 'Column 2', dataIndex: 'address2', width: 200},
+                {title: 'Column 3', dataIndex: 'address3', width: 200},
+                {title: 'Column 4', dataIndex: 'address4', width: 200},
+                {title: 'Column 5', dataIndex: 'address5', width: 200},
+                {title: 'Column 6', dataIndex: 'address6', width: 200},
+                {title: 'Column 7', dataIndex: 'address7', width: 200},
+                {title: 'Column 8', dataIndex: 'address8', width: 200},
+                {
+                    title: 'Action',
+                    key: 'operation',
+                    width: 180,
+                    render: function (text, record){
+                        return {
+                            children: (
+                                <span>
+                                    <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
+                                    <a href="javascript:;">Delete</a>
+                                </span>
+                            )
+                        }
+                    },
+                },
             ];
     
             const data2 = [];
