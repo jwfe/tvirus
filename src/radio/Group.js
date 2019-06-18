@@ -26,7 +26,7 @@ export default class Group extends Component {
             defaultValue: props.value
         }
     }
-    handleChange(value, key, evt){
+    handleChange = (value, key, evt) => {
         const { onChange, name } = this.props;
         onChange && onChange(value, name, evt);
         this.setState({defaultValue: value})
@@ -40,7 +40,7 @@ export default class Group extends Component {
             return React.cloneElement(child, Object.assign({}, child.props, {
                 key: index,
                 name: !name ? (+new Date) : name,
-                onChange: this.handleChange.bind(this),
+                onChange: this.handleChange,
                 checked: typeof defaultValue == 'undefined' ? child.props.checked : child.props.value === defaultValue,
                 disabled: disabled || child.props.disabled
             }))

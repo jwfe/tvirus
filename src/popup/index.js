@@ -94,23 +94,15 @@ export default class Popup extends Component {
         }
         return null;
     }
-    
-    componentDidMount(){
-        const { trigger } = this.props;
 
-        if(trigger === 'click'){
-            document.addEventListener('click', this.onUnmount);
-        }
-
-    }
     componentWillUnmount(){
         document.removeEventListener('click', this.onUnmount);
     }
     onUnmount = (e) => {
         const triggerNode = this.triggerNode;
         const popupNode = this.popupNode;
-
-        if (!e.target || !triggerNode || triggerNode.contains(e.target) || !popupNode || popupNode.contains(e.target)) {
+        if (!e.target || !triggerNode || !popupNode 
+            || triggerNode.contains(e.target) || popupNode.contains(e.target)) {
             return false;
         };
         this.setPopupState(false);
@@ -130,6 +122,7 @@ export default class Popup extends Component {
     handleOnClick = () => {
         const { trigger } = this.props;
         if(trigger === 'click'){
+            document.addEventListener('click', this.onUnmount);
             this.setPopupState(!this.state.showPopup);
         }
     }

@@ -4,6 +4,10 @@ import * as echarts from 'echarts';
 import { Util, Component, PropTypes, noop } from '@Libs';
 import defaultOption from './echartConfig';
 
+function deepObj(json = {}){
+    return JSON.parse(JSON.stringify(json))
+}
+
 export default class Chart extends Component{
     static propTypes = {
         /** 自定义样式 */
@@ -112,7 +116,7 @@ export default class Chart extends Component{
         if(notUseDefault){
             return option;
         }
-        return merge(defaultOption, option);
+        return merge(deepObj(defaultOption), option);
     }
     chartInit(){
         const { renderer } = this.props;

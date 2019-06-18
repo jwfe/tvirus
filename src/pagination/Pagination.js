@@ -174,14 +174,13 @@ export default class Pagination extends Component {
                 activeText = pageTotal;
             }
         }
-
-        if (activeText !== activeIndex) {
-            this.props.onChange(activeText);
-        }
+        
         this.setState({
             activeIndex: activeText
         }, () => {
-            console.log(this.state.activeIndex)
+            if (activeText !== activeIndex) {
+                this.props.onChange(activeText);
+            }
         })
 
     }

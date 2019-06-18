@@ -23,7 +23,7 @@ export default class PaginationDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Pagination total={500}  />
+                    <Pagination total={500} onChange={(...arg) => {console.log(...arg)}}  />
                 </div>
             )
         });

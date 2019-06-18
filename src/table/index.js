@@ -21,7 +21,7 @@ export default class Table extends Component{
             PropTypes.number,
             PropTypes.string
         ]),
-        /** 表格列的配置描述, 例：[{key: 'date', title: '日期', width: 150, fixed: 'left', sort: function(){//排序方法}, align: 'center'}] */
+        /** 表格列的配置描述, 设置配置minWidth时，该项会平分剩余宽度,自动适配页面宽度: 例：[{key: 'date', title: '日期', width: 150, fixed: 'left', sort: function(){//排序方法}, align: 'center'}] */
         columns: PropTypes.array,
         /** 数据源 */
         data: PropTypes.array,
@@ -39,6 +39,7 @@ export default class Table extends Component{
     };
 
     state = {
+        gutterWidth: 0,
         tableData: [],
         columns: [],
         columnRows: []
@@ -127,10 +128,9 @@ export default class Table extends Component{
         let fixedWidth;
         let rightFixedWidth;
     
-        // mutate props (TableStore's state[columns])
         const flexColumns = columns.filter(column => typeof column.width !== 'number');
         if (flexColumns.length && fit) {
-          if (bodyMinWidth < bodyWidth - gutterWidth) { // no scroll bar
+          if (bodyMinWidth < bodyWidth - gutterWidth) {
             scrollX = false;
     
             const totalFlexWidth = bodyWidth - gutterWidth - bodyMinWidth;
