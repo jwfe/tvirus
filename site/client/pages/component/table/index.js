@@ -21,6 +21,7 @@ export default class TableDemo extends Component{
         
         (()=>{
             const columns2 = [
+                {type: 'rowSelection'},
                 {title: 'Full Name', width: 150, key: 'name'},
                 {title: 'Age', width: 100, dataIndex: 'age', key: 'age'},
                 {title: 'Column 1', dataIndex: 'address1', width: 200},

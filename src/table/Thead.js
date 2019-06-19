@@ -2,6 +2,7 @@ import React from 'react';
 import { Component, PropTypes, noop } from '@Libs';
 
 import Icon from '@icon';
+import Checkbox from '@checkbox';
 
 export default class Thead extends Component{
     state = {
@@ -35,6 +36,26 @@ export default class Thead extends Component{
             </span>
         )
     }
+    renderHead(cell){
+        const { selectedRows, toggleAllSelection, data } = this.props;
+        if(cell.type === 'rowSelection'){
+            const checked = (selectedRows || []).includes(data);
+            return (
+                <div className="cell" key={cell.columnKey}>
+                    <Checkbox checked={checked} onChange={toggleAllSelection} />
+                </div>
+            )
+        }
+
+        return (
+            <div className="cell" key={cell.columnKey}>
+                {cell.title}
+                {
+                    this.renderSort(cell)
+                }
+            </div>
+        )
+    }
     render(){
         return (
             <table className="tv-table-header" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
@@ -66,12 +87,8 @@ export default class Thead extends Component{
                                                     ])}
                                                     onClick={this.onHanleSort.bind(this, cell)}
                                                 >
-                                                    <div className="cell" key={cell.columnKey}>
-                                                        {cell.title}
-                                                        {
-                                                            this.renderSort(cell)
-                                                        }
-                                                    </div>
+                                                    { this.renderHead(cell) }
+                                                    
                                                 </th>
                                             )
                                         })

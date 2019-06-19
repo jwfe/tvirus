@@ -31,8 +31,18 @@ export default class Checkbox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stateChecked: Boolean(props.checked)
+            checked: Boolean(props.checked)
         }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.checked !== prevState.preChecked){
+            return {
+                preChecked: nextProps.checked,
+                checked: nextProps.checked
+            }
+        }
+        return null;
     }
 
     handleChange = (val, key, evt) => {
@@ -42,7 +52,7 @@ export default class Checkbox extends Component {
             return;
         }
         this.setState({
-            stateChecked: checked
+            checked: checked
         }, () => {
             onChange && onChange(value, checked, name, evt);
         })
@@ -50,18 +60,17 @@ export default class Checkbox extends Component {
 
     render() {
         const { children, disabled, onChange, name, size, checked, autoCtrol, ...otherProps } = this.props;
-        const { stateChecked } = this.state;
         return (
             <label className={this.className('tv-checkbox-label', {
                 [`tv-checkbox-label-size-${size}`]: size,
-                'tv-checkbox-checked': stateChecked,
+                'tv-checkbox-checked': this.state.checked,
                 'tv-checkbox-disabled': disabled
             })}>
                 <Input
                     name={name}
                     type="checkbox"
                     size={size}
-                    checked={autoCtrol ? checked : stateChecked}
+                    checked={autoCtrol ? checked : this.state.checked}
                     disabled={disabled}
                     onChange={this.handleChange}
                     {...otherProps}

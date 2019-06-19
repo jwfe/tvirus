@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Component, PropTypes, noop } from '@Libs';
+import Checkbox from '@checkbox';
+
 
 export default class Tbody extends Component{
     getCellValue(row, column, index){
@@ -8,8 +10,12 @@ export default class Tbody extends Component{
         return column.render(data, column, index)
     }
     renderTd(data){
+        let { selectedRows, toggleRowSelection } = this.props;
+        selectedRows = selectedRows || []
         return this.props.columns.map((item, index) => {
             const { children, className, props } = this.getCellValue(data, item, index);
+            const checked = selectedRows.includes(data);
+
             return (
                 <td 
                     className={this.classNames(className, [
@@ -20,7 +26,12 @@ export default class Tbody extends Component{
                     key={index}
                     {...props}
                 >
-                    <div className="cell">{children}</div>
+                    <div className="cell" key={index}>
+                        {!item.type && children}
+                        {
+                            item.type === 'rowSelection' && <Checkbox key={index} checked={checked} onChange={toggleRowSelection.bind(this, data)} />
+                        }
+                    </div>
                 </td>
             )
         })
