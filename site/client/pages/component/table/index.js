@@ -7,68 +7,89 @@ import './index.less'
 export default class TableDemo extends Component{
     constructor(props){
         super(props);
+        const columns2 = [
+            {type: 'rowSelection', width: 100, align: 'center'},
+            {title: 'Full Name', width: 150, key: 'name'},
+            {title: 'Age', align: 'center', width: 100, dataIndex: 'age', key: 'age'},
+            {title: 'Column 1', dataIndex: 'address1', width: 200},
+            {title: 'Column 2', dataIndex: 'address2', width: 200},
+            {title: 'Column 3', dataIndex: 'address3', width: 200},
+            {title: 'Column 4', dataIndex: 'address4', width: 200},
+            {title: 'Column 5', dataIndex: 'address5', width: 200},
+            {title: 'Column 6', dataIndex: 'address6', width: 200},
+            {title: 'Column 7', dataIndex: 'address7', width: 200},
+            {title: 'Column 8', dataIndex: 'address8', width: 200},
+            {
+                title: 'Action',
+                key: 'operation',
+                width: 180,
+                render: function (text, record){
+                    return {
+                        children: (
+                            <span>
+                                <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
+                                <a href="javascript:;">Delete</a>
+                            </span>
+                        )
+                    }
+                },
+            },
+        ];
+
+        const data2 = [];
+        for (let i = 0; i < 100; i++) {
+            data2.push({
+                key: i,
+                name: `Edrward ${i}`,
+                age: 32,
+                address1: `London Park no. ${i}`,
+                address2: `London Park no. ${i}`,
+                address3: `London Park no. ${i}`,
+                address4: `London Park no. ${i}`,
+                address5: `London Park no. ${i}`,
+                address6: `London Park no. ${i}`,
+                address7: `London Park no. ${i}`,
+                address8: `London Park no. ${i}`
+            });
+        }
         this.state = {
-            childs: []
+            childs: [],
+            columns2,
+            data2
         }
     }
 
     componentWillMount(){
         this.childs();
+        const data2 = [];
+        for (let i = 50; i < 100; i++) {
+            data2.push({
+                key: i,
+                name: `Edrward ${i}`,
+                age: 32,
+                address1: `London Park no. ${i}`,
+                address2: `London Park no. ${i}`,
+                address3: `London Park no. ${i}`,
+                address4: `London Park no. ${i}`,
+                address5: `London Park no. ${i}`,
+                address6: `London Park no. ${i}`,
+                address7: `London Park no. ${i}`,
+                address8: `London Park no. ${i}`
+            });
+        }
+        setTimeout(() => {
+            this.setState({
+                data2
+            }, () => {
+                this.childs();
+            })
+        }, 5000)
     }
 
     childs(){
         const childs = [];
         
         (()=>{
-            const columns2 = [
-                {type: 'rowSelection'},
-                {title: 'Full Name', width: 150, key: 'name'},
-                {title: 'Age', width: 100, dataIndex: 'age', key: 'age'},
-                {title: 'Column 1', dataIndex: 'address1', width: 200},
-                {title: 'Column 2', dataIndex: 'address2', width: 200},
-                {title: 'Column 3', dataIndex: 'address3', width: 200},
-                {title: 'Column 4', dataIndex: 'address4', width: 200},
-                {title: 'Column 5', dataIndex: 'address5', width: 200},
-                {title: 'Column 6', dataIndex: 'address6', width: 200},
-                {title: 'Column 7', dataIndex: 'address7', width: 200},
-                {title: 'Column 8', dataIndex: 'address8', width: 200},
-                {
-                    title: 'Action',
-                    key: 'operation',
-                    width: 180,
-                    render: function (text, record){
-                        return {
-                            children: (
-                                <span>
-                                    <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
-                                    <a href="javascript:;">Delete</a>
-                                </span>
-                            )
-                        }
-                    },
-                },
-            ];
-    
-            const data2 = [];
-            const sum = [];
-            for (let i = 0; i < 100; i++) {
-                data2.push({
-                    key: i,
-                    name: `Edrward ${i}`,
-                    age: 32,
-                    address1: `London Park no. ${i}`,
-                    address2: `London Park no. ${i}`,
-                    address3: `London Park no. ${i}`,
-                    address4: `London Park no. ${i}`,
-                    address5: `London Park no. ${i}`,
-                    address6: `London Park no. ${i}`,
-                    address7: `London Park no. ${i}`,
-                    address8: `London Park no. ${i}`
-                });
-                sum.push();
-            }
-              
-    
             childs.push({
                 title: '正常',
                 children: (
@@ -77,8 +98,8 @@ export default class TableDemo extends Component{
                             footer={true}
                             sumFirstText="总计"
                             style={{width: '100%'}}
-                            columns={columns2}
-                            data={data2}
+                            columns={this.state.columns2}
+                            data={this.state.data2}
                             bordered={true}
                             height={550}
                         />

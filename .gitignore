@@ -10,6 +10,7 @@ dist/
 .DS_Store
 npm-debug.log
 *.swp
+*.bak.*
 agentx.json
 nohup.out
 agentx.json

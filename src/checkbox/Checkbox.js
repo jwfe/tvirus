@@ -59,7 +59,7 @@ export default class Checkbox extends Component {
     }
 
     render() {
-        const { children, disabled, onChange, name, size, checked, autoCtrol, ...otherProps } = this.props;
+        const { children, disabled, onChange, name, size, checked, autoCtrol, className, ...otherProps } = this.props;
         return (
             <label className={this.className('tv-checkbox-label', {
                 [`tv-checkbox-label-size-${size}`]: size,

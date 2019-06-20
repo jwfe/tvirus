@@ -67,6 +67,7 @@ export default class LayoutDemo extends Component{
                 childs: nextProps.childs
             };
         }
+        return null;
     }
 
     onShowCode(index){

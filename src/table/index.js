@@ -56,34 +56,61 @@ export default class Table extends Component{
     constructor(props){
         super(props);
     }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(JSON.stringify(nextProps.data) !== JSON.stringify(prevState.data)){
+            // 这里没必要返回columns
+            return {
+                tableData: nextProps.data
+            }
+        }
+        return null;
+    }
     componentDidMount(){
-        this.formatData();
+        // init 后渲染一个版本出来，用来计算容器宽高大小
+        this.setState(this.update(this.props))
+    }
+    componentDidUpdate(prevProps, prevState){
+        // 比对容器宽高等，来渲染一个版本
+        const full = {...this.caculateWidth(), ...this.getHeight()};
+        let flag = 0;
+        for(let key in full){
+            if(full[key] !== this.state[key]){
+                console.log(key, prevState[key], full[key]);
+                flag++;
+            }
+        }
+        if(!flag){
+            return;
+        }
+
+        const data = this.update(this.props);
+        this.setState({...data, ...full});
     }
 
-    formatData(){
-        const { columns, data } = this.props;
-        const currentData = JSON.stringify(this.props.data);
-        const columnData = this.updateColumns(columns);
-        const tableData = this.filterData(data, columnData.columns);
-        this.setState({currentData, ...Object.assign(this.state, {
-            fit: true, ...columnData}, {tableData: tableData})
-        }, () => {
-            this.caculateWidth(() => {
-                this.getHeight();
-            });
-        })
+    update(props){
+        if(!props.data.length){
+            return {};
+        }
+        const columnData = this.updateColumns(props.columns);
+        const tableData = this.filterData(props.data, columnData.columns);
+        debugger;
+        return {
+            fit: true, 
+            ...columnData,
+            tableData
+        }
     }
-
     getHeight(){
         const { height } = this.props;
         const { headerWrapper, footerWrapper, bodyWrapper } = this;
         let heightClient = headerWrapper ? headerWrapper.getBoundingClientRect() : {height: 0};
         let footerClient = footerWrapper ? footerWrapper.getBoundingClientRect() : {height: 0};
         const bodyHeight = height - heightClient.height - footerClient.height;
-        this.setState({
+        return {
             bodyTop: heightClient.height,
             bodyHeight: height === 'auto' ? 'auto' : bodyHeight
-        })
+        }
     }
     convertToRows(columns){
         let maxLevel = 1;
@@ -190,14 +217,12 @@ export default class Table extends Component{
           rightFixedWidth = rightFixedColumns.reduce((pre, col) => pre + col.realWidth, 0);
         }
     
-        this.setState({
+        return {
             scrollX,
             bodyWidth,
             fixedWidth,
             rightFixedWidth
-        }, () => {
-            callback && callback()
-        });
+        }
     }
     filterData(data, columns) {
         return columns.reduce((preData, column) => {
