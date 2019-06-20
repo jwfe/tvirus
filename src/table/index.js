@@ -76,7 +76,6 @@ export default class Table extends Component{
         let flag = 0;
         for(let key in full){
             if(full[key] !== this.state[key]){
-                console.log(key, prevState[key], full[key]);
                 flag++;
             }
         }

@@ -4,11 +4,13 @@ import { Component, PropTypes, noop, Util } from '@Libs';
 const { fixedYM, weekOfYear, parse, format } = Util.date;
 const clearHours = function (time) {
     const cloneDate = new Date(time);
+    cloneDate.setDate(1);
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
 };
+const RANGE = 'range';
 
-export default class DateTable extends Component {
+export default class MonthTable extends Component {
     static propTypes = {
         /** 自定义样式 */
         className: PropTypes.string,
@@ -25,6 +27,22 @@ export default class DateTable extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    getDate(year, month){
+        return parse(`${year}-${month}-01`)
+    }
+
+    isSelected(d){
+        const { range, rangeKey, maxDate, minDate, date } = this.props;
+        if(range !== RANGE){
+            return clearHours(d) === clearHours(date);
+        }
+
+        if(rangeKey === 'left'){
+            return clearHours(d) === clearHours(format(minDate)); 
+        }
+        return maxDate && clearHours(d) === clearHours(format(maxDate)); ; 
     }
 
     getRowsDays(){
@@ -47,7 +65,7 @@ export default class DateTable extends Component {
 
             monthTables[rowIndex].push({
                 year,
-                selected: month === value,
+                selected: this.isSelected(_date),
                 disabled: disabledDate(_date, rangeKey),
                 date: _date,
                 month: value,

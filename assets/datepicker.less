@@ -219,6 +219,16 @@
         color: @dark-color-25;
     }
 
+    &-cell-in-range &-date{
+        color: @dark-color-80;
+        background-color: @master-bgc-20;
+    }
+
+    &-cell-selected &-date{
+        color: @light-color;
+        background-color: @master-bgc;
+    }
+
     &-cell-disabled &-date {
         width: auto;
         color: @dark-color-25;
@@ -246,16 +256,7 @@
             content: ' '
         }
     }
-    &-cell-in-range &-date{
-        color: @light-color;
-        background-color: @master-bgc-20;
-    }
-
-    &-cell-selected &-date{
-        color: @light-color;
-        background-color: @master-bgc;
-    }
-
+    
     &-active-week{
         font-weight: 500;
         background-color: @master-bgc-20;
@@ -302,6 +303,28 @@
         }
         & &-selected{
             color: @master-color;
+        }
+    }
+
+    &-week{
+        &-table{
+        }
+        &-item{
+            margin-top: 12px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            &:first-child{
+                margin-top: 0;
+            }
+            &.inRange{
+                color: @dark-color-80;
+                background-color: @master-bgc-20;
+            }
+            &.isSelected{
+                color: @light-color;
+                background-color: @master-bgc;
+            }
         }
     }
 }

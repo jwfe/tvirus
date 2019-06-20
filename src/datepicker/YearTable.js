@@ -6,7 +6,7 @@ const clearHours = function (time) {
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
 };
-export default class DateTable extends Component {
+export default class YearTable extends Component {
     static propTypes = {
         /** 自定义样式 */
         className: PropTypes.string,

@@ -288,23 +288,6 @@ export default class Popup extends Component {
                                     this.handleMouseLeave()
                                 }
                             },
-
-                            onMouseDown: (evt) => {
-                                if (evt.target.nodeName !== 'INPUT' 
-                                && evt.target.nodeName !== 'TEXTAREA'
-                                && evt.target.className.indexOf('tv-input-wraper') === -1
-                                ){
-                                    this.handleMouseEnter()
-                                }
-                            },
-                            onMouseUp: (evt) => {
-                                if (evt.target.nodeName !== 'INPUT' 
-                                && evt.target.nodeName !== 'TEXTAREA'
-                                && evt.target.className.indexOf('tv-input-wraper') === -1
-                                ){
-                                    this.handleMouseLeave()
-                                }
-                            },
                             onClick: this.handleOnClick,
                             ...childrenProps	
                         })	

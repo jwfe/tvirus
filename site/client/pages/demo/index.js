@@ -65,6 +65,110 @@ export default class DemoIndex extends Component{
         ],
         collapsed: false,
         chartCardData: [
+
+            {
+                meta: '慧评得分',
+                total: 89.31,
+                chart: {
+                    type: 'progress',
+                    value: 90
+                },
+                trend: [
+                    {
+                        text: '周同比',
+                        value: '12%',
+                        isUp: true
+                    },
+                    {
+                        text: '月同比',
+                        value: '12%',
+                        isDown: true
+                    }
+                ]
+            },
+
+            {
+                meta: '慧评得分',
+                total: 89.31,
+                chart: {
+                    type: 'progress',
+                    value: 90
+                },
+                trend: [
+                    {
+                        text: '周同比',
+                        value: '12%',
+                        isUp: true
+                    },
+                    {
+                        text: '月同比',
+                        value: '12%',
+                        isDown: true
+                    }
+                ]
+            },
+
+            {
+                meta: '慧评得分',
+                total: 89.31,
+                chart: {
+                    type: 'progress',
+                    value: 90
+                },
+                trend: [
+                    {
+                        text: '周同比',
+                        value: '12%',
+                        isUp: true
+                    },
+                    {
+                        text: '月同比',
+                        value: '12%',
+                        isDown: true
+                    }
+                ]
+            },
+
+            {
+                meta: '慧评得分',
+                total: 89.31,
+                chart: {
+                    type: 'progress',
+                    value: 90
+                },
+                trend: [
+                    {
+                        text: '周同比',
+                        value: '12%',
+                        isUp: true
+                    },
+                    {
+                        text: '月同比',
+                        value: '12%',
+                        isDown: true
+                    }
+                ]
+            },
+            {
+                meta: '慧评得分',
+                total: 89.31,
+                chart: {
+                    type: 'progress',
+                    value: 90
+                },
+                trend: [
+                    {
+                        text: '周同比',
+                        value: '12%',
+                        isUp: true
+                    },
+                    {
+                        text: '月同比',
+                        value: '12%',
+                        isDown: true
+                    }
+                ]
+            },
             {
                 meta: '慧评得分',
                 total: 89.31,
@@ -565,8 +669,9 @@ export default class DemoIndex extends Component{
                         <Row gutter={20} style={{marginTop: 20, marginBottom: 20, marginLeft: -12, marginRight: -12}}>
                             {
                                 this.state.chartCardData.map((data, index) => {
+                                    const span = 24/this.state.chartCardData.length
                                     return (
-                                        <Col span={6} key={index}>
+                                        <Col span={span} key={index}>
                                             <ChartCard meta={data.meta} total={data.total} chart={data.chart} trend={data.trend} />
                                         </Col>
                                     )
