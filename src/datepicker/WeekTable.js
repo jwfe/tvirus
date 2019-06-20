@@ -186,6 +186,7 @@ export default class WeekTable extends Component {
                         const data = this.getEnabled(row);
                         return (
                             <div className={this.classNames(['tv-datepicker-week-item', {
+                                'isDisabled': data.disabled,
                                 'inRange': data.inRange,
                                 'isSelected': data.selected
                             }])} 

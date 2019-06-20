@@ -26,38 +26,38 @@ export default class DatepickerDemo extends Component{
     }
     childs(){
         const childs = [];
-        // childs.push({
-        //     title: '正常',
-        //     children: (
-        //         <div className="code-demo">
-        //             <Row>
-        //                 <Col span={12}>
-        //                     <Datepicker />
-        //                 </Col>
-        //                 <Col span={12}>
-        //                     <Datepicker mode="week" showWeekNumber />
-        //                 </Col>
-        //             </Row>
-        //         </div>
-        //     )
-        // });
+        childs.push({
+            title: '正常',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Datepicker />
+                        </Col>
+                        <Col span={12}>
+                            <Datepicker mode="week" showWeekNumber />
+                        </Col>
+                    </Row>
+                </div>
+            )
+        });
 
 
-        // childs.push({
-        //     title: '范围选择',
-        //     children: (
-        //         <div className="code-demo">
-        //             <Row>
-        //                 <Col span={12}>
-        //                     <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
-        //                 </Col>
-        //                 <Col span={12}>
-        //                     <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' disabledDate={this.disabledDate.bind(this)} />
-        //                 </Col>
-        //             </Row>
-        //         </div>
-        //     )
-        // });
+        childs.push({
+            title: '范围选择',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' />
+                        </Col>
+                        <Col span={12}>
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' disabledDate={this.disabledDate.bind(this)} />
+                        </Col>
+                    </Row>
+                </div>
+            )
+        });
 
         childs.push({
             title: '特殊范围选择',
@@ -65,7 +65,7 @@ export default class DatepickerDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="week" expand={[
+                            <Datepicker.Range baseLline="prev" minDate='2019-05-08' maxDate='2019-05-12' mode="week" expand={[
                                 {
                                     text: '按日',
                                     onClick: function(index){
@@ -95,7 +95,7 @@ export default class DatepickerDemo extends Component{
                         </Col>
 
                         <Col span={12}>
-                            {/* <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="month" /> */}
+                            <Datepicker.Range minDate='2019-05-08' maxDate='2019-05-12' mode="month" />
                         </Col>
                     </Row>
                 </div>
