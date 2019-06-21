@@ -42,49 +42,13 @@ export default class Range extends Component {
 
     constructor(props) {
         super(props);
-        const now = new Date();
-
-        let left_date = parse(props.minDate || format(now));
-        let right_date = parse(props.maxDate || format(now));
-        
-        this.state = {
-            mode: props.mode,
-            format: props.format,
-            view: {
-                ['day']: props.mode === 'day',
-                ['leftyear']: props.mode === 'year',
-                ['rightyear']: props.mode === 'year',
-                ['leftmonth']: props.mode === 'month',
-                ['rightmonth']: props.mode === 'month',
-                ['leftweek']: props.mode === 'week',
-                ['rightweek']: props.mode === 'week'
-            },
-            left_date: left_date,
-            right_date: right_date,
-            minDate: parse(format(left_date)),
-            maxDate: parse(props.maxDate || format(left_date)),
-            selected: {
-                minDate: parse(format(left_date)),
-                maxDate: parse(props.maxDate || format(left_date)),
-            },
-            rangeState: {
-                endDate: null,
-                selecting: false,
-            }
-        }
+        this.state = this.reset();
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
         const { left_date, right_date, mode, currSelectKey } = prevState;
         const left = format(left_date).split(/\W+/);
         const right = format(right_date).split(/\W+/);
-        // 左右时间互换
-        // if(left_date > right_date){
-        //     return {
-        //         left_date: right_date,
-        //         right_date: left_date,
-        //     }
-        // }
 
         if(mode === 'month'){
             const leftStr = `${parseInt(left[0]) - 1}-${left[1]}-${left[2]}`;
@@ -174,78 +138,88 @@ export default class Range extends Component {
         })
     }
 
-    reset = () => {
+    onReset = () => {
         const { onChange } = this.props;
         const { selected: { minDate, maxDate }, name } = this.state;
-        this.setState({
-            changed: false,
-            visible: false,
-            [`left_date`]: minDate, 
-            [`right_date`]: maxDate,
-            minDate, maxDate,
-            selected: {
-                minDate, maxDate
-            }
-        }, () => {
+        this.setState(this.reset(), () => {
             onChange([minDate, maxDate], false, name);
-        })
+        });
     }
-    handleDate = ({ minDate, maxDate }, isClose, rangeKey) => {
-        const { onChange, name, mode } = this.props;
-        minDate = parse(format(minDate || this.state['left_date']));
-        let max = maxDate ? parse(format(maxDate)): this.state['right_date'];
-        const otherKey = rangeKey === 'left' ? 'right' : 'left';
-        if (!isClose){
-            this.setState({ 
-                currSelectKey: rangeKey,
-                visible: true, 
-                view: {[mode]: true},
-                minDate, 
-                maxDate: null, 
-                [`${rangeKey}_date`]: minDate,
-                [`${otherKey}_date`]: max
-            });
-            return;
-        };
-        this.setState({ 
-            currSelectKey: rangeKey,
-            visible: true, 
-            view: {[mode]: true}, 
-            minDate, 
-            maxDate, 
-            left_date: minDate
-            , right_date: maxDate,
+    getView(mode){
+        return {
+            ['day']: mode === 'day',
+            ['leftyear']: mode === 'year',
+            ['rightyear']: mode === 'year',
+            ['leftmonth']: mode === 'month',
+            ['rightmonth']: mode === 'month',
+            ['leftweek']: mode === 'week',
+            ['rightweek']: mode === 'week'
+        }
+    }
+    reset() {
+        const props = this.props;
+
+        const now = new Date();
+
+        let left_date = parse(props.minDate || format(now));
+        let right_date = parse(props.maxDate || format(now));
+        
+        return {
+            currSelectKey: undefined,
+            mode: props.mode,
+            format: props.format,
+            view: this.getView(props.mode),
+            left_date: left_date,
+            right_date: right_date,
+            minDate: parse(format(left_date)),
+            maxDate: parse(props.maxDate || format(left_date)),
+            selected: {
+                minDate: parse(format(left_date)),
+                maxDate: parse(props.maxDate || format(left_date)),
+            },
             rangeState: {
                 endDate: null,
                 selecting: false,
             }
-        });
-        
+        }
     }
+    
+
+    handleDate = ({ minDate, maxDate }, isClose, rangeKey) => {
+        this.setOtherRange({ minDate, maxDate }, 'day', this.props.name, isClose, rangeKey)
+    }
+
     setOtherRange(cell, currMode, name, isClose, rangeKey){
-        const { view, mode } = this.state;
+        const { mode } = this.state;
         let { minDate, maxDate } = cell;
-        minDate = parse(format(minDate));
-        maxDate = maxDate ? parse(format(maxDate)) : null;
+
+        minDate = parse(format(minDate || this.state['left_date']));
+        maxDate = maxDate ? parse(format(maxDate)) : this.state['right_date'];
+
         const otherKey = rangeKey === 'left' ? 'right' : 'left';
+        const view = this.getView(mode);
 
         if (!isClose){
             this.setState({ 
                 currSelectKey: rangeKey,
-                visible: true, view: mode === currMode ? view : {...view, 'day': true}, 
+                visible: true, 
+                view, 
                 minDate, 
-                maxDate, 
-                [`${rangeKey}_date`]: minDate
+                maxDate : null, 
+                [`${rangeKey}_date`]: minDate,
+                [`${otherKey}_date`]: maxDate
             });
             return;
         };
+
         this.setState({ 
             visible: true, 
             currSelectKey: rangeKey,
-            view: mode === currMode ? view : {...view, 'day': true}, 
-            minDate, maxDate, 
-            [`${rangeKey}_date`]: minDate,
-            [`${otherKey}_date`]: maxDate,
+            view, 
+            minDate, 
+            maxDate, 
+            left_date: minDate,
+            right_date: maxDate,
             rangeState: {
                 endDate: null,
                 selecting: false,
@@ -505,27 +479,13 @@ export default class Range extends Component {
             </div>
         );
     }
-    update({mode}, index){
-        const { selected: { minDate, maxDate } } = this.state;
-        this.setState({
+    update({ mode }, index){
+        const obj = Object.assign(this.reset(), {
             expandSelectedIndex: index,
             mode,
-            view: {
-                ['day']: mode === 'day',
-                ['leftyear']: mode === 'year',
-                ['rightyear']: mode === 'year',
-                ['leftmonth']: mode === 'month',
-                ['rightmonth']: mode === 'month',
-                ['leftweek']: mode === 'week',
-                ['rightweek']: mode === 'week'
-            },
-            [`left_date`]: minDate, 
-            [`right_date`]: maxDate,
-            minDate, maxDate,
-            selected: {
-                minDate, maxDate
-            }
+            view: this.getView(mode)
         })
+        this.setState(obj)
     }
     renderExpand(){
         const { expand } = this.props;
@@ -557,7 +517,7 @@ export default class Range extends Component {
         if(mode === 'week'){
             const _dateStr = format(date);
             const [year] = _dateStr.split(/\W+/);
-            const obj = weekOfYear();
+            const obj = weekOfYear(_dateStr);
             return `${year}年第${obj.number}周`;
         }
 
@@ -601,7 +561,7 @@ export default class Range extends Component {
                     <div className="tv-datepicker-footer-extra">
                         {this.renderFooterExtra()}
                     </div>
-                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.reset}>取 消</Button>
+                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>取 消</Button>
                     <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
                 </div>
             </div>
