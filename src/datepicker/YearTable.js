@@ -3,9 +3,14 @@ import { Component, PropTypes, noop, Util } from '@Libs';
 const { fixedYM, weekOfYear, parse, format } = Util.date;
 const clearHours = function (time) {
     const cloneDate = new Date(time);
+    cloneDate.setMonth(0);
+    cloneDate.setDate(1);
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
 };
+
+const RANGE = 'range';
+
 export default class YearTable extends Component {
     static propTypes = {
         /** 自定义样式 */
@@ -26,6 +31,18 @@ export default class YearTable extends Component {
         super(props);
     }
 
+    isSelected(d){
+        const { range, rangeKey, maxDate, minDate, date } = this.props;
+        if(range !== RANGE){
+            return clearHours(d) === clearHours(date);
+        }
+
+        if(rangeKey === 'left'){
+            return clearHours(d) === clearHours(format(minDate)); 
+        }
+        return maxDate && clearHours(d) === clearHours(format(maxDate)); ; 
+    }
+
     getRowsDays(){
         const { date, disabledDate, rangeKey } = this.props
 
@@ -33,14 +50,14 @@ export default class YearTable extends Component {
         const { year } = weekOfYear(format(date));
 
         const yearArray = [];
-
-        for(let i=0; i<6; i++){
-            yearArray.unshift(year - i);
+        const f = (year.toString()).substring(0, 3);
+        const firstYear = f + '0';
+        for(let i=0; i<10; i++){
+            yearArray.push(parseInt(firstYear) + i);
         }
 
-        for(let i=1; i<=6; i++){
-            yearArray.push(year + i);
-        }
+        yearArray.unshift(yearArray[0] - 1);
+        yearArray.push(yearArray[10] + 1);
 
         for(let i=0; i<12; i++){
             const rowIndex = Math.floor(i/3);
@@ -56,7 +73,8 @@ export default class YearTable extends Component {
             _date.setDate(1);
 
             yearTables[rowIndex].push({
-                selected: Number(value) === Number(year),
+                nonmonth: i === 0 || i === 11,
+                selected: this.isSelected(_date),
                 disabled: disabledDate(_date, rangeKey),
                 year: value,
                 date: _date,
@@ -116,10 +134,10 @@ export default class YearTable extends Component {
                                                 className={this.className('tv-datepicker-cell', {
                                                     'tv-datepicker-cell-selected': cell.selected,
                                                     'tv-datepicker-cell-today': cell.today,
-                                                    'tv-datepicker-cell-nonmonth': !cell.isThisMonth,
+                                                    'tv-datepicker-cell-nonmonth': cell.nonmonth,
                                                     'tv-datepicker-cell-disabled': cell.disabled
                                                 })}>
-                                                    <div className="tv-datepicker-date">{cell.text}</div>
+                                                    <div key={index2} className="tv-datepicker-date">{cell.text}</div>
                                                 </td>
                                             )
                                         })

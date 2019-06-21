@@ -39,15 +39,21 @@ export default class MonthTable extends Component {
             return clearHours(d) === clearHours(date);
         }
 
-        if(rangeKey === 'left'){
-            return clearHours(d) === clearHours(format(minDate)); 
+        const min = format(minDate);
+        const max = maxDate ? format(maxDate) : null;
+
+        if(clearHours(d) === clearHours(parse(min)) || (maxDate && clearHours(d) === clearHours(parse(max)))){
+            return true;
         }
-        return maxDate && clearHours(d) === clearHours(format(maxDate)); ; 
+        return false;
     }
 
     getRowsDays(){
-        const { date, disabledDate, rangeKey } = this.props
+        const { date, disabledDate, rangeKey, minDate, maxDate } = this.props
         const { year, month } = weekOfYear(format(date));
+
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
 
         const monthTables = [];
 
@@ -64,6 +70,7 @@ export default class MonthTable extends Component {
             _date.setDate(1);
 
             monthTables[rowIndex].push({
+                inRange: _date >= min && _date <= max,
                 year,
                 selected: this.isSelected(_date),
                 disabled: disabledDate(_date, rangeKey),
@@ -73,6 +80,35 @@ export default class MonthTable extends Component {
             });
         }
         return monthTables;
+    }
+
+    getRow(){
+        let {showWeekNumber, minDate, range, rangeState} = this.props;
+
+        const rows = this.getRowsDays();
+        if (!(range === RANGE && rangeState.ing && rangeState.endDate)) {
+            return rows;
+        }
+
+        let maxDate = rangeState.endDate
+        const min = clearHours(minDate);
+        const max = clearHours(maxDate);
+
+        for (let i = 0, k = rows.length; i < k; i++) {
+            const row = rows[i];
+            for (let j = 0, l = row.length; j < l; j++) {
+                if (showWeekNumber && j === 0) continue;
+
+                const cell = row[j];
+                const time = clearHours(cell.date);
+
+                cell.inRange = min && time >= min && time <= max;
+                cell.start = min && time === min;
+                cell.end = max && time === max;
+            }
+        }
+
+        return rows;
     }
 
     handleClick(cell){
@@ -106,12 +142,21 @@ export default class MonthTable extends Component {
         onChange(cell.date, rangeKey, name);
     }
 
+    handleMouseMove(cell){
+        const { onMoveRange, rangeState, range } = this.props;
+
+        if (!(range === RANGE && rangeState.ing) || cell.disabled) return;
+
+        rangeState.endDate = cell.date;
+        onMoveRange(rangeState)
+    }
+
     render(){
         return (
             <table className="tv-datepicker-month-table" style={this.style()}>
                 <tbody>
                 {
-                    this.getRowsDays().map((row, index) => {
+                    this.getRow().map((row, index) => {
                         return (
                             <tr key={index}>
                                 {
@@ -119,9 +164,11 @@ export default class MonthTable extends Component {
                                         return (
                                             <td 
                                             key={index2}
+                                            onMouseMove={this.handleMouseMove.bind(this, cell)}
                                             onClick={this.handleClick.bind(this, cell)}
                                             title={`${cell.year}年`} 
                                             className={this.className('tv-datepicker-cell', {
+                                                'tv-datepicker-cell-in-range': cell.inRange,
                                                 'tv-datepicker-cell-selected': cell.selected,
                                                 'tv-datepicker-cell-disabled': cell.disabled
                                             })}>

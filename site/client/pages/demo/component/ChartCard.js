@@ -31,7 +31,7 @@ export default class ChartCard extends Component{
                     <div className="meta">
                         <span>{ meta }</span>
                         <Popup
-                            content={meta}
+                            content={`${meta}`}
                             position="top left"
                             showArrow
                             trigger="hover"

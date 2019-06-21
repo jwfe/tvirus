@@ -112,6 +112,17 @@ export default class Popup extends Component {
         if(disabled || !this.triggerNode){
             return;
         }
+
+        if(showPopup){
+            this.setState({
+                showPopup,
+                style: this.computePopup()
+            }, () => {
+                onChange && onChange(showPopup);
+            })
+            return;
+        }
+
         this.setState({
             showPopup
         }, () => {

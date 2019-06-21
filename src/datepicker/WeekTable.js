@@ -47,10 +47,11 @@ export default class WeekTable extends Component {
         if(range !== RANGE){
             return cell.week === weekOfYear(format(date)).number;
         }
-        if(rangeKey === 'left'){
-            return cell.week === weekOfYear(format(minDate)).number; 
+        if( cell.week === weekOfYear(format(minDate)).number 
+        || (maxDate && cell.week === weekOfYear(format(maxDate)).number) ){
+            return true
         }
-        return maxDate && cell.week === weekOfYear(format(maxDate)).number; 
+        return false; 
     }
 
     getRowsDays(){
@@ -182,10 +183,12 @@ export default class WeekTable extends Component {
         return (
             <div className={this.className('tv-datepicker-week-table')} style={this.style()}>
                 {
-                    rows.map((row) => {
+                    rows.map((row, index) => {
                         const data = this.getEnabled(row);
+                        const first = format(row[0].date, 'yyyy-MM-dd');
+                        const last = format(row[6].date, 'yyyy-MM-dd');
                         return (
-                            <div className={this.classNames(['tv-datepicker-week-item', {
+                            <div key={index} className={this.classNames(['tv-datepicker-week-item', {
                                 'isDisabled': data.disabled,
                                 'inRange': data.inRange,
                                 'isSelected': data.selected
@@ -193,7 +196,7 @@ export default class WeekTable extends Component {
                             onMouseMove={this.handleMouseMove.bind(this, data)}
                             onClick={this.handleClick.bind(this, data)}
                             >
-                                第{data.week}周{row[0].dateString} ~ {row[6].dateString}
+                                第{data.week}周{first} ~ {last}
                             </div>
                         )
                     })

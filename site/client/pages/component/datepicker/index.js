@@ -65,7 +65,7 @@ export default class DatepickerDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Datepicker.Range baseLline="prev" minDate='2019-05-08' maxDate='2019-05-12' mode="week" expand={[
+                            <Datepicker.Range baseline="prev" minDate='2019-05-08' maxDate='2019-05-12' mode="week" expand={[
                                 {
                                     text: '按日',
                                     onClick: function(index){

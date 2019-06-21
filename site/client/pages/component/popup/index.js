@@ -46,7 +46,7 @@ export default class PopupDemo extends Component{
                             <Popup 
                             prefix="tooltip"
                             trigger="hover"
-                            content="鼠标滑过"
+                            content="鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过"
                             >
                                 <Button>tooltip</Button>
                             </Popup>

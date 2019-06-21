@@ -286,7 +286,7 @@
 
     &-range{
         display: flex;
-        width: 550px;
+        width: 580px;
         .tv-datepicker{
             width: 50%;
         }
@@ -294,7 +294,7 @@
     &-expand{
         border-right: 1px solid @dark-border-16;
         margin-top: -12px;
-        margin-bottom: -12px;
+        // margin-bottom: -12px;
         padding-top: 16px;
         padding-right: 16px;
         .tv-button{
@@ -312,6 +312,7 @@
         &-item{
             margin-top: 12px;
             height: 24px;
+            font-size: 12px;
             text-align: center;
             line-height: 24px;
             &:first-child{
@@ -330,6 +331,18 @@
                 background: @light-smoke-bgc;
                 cursor: not-allowed;
             }
+        }
+    }
+    &-footer{
+        border-top: 1px solid @table-border;
+        margin-bottom: -12px;
+        margin-left: -12px;
+        margin-right: -12px;
+        padding: 0 10px;
+        line-height: 38px;
+        
+        &-btn{
+            text-align: right;
         }
     }
 }

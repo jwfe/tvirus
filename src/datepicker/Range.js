@@ -46,10 +46,6 @@ export default class Range extends Component {
 
         let left_date = parse(props.minDate || format(now));
         let right_date = parse(props.maxDate || format(now));
-
-        if(left_date.getFullYear() === right_date.getFullYear() && left_date.getMonth() === right_date.getMonth()){
-            right_date.setMonth(right_date.getMonth() + 1);
-        }
         
         this.state = {
             mode: props.mode,
@@ -78,7 +74,59 @@ export default class Range extends Component {
         }
     }
 
-    handlePopupChange(showPopup){
+    static getDerivedStateFromProps(nextProps, prevState){
+        const baseline = nextProps.baseline;
+        const { left_date, right_date, mode } = prevState;
+        const left = format(left_date).split(/\W+/);
+        const right = format(right_date).split(/\W+/);
+        // 左右时间互换
+        if(left_date > right_date){
+            return {
+                left_date: right_date,
+                right_date: left_date,
+            }
+        }
+
+        if(mode === 'month'){
+            const leftStr = `${left[0] - 1}-${left[1]}-${left[2]}`;
+            const rightStr = `${right[0] + 1}-${right[1]}-${right[2]}`;
+            if(baseline === 'prev' && left[0] === right[0]){
+                const leftDate = parse(leftStr);
+                return {
+                    left_date: leftDate
+                }
+            }
+
+            if(left[0] === right[0]){
+                const rightDate = parse(rightStr);
+                return {
+                    right_date: rightDate
+                }
+            }
+        }
+
+        const leftStr = `${left[0]}-${left[1] - 1}-${left[2]}`;
+        const rightStr = `${right[0]}-${right[1] + 1}-${right[2]}`;
+
+        // 相同年月的视图下，往前挪一月
+        if(baseline === 'prev' && left[0] === right[0] && left[1] === right[1]){
+            const leftDate = parse(leftStr);
+            return {
+                left_date: leftDate
+            }
+        }
+        // 相同年月的视图下，往后挪一月
+        if(left[0] === right[0] && left[1] === right[1]){
+            const rightDate = parse(rightStr);
+            return {
+                right_date: rightDate
+            }
+        }
+
+        return null;
+    }
+
+    handlePopupChange = (showPopup) => {
         const { disabled } = this.props;
 
         if(disabled){
@@ -92,24 +140,32 @@ export default class Range extends Component {
     }
 
     handleDate = ({ minDate, maxDate }, isClose) => {
-        const { onChange, name } = this.props;
+        const { onChange, name, mode } = this.props;
         minDate = minDate || this.state['left_date'];
         maxDate =  maxDate || this.state['right_date'];
         if (!isClose){
             this.setState({ 
-                visible: true, view: {'day': true}, minDate, maxDate, 
-                left_date: minDate, right_date: maxDate 
+                visible: true, view: {[mode]: true},
+                minDate, 
+                maxDate, 
+                left_date: minDate, 
+                right_date: maxDate 
             });
             return;
         };
         this.setState({ 
-            visible: false, view: {'day': true}, minDate, maxDate, 
-            left_date: minDate, right_date: maxDate,
+            visible: true, view: {[mode]: true}, 
+            minDate, 
+            maxDate, 
+            left_date: minDate, 
+            right_date: maxDate,
             selected: {
                 minDate, maxDate,
             }
+        }, ()=>{
+            onChange([minDate, maxDate], false, name)
         });
-        onChange([minDate, maxDate], false, name)
+        
     }
     handleMoveRange = ({ endDate }) => {
         const { mode } = this.state;
@@ -124,6 +180,15 @@ export default class Range extends Component {
             maxDate: endDate,
         })
     }
+
+    onChange = () => {
+        const { onChange } = this.props;
+        const { selected: {minDate, maxDate}, name } = this.state;
+        this.setState({visible: false}, () => {
+            onChange([minDate, maxDate], false, name);
+        })
+    }
+
     handleYearDate = (cell, key, name, isClose) => {
         const { view, mode } = this.state;
         if(mode === 'day' || mode === 'week' || mode === 'month'){
@@ -154,13 +219,12 @@ export default class Range extends Component {
             return;
         };
         this.setState({ 
-            visible: false, 
+            visible: true, 
             view: mode === currMode ? view : {...view, 'day': true}, 
             minDate, maxDate, [`left_date`]: minDate, [`right_date`]: maxDate, selected: {
                 minDate, maxDate
             }
         });
-        onChange([minDate, maxDate], false, name)
     }
     handleWeekDate = (cell, rangeKey, name, isClose) => {
         this.setOtherRange(cell, 'month', name, isClose)
@@ -256,17 +320,18 @@ export default class Range extends Component {
     disabledDate = (value, key) => {
         let { view, mode } = this.state;
         let { disabledDate } = this.props;
+
         const otherKey = key === 'left' ? 'right' : 'left';
         const otherDate = this.state[`${otherKey}_date`];
 
         let dateObj = weekOfYear(format(value));
         let otherDateObj = weekOfYear(format(otherDate));
         
-        if(view[`${key}year`]){
-            if(key === 'left' && dateObj.year <= otherDateObj.year){
+        if(mode !== 'year' && view[`${key}year`]){
+            if(key === 'left' && dateObj.year < otherDateObj.year){
                 return false
             }
-            if( key === 'right' && otherDateObj.year <= dateObj.year){
+            if( key === 'right' && otherDateObj.year < dateObj.year){
                 return false
             }
             return true;
@@ -275,23 +340,13 @@ export default class Range extends Component {
         const dateObjMonth = parse(`${dateObj.year}-${dateObj.month}-01`);
         const otherDateObjMonth = parse(`${otherDateObj.year}-${otherDateObj.month}-01`);
 
-        if(mode === 'year'){
-            if((key === 'left' && dateObj.year <= otherDateObj.year)) {
-                return false
-            }
-            if( key === 'right' && otherDateObj.year <= dateObj.year){
-                return false
-            }
-            return true;
-        }
-
-        if(mode === 'month' || view[`${key}month`]){
+        if(mode !== 'month' && view[`${key}month`]){
             if(key === 'left'){
-                if(dateObjMonth <= otherDateObjMonth){
+                if(dateObjMonth < otherDateObjMonth){
                     return false
                 }
             } else {
-                if(otherDateObjMonth <= dateObjMonth){
+                if(otherDateObjMonth < dateObjMonth){
                     return false
                 }
             }
@@ -363,6 +418,7 @@ export default class Range extends Component {
                     rangeKey={key} 
                     date={date} 
                     onChange={this.handleMonthDate} 
+                    onMoveRange={this.handleMoveRange}
                     style={{display: (view[key + 'month'] && !view[key + 'year']) ? '' : 'none'}} />}
 
                 {mode === 'week' && <WeekTable 
@@ -427,6 +483,22 @@ export default class Range extends Component {
         )
     }
 
+    formatShowContent(date){
+        const { mode } = this.state;
+        const defaultFormat = {
+            'day': 'yyyy-MM-dd',
+            'year': 'yyyy',
+            'month': 'yyyy-MM'
+        }
+        
+        if(mode === 'week'){
+            const obj = weekOfYear(format(date));
+            return `${obj.year}年第${obj.number}周`;
+        }
+
+        return format(date, this.state.format || defaultFormat[mode]);
+    }
+
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
         const { disabled, visible, selected } = this.state;
@@ -434,12 +506,12 @@ export default class Range extends Component {
 
         const content = [
             (
-                <div className={this.className('tv-datepicker-range')}>
+                <div className={this.classNames(['tv-datepicker-range'])}>
                     {this.renderExpand()}
                     {
                         ['left', 'right'] .map((key) => {
                             return (
-                                <div key={key} className={this.className('tv-datepicker')}>
+                                <div key={key} className={this.classNames(['tv-datepicker'])}>
                                     { this.renderSearch(key) }
                                     { this.renderTable(key) }
                                 </div>
@@ -447,17 +519,13 @@ export default class Range extends Component {
                         })
                     }
                 </div>
-            )
-        ];
-
-        if(footer){
-            <div className={this.className('tv-datepicker-footer')}>
+            ),
+            <div className={this.classNames(['tv-datepicker-footer'])}>
                 <div className="tv-datepicker-footer-btn">
-                    <a className="tv-datepicker-time-btn">选择时间</a>
-                    <a className="tv-datepicker-ok-btn">确 定</a>
+                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
                 </div>
             </div>
-        }
+        ];
 
         // 防止反向控制的问题
         let min = minDate;
@@ -467,8 +535,8 @@ export default class Range extends Component {
             max = minDate;
         }
 
-        min = min ? format(min, this.state.format) : null;
-        max = max ? format(max, this.state.format) : null;
+        min = min ? this.formatShowContent(min) : null;
+        max = max ? this.formatShowContent(max) : null;
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>
@@ -479,7 +547,7 @@ export default class Range extends Component {
                 trigger={trigger} 
                 position={position} 
                 content={content}
-                onChange={this.handlePopupChange.bind(this)}
+                onChange={this.handlePopupChange}
                 >
                     {children || <div className="tv-datepicker-trigger">
                         <Button>{ min && max ? `${min} ~ ${max}` : placeholder}</Button>
