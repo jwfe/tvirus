@@ -13,6 +13,9 @@ const RANGE = 'range';
 const DAY_DURATION = 86400000;
 
 const clearHours = function (time) {
+    if(!time){
+        return null;
+    }
     const cloneDate = new Date(time);
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
@@ -45,7 +48,6 @@ export default class DateTable extends Component {
 
     constructor(props) {
         super(props);
-        console.log('[date]', props.date);
         this.state = {
             date: props.date ? props.date : clearHours(format(new Date()))
         }
@@ -136,7 +138,7 @@ export default class DateTable extends Component {
     }
 
     getRow(){
-        let {showWeekNumber, minDate, range, rangeState} = this.props;
+        let {showWeekNumber, minDate, range, rangeState, rangeKey} = this.props;
 
         const { head, rows } = this.getRowsDays();
         if (!(range === RANGE && rangeState.ing && rangeState.endDate)) {
@@ -158,6 +160,7 @@ export default class DateTable extends Component {
                 cell.inRange = min && time >= min && time <= max;
                 cell.start = min && time === min;
                 cell.end = max && time === max;
+                console.log('========2', rangeKey, max, time, cell.end, max && time === max);
             }
         }
 
@@ -192,7 +195,7 @@ export default class DateTable extends Component {
             return;
         }
 
-        let { range, onChange, rangeState, minDate, maxDate } = this.props;
+        let { range, onChange, rangeKey, rangeState, minDate, maxDate } = this.props;
 
         if(cell.disabled){
             return;
@@ -205,15 +208,15 @@ export default class DateTable extends Component {
             if (rangeState.ing) {
                 if (cell.date < min) {
                     rangeState.ing = true;
-                    onChange({ minDate: cell.date, maxDate: null }, false)
+                    onChange({ minDate: cell.date, maxDate: null }, false, rangeKey)
                 } else if (cell.date >= min) {
                     rangeState.ing = false;
-                    onChange({ minDate, maxDate: cell.date }, true)
+                    onChange({ minDate, maxDate: cell.date }, true, rangeKey)
                 }
             }else {
                 if (min && max || !min) {
                     rangeState.ing = true;
-                    onChange({ minDate: cell.date, maxDate: null }, false)
+                    onChange({ minDate: cell.date, maxDate: null }, false, rangeKey)
                 }
             }
             return;
@@ -263,6 +266,12 @@ export default class DateTable extends Component {
                                 })}>
                                     {
                                         row.map((cell, index2) => {
+                                            if(!cell.isThisMonth){
+                                                return <td 
+                                                key={index2}
+                                                className={this.className('tv-datepicker-cell')}>
+                                                </td>
+                                            }
                                             return (
                                                 <td 
                                                 key={index2}

@@ -45,17 +45,20 @@ export default class WeekTable extends Component {
     isSelected(cell){
         const { rangeKey, maxDate, range, minDate } = this.props;
         if(range !== RANGE){
-            return cell.week === weekOfYear(format(date)).number;
+            const _date = weekOfYear(format(date));
+            return cell.year === _date.year && cell.week === _date.number;
         }
-        if( cell.week === weekOfYear(format(minDate)).number 
-        || (maxDate && cell.week === weekOfYear(format(maxDate)).number) ){
+        const min = weekOfYear(format(minDate));
+        const max = maxDate ? weekOfYear(format(maxDate)) : {};
+        if( (cell.week === min.number && cell.year === min.year) 
+        || (max && cell.week === max.number && cell.year === max.year) ){
             return true
         }
         return false; 
     }
 
     getRowsDays(){
-        let { date, disabledDate, showWeekNumber, minDate, maxDate, mode } = this.props;
+        let { date, disabledDate, showWeekNumber, minDate, maxDate, range } = this.props;
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
 
@@ -85,8 +88,9 @@ export default class WeekTable extends Component {
             }
 
             const time = clearHours(dateObj.date);
-
-            dateObj.inRange = time >= min && time <= max;
+            if(range === RANGE){
+                dateObj.inRange = time >= min && time <= max;
+            }
             dateObj.start = min && time === min;
             dateObj.end = max && time === max;
 

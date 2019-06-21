@@ -293,10 +293,9 @@
     }
     &-expand{
         border-right: 1px solid @dark-border-16;
-        margin-top: -12px;
-        // margin-bottom: -12px;
         padding-top: 16px;
         padding-right: 16px;
+        padding-left: 16px;
         .tv-button{
             display: block;
             border: 0 none;
@@ -305,6 +304,18 @@
             color: @master-color;
         }
     }
+
+    &-range-popup{
+        .tv-popup-inner .tv-popup-content{
+            padding: 0;
+        }
+        .tv-datepicker-header{
+            padding-top: 10px;
+        }
+        .tv-datepicker-body{
+            padding: 8px 10px
+        }
+    }    
 
     &-week{
         &-table{
@@ -335,14 +346,14 @@
     }
     &-footer{
         border-top: 1px solid @table-border;
-        margin-bottom: -12px;
-        margin-left: -12px;
-        margin-right: -12px;
-        padding: 0 10px;
+        padding: 10px;
         line-height: 38px;
         
         &-btn{
             text-align: right;
+            .tv-button{
+                margin-left: 10px;
+            }
         }
     }
 }

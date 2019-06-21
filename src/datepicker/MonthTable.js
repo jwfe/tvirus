@@ -49,7 +49,7 @@ export default class MonthTable extends Component {
     }
 
     getRowsDays(){
-        const { date, disabledDate, rangeKey, minDate, maxDate } = this.props
+        const { date, disabledDate, rangeKey, minDate, maxDate, range } = this.props
         const { year, month } = weekOfYear(format(date));
 
         const min = clearHours(minDate);
@@ -70,7 +70,7 @@ export default class MonthTable extends Component {
             _date.setDate(1);
 
             monthTables[rowIndex].push({
-                inRange: _date >= min && _date <= max,
+                inRange: range !== RANGE ? false : (_date >= min && _date <= max),
                 year,
                 selected: this.isSelected(_date),
                 disabled: disabledDate(_date, rangeKey),

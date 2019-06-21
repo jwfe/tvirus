@@ -75,51 +75,53 @@ export default class Range extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        const baseline = nextProps.baseline;
-        const { left_date, right_date, mode } = prevState;
+        const { left_date, right_date, mode, currSelectKey } = prevState;
         const left = format(left_date).split(/\W+/);
         const right = format(right_date).split(/\W+/);
         // 左右时间互换
-        if(left_date > right_date){
-            return {
-                left_date: right_date,
-                right_date: left_date,
-            }
-        }
+        // if(left_date > right_date){
+        //     return {
+        //         left_date: right_date,
+        //         right_date: left_date,
+        //     }
+        // }
 
         if(mode === 'month'){
-            const leftStr = `${left[0] - 1}-${left[1]}-${left[2]}`;
-            const rightStr = `${right[0] + 1}-${right[1]}-${right[2]}`;
-            if(baseline === 'prev' && left[0] === right[0]){
+            const leftStr = `${parseInt(left[0]) - 1}-${left[1]}-${left[2]}`;
+            const rightStr = `${parseInt(right[0]) + 1}-${right[1]}-${right[2]}`;
+            if(currSelectKey === 'left' && left[0] === right[0]){
+                const rightDate = parse(rightStr);
+                return {
+                    right_date: rightDate,
+                    left_date
+                }
+            }else if(left[0] === right[0]){
                 const leftDate = parse(leftStr);
                 return {
+                    right_date,
                     left_date: leftDate
                 }
             }
-
-            if(left[0] === right[0]){
-                const rightDate = parse(rightStr);
-                return {
-                    right_date: rightDate
-                }
-            }
         }
 
-        const leftStr = `${left[0]}-${left[1] - 1}-${left[2]}`;
-        const rightStr = `${right[0]}-${right[1] + 1}-${right[2]}`;
+        const leftStr = `${left[0]}-${left[1]}-${left[2]}`;
+        const leftDate = parse(leftStr);
+        leftDate.setMonth(left[1] - 2);
+
+        const rightStr = `${right[0]}-${right[1]}-${right[2]}`;
+        const rightDate = parse(rightStr);
+        rightDate.setMonth(right[1]);
 
         // 相同年月的视图下，往前挪一月
-        if(baseline === 'prev' && left[0] === right[0] && left[1] === right[1]){
-            const leftDate = parse(leftStr);
+        if(currSelectKey === 'left' && left[0] === right[0] && left[1] === right[1]){
             return {
-                left_date: leftDate
-            }
-        }
-        // 相同年月的视图下，往后挪一月
-        if(left[0] === right[0] && left[1] === right[1]){
-            const rightDate = parse(rightStr);
-            return {
+                left_date,
                 right_date: rightDate
+            }
+        }else if(left[0] === right[0] && left[1] === right[1]){
+            return {
+                left_date: leftDate,
+                right_date
             }
         }
 
@@ -128,6 +130,11 @@ export default class Range extends Component {
 
     handlePopupChange = (showPopup) => {
         const { disabled } = this.props;
+        const { changed } = this.state;
+
+        if(!changed){
+            this.reset();
+        }
 
         if(disabled){
             this.setState({visible: false});
@@ -139,34 +146,7 @@ export default class Range extends Component {
         this.setState({visible: showPopup});
     }
 
-    handleDate = ({ minDate, maxDate }, isClose) => {
-        const { onChange, name, mode } = this.props;
-        minDate = minDate || this.state['left_date'];
-        maxDate =  maxDate || this.state['right_date'];
-        if (!isClose){
-            this.setState({ 
-                visible: true, view: {[mode]: true},
-                minDate, 
-                maxDate, 
-                left_date: minDate, 
-                right_date: maxDate 
-            });
-            return;
-        };
-        this.setState({ 
-            visible: true, view: {[mode]: true}, 
-            minDate, 
-            maxDate, 
-            left_date: minDate, 
-            right_date: maxDate,
-            selected: {
-                minDate, maxDate,
-            }
-        }, ()=>{
-            onChange([minDate, maxDate], false, name)
-        });
-        
-    }
+    
     handleMoveRange = ({ endDate }) => {
         const { mode } = this.state;
         // if(mode == 'week'){
@@ -183,16 +163,92 @@ export default class Range extends Component {
 
     onChange = () => {
         const { onChange } = this.props;
-        const { selected: {minDate, maxDate}, name } = this.state;
-        this.setState({visible: false}, () => {
+        const { minDate, maxDate, name } = this.state;
+        this.setState({
+            changed: true,
+            visible: false,
+            selected: {
+                minDate, maxDate,
+            }
+        }, () => {
             onChange([minDate, maxDate], false, name);
         })
     }
 
+    reset = () => {
+        const { onChange } = this.props;
+        const { selected: { minDate, maxDate }, name } = this.state;
+        this.setState({
+            changed: false,
+            visible: false,
+            [`left_date`]: minDate, 
+            [`right_date`]: maxDate,
+            minDate, maxDate,
+            selected: {
+                minDate, maxDate
+            }
+        }, () => {
+            onChange([minDate, maxDate], false, name);
+        })
+    }
+    handleDate = ({ minDate, maxDate }, isClose, rangeKey) => {
+        const { onChange, name, mode } = this.props;
+        minDate = parse(format(minDate || this.state['left_date']));
+        let max = maxDate ? parse(format(maxDate)): this.state['right_date'];
+        const otherKey = rangeKey === 'left' ? 'right' : 'left';
+        if (!isClose){
+            this.setState({ 
+                currSelectKey: rangeKey,
+                visible: true, 
+                view: {[mode]: true},
+                minDate, 
+                maxDate: null, 
+                [`${rangeKey}_date`]: minDate,
+                [`${otherKey}_date`]: max
+            });
+            return;
+        };
+        this.setState({ 
+            currSelectKey: rangeKey,
+            visible: true, 
+            view: {[mode]: true}, 
+            minDate, 
+            maxDate, 
+            left_date: minDate
+            , right_date: maxDate
+        });
+        
+    }
+    setOtherRange(cell, currMode, name, isClose, rangeKey){
+        const { view, mode } = this.state;
+        let { minDate, maxDate } = cell;
+        minDate = parse(format(minDate));
+        maxDate = maxDate ? parse(format(maxDate)) : null;
+        const otherKey = rangeKey === 'left' ? 'right' : 'left';
+
+        if (!isClose){
+            this.setState({ 
+                currSelectKey: rangeKey,
+                visible: true, view: mode === currMode ? view : {...view, 'day': true}, 
+                minDate, 
+                maxDate, 
+                [`${rangeKey}_date`]: minDate
+            });
+            return;
+        };
+        this.setState({ 
+            visible: true, 
+            currSelectKey: rangeKey,
+            view: mode === currMode ? view : {...view, 'day': true}, 
+            minDate, maxDate, 
+            [`${rangeKey}_date`]: minDate,
+            [`${otherKey}_date`]: maxDate
+        });
+    }
     handleYearDate = (cell, key, name, isClose) => {
         const { view, mode } = this.state;
         if(mode === 'day' || mode === 'week' || mode === 'month'){
-            let date = this.state[`${key}_date`];
+            let date = parse(format(this.state[`${key}_date`]));
             let { year } = weekOfYear(format(cell));
 
             date.setFullYear(year);
@@ -205,35 +261,16 @@ export default class Range extends Component {
             return;
         }
 
-        this.setOtherRange(cell, 'month', name, isClose)
-    }
-    setOtherRange(cell, currMode, name, isClose){
-        const { onChange } = this.props;
-        const { view, mode } = this.state;
-        const { minDate, maxDate } = cell;
-        if (!isClose){
-            this.setState({ 
-                visible: true, view: mode === currMode ? view : {...view, 'day': true}, 
-                minDate, maxDate, [`left_date`]: minDate 
-            });
-            return;
-        };
-        this.setState({ 
-            visible: true, 
-            view: mode === currMode ? view : {...view, 'day': true}, 
-            minDate, maxDate, [`left_date`]: minDate, [`right_date`]: maxDate, selected: {
-                minDate, maxDate
-            }
-        });
+        this.setOtherRange(cell, 'month', name, isClose, key)
     }
     handleWeekDate = (cell, rangeKey, name, isClose) => {
-        this.setOtherRange(cell, 'month', name, isClose)
+        this.setOtherRange(cell, 'month', name, isClose, rangeKey)
     }
     handleMonthDate = (cell, rangeKey, name, isClose) => {
         const { view, mode } = this.state;
 
         if(mode === 'day' || mode === 'week'){
-            let date = this.state[`${rangeKey}_date`];
+            let date = parse(format(this.state[`${rangeKey}_date`]));
             const { year, month } = weekOfYear(format(cell));
             const array  = fixedYM(year, month - 1);
 
@@ -245,11 +282,12 @@ export default class Range extends Component {
                 [`${rangeKey}_date`]: date
             });
         }
-        this.setOtherRange(cell, 'month', name, isClose)
+        this.setOtherRange(cell, 'month', name, isClose, rangeKey)
     }
     // 上年
     handlePrevYearClick(key){
-        let date = this.state[`${key}_date`];
+        let date = parse(format(this.state[`${key}_date`]));
+
         let { year } = weekOfYear(format(date));
         year = year - 1;
 
@@ -262,7 +300,7 @@ export default class Range extends Component {
 
     // 下年
     handleNextYearClick(key){
-        let date = this.state[`${key}_date`];
+        let date = parse(format(this.state[`${key}_date`]));
         let { year } = weekOfYear(format(date));
         year = year + 1;
 
@@ -275,7 +313,7 @@ export default class Range extends Component {
 
     // 上月
     handlePrevMonthClick(key){
-        let date = this.state[`${key}_date`];
+        let date = parse(format(this.state[`${key}_date`]));
         const { year, month } = weekOfYear(format(date));
         const array  = fixedYM(year, month - 1);
 
@@ -289,7 +327,7 @@ export default class Range extends Component {
 
     // 下月
     handleNextMonthClick(key){
-        let date = this.state[`${key}_date`];
+        let date = parse(format(this.state[`${key}_date`]));
         const { year, month } = weekOfYear(format(date));
         const array  = fixedYM(year, month + 1);
 
@@ -326,12 +364,22 @@ export default class Range extends Component {
 
         let dateObj = weekOfYear(format(value));
         let otherDateObj = weekOfYear(format(otherDate));
-        
-        if(mode !== 'year' && view[`${key}year`]){
+        // 月视图下是不允许同一年选择的
+        if(view[`${key}year`] && mode === 'month'){
             if(key === 'left' && dateObj.year < otherDateObj.year){
                 return false
             }
             if( key === 'right' && otherDateObj.year < dateObj.year){
+                return false
+            }
+            return true;
+        }
+        // 周视图和日视图支持同一年
+        if(mode !== 'year' && view[`${key}year`] && mode !== 'month'){
+            if(key === 'left' && dateObj.year <= otherDateObj.year){
+                return false
+            }
+            if( key === 'right' && otherDateObj.year <= dateObj.year){
                 return false
             }
             return true;
@@ -450,6 +498,7 @@ export default class Range extends Component {
         );
     }
     update({mode}, index){
+        const { selected: { minDate, maxDate } } = this.state;
         this.setState({
             expandSelectedIndex: index,
             mode,
@@ -461,6 +510,12 @@ export default class Range extends Component {
                 ['rightmonth']: mode === 'month',
                 ['leftweek']: mode === 'week',
                 ['rightweek']: mode === 'week'
+            },
+            [`left_date`]: minDate, 
+            [`right_date`]: maxDate,
+            minDate, maxDate,
+            selected: {
+                minDate, maxDate
             }
         })
     }
@@ -522,6 +577,7 @@ export default class Range extends Component {
             ),
             <div className={this.classNames(['tv-datepicker-footer'])}>
                 <div className="tv-datepicker-footer-btn">
+                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.reset}>取 消</Button>
                     <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
                 </div>
             </div>
@@ -541,6 +597,7 @@ export default class Range extends Component {
         return (
             <div className={this.className('tv-datepicker-wraper')}>
                 <Popup 
+                className="tv-datepicker-range-popup"
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 
