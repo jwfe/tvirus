@@ -100,7 +100,6 @@ export default class Range extends Component {
                     left_date: leftDate
                 }
             }
-            return null;
         }
 
         const leftStr = `${left[0]}-${left[1]}-${left[2]}`;
@@ -379,7 +378,6 @@ export default class Range extends Component {
             if( key === 'right' && otherDateObj.year < dateObj.year){
                 return false
             }
-
             return true;
         }
         // 周视图和日视图支持同一年
@@ -415,7 +413,7 @@ export default class Range extends Component {
     renderSearch(key){
         const { view, mode } = this.state;
         let date = this.state[`${key}_date`];
-        let [year, month] = format(date).split(/\W+/);
+        let { year, month } = weekOfYear(format(date));
         const array = fixedYM(year, month);
 
         const isHideRight = key === 'left';
@@ -555,26 +553,13 @@ export default class Range extends Component {
         }
         
         if(mode === 'week'){
-            const _dateStr = format(date);
-            const [year] = _dateStr.split(/\W+/);
-            const obj = weekOfYear();
-            return `${year}年第${obj.number}周`;
+            const obj = weekOfYear(format(date));
+            return `${obj.year}年第${obj.number}周`;
         }
 
         return format(date, this.state.format || defaultFormat[mode]);
     }
-    renderFooterExtra(){
-        const { footerExtra } = this.props;
-        if(footerExtra){
-            return footerExtra();
-        }
-        if(!this.state.minDate || !this.state.maxDate){
-            return null;
-        }
-        const min = this.formatShowContent(this.state.minDate);
-        const max = this.formatShowContent(this.state.maxDate)
-        return `${min} ~ ${max}`
-    }
+
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
         const { disabled, visible, selected } = this.state;
@@ -598,9 +583,6 @@ export default class Range extends Component {
             ),
             <div className={this.classNames(['tv-datepicker-footer'])}>
                 <div className="tv-datepicker-footer-btn">
-                    <div className="tv-datepicker-footer-extra">
-                        {this.renderFooterExtra()}
-                    </div>
                     <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.reset}>取 消</Button>
                     <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
                 </div>

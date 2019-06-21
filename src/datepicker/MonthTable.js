@@ -3,7 +3,10 @@ import { Component, PropTypes, noop, Util } from '@Libs';
 
 const { fixedYM, weekOfYear, parse, format } = Util.date;
 const clearHours = function (time) {
-    const cloneDate = new Date(time);
+    if(!time){
+        return null;
+    }
+    const cloneDate = parse(format(time));
     cloneDate.setDate(1);
     cloneDate.setHours(0, 0, 0, 0);
     return cloneDate.getTime();
@@ -50,7 +53,7 @@ export default class MonthTable extends Component {
 
     getRowsDays(){
         const { date, disabledDate, rangeKey, minDate, maxDate, range } = this.props
-        const { year, month } = weekOfYear(format(date));
+        const [year, month] = format(date).split(/\W+/);
 
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
@@ -59,14 +62,13 @@ export default class MonthTable extends Component {
 
         for(let i=0; i<12; i++){
             const rowIndex = Math.floor(i/3);
-            const value =  i + 1;
             if(i%3 === 0){
                 monthTables.push([]);
             }
 
-            const time = date.getTime();
+            const time = parse(format(date)).getTime();
             const _date = new Date(time);
-            _date.setMonth(value - 1);
+            _date.setMonth(i);
             _date.setDate(1);
 
             monthTables[rowIndex].push({
@@ -75,7 +77,7 @@ export default class MonthTable extends Component {
                 selected: this.isSelected(_date),
                 disabled: disabledDate(_date, rangeKey),
                 date: _date,
-                month: value,
+                month: i + 1,
                 text: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][i] + '月'
             });
         }
