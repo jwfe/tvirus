@@ -141,7 +141,10 @@ export default class Range extends Component {
     onReset = () => {
         const { onChange } = this.props;
         const { selected: { minDate, maxDate }, name } = this.state;
-        this.setState(this.reset(), () => {
+        this.setState({
+            visible: false,
+            ...this.reset()
+        }, () => {
             onChange([minDate, maxDate], false, name);
         });
     }

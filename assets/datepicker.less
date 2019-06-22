@@ -224,20 +224,6 @@
         background-color: @master-bgc-20;
     }
 
-    &-cell-selected &-date{
-        color: @light-color;
-        background-color: @master-bgc;
-    }
-
-    &-cell-disabled &-date {
-        width: auto;
-        color: @dark-color-25;
-        background: @light-smoke-bgc;
-        border: 1px solid @transparent-border;
-        border-radius: 0;
-        cursor: not-allowed;
-    }
-
     &-cell-today &-date{
         position: relative;
         color: @master-color;
@@ -256,6 +242,22 @@
             content: ' '
         }
     }
+
+    &-cell-selected &-date{
+        color: @light-color;
+        background-color: @master-bgc;
+    }
+
+    &-cell-disabled &-date {
+        width: auto;
+        color: @dark-color-25;
+        background: @light-smoke-bgc;
+        border: 1px solid @transparent-border;
+        border-radius: 0;
+        cursor: not-allowed;
+    }
+
+    
     
     &-active-week{
         font-weight: 500;
