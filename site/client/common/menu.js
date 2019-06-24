@@ -160,6 +160,10 @@ export default class CommonMenu extends Component{
                         query: 'table'
                     },
                     {
+                        title: 'Tag 标签',
+                        query: 'tag'
+                    },
+                    {
                         title: 'Popup 弹出',
                         query: 'popup'
                     },

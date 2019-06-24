@@ -1,0 +1,30 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+.tv-tag{
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid @dark-border-25;
+    border-radius: 4px;
+    margin-right: 10px;
+    padding: 0 7px;
+    height: auto;
+
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    background-color: @dark-bgc-02;
+
+    cursor: pointer;
+
+    transition: all .3s cubic-bezier(.78, .14, .15, .86);
+    .tv-icon-add{
+        margin-left: 3px;
+        margin-top: 4px;
+        vertical-align: top;
+        color: @dark-color-45;
+        transform: scale(.8) rotate(45deg);
+    }
+    &-hidden{
+        display: none;
+    }
+}

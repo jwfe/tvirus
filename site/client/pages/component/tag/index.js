@@ -23,7 +23,10 @@ export default class TagDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Tag></Tag>
+                    <Tag>标签1</Tag>
+                    <Tag>标签2</Tag>
+                    <Tag closable={true} onChange={(e) => {console.log(e)}}>标签3</Tag>
+                    <Tag>标签4</Tag>
                 </div>
             )
         });
@@ -38,7 +41,7 @@ export default class TagDemo extends Component{
             keyword="tag"
             className="main-tag-box"
             title="Tag"
-            desc="Tag的说明"
+            desc="用来标记和分类"
             childs={childs}
         />
     }

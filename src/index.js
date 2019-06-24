@@ -53,6 +53,7 @@ import '../assets/button';
 import '../assets/breadcrumb';
 import '../assets/pagination';
 import '../assets/tabs';
+import '../assets/tag';
 import '../assets/loading';
 import '../assets/table';
 import '../assets/tooltip';
