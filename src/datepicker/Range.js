@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes, noop } from '@Libs';
+import { Component, PropTypes, noop, Util } from '@Libs';
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
@@ -7,7 +7,7 @@ import WeekTable from './WeekTable';
 import Button from '@button';
 import Popup from '@popup';
 
-import { weekOfYear, parse, fixedYM, format, nextMonth } from './utils';
+const { weekOfYear, parse, fixedYM, format, nextMonth } = Util.date;
 
 export default class Range extends Component {
     static propTypes = {

@@ -3,6 +3,7 @@ import { Component, PropTypes, noop, Util } from '@Libs';
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
+import Icon from '@icon';
 import Button from '@button';
 import Popup from '@popup';
 
@@ -255,7 +256,7 @@ export default class Datepicker extends Component {
                 onChange={this.handlePopupChange}
                 >
                     {children || <div className="tv-datepicker-trigger">
-                        <Button>{dateString}</Button>
+                        <Button>{dateString}<Icon type="calendar" /></Button>
                     </div>}
                 </Popup>
             </div>

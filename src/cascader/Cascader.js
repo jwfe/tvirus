@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
+import Icon from '@icon';
 import Popup from '@popup';
 import CascaderMenu from './Menu';
 
@@ -72,8 +73,16 @@ export default class Cascader extends Component {
         const { children, placeholder, disabled, position } = this.props;
         const { visible, labels } = this.state;
 
+        const defaultContent = (
+            <div className="tv-cascader-label-default">
+                {labels.length ? <span>{labels.join('/')}</span> : <span>{placeholder}</span>}    
+                <Icon type="down" />
+            </div>
+        )
+
         return (
             <div className={this.className('tv-cascader', {
+                'tv-cascader-focused': visible,
                 'tv-cascader-disabled': disabled
             })}>
 
@@ -90,7 +99,7 @@ export default class Cascader extends Component {
                     <div className="tv-cascader-trigger">
                         <div className="tv-cascader-label">
                             {
-                                children ? children : labels.length ? <span>{labels.join('/')}</span> : <span>{placeholder}</span>
+                                children ? children : defaultContent
                             }
                         </div>
                     </div>

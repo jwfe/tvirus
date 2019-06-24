@@ -80,6 +80,7 @@ export default class Popup extends Component {
         popupSpeedKey++;
 
         this.state = {
+            positions: props.position,
             visible: props.visible,
             showPopup: false
         }
@@ -113,21 +114,21 @@ export default class Popup extends Component {
             return;
         }
 
-        if(showPopup){
-            this.setState({
-                showPopup,
-                style: this.computePopup()
-            }, () => {
-                onChange && onChange(showPopup);
-            })
-            return;
-        }
-
         this.setState({
-            showPopup
+            showPopup,
+            style: {
+                opacity: 0,
+            }
         }, () => {
             onChange && onChange(showPopup);
-            this.setState({style: this.computePopup()})
+            const { style, positions } = this.computePopup();
+            this.setState({
+                style: {
+                    ...style,
+                    opacity: 1
+                },
+                positions
+            })
         });
     }
     handleOnClick = () => {
@@ -163,8 +164,8 @@ export default class Popup extends Component {
     }
 
     getPostion(){
-        const { position } = this.props;
-        return position.split(' ');
+        const { positions } = this.state;
+        return positions.split(' ');
     }
 
     getArrowPostion(postion){
@@ -270,7 +271,7 @@ export default class Popup extends Component {
             style.minWidth = coords.width;  
         }
         
-        return style
+        return { style, positions: positions.join(' ') }
     }
 
     renderCloneChildren(){	

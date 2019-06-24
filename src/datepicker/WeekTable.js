@@ -131,10 +131,10 @@ export default class WeekTable extends Component {
         return { head, rows };
     }
 
-    handleClick(cell){
+    handleClick(minCell, maxCell){
         let { range, onChange, rangeKey, name, rangeState, minDate, maxDate } = this.props;
 
-        if(cell.disabled){
+        if(maxCell.disabled){
             return;
         }
 
@@ -143,33 +143,21 @@ export default class WeekTable extends Component {
 
         if(range === 'range'){
             if (rangeState.ing) {
-                if (cell.date < min) {
+                if (minCell < min) {
                     rangeState.ing = true;
-                    onChange({ minDate: cell.date, maxDate: null }, rangeKey, name, false)
-                } else if (cell.date >= min) {
+                    onChange({ minDate: minCell, maxDate: null }, rangeKey, name, false)
+                } else if (maxCell >= min) {
                     rangeState.ing = false;
-                    onChange({ minDate, maxDate: cell.date }, rangeKey, name, true)
+                    onChange({ minDate, maxDate: maxCell }, rangeKey, name, true)
                 }
             }else {
                 if (min && max || !min) {
                     rangeState.ing = true;
-                    onChange({ minDate: cell.date, maxDate: null }, rangeKey, name, false)
+                    onChange({ minDate: minCell, maxDate: null }, rangeKey, name, false)
                 }
             }
             return;
         }
-
-        onChange(cell.date, rangeKey, name);
-    }
-
-    getEnabled(row){
-        let temp;
-        row.forEach((item) => {
-            if(!item.disabled){
-                temp = item;
-            }
-        })
-        return temp;
     }
 
     handleMouseMove(cell){
@@ -188,7 +176,7 @@ export default class WeekTable extends Component {
             <div className={this.className('tv-datepicker-week-table')} style={this.style()}>
                 {
                     rows.map((row, index) => {
-                        const data = this.getEnabled(row);
+                        const data = row[0];
                         const first = format(row[0].date, 'yyyy-MM-dd');
                         const last = format(row[6].date, 'yyyy-MM-dd');
                         return (
@@ -198,7 +186,7 @@ export default class WeekTable extends Component {
                                 'isSelected': data.selected
                             }])} 
                             onMouseMove={this.handleMouseMove.bind(this, data)}
-                            onClick={this.handleClick.bind(this, data)}
+                            onClick={this.handleClick.bind(this, row[0].date, row[6].date)}
                             >
                                 第{data.week}周{first} ~ {last}
                             </div>
