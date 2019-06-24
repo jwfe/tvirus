@@ -61,7 +61,7 @@ export default class Thead extends Component{
             <table className="tv-table-header" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
                 <colgroup>
                     {
-                        this.props.columns.map((item, index) => {
+                        (this.props.colgroup || this.props.columns).map((item, index) => {
                             return <col key={index} width={item.realWidth} style={{width: item.realWidth}}></col>
                         })
                     }

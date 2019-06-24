@@ -37,21 +37,21 @@ export default class TableDemo extends Component{
         ];
 
         const data2 = [];
-        for (let i = 0; i < 100; i++) {
-            data2.push({
-                key: i,
-                name: `Edrward ${i}`,
-                age: 32,
-                address1: `London Park no. ${i}`,
-                address2: `London Park no. ${i}`,
-                address3: `London Park no. ${i}`,
-                address4: `London Park no. ${i}`,
-                address5: `London Park no. ${i}`,
-                address6: `London Park no. ${i}`,
-                address7: `London Park no. ${i}`,
-                address8: `London Park no. ${i}`
-            });
-        }
+        // for (let i = 0; i < 100; i++) {
+        //     data2.push({
+        //         key: i,
+        //         name: `Edrward ${i}`,
+        //         age: 32,
+        //         address1: `London Park no. ${i}`,
+        //         address2: `London Park no. ${i}`,
+        //         address3: `London Park no. ${i}`,
+        //         address4: `London Park no. ${i}`,
+        //         address5: `London Park no. ${i}`,
+        //         address6: `London Park no. ${i}`,
+        //         address7: `London Park no. ${i}`,
+        //         address8: `London Park no. ${i}`
+        //     });
+        // }
         this.state = {
             childs: [],
             columns2,
@@ -89,25 +89,25 @@ export default class TableDemo extends Component{
     childs(){
         const childs = [];
         
-        (()=>{
-            childs.push({
-                title: '正常',
-                children: (
-                    <div className="code-demo">
-                        <Table
-                            footer={true}
-                            sumFirstText="总计"
-                            style={{width: '100%'}}
-                            columns={this.state.columns2}
-                            data={this.state.data2}
-                            bordered={true}
-                            loading={!this.state.data2.length}
-                            height={550}
-                        />
-                    </div>
-                )
-            });
-        })();
+        // (()=>{
+        //     childs.push({
+        //         title: '正常',
+        //         children: (
+        //             <div className="code-demo">
+        //                 <Table
+        //                     footer={true}
+        //                     sumFirstText="总计"
+        //                     style={{width: '100%'}}
+        //                     columns={this.state.columns2}
+        //                     data={this.state.data2}
+        //                     bordered={true}
+        //                     loading={!this.state.data2.length}
+        //                     height={550}
+        //                 />
+        //             </div>
+        //         )
+        //     });
+        // })();
 
 
         (()=>{
@@ -125,122 +125,122 @@ export default class TableDemo extends Component{
             });
         })();
 
-        (()=>{
-            const columns = [
-                {
-                    width: 150,
-                    title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
-                        return Util.date.parse(a) - Util.date.parse(b);
-                    }
-                },
-                {title: '星期', width: 120, dataIndex: 'week', key: 'week', align: 'center'},
-                {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center' , sort: (a, b)=>{
-                    return a-b;
-                }},
-                {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center', sort: (a, b)=>{
-                    return a-b;
-                }},
-                {title: '已有/实际', dataIndex: 'otb', key: 'otb', width: 200, align: 'center'},
-                {
-                    title: 'vs 去年同星期实际', align: 'center',
+        // (()=>{
+        //     const columns = [
+        //         {
+        //             width: 150,
+        //             title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
+        //                 return Util.date.parse(a) - Util.date.parse(b);
+        //             }
+        //         },
+        //         {title: '星期', width: 120, dataIndex: 'week', key: 'week', align: 'center'},
+        //         {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center' , sort: (a, b)=>{
+        //             return a-b;
+        //         }},
+        //         {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center', sort: (a, b)=>{
+        //             return a-b;
+        //         }},
+        //         {title: '已有/实际', dataIndex: 'otb', key: 'otb', width: 200, align: 'center'},
+        //         {
+        //             title: 'vs 去年同星期实际', align: 'center',
                     
-                    children: [
-                        {
-                            title: '差值',
-                            dataIndex: 'dv', 
-                            width: 200, align: 'center'
-                        },
-                        {
-                            title: '差异率',
-                            dataIndex: 'd_rate', 
-                            width: 200, align: 'center'
-                        }
-                    ]
-                },
-                {
-                    title: 'vs 已有/实际', align: 'center',
-                    children: [
-                        {
-                            title: '差值',
-                            dataIndex: 'otb_dv', 
-                            width: 200, align: 'center'
-                        },
-                        {
-                            title: '差异率',
-                            dataIndex: 'otb_d_rate', 
-                            width: 200, align: 'center'
-                        }
-                    ]
-                },
-                {
-                    title: 'vs 预算', 
-                    align: 'center',
-                    children: [
-                        {
-                            title: '差值',
-                            dataIndex: 'budget_dv', 
-                            width: 200, align: 'center'
-                        },
-                        {
-                            title: '差异率',
-                            dataIndex: 'budget_d_rate', 
-                            width: 200, align: 'center'
-                        }
-                    ]
-                }
-            ];
+        //             children: [
+        //                 {
+        //                     title: '差值',
+        //                     dataIndex: 'dv', 
+        //                     width: 200, align: 'center'
+        //                 },
+        //                 {
+        //                     title: '差异率',
+        //                     dataIndex: 'd_rate', 
+        //                     width: 200, align: 'center'
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             title: 'vs 已有/实际', align: 'center',
+        //             children: [
+        //                 {
+        //                     title: '差值',
+        //                     dataIndex: 'otb_dv', 
+        //                     width: 200, align: 'center'
+        //                 },
+        //                 {
+        //                     title: '差异率',
+        //                     dataIndex: 'otb_d_rate', 
+        //                     width: 200, align: 'center'
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             title: 'vs 预算', 
+        //             align: 'center',
+        //             children: [
+        //                 {
+        //                     title: '差值',
+        //                     dataIndex: 'budget_dv', 
+        //                     width: 200, align: 'center'
+        //                 },
+        //                 {
+        //                     title: '差异率',
+        //                     dataIndex: 'budget_d_rate', 
+        //                     width: 200, align: 'center'
+        //                 }
+        //             ]
+        //         }
+        //     ];
             
-            const data = [];
-            for (let i = 0; i < 31; i++) {
-                const index = i + 1;
-                const _date = `2019-05-${index > 9 ? i : ('0' + index)}`;
-                data.push({
-                    date: _date,
-                    week: '星期1',
-                    fc: parseInt(Math.random() * 100),
-                    last_year: parseInt(Math.random() * 100),
-                    otb: '-',
-                    dv: parseInt(Math.random() * 100),
-                    d_rate: parseInt(Math.random() * 100),
-                    otb_dv: parseInt(Math.random() * 100),
-                    otb_d_rate: parseInt(Math.random() * 100),
-                    budget_dv: parseInt(Math.random() * 100),
-                    budget_d_rate: parseInt(Math.random() * 100)
-                });
-            }
+        //     const data = [];
+        //     for (let i = 0; i < 31; i++) {
+        //         const index = i + 1;
+        //         const _date = `2019-05-${index > 9 ? i : ('0' + index)}`;
+        //         data.push({
+        //             date: _date,
+        //             week: '星期1',
+        //             fc: parseInt(Math.random() * 100),
+        //             last_year: parseInt(Math.random() * 100),
+        //             otb: '-',
+        //             dv: parseInt(Math.random() * 100),
+        //             d_rate: parseInt(Math.random() * 100),
+        //             otb_dv: parseInt(Math.random() * 100),
+        //             otb_d_rate: parseInt(Math.random() * 100),
+        //             budget_dv: parseInt(Math.random() * 100),
+        //             budget_d_rate: parseInt(Math.random() * 100)
+        //         });
+        //     }
 
-            childs.push({
-                title: 'loading',
-                children: (
-                    <div className="code-demo">
-                        <Table
-                            loading={true}
-                            style={{width: '100%'}}
-                            columns={columns}
-                            data={data}
-                            bordered={true}
-                            height={350}
-                        />
-                    </div>
-                )
-            });
+        //     childs.push({
+        //         title: 'loading',
+        //         children: (
+        //             <div className="code-demo">
+        //                 <Table
+        //                     loading={true}
+        //                     style={{width: '100%'}}
+        //                     columns={columns}
+        //                     data={data}
+        //                     bordered={true}
+        //                     height={350}
+        //                 />
+        //             </div>
+        //         )
+        //     });
     
-            childs.push({
-                title: '多行头',
-                children: (
-                    <div className="code-demo">
-                        <Table
-                            loading={false}
-                            style={{width: '100%'}}
-                            columns={columns}
-                            data={data}
-                            bordered={true}
-                            height={450}
-                        />
-                    </div>
-                )
-            });
-        })()
+        //     childs.push({
+        //         title: '多行头',
+        //         children: (
+        //             <div className="code-demo">
+        //                 <Table
+        //                     loading={false}
+        //                     style={{width: '100%'}}
+        //                     columns={columns}
+        //                     data={data}
+        //                     bordered={true}
+        //                     height={450}
+        //                 />
+        //             </div>
+        //         )
+        //     });
+        // })()
 
         this.setState({childs})
     }

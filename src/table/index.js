@@ -76,7 +76,7 @@ export default class Table extends Component{
         const full = {...this.caculateWidth(), ...this.getHeight()};
         let flag = 0;
         for(let key in full){
-            if(key !== 'columns' && full[key] !== this.state[key]){
+            if(key !== 'colgroup' && full[key] !== this.state[key]){
                 flag++;
             }
         }
@@ -163,7 +163,7 @@ export default class Table extends Component{
         });
         return rows;
     }
-    caculateWidth(props) {
+    caculateWidth() {
         const { columns, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
         const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
     
@@ -221,7 +221,7 @@ export default class Table extends Component{
             bodyWidth,
             fixedWidth,
             rightFixedWidth,
-            columns: flexColumns.length ? flexColumns : columns
+            colgroup: flexColumns
         }
     }
     filterData(data, columns) {
@@ -398,6 +398,7 @@ export default class Table extends Component{
         const { footer, sumFirstText, height, bordered, loading, onSum } = this.props;
         const { 
             fit,
+            colgroup,
             fixedColumns, rightFixedColumns,
             tableData, columns, columnRows, fixedWidth, rightFixedWidth, bodyWidth, bodyHeight, bodyTop 
         } = this.state
@@ -411,49 +412,86 @@ export default class Table extends Component{
                 ref={(el) => this.table = el}
             >
                 <div className="tv-table-header-wrapper" ref={(el) => this.headerWrapper = el}>
-                    <Thead selectedRows={this.state.selectedRows} toggleAllSelection={this.toggleAllSelection} onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
+                    <Thead selectedRows={this.state.selectedRows} 
+                        toggleAllSelection={this.toggleAllSelection} onSort={this.onSort} 
+                        data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth}
+                        colgroup={colgroup}
+                    />
                 </div>
                 <div className="tv-table-body-wrapper" 
                     onScroll={this.onScroll}
                     style={{ height: bodyHeight}}
                     ref={(el) => {this.bodyWrapper = el}}
                 >
-                    <Tbody toggleRowSelection={this.toggleRowSelection} selectedRows={this.state.selectedRows} data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                    <Tbody 
+                        toggleRowSelection={this.toggleRowSelection} 
+                        selectedRows={this.state.selectedRows} 
+                        data={tableData} columns={columns} 
+                        bodyWidth={bodyWidth}
+                        colgroup={colgroup}
+                    />
                 </div>
 
                 { 
                     footer && <div className="tv-table-footer-wrapper"
                         ref={(el) => this.footerWrapper = el}
                     >
-                        <Tfooter firstText={sumFirstText} onSum={onSum} data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                        <Tfooter 
+                            firstText={sumFirstText} 
+                            onSum={onSum} data={tableData} columns={columns} bodyWidth={bodyWidth}
+                            colgroup={colgroup}
+                        />
                     </div>
                 }
 
                 {
                     fixedColumns.length ? <div className="tv-table-fixed" style={{bottom: -1, width: fixedWidth}}>
                         <div className="tv-table-fixed-header-wrapper">
-                            <Thead selectedRows={this.state.selectedRows} toggleAllSelection={this.toggleAllSelection} onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
+                            <Thead 
+                                selectedRows={this.state.selectedRows} 
+                                toggleAllSelection={this.toggleAllSelection} 
+                                onSort={this.onSort} data={tableData} 
+                                columns={columns} columnRows={columnRows} 
+                                bodyWidth={bodyWidth}
+                                colgroup={colgroup}
+                            />
                         </div>
                         <div 
                             className="tv-table-fixed-body-wrapper" 
                             ref={(el) => {this.fixedBodyWrapper = el}}
                             style={{ top: bodyTop, height: bodyHeight}}
                         >
-                            <Tbody toggleRowSelection={this.toggleRowSelection} selectedRows={this.state.selectedRows} data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                            <Tbody 
+                                toggleRowSelection={this.toggleRowSelection} 
+                                selectedRows={this.state.selectedRows} 
+                                data={tableData} columns={columns} bodyWidth={bodyWidth}
+                                colgroup={colgroup}
+                            />
                         </div>
                     </div> : null
                 }
                 {
                     rightFixedColumns.length ? <div className="tv-table-fixed-right" style={{bottom: -1, width: rightFixedWidth}}>
                         <div className="tv-table-fixed-header-wrapper">
-                            <Thead selectedRows={this.state.selectedRows} toggleAllSelection={this.toggleAllSelection} onSort={this.onSort} data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} />
+                            <Thead 
+                                selectedRows={this.state.selectedRows} 
+                                toggleAllSelection={this.toggleAllSelection} 
+                                onSort={this.onSort} data={tableData} 
+                                columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} 
+                                colgroup={colgroup}
+                            />
                         </div>
                         <div 
                             className="tv-table-fixed-body-wrapper" 
                             ref={(el) => {this.rightFixedBodyWrapper = el}}
                             style={{ top: bodyTop, height: bodyHeight}}
                         >
-                            <Tbody toggleRowSelection={this.toggleRowSelection} selectedRows={this.state.selectedRows} data={tableData} columns={columns} bodyWidth={bodyWidth} />
+                            <Tbody 
+                                toggleRowSelection={this.toggleRowSelection} 
+                                selectedRows={this.state.selectedRows} 
+                                data={tableData} columns={columns} bodyWidth={bodyWidth} 
+                                colgroup={colgroup}
+                            />
                         </div>
                     </div>
                     : null
