@@ -101,7 +101,24 @@ export default class TableDemo extends Component{
                             columns={this.state.columns2}
                             data={this.state.data2}
                             bordered={true}
+                            loading={!this.state.data2.length}
                             height={550}
+                        />
+                    </div>
+                )
+            });
+        })();
+
+
+        (()=>{
+            childs.push({
+                title: '自适应',
+                children: (
+                    <div className="code-demo">
+                        <Table
+                            columns={[{"title":"日期","dataIndex":"time","minWidth":80,"align":"center"},{"title":"回复率","dataIndex":"replyed_rate","minWidth":80,"align":"center"},{"title":"回复数","dataIndex":"replyed_cnt","minWidth":80,"align":"center"}]}
+                            data={[{"replyed_rate":"0%","replyed_cnt":0,"time":1558713600},{"replyed_rate":"0%","replyed_cnt":0,"time":1558800000},{"replyed_rate":"0%","replyed_cnt":0,"time":1558886400},{"replyed_rate":"0%","replyed_cnt":0,"time":1558972800},{"replyed_rate":"0%","replyed_cnt":0,"time":1559059200},{"replyed_rate":"0%","replyed_cnt":0,"time":1559145600},{"replyed_rate":"0%","replyed_cnt":0,"time":1559232000},{"replyed_rate":"--","replyed_cnt":0,"time":1559318400},{"replyed_rate":"--","replyed_cnt":0,"time":1559404800},{"replyed_rate":"0%","replyed_cnt":0,"time":1559491200}]}
+                            bordered={true}
                         />
                     </div>
                 )

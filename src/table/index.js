@@ -61,7 +61,8 @@ export default class Table extends Component{
         if(JSON.stringify(nextProps.data) !== JSON.stringify(prevState.data)){
             // 这里没必要返回columns
             return {
-                tableData: nextProps.data
+                _columns: nextProps.columns,
+                tableData: nextProps.data,
             }
         }
         return null;
@@ -75,25 +76,25 @@ export default class Table extends Component{
         const full = {...this.caculateWidth(), ...this.getHeight()};
         let flag = 0;
         for(let key in full){
-            if(full[key] !== this.state[key]){
+            if(key !== 'columns' && full[key] !== this.state[key]){
                 flag++;
             }
         }
-        if(!flag){
+        if(!flag && JSON.stringify(this.state.tableData) === JSON.stringify(prevState.tableData)){
             return;
         }
 
-        const data = this.update(this.props);
+        const data = this.update(this.state);
         this.setState({...data, ...full});
     }
 
     update(props){
-        if(!props.data.length){
+        const data = props.tableData || props.data;
+        if(!data.length){
             return {};
         }
-        const columnData = this.updateColumns(props.columns);
-        const tableData = this.filterData(props.data, columnData.columns);
-        debugger;
+        const columnData = this.updateColumns(props._columns || props.columns);
+        const tableData = this.filterData(data, columnData.columns);
         return {
             fit: true, 
             ...columnData,
@@ -162,9 +163,8 @@ export default class Table extends Component{
         });
         return rows;
     }
-    caculateWidth(callback) {
-        const { columns, fixedColumns, rightFixedColumns, fit } = this.state;
-        const { gutterWidth } = this.state;
+    caculateWidth(props) {
+        const { columns, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
         const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
     
         let bodyWidth = this.table.clientWidth;
@@ -220,7 +220,8 @@ export default class Table extends Component{
             scrollX,
             bodyWidth,
             fixedWidth,
-            rightFixedWidth
+            rightFixedWidth,
+            columns: flexColumns.length ? flexColumns : columns
         }
     }
     filterData(data, columns) {
