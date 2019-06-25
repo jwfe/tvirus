@@ -5,7 +5,9 @@ export default class Tfooter extends Component{
     state = {
         sortState: false
     }
-    static defaultProps = {}
+    static defaultProps = {
+        colgroup: []
+    }
     getTotal(){
         const { onSum, firstText, columns, data } = this.props;
         return onSum ? onSum(columns, data) : columns.map((column, index) => {
@@ -20,11 +22,12 @@ export default class Tfooter extends Component{
     }
     render(){
         const totals = this.getTotal();
+        const colgroup = this.props.colgroup.length ? this.props.colgroup : this.props.columns;
         return (
             <table className="tv-table-footer" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
                 <colgroup>
                     {
-                        (this.props.colgroup || this.props.columns).map((item, index) => {
+                        colgroup.map((item, index) => {
                             return <col key={index} width={item.realWidth} style={{width: item.realWidth}}></col>
                         })
                     }

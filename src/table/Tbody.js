@@ -5,6 +5,9 @@ import Checkbox from '@checkbox';
 
 
 export default class Tbody extends Component{
+    static defaultProps = {
+        colgroup: []
+    }
     getCellValue(row, column, index){
         const data = row[column.key || column.dataIndex];
         return column.render(data, column, index)
@@ -46,11 +49,12 @@ export default class Tbody extends Component{
         })
     }
     render(){
+        const colgroup = this.props.colgroup.length ? this.props.colgroup : this.props.columns;
         return (
             <table className="tv-table-body" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
                 <colgroup>
                     {
-                        this.props.columns.map((item, index) => {
+                        colgroup.map((item, index) => {
                             return <col key={index} width={item.realWidth} style={{width: item.realWidth}}></col>
                         })
                     }

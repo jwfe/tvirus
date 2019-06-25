@@ -8,9 +8,12 @@ export default class Thead extends Component{
     state = {
         sortState: {}
     }
+    
     static defaultProps = {
+        colgroup: [],
         onSort: noop
     }
+
     onHanleSort(cell) {
         if(!cell.sort){
             return null;
@@ -57,11 +60,12 @@ export default class Thead extends Component{
         )
     }
     render(){
+        const colgroup = this.props.colgroup.length ? this.props.colgroup : this.props.columns;
         return (
             <table className="tv-table-header" cellPadding="0" cellSpacing="0" style={{borderSpacing: 0, border: 0, width: this.props.bodyWidth}}>
                 <colgroup>
                     {
-                        (this.props.colgroup || this.props.columns).map((item, index) => {
+                        colgroup.map((item, index) => {
                             return <col key={index} width={item.realWidth} style={{width: item.realWidth}}></col>
                         })
                     }
