@@ -186,7 +186,7 @@ export default class WeekTable extends Component {
                                 'isSelected': data.selected
                             }])} 
                             onMouseMove={this.handleMouseMove.bind(this, data)}
-                            onClick={this.handleClick.bind(this, row[0].date, row[6].date)}
+                            onClick={this.handleClick.bind(this, row[6].date, row[6].date)}
                             >
                                 第{data.week}周{first} ~ {last}
                             </div>

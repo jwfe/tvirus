@@ -126,7 +126,12 @@ export default class Range extends Component {
 
     onChange = () => {
         const { onChange } = this.props;
-        const { minDate, maxDate, name } = this.state;
+        const { minDate, maxDate, name, mode } = this.state;
+
+        if(!maxDate){
+            return;
+        }
+
         this.setState({
             changed: true,
             visible: false,
@@ -134,7 +139,11 @@ export default class Range extends Component {
                 minDate, maxDate,
             }
         }, () => {
-            onChange([minDate, maxDate], false, name);
+            let min = minDate;
+            if(mode === 'week'){
+                min = new Date(minDate.getTime() - (6 * 24 * 60 * 60 * 1000));
+            }
+            onChange([min, maxDate], false, name);
         })
     }
 
@@ -166,8 +175,12 @@ export default class Range extends Component {
 
         let left_date = parse(props.minDate || format(now));
         let right_date = parse(props.maxDate || format(now));
+
+        let expandIndex;
+        (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
         
         return {
+            expandSelectedIndex: expandIndex,
             currSelectKey: undefined,
             mode: props.mode,
             format: props.format,
@@ -531,11 +544,14 @@ export default class Range extends Component {
         if(footerExtra){
             return footerExtra();
         }
-        if(!this.state.minDate || !this.state.maxDate){
+        if(!this.state.minDate){
             return null;
         }
         const min = this.formatShowContent(this.state.minDate);
-        const max = this.formatShowContent(this.state.maxDate)
+        if(!this.state.maxDate){
+            return min;
+        }
+        const max = this.formatShowContent(this.state.maxDate);
         return `${min} ~ ${max}`
     }
     render(){

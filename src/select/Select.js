@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component, PropTypes, noop } from '@Libs';
 import Tag from '@tag';
-import Button from '@button';
+import Icon from '@icon';
 import Search from '@search';
 import Popup from '@popup';
 
@@ -151,6 +151,28 @@ export default class Select extends Component {
         }) 
     }
 
+    onHandleTagChange(index){
+        let { selectedVals, selectedTitle, visible } = this.state;
+        // 取消
+        if(!index){
+            selectedVals.shift(0);
+            selectedTitle.shift(0);
+        } else if((selectedVals.length - 1) === index){
+            selectedVals.pop();
+            selectedTitle.pop();
+        } else {
+            selectedVals.splice(index, index);
+            selectedTitle.splice(index, index);
+        }
+        this.setState({
+            visible,
+            selectedVals,
+            selectedTitle
+        }, () => {
+            this.props.onChange(selectedVals, name);
+        })
+    }
+
     handlePopupChange(showPopup){
         const { disabled, multiple } = this.props;
 
@@ -175,16 +197,16 @@ export default class Select extends Component {
         const isShowMultiple = selectedTitle && selectedTitle.length && multiple ? true : false;
         const isShowSearch = showSearch && !isShowMultiple;
 
-        let childNode = (
-            <span>
+        let defaultContent = autoButton || (
+            <div className={this.classNames(['tv-select-label', {
+                'tv-select-label-default': !isShowSearch,
+                'tv-select-placeholder': !selectedTitle[0]
+            }])}>
                 { isShowSearch && <Search data={data} value={selectedTitle[0]} onSearch={this.handleSearch.bind(this)}>搜索</Search> }
-                { !isShowSearch && <Button style={{display: isShowMultiple ? 'none' : 'block'}}>{selectedTitle[0] || placeholder}</Button> }
-            </span>
+                { !isShowSearch && <span>{selectedTitle[0] || placeholder}</span> }
+                { !isShowSearch && <Icon type="down" /> }
+            </div>
         );
-
-        if(autoButton){
-            childNode = autoButton;
-        }
 
         if(!childrens){
             return null;
@@ -199,8 +221,26 @@ export default class Select extends Component {
             </div>
         )
 
+        if(isShowMultiple){
+            defaultContent = (
+                <div className={this.classNames([
+                    'tv-select-tags',
+                    {
+                        'tv-select-placeholder': !selectedTitle.length
+                    }
+                ])}>
+                    {
+                        selectedTitle.length ? 
+                            selectedTitle.map((title, index) => <Tag closable onChange={this.onHandleTagChange.bind(this, index)} key={index}>{title}</Tag>)
+                        : placeholder
+                    }
+                </div>
+            )
+        }
+
         return (
             <div className={this.className('tv-select', {
+                'tv-select-focused': visible,
                 'tv-select-disabled': disabled
             })}>
 
@@ -216,14 +256,7 @@ export default class Select extends Component {
                     onChange={this.handlePopupChange.bind(this)}
                 >
                     <div className="tv-select-trigger">
-                        {isShowMultiple && (
-                            <div className="tv-tags">
-                                {
-                                    selectedTitle.map((title, index) => <Tag key={index}>{title}</Tag>)
-                                }
-                            </div>
-                        )}
-                        {childNode}
+                        {defaultContent}
                     </div>
                 </Popup>
             </div>
