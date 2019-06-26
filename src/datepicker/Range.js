@@ -28,7 +28,7 @@ export default class Range extends Component {
         expand: PropTypes.array,
         /** 禁用某些规则的日期，该方法可以接收一个日期对象，需要返回true/false */
         disabledDate: PropTypes.func,
-        /** 数据变化的回调 */
+        /** 数据变化的回调 onChange([最新日期, 最大日期], 浮层显示的状态（true | false）, name, mode: 'day', 'week', 'year', 'month'); */
         onChange: PropTypes.func
     };
 
@@ -143,18 +143,18 @@ export default class Range extends Component {
             if(mode === 'week'){
                 min = new Date(minDate.getTime() - (6 * 24 * 60 * 60 * 1000));
             }
-            onChange([min, maxDate], false, name);
+            onChange([min, maxDate], false, name, mode);
         })
     }
 
     onReset = () => {
-        const { onChange } = this.props;
+        const { onChange, mode } = this.props;
         const { selected: { minDate, maxDate }, name } = this.state;
         this.setState({
             visible: false,
             ...this.reset()
         }, () => {
-            onChange([minDate, maxDate], false, name);
+            onChange([minDate, maxDate], false, name, mode);
         });
     }
     getView(mode){
@@ -246,9 +246,9 @@ export default class Range extends Component {
         const { view, mode } = this.state;
         if(mode === 'day' || mode === 'week' || mode === 'month'){
             let date = parse(format(this.state[`${key}_date`]));
-            let { year } = weekOfYear(format(cell));
+            let { dirtyYear } = weekOfYear(format(cell));
 
-            date.setFullYear(year);
+            date.setFullYear(dirtyYear);
             // 把当前打开的辅助层关掉
             this.setState({
                 visible: true, 
@@ -268,8 +268,8 @@ export default class Range extends Component {
 
         if(mode === 'day' || mode === 'week'){
             let date = parse(format(this.state[`${rangeKey}_date`]));
-            const { year, month } = weekOfYear(format(cell));
-            const array  = fixedYM(year, month - 1);
+            const { dirtyYear, month } = weekOfYear(format(cell));
+            const array  = fixedYM(dirtyYear, month - 1);
 
             date.setFullYear(array[0]);
             date.setMonth(array[1]);
@@ -285,10 +285,10 @@ export default class Range extends Component {
     handlePrevYearClick(key){
         let date = parse(format(this.state[`${key}_date`]));
 
-        let { year } = weekOfYear(format(date));
-        year = year - 1;
+        let { dirtyYear } = weekOfYear(format(date));
+        dirtyYear = dirtyYear - 1;
 
-        date.setFullYear(year);
+        date.setFullYear(dirtyYear);
 
         this.setState({
             [`${key}_date`]: date
@@ -298,10 +298,10 @@ export default class Range extends Component {
     // 下年
     handleNextYearClick(key){
         let date = parse(format(this.state[`${key}_date`]));
-        let { year } = weekOfYear(format(date));
-        year = year + 1;
+        let { dirtyYear } = weekOfYear(format(date));
+        dirtyYear = dirtyYear + 1;
 
-        date.setFullYear(year);
+        date.setFullYear(dirtyYear);
 
         this.setState({
             [`${key}_date`]: date
@@ -311,8 +311,8 @@ export default class Range extends Component {
     // 上月
     handlePrevMonthClick(key){
         let date = parse(format(this.state[`${key}_date`]));
-        const { year, month } = weekOfYear(format(date));
-        const array  = fixedYM(year, month - 1);
+        const { dirtyYear, month } = weekOfYear(format(date));
+        const array  = fixedYM(dirtyYear, month - 1);
 
         date.setFullYear(array[0]);
         date.setMonth(array[1] - 1);
@@ -325,8 +325,8 @@ export default class Range extends Component {
     // 下月
     handleNextMonthClick(key){
         let date = parse(format(this.state[`${key}_date`]));
-        const { year, month } = weekOfYear(format(date));
-        const array  = fixedYM(year, month + 1);
+        const { dirtyYear, month } = weekOfYear(format(date));
+        const array  = fixedYM(dirtyYear, month + 1);
 
         date.setFullYear(array[0]);
         date.setMonth(array[1] - 1);
@@ -360,13 +360,14 @@ export default class Range extends Component {
         const otherDate = this.state[`${otherKey}_date`];
 
         let dateObj = weekOfYear(format(value));
+        let currentDateObj = this.state[`${key}_date`] ? weekOfYear(format(this.state[`${key}_date`])) : 0;
         let otherDateObj = weekOfYear(format(otherDate));
         // 月视图下是不允许同一年选择的
         if(view[`${key}year`] && mode === 'month'){
-            if(key === 'left' && dateObj.year < otherDateObj.year){
+            if(key === 'left' && dateObj.dirtyYear < otherDateObj.dirtyYear){
                 return false
             }
-            if( key === 'right' && otherDateObj.year < dateObj.year){
+            if( key === 'right' && otherDateObj.dirtyYear < dateObj.dirtyYear){
                 return false
             }
 
@@ -374,17 +375,21 @@ export default class Range extends Component {
         }
         // 周视图和日视图支持同一年
         if(mode !== 'year' && view[`${key}year`] && mode !== 'month'){
-            if(key === 'left' && dateObj.year <= otherDateObj.year){
-                return false
-            }
-            if( key === 'right' && otherDateObj.year <= dateObj.year){
+            if((key === 'left' && dateObj.dirtyYear <= otherDateObj.dirtyYear) 
+            || (key === 'right' && otherDateObj.dirtyYear <= dateObj.dirtyYear)){
+                if((key === 'left' && currentDateObj.month > otherDateObj.month 
+                    && dateObj.dirtyYear >= otherDateObj.dirtyYear) 
+                || (key === 'right' && currentDateObj.month < otherDateObj.month 
+                    && dateObj.dirtyYear <= otherDateObj.dirtyYear) ){
+                    return true;
+                }
                 return false
             }
             return true;
         }
 
-        const dateObjMonth = parse(`${dateObj.year}-${dateObj.month}-01`);
-        const otherDateObjMonth = parse(`${otherDateObj.year}-${otherDateObj.month}-01`);
+        const dateObjMonth = parse(`${dateObj.dirtyYear}-${dateObj.month}-01`);
+        const otherDateObjMonth = parse(`${otherDateObj.dirtyYear}-${otherDateObj.month}-01`);
 
         if(mode !== 'month' && view[`${key}month`]){
             if(key === 'left'){
