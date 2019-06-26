@@ -202,7 +202,7 @@ export default class CommonMenu extends Component{
                 </Menu.Item>
             })
             return (
-                <Menu.SubMenu key={index2} title={SubmenuTitle}>
+                <Menu.SubMenu opened={true} key={index2} title={SubmenuTitle}>
                     {child}
                 </Menu.SubMenu>
             )    
@@ -324,7 +324,7 @@ export default class CommonMenu extends Component{
 
         return (
             <aside style={style.left}>
-                <Menu className="tv-menu-vertical-demo" onClick={this.onClick.bind(this)}>
+                <Menu multiple className="tv-menu-vertical-demo" onClick={this.onClick.bind(this)}>
                     {menu}
                 </Menu>
             </aside>

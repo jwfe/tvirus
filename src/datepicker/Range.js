@@ -5,6 +5,8 @@ import YearTable from './YearTable';
 import MonthTable from './MonthTable';
 import WeekTable from './WeekTable';
 import Button from '@button';
+import Icon from '@icon';
+
 import Popup from '@popup';
 
 const { weekOfYear, parse, fixedYM, format, nextMonth } = Util.date;
@@ -36,7 +38,6 @@ export default class Range extends Component {
         mode: 'day',
         trigger: 'click',
         position: "bottom left",
-        disabledDate: noop,
         onChange: noop
     };
 
@@ -371,7 +372,7 @@ export default class Range extends Component {
                 return false
             }
 
-            return true;
+            return disabledDate ? disabledDate(value) : true;
         }
         // 周视图和日视图支持同一年
         if(mode !== 'year' && view[`${key}year`] && mode !== 'month'){
@@ -385,7 +386,7 @@ export default class Range extends Component {
                 }
                 return false
             }
-            return true;
+            return disabledDate ? disabledDate(value) : true;
         }
 
         const dateObjMonth = parse(`${dateObj.dirtyYear}-${dateObj.month}-01`);
@@ -402,9 +403,9 @@ export default class Range extends Component {
                 }
             }
     
-            return true;
+            return disabledDate ? disabledDate(value) : true;
         }
-        return disabledDate(value);
+        return disabledDate ? disabledDate(value) : false;
     }
 
     renderSearch(key){
@@ -615,7 +616,7 @@ export default class Range extends Component {
                 onChange={this.handlePopupChange}
                 >
                     {children || <div className="tv-datepicker-trigger">
-                        <Button>{ min && max ? `${min} ~ ${max}` : placeholder}</Button>
+                        <Button>{ min && max ? `${min} ~ ${max}` : placeholder}<Icon type="calendar" /></Button>
                     </div>}
                 </Popup>
             </div>

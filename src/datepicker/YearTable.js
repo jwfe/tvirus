@@ -69,7 +69,7 @@ export default class YearTable extends Component {
             const time = date.getTime();
             const _date = new Date(time);
             _date.setFullYear(value);
-            _date.setMonth(1);
+            _date.setMonth(0);
             _date.setDate(1);
 
             yearTables[rowIndex].push({

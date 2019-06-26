@@ -20,6 +20,8 @@ export default class Menu extends Component {
         inlineCollapsed: PropTypes.bool,
         /** 设置皮肤 */
         theme: PropTypes.string,
+        /** 是否允许多选 */
+        multiple: PropTypes.bool,
         /** 展示方式，可选 horizontal, vertical */
         mode: PropTypes.string,
         /** 点击的回调 */
@@ -57,8 +59,13 @@ export default class Menu extends Component {
         return !!this.state.openMaps[index];
     }
     newOpenNodes(activeIndex){
+        const { multiple } = this.props;
         const openPath = activeIndex.split('-');
-        const openMaps = {};
+        let openMaps = {};
+
+        if(multiple){
+            openMaps = this.state.openMaps;
+        }
         openPath.reduce(function(a, b){ 
             const value = `${a}-${b}`;
             openMaps[value] = true;
