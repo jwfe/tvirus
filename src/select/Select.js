@@ -19,6 +19,19 @@ function getDiffArray(val, val2){
     return arr.length;
 }
 
+function getInitValue(props){
+    const map = {selectedTitle: [], searchVals: [], data: []}
+    React.Children.map(props.children, (child) => {
+        const { children, value } = child.props;
+        if(props.value.indexOf(value) !== -1){
+            map.selectedTitle.push(children);
+        }
+        map.searchVals.push(value);
+        map.data.push(value);
+    });
+    return map;
+}
+
 export default class Select extends Component {
     static propTypes = {
         /** 自定义样式 */
@@ -61,7 +74,7 @@ export default class Select extends Component {
             selectedVals: props.value,
             visible: false,
             childrens: null,
-            ...this.getInitValue(props)
+            ...getInitValue(props)
         }
     }
 
@@ -69,23 +82,11 @@ export default class Select extends Component {
         if(getDiffArray(nextProps.value, prevState.selectedVals)){
             return {
                 childrens: null,
-                selectedVals: nextProps.value
+                selectedVals: nextProps.value,
+                ...getInitValue(nextProps)
             };
         }
         return null;
-    }
-
-    getInitValue(props){
-        const map = {selectedTitle: [], searchVals: [], data: []}
-        React.Children.map(props.children, (child) => {
-            const { children, value } = child.props;
-            if(props.value.indexOf(value) !== -1){
-                map.selectedTitle.push(children);
-            }
-            map.searchVals.push(value);
-            map.data.push(value);
-        });
-        return map;
     }
 
     handleOptionClick(value, title){

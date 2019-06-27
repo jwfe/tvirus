@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Select, Row, Col } from 'tvirus';
+import { Select, Row, Col, Button } from 'tvirus';
 import './index.less'
 
 export default class SelectDemo extends Component{
@@ -17,6 +17,22 @@ export default class SelectDemo extends Component{
         this.childs();
     }
 
+    handleToggle = () => {
+        this.setState({
+            oneValues: []
+        }, () => {
+            this.childs();
+        })
+    }
+
+    onHanleChange = (values) => {
+        this.setState({ 
+            oneValues: values
+        }, () => {
+            this.childs();
+        })
+    }
+
     childs(){
         const childs = [];
         childs.push({
@@ -25,10 +41,11 @@ export default class SelectDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Select value={this.state.oneValues}>
+                            <Select value={this.state.oneValues} onChange={this.onHanleChange}>
                                 <Select.Option value="1">内容1</Select.Option>
                                 <Select.Option value="2">内容2</Select.Option>
                             </Select>
+                            <Button onClick={this.handleToggle}>点击切换数据</Button>
                         </Col>
                         <Col span={12}>
                             <Select multiple={true}>
