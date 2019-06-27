@@ -41,7 +41,8 @@
     &-header {
         border-bottom: 1px solid #e8e8e8;
         border-radius: 4px 4px 0 0;
-        padding: 16px 24px;
+        margin: 0 10px;
+        padding: 16px 10px;
         color: @dark-color-45;
         background-color: @light-bgc;
     }
@@ -57,7 +58,7 @@
     }
     &-close{
         position: absolute;
-        top: 20px;
+        top: 10px;
         right: 20px;
         z-index: 10;
 
@@ -88,11 +89,15 @@
             text-transform: none;
             text-rendering: auto;
         }
+        .tv-icon-add{
+            transform: rotate(45deg);
+        }
     }
     &-footer {
         border-top: 1px solid #e8e8e8;
         border-radius: 0 0 4px 4px;
-        padding: 10px 16px;
+        margin: 0 10px;
+        padding: 10px 10px;
         text-align: right;
         background: tranparent;
         & .tv-button:nth-child(2){

@@ -30,7 +30,7 @@ export default class Range extends Component {
         expand: PropTypes.array,
         /** 禁用某些规则的日期，该方法可以接收一个日期对象，需要返回true/false */
         disabledDate: PropTypes.func,
-        /** 数据变化的回调 onChange([最新日期, 最大日期], 浮层显示的状态（true | false）, name, mode: 'day', 'week', 'year', 'month'); */
+        /** 数据变化的回调 onChange([最新日期, 最大日期], 确定或者取消的标记：true是确定、false是取消, name, mode: 'day', 'week', 'year', 'month'); */
         onChange: PropTypes.func
     };
 
@@ -144,7 +144,7 @@ export default class Range extends Component {
             if(mode === 'week'){
                 min = new Date(minDate.getTime() - (6 * 24 * 60 * 60 * 1000));
             }
-            onChange([min, maxDate], false, name, mode);
+            onChange([min, maxDate], true, name, mode);
         })
     }
 

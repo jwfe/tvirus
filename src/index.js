@@ -24,6 +24,7 @@ import Search from './search';
 import Select from './select';
 import Sliderbar from './sliderbar';
 import Switch from './switch';
+import Tree from './tree';
 import Table from './table';
 import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
@@ -58,6 +59,7 @@ import '../assets/tabs';
 import '../assets/tag';
 import '../assets/loading';
 import '../assets/spin';
+import '../assets/tree';
 import '../assets/table';
 import '../assets/tooltip';
 import '../assets/popup';
@@ -72,28 +74,32 @@ export {
     Badge,
     Breadcrumb,
     Button,
-    Cascader,
     Chart,
     Checkbox,
     Card,
-    Datepicker,
     Dialog,
     Row, Col,
     I18nProvider, I18nReceiver,
     Icon,
+
     Form,
     Input,
+    Radio,
+    Search,
+    Datepicker,
+    Cascader,
+    Select,
+    Sliderbar,
+    Switch,
+    Tree,
+
     Menu,
     Message,
     Progress,
     Pagination,
     Popup,
     PopConfirm,
-    Radio,
-    Search,
-    Select,
-    Sliderbar,
-    Switch,
+    
     Table,
     Tabs, Tabpanel,
     Tag,

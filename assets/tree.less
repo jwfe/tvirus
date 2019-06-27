@@ -1,0 +1,31 @@
+@import "./libs/variables.less";
+@import "./libs/utils.less";
+.tv-tree{
+    &, ol,li{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    &-node{
+        height: 36px;
+        line-height: 36px;
+        cursor: pointer;
+        .expanded-icon{
+            margin-right: 8px;
+        }
+        .tv-icon{
+            font-size: 12px;
+            transform: scale(.7) rotate(0deg);
+            transition: transform .3s ease-in-out; 
+        }
+        &.expanded{
+            .tv-icon{
+                transform: scale(.7) rotate(90deg);
+            }
+        }
+    }
+    li ol{
+        padding-left: 16px;
+    }
+    
+}

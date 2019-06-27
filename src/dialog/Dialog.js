@@ -84,7 +84,7 @@ export default class Dialog extends Component {
         return (
             <div className={this.className('tv-dialog')}>
                 <div className="tv-dialog-content">
-                    <Button className="tv-dialog-close" icon="close" onClick={this.handleClose.bind(this)} />
+                    <Button className="tv-dialog-close" icon="add" onClick={this.handleClose.bind(this)} />
                     {title && <div className="tv-dialog-header"><div className="tv-dialog-title">{title}</div></div>}
                     <div className="tv-dialog-body">
                         {children}

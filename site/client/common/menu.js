@@ -120,6 +120,10 @@ export default class CommonMenu extends Component{
                     {
                         title: 'Datepicker 日期控件',
                         query: 'datepicker'
+                    },
+                    {
+                        title: 'Tree 树形控件',
+                        query: 'tree'
                     }
                 ]
             },
