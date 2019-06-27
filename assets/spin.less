@@ -1,0 +1,34 @@
+.tv-spin{
+    &-loading{
+        position: static;
+        display: inline-block;
+        opacity: 1;
+        .tv-loading{
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+    }
+    &-box{
+        position: relative;
+        .tv-spin-loading{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 4;
+            width: 100%;
+            height: 100%;
+        }
+        .tv-loading{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+    }
+    &-children{
+        transition: opacity .3s;
+    }
+    &-load{
+        opacity: .5;
+    }
+}

@@ -28,6 +28,7 @@ export default class ButtonDemo extends Component{
                 <Button type="danger" plain={true} size={size}>Danger</Button>
                 <Button type="success" plain={true} size={size}>Success</Button>
                 <Button type="warning" plain={true} size={size}>Warning</Button>
+                <Button type="link" size={size}>link</Button>
                 <br />
                 <Button type="primary" shape="circle" icon="search" size={size}></Button>
                 <Button type="primary" shape="circle" icon="like" size={size} plain={true}></Button>

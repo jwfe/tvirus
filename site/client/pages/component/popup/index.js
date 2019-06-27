@@ -57,46 +57,6 @@ export default class PopupDemo extends Component{
             )
         });
 
-
-        childs.push({
-            title: '气泡确认框',
-            children: (
-                <div className="code-demo">
-                    <Row gutter={16}>
-                        <Col span={8}>
-                            <Popup 
-                            trigger="click"
-                            title="竟然还有title"
-                            content="这段提示很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长，真的太长了"
-                            >
-                                <Button type="link">删除</Button>
-                            </Popup>
-                        </Col>
-                        <Col span={8}>
-                            <Popup 
-                            trigger="hover"
-                            title="竟然还有title"
-                            content="鼠标滑过"
-                            >
-                                <Button>hover me !</Button>
-                            </Popup>
-                        </Col>
-
-                        <Col span={8}>
-                            <Popup 
-                            prefix="tooltip"
-                            trigger="hover"
-                            content="鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过鼠标滑过"
-                            >
-                                <Button>tooltip</Button>
-                            </Popup>
-                        </Col>
-                    </Row>
-                    
-                </div>
-            )
-        });
-
         childs.push({
             title: '十二个方向',
             children: (

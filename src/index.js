@@ -18,6 +18,7 @@ import Menu from './menu';
 import Message from './message';
 import Pagination from './pagination';
 import Popup from './popup';
+import PopConfirm from './popconfirm';
 import Radio from './radio';
 import Search from './search';
 import Select from './select';
@@ -27,6 +28,7 @@ import Table from './table';
 import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
 import Loading from './loading';
+import Spin from './spin';
 
 
 import '../assets/animation';
@@ -55,6 +57,7 @@ import '../assets/pagination';
 import '../assets/tabs';
 import '../assets/tag';
 import '../assets/loading';
+import '../assets/spin';
 import '../assets/table';
 import '../assets/tooltip';
 import '../assets/popup';
@@ -85,6 +88,7 @@ export {
     Progress,
     Pagination,
     Popup,
+    PopConfirm,
     Radio,
     Search,
     Select,
@@ -93,5 +97,7 @@ export {
     Table,
     Tabs, Tabpanel,
     Tag,
-    Loading
+    // loading
+    Loading,
+    Spin
 }

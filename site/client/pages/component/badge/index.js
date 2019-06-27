@@ -51,10 +51,12 @@ export default class BadgeDemo extends Component{
             title: '状态点',
             children: (
                 <div className="code-demo">
+                    <div><Badge status="default">default</Badge></div>
                     <div><Badge status="success">success</Badge></div>
                     <div><Badge status="info">info</Badge></div>
                     <div><Badge status="warning">warning</Badge></div>
                     <div><Badge status="danger">danger</Badge></div>
+                    <div><Badge status="processing">processing</Badge></div>
                     <h5>自定义</h5>
                     <div><Badge status="color" color="#722ed1">#722ed1</Badge></div>
                 </div>

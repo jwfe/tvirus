@@ -185,3 +185,59 @@
     }
 }
 
+.tv-popconfirm{
+    &-wraper{
+        .tv-popup-inner .tv-popup-content{
+            padding: 0;
+        }
+    }
+    &-trigger{
+        display: inline;
+    }
+}
+.tv-pop{
+    &-message{
+        display: inline;
+        .tv-icon{
+            margin-right: 5px; 
+        }
+    
+        &-success{
+            .tv-icon{
+                color: @success-color;
+            }
+        }
+    
+        &-danger{
+            .tv-icon{
+                color: @danger-color;
+            }
+        }
+    
+        &-warning{
+            .tv-icon{
+                color: @warning-color;
+            }
+        }
+    }
+    
+    &-content{
+        min-width: 150px;
+    }
+    &-confirm{
+        &-body{
+            padding: 10px;
+        }
+        .tv-dialog-footer{
+            border: 0 none;
+            padding: 0;
+        }
+    }
+    &-footer{
+        padding: 0 10px 10px;
+        .tv-button{
+            margin-left: 10px;
+        }
+    }
+}
+

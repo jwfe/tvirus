@@ -167,6 +167,11 @@ export default class CommonMenu extends Component{
                         title: 'Popup 弹出',
                         query: 'popup'
                     },
+
+                    {
+                        title: 'PopConfirm 气泡弹出层',
+                        query: 'popconfirm'
+                    },
                     {
                         title: 'Chart 图表',
                         query: 'chart'
@@ -190,6 +195,10 @@ export default class CommonMenu extends Component{
                     {
                         title: 'Loading 加载',
                         query: 'loading'
+                    },
+                    {
+                        title: 'Spin 模块加载',
+                        query: 'spin'
                     }
                 ]
             }
