@@ -6,6 +6,15 @@ export default class Store{
     getNode(value) {
         return this.flatNodes[value];
     }
+    setNode(key, objectKey, value) {
+        this.flatNodes[key][objectKey] = value;
+        console.log(this.flatNodes[key], this.flatNodes[key][objectKey]);
+    }
+    setAllSelected(value) {
+        Object.keys(this.flatNodes).forEach((key) => {
+            this.flatNodes[key]['selected'] = value;
+        });
+    }
     nodeHasChildren(node) {
         return Array.isArray(node.children) && node.children.length > 0;
     }
@@ -13,11 +22,9 @@ export default class Store{
         if (disabledProp) {
             return true;
         }
-
         if (!noCascade && parent.disabled) {
             return true;
         }
-
         return Boolean(node.disabled);
     }
     flattenNodes(nodes, parent = {}, depth = 0) {
@@ -43,5 +50,12 @@ export default class Store{
             this.flatNodes[node.key] = node;
             this.flattenNodes(node.children, node, depth + 1);
         });
+    }
+    expandAllNodes(expand){
+        Object.keys(this.flatNodes).forEach((key) => {
+            if(this.flatNodes[key].isParent){
+                this.flatNodes[key].expanded = expand;
+            }
+        })
     }
 }

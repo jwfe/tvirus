@@ -27,15 +27,30 @@ export default class Tree extends Component{
         super(props);
 
         const store = new Store(props);
-        store.flattenNodes(props.data);
+        store.flattenNodes(JSON.parse(JSON.stringify(props.data)));
         this.state.store = store;
     }
-    
+
+    onChange = (node, expanded, selected) => {
+        const {
+            onChange,
+            multiple,
+            name
+        } = this.props;
+        const { store } = this.state;
+        if(!multiple){
+           store.setAllSelected(false);
+        }
+        store.setNode(node.key, 'selected', selected);
+        this.setState({update: !this.state.update}, () => {
+            onChange(node, name);
+        })
+    }
+
     renderTreeNodes(nodes, parent = {}) {
         const {
             expandedKeys,
-            expandDisabled,
-            onChange
+            expandDisabled
         } = this.props;
 
         const { store } = this.state;
@@ -47,7 +62,7 @@ export default class Tree extends Component{
             return (
                 <Node
                     key={key}
-                    onClick={onChange}
+                    onClick={this.onChange}
                     label={flatNode.label}
                     expandedKeys={expandedKeys}
                     expandDisabled={expandDisabled} 

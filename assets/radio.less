@@ -136,20 +136,24 @@
                 }
 
                 &:first-child:not(:last-child){
-                    border-top-left-radius: 1px;
-                    border-bottom-left-radius: 1px;
+                    border-top-left-radius: @radius;
+                    border-bottom-left-radius: @radius;
                 }
                 &:last-child:not(:first-child){
-                    border-top-right-radius: 1px;
-                    border-bottom-right-radius: 1px;
+                    border-top-right-radius: @radius;
+                    border-bottom-right-radius: @radius;
                 }
                 &+.tv-radio-label{
                     margin-left: -1px;
                 }
+                &:hover{
+                    color: @master-color;
+                }
                 &.tv-radio-checked{
+                    z-index: 1;
                     border-color: @master-border;
-                    color: @light-color;
-                    background-color: @master-bgc;
+                    color: @master-color;
+                    background-color: @master-bgc-20;
                 }
                 &.tv-radio-disabled{
                     opacity: 0.6;

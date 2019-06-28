@@ -25,6 +25,7 @@ import Select from './select';
 import Sliderbar from './sliderbar';
 import Switch from './switch';
 import Tree from './tree';
+import TreeSelect from './treeselect';
 import Table from './table';
 import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
@@ -92,6 +93,7 @@ export {
     Sliderbar,
     Switch,
     Tree,
+    TreeSelect,
 
     Menu,
     Message,

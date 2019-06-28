@@ -124,6 +124,10 @@ export default class CommonMenu extends Component{
                     {
                         title: 'Tree 树形控件',
                         query: 'tree'
+                    },
+                    {
+                        title: 'TreeSelect 树选择',
+                        query: 'treeselect'
                     }
                 ]
             },

@@ -11,21 +11,44 @@
         line-height: 36px;
         cursor: pointer;
         .expanded-icon{
-            margin-right: 8px;
+            display: inline-block;
+            margin-right: 5px;
+            width: 12px;
         }
         .tv-icon{
             font-size: 12px;
             transform: scale(.7) rotate(0deg);
             transition: transform .3s ease-in-out; 
         }
+        &-label{
+            display: inline-block;
+            padding: 3px 5px;
+            width: calc(100% - 26px);
+            &:hover{
+                background: @master-bgc-10;
+                color: @master-color;
+            }
+        }
+        // 展开
         &.expanded{
             .tv-icon{
                 transform: scale(.7) rotate(90deg);
             }
         }
+        &.selected{
+            .tv-tree-node-label{
+                background: @master-bgc-25;
+                color: @master-color;
+                transition: all .3s;
+            }
+        }
     }
-    li ol{
-        padding-left: 16px;
+    li{
+        margin: 8px 0;
+        white-space: nowrap;
+        ol{
+            padding-left: 16px;
+        }
     }
     
 }

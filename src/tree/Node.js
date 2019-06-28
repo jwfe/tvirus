@@ -4,21 +4,23 @@ import Icon from '@icon';
 
 export default class Node extends Component{
     state = {
-        expanded: false
+        expanded: false,
     }
     constructor(props){
         super(props);
         this.state.expanded = props.expandedKeys.indexOf(props.node.key) > -1
     }
     onExpand = () => {
-        const { onClick, node, expandedKeys } = this.props;
-        const expanded = !this.state.expanded;
         this.setState({
-            expanded,
-        }, () => {
-            onClick && onClick(node, expanded);
+            expanded: !this.state.expanded
         })
     }
+    onChange = () => {
+        const expanded = !this.state.expanded;
+        const { onClick, node } = this.props;
+        onClick && onClick(node, expanded, !node.selected);
+    }
+
     renderLabel(children) {
         const { onClick, label } = this.props;
         const clickable = onClick !== null;
@@ -28,6 +30,7 @@ export default class Node extends Component{
                 {clickable ? (
                     <span
                         className="tv-tree-node-clickable"
+                        onClick={this.onChange}
                     >
                         {children}
                     </span>
@@ -37,7 +40,7 @@ export default class Node extends Component{
     }
     renderCollapseButton(expanded) {
         return (
-            <span className="expanded-icon">
+            <span className="expanded-icon" onClick={this.onExpand}>
                 {expanded ? null : <Icon type="caret-right" />}
             </span>
         )
@@ -47,8 +50,9 @@ export default class Node extends Component{
         return (
             <li>
                 <div className={this.className('tv-tree-node', {
-                    'expanded': this.state.expanded
-                })} onClick={this.onExpand}>
+                    'expanded': this.state.expanded,
+                    'selected': node.selected
+                })}>
                     {this.renderCollapseButton(!children)} 
                     {this.renderLabel(node.label)}
                 </div>
