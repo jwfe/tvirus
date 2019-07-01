@@ -137,6 +137,7 @@ export default class Range extends Component {
             changed: true,
             visible: false,
             selected: {
+                mode,
                 minDate, maxDate,
             }
         }, () => {
@@ -149,13 +150,13 @@ export default class Range extends Component {
     }
 
     onReset = () => {
-        const { onChange, mode } = this.props;
-        const { selected: { minDate, maxDate }, name } = this.state;
+        const propsMode = this.props.mode;
+        const { selected: { minDate, maxDate, mode }, name } = this.state;
         this.setState({
             visible: false,
             ...this.reset()
         }, () => {
-            onChange([minDate, maxDate], false, name, mode);
+            this.props.onChange([minDate, maxDate], false, name, mode || propsMode);
         });
     }
     getView(mode){
@@ -171,7 +172,9 @@ export default class Range extends Component {
     }
     reset() {
         const props = this.props;
-
+        const state = this.state || {};
+        const selected = state.selected || {}
+        const mode = selected.mode || props.mode
         const now = new Date();
 
         let left_date = parse(props.minDate || format(now));
@@ -183,14 +186,15 @@ export default class Range extends Component {
         return {
             expandSelectedIndex: expandIndex,
             currSelectKey: undefined,
-            mode: props.mode,
+            mode,
             format: props.format,
-            view: this.getView(props.mode),
+            view: this.getView(mode),
             left_date: left_date,
             right_date: right_date,
             minDate: parse(format(left_date)),
             maxDate: parse(props.maxDate || format(left_date)),
             selected: {
+                mode,
                 minDate: parse(format(left_date)),
                 maxDate: parse(props.maxDate || format(left_date)),
             },
