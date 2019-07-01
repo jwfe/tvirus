@@ -127,7 +127,7 @@ export default class Range extends Component {
 
     onChange = () => {
         const { onChange } = this.props;
-        const { minDate, maxDate, name, mode } = this.state;
+        const { minDate, maxDate, name, mode, expandSelectedIndex } = this.state;
 
         if(!maxDate){
             return;
@@ -137,6 +137,7 @@ export default class Range extends Component {
             changed: true,
             visible: false,
             selected: {
+                expandSelectedIndex,
                 mode,
                 minDate, maxDate,
             }
@@ -151,10 +152,10 @@ export default class Range extends Component {
 
     onReset = () => {
         const propsMode = this.props.mode;
-        const { selected: { minDate, maxDate, mode }, name } = this.state;
+        const { selected: { minDate, maxDate, mode, expandSelectedIndex }, name } = this.state;
         this.setState({
             visible: false,
-            ...this.reset()
+            ...this.reset(expandSelectedIndex)
         }, () => {
             this.props.onChange([minDate, maxDate], false, name, mode || propsMode);
         });
@@ -170,7 +171,7 @@ export default class Range extends Component {
             ['rightweek']: mode === 'week'
         }
     }
-    reset() {
+    reset(selectedIndex) {
         const props = this.props;
         const state = this.state || {};
         const selected = state.selected || {}
@@ -184,7 +185,7 @@ export default class Range extends Component {
         (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
         const max = parse(props.maxDate || format(left_date));
         return {
-            expandSelectedIndex: expandIndex,
+            expandSelectedIndex: typeof selectedIndex == 'undefined' ? expandIndex : selected.expandSelectedIndex,
             currSelectKey: undefined,
             mode,
             format: props.format,
@@ -194,6 +195,7 @@ export default class Range extends Component {
             minDate: parse(format(left_date)),
             maxDate: parse(props.maxDate || format(left_date)),
             selected: {
+                expandSelectedIndex: selected.expandSelectedIndex,
                 mode,
                 minDate: parse(format(selected.minDate || left_date)),
                 maxDate: selected.maxDate || max,
