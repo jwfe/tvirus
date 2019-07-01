@@ -182,7 +182,7 @@ export default class Range extends Component {
 
         let expandIndex;
         (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
-        
+        const max = parse(props.maxDate || format(left_date));
         return {
             expandSelectedIndex: expandIndex,
             currSelectKey: undefined,
@@ -195,8 +195,8 @@ export default class Range extends Component {
             maxDate: parse(props.maxDate || format(left_date)),
             selected: {
                 mode,
-                minDate: parse(format(left_date)),
-                maxDate: parse(props.maxDate || format(left_date)),
+                minDate: parse(format(selected.minDate || left_date)),
+                maxDate: selected.maxDate || max,
             },
             rangeState: {
                 endDate: null,
