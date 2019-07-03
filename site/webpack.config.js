@@ -341,6 +341,12 @@ module.exports = {
                   priority: 100,
                   name: 'vendors',
                 },
+                'tvirus': {
+                    test: /tvirus/, // 直接使用 test 来做路径匹配
+                    chunks: "initial",
+                    name: "tvirus",
+                    enforce: true,
+                },
                 commons: { // 其余同步加载包
                   chunks: 'all',
                   minChunks: 2,
