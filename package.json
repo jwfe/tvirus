@@ -1,6 +1,6 @@
 {
   "name": "tvirus",
-  "version": "1.0.36",
+  "version": "1.0.39",
   "description": "一套完善的组件化方案",
   "main": "dist/tvirus.js",
   "peerDependencies": {
@@ -72,5 +72,5 @@
   "bugs": {
     "url": "https://github.com/jwfe/tvirus/issues"
   },
-  "homepage": "https://github.com/jwfe/tvirus#readme"
+  "homepage": "http://tvirus.art"
 }

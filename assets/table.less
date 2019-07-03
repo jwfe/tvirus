@@ -49,6 +49,9 @@
         text-align: left;
         background-color: @table-header-bgc;
     }
+    &-body{
+        padding-bottom: 8px;
+    }
 
     &-body, 
     &-footer, 
@@ -78,8 +81,11 @@
         overflow: hidden;
     }
     &-body-wrapper {
-        overflow: auto;
+        overflow: hidden;
         position: relative;
+        &:hover{
+            overflow: auto;
+        }
     }
 
     &-fixed,

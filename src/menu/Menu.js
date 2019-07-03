@@ -74,7 +74,7 @@ export default class Menu extends Component {
         return openMaps
     }
     defaultOpenActive(activeIndex){
-        if(typeof activeIndex === 'undefined' || this.handleOpened(activeIndex)){
+        if(typeof activeIndex === 'undefined'){
             return;
         }
         const openMaps = this.newOpenNodes(activeIndex);

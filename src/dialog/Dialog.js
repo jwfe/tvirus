@@ -80,10 +80,12 @@ export default class Dialog extends Component {
     }
 
     renderModal(){
-        const { title, footer, children, ok, cancel, okText, cancelText } = this.props;
+        const { title, footer, children, ok, cancel, okText, cancelText, width } = this.props;
         return (
             <div className={this.className('tv-dialog')}>
-                <div className="tv-dialog-content">
+                <div className="tv-dialog-content" style={this.style({
+                    width
+                })}>
                     <Button className="tv-dialog-close" icon="add" onClick={this.handleClose.bind(this)} />
                     {title && <div className="tv-dialog-header"><div className="tv-dialog-title">{title}</div></div>}
                     <div className="tv-dialog-body">
@@ -99,13 +101,15 @@ export default class Dialog extends Component {
     }
 
     renderAlertModal(){
-        const { title, footer, children, ok, cancel, okText, cancelText, icon, contentType } = this.props;
+        const { title, footer, children, ok, cancel, okText, cancelText, icon, contentType, width } = this.props;
         return (
             <div className={this.className('tv-dialog', {
                 'tv-dialog-confirm': true,
                 [`tv-dialog-confirm-${contentType}`]: contentType
             })}>
-                <div className="tv-dialog-content">
+                <div className="tv-dialog-content" style={this.style({
+                    width
+                })}>
                     <div className="tv-dialog-confirm-body">
                         <Icon type={icon} />
                         <span className="tv-dialog-confirm-title">{title}</span>
@@ -134,12 +138,15 @@ export default class Dialog extends Component {
     }
 
     render(){
+        const { mask } = this.props;
         const { visible } = this.state;
         return (
             <Portal>
-                <div className={this.className('tv-dialog-mask', {
-                    'tv-dialog-mask-hidden': !visible
-                })}></div>
+                {
+                    mask && <div className={this.className('tv-dialog-mask', {
+                        'tv-dialog-mask-hidden': !visible
+                    })}></div>
+                }
                 <Animation duration={0.5} animatedIn="fadeInDown" animatedOut="fadeOutUp" inProp={visible}>
                     { this.renderItem() }
                 </Animation>

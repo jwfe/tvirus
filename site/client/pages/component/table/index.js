@@ -248,12 +248,50 @@ export default class TableDemo extends Component{
     render() {
         const {childs} = this.state;
 
-        return <Layout {...this.props} 
+        return <Layout {...this.props}
             keyword="table"
             className="main-table-box"
             title="Table"
             desc="表格被公认为是展现数据最为清晰、高效的形式之一。"
             childs={childs}
+            expand = {
+                `
+    const columns = [
+        {type: 'rowSelection', width: 100, align: 'center'},
+        {
+            width: 150,
+            title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
+                return Util.date.parse(a) - Util.date.parse(b);
+            }
+        },
+        {title: 'Full Name', width: 150, key: 'name'},
+        {title: 'Age', align: 'center', width: 100, dataIndex: 'age', key: 'age'},
+        {title: 'Column 1', dataIndex: 'address1', width: 200},
+        {title: 'Column 2', dataIndex: 'address2', width: 200},
+        {title: 'Column 3', dataIndex: 'address3', width: 200},
+        {title: 'Column 4', dataIndex: 'address4', width: 200},
+        {title: 'Column 5', dataIndex: 'address5', width: 200},
+        {title: 'Column 6', dataIndex: 'address6', width: 200},
+        {title: 'Column 7', dataIndex: 'address7', width: 200},
+        {title: 'Column 8', dataIndex: 'address8', width: 200},
+        {
+            title: 'Action',
+            key: 'operation',
+            width: 180,
+            render: function (text, record){
+                return {
+                    children: (
+                        <span>
+                            <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
+                            <a href="javascript:;">Delete</a>
+                        </span>
+                    )
+                }
+            },
+        },
+    ]
+                `
+            }
         />
     }
 }

@@ -127,7 +127,7 @@ export default class LayoutDemo extends Component{
         )
     }
     createApi(){
-        const { keyword } = this.props;
+        const { keyword, expand } = this.props;
         if(!this.state.docs[keyword]){
             return null;
         }
@@ -150,7 +150,17 @@ export default class LayoutDemo extends Component{
         return (
             <div>
                 <h3>API</h3>
-                {map}
+                { map }
+                { 
+                    expand && (
+                        <div>
+                            <h4>参数示例</h4>
+                            <Highlight>
+                                { expand }
+                            </Highlight> 
+                        </div>
+                    )
+                }
             </div>
         )
     }

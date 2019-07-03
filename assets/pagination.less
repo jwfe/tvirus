@@ -1,6 +1,8 @@
 @import "./libs/variables.less";
 @import "./libs/utils.less";
 
+@height: 26px;
+
 .tv-pagination {
     display: flex;
 
@@ -8,8 +10,8 @@
     margin: 0;
     padding: 0;
 
-    color: @dark-color-65;
-    font-size: 14px;
+    color: @dark-color-60;
+    font-size: 12px;
     line-height: 1.5;
     list-style: none;
     &-prev, 
@@ -18,10 +20,10 @@
     &-item {
         border: 1px solid #d9d9d9;
         border-right-width: 0;
-        min-width: 32px;
-        height: 32px;
+        min-width: @height;
+        height: @height;
 
-        line-height: 30px;
+        line-height: @height;
         text-align: center;
         vertical-align: middle;
 
@@ -32,11 +34,20 @@
         cursor: pointer;
         user-select: none;
         &-active {
+            border-color: @master-border;
             font-weight: 500;
             color: @light-color;
-            background: @master-color;
+            background: @master-bgc;
         }
     }
+
+    &-prev, 
+    &-next{
+        .tv-icon{
+            transform: scale(.8);
+        }
+    }
+
     &-next{
         border-right-width: 1px;
     }
@@ -46,6 +57,13 @@
         &:hover, 
         &:focus {
             cursor: not-allowed;
+        }
+    }
+    &-options{
+        .tv-select{
+            margin-left: 10px;
+            line-height: @height;
+            cursor: pointer;
         }
     }
 }

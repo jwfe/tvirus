@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import router from './router';
+import Track from './common/track';
 
 const CONTAINER = document.getElementById('root');
 
@@ -10,3 +11,5 @@ if (!CONTAINER) {
 }
 
 render(router, CONTAINER);
+
+new Track();

@@ -178,8 +178,11 @@ export default class Range extends Component {
         const mode = selected.mode || props.mode
         const now = new Date();
 
-        let left_date = parse(props.minDate || format(now));
-        let right_date = parse(props.maxDate || format(now));
+        const minStr = selected.minDate ? format(selected.minDate) : null;
+        const maxStr = selected.maxDate ? format(selected.maxDate) : null;
+
+        let left_date = parse(minStr || props.minDate || format(now));
+        let right_date = parse(maxStr || props.maxDate || format(now));
 
         let expandIndex;
         (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
@@ -193,7 +196,7 @@ export default class Range extends Component {
             left_date: left_date,
             right_date: right_date,
             minDate: parse(format(left_date)),
-            maxDate: parse(props.maxDate || format(left_date)),
+            maxDate: parse(maxStr || props.maxDate || format(left_date)),
             selected: {
                 expandSelectedIndex: selected.expandSelectedIndex,
                 mode,

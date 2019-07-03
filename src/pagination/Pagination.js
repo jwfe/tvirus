@@ -1,16 +1,9 @@
 import React from 'react';
 import { Component, PropTypes, noop } from '@Libs';
 import Icon from '@icon';
+import Select from '@select';
 
 export default class Pagination extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: 7,
-            activeIndex: props.defaultActive,
-            openNodes: []    
-        }
-    }
     static propTypes = {
         /** 设置分页大小，可选值 'large', 'medium', small' 或不设 */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
@@ -20,6 +13,8 @@ export default class Pagination extends Component {
         total: PropTypes.number,
         /** 默认选中页 */
         defaultActive: PropTypes.number,
+        /** size变化后的回调 */
+        onSizeChange: PropTypes.func,
         /** 切换后的回调 */
         onChange: PropTypes.func
     };
@@ -27,8 +22,21 @@ export default class Pagination extends Component {
         size: 'medium',
         defaultActive: 1,
         pageSize: 20,
+        onSizeChange: noop,
         onChange: noop
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            total: props.total,
+            pageSize: props.pageSize,
+            sizeChanger: ['20'],
+            count: 7,
+            activeIndex: props.defaultActive,
+            openNodes: []    
+        }
+    }
 
     componentDidUpdate(prevProps, prevState){
         const { pageTotal, activeIndex } = this.state;
@@ -44,9 +52,13 @@ export default class Pagination extends Component {
     }
 
     getPageItem(){
-        const { total, pageSize } = this.props;
+        let { activeIndex, count, total, pageSize } = this.state;
+
         const pageTotal = Math.ceil(total/pageSize);
-        const { activeIndex, count } = this.state;
+
+        if(pageTotal < activeIndex){
+            activeIndex = 1
+        }
 
         let showPrevMore = false;
         let showNextMore = false;
@@ -83,6 +95,7 @@ export default class Pagination extends Component {
         }
 
         this.setState({
+            activeIndex,
             showNextMore,
             showPrevMore,
             pageTotal,
@@ -184,6 +197,24 @@ export default class Pagination extends Component {
         })
 
     }
+    onSelectChange = (values) => {
+        let { activeIndex, count, total } = this.state;
+        const pageSize = parseInt(values[0])
+        const pageTotal = Math.ceil(total/pageSize);
+
+        if(pageTotal < activeIndex){
+            activeIndex = 1
+        }
+        
+        this.setState({
+            activeIndex,
+            pageSize,
+            sizeChanger: values
+        }, () => {
+            this.getPageItem();
+            this.props.onSizeChange(activeIndex, values);
+        })
+    }
     render(){
         const { size } = this.props;
         const { pageTotal, activeIndex } = this.state;
@@ -204,6 +235,14 @@ export default class Pagination extends Component {
                      className={this.className('tv-pagination-next', {
                     'tv-pagination-disabled': activeIndex === pageTotal
                 })}><Icon type="right" /></li>
+                <li className="tv-pagination-options">
+                    <Select value={this.state.sizeChanger} onChange={this.onSelectChange}>
+                        <Select.Option value="10">10条/页</Select.Option>
+                        <Select.Option value="20">20条/页</Select.Option>
+                        <Select.Option value="30">30条/页</Select.Option>
+                        <Select.Option value="40">40条/页</Select.Option>
+                    </Select>
+                </li>
             </ul>    
         )
     }
