@@ -57,7 +57,9 @@ const iconMaps = {
             'less',
             'menu-unfold',
             'right',
-            'unlock'
+            'unlock',
+            'unlock',
+            'file-add',
             ]
         },
 
@@ -80,7 +82,7 @@ const iconMaps = {
         },
         {
             title: '装饰类',
-            list: ["environment", "fire", "gift", "heart", "money"]
+            list: ["environment", "fire", "gift", "heart", "money", 'ai']
         }
     ],
     '实底风格': [

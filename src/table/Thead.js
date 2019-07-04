@@ -14,28 +14,27 @@ export default class Thead extends Component{
         onSort: noop
     }
 
-    onHanleSort(cell) {
-        if(!cell.sort){
-            return null;
-        }
-        const { onSort } = this.props;
-        const key = cell.key || cell.dataIndex;
-        const state = !this.state.sortState[key];
-        const map = this.state.sortState;
-        map[key] = state;
-        this.setState({ sortState: map }, () => {
-            onSort(key, cell, state)
-        })
-    }
     renderSort(cell){
         if(!cell.sort){
             return null;
         }
-        const state = this.state.sortState[cell.key || cell.dataIndex];
+        const key = cell.key || cell.dataIndex;
+        const sortState = this.props.sortState[key];
+        let classMap = {}
+
+        if(typeof sortState != 'undefined'){
+            classMap = {
+                down: sortState ? 'on' : 'off',
+                up: !sortState ? 'on' : 'off'
+            }
+        }
+
+        console.log('[sort]', sortState, cell.key, cell.dataIndex, classMap);
+
         return (
             <span className="tv-table-column-sorter" key={cell.columnKey}>
-                <Icon type="caret-up" className={state ? 'on' : 'off'} />
-                <Icon type="caret-down" className={!state ? 'on' : 'off'}  />
+                <Icon type="caret-up" className={classMap.up} />
+                <Icon type="caret-down" className={classMap.down}  />
             </span>
         )
     }
@@ -89,7 +88,7 @@ export default class Thead extends Component{
                                                             [cell.headerAlign]: cell.headerAlign
                                                         }
                                                     ])}
-                                                    onClick={this.onHanleSort.bind(this, cell)}
+                                                    onClick={this.props.onHanleSort.bind(this, cell)}
                                                 >
                                                     { this.renderHead(cell) }
                                                     

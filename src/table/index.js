@@ -45,6 +45,7 @@ export default class Table extends Component{
     };
 
     state = {
+        sortState: {},
         gutterWidth: 0,
         tableData: [],
         columns: [],
@@ -384,13 +385,24 @@ export default class Table extends Component{
             rightFixedBodyWrapper.scrollTop = bodyWrapper.scrollTop;
         }
     }
-    onSort = (key, cell, sortState) => {
+    onHanleSort = (cell) => {
+        if(!cell.sort){
+            return null;
+        }
+        const key = cell.key || cell.dataIndex;
+
+        const state = !this.state.sortState[key];
+
+        this.setState({ sortState: {[key]: state} }, () => {
+            this.onSort(key, cell, state)
+        })
+    }
+    onSort = (key, cell) => {
         const sortdata = this.state.tableData.sort((a, b) => {
             const item = cell.sort(a[key], b[key]);
-            return !this.state.sortState ? item : (0-item);
+            return !this.state.sortState[key] ? item : (0-item);
         });
         this.setState({
-            sortState,
             tableData: sortdata
         })
     }
@@ -413,7 +425,9 @@ export default class Table extends Component{
             >
                 <div className="tv-table-header-wrapper" ref={(el) => this.headerWrapper = el}>
                     <Thead selectedRows={this.state.selectedRows} 
-                        toggleAllSelection={this.toggleAllSelection} onSort={this.onSort} 
+                        toggleAllSelection={this.toggleAllSelection} 
+                        onHanleSort={this.onHanleSort}
+                        sortState={this.state.sortState}
                         data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth}
                         colgroup={colgroup}
                     />
@@ -450,7 +464,8 @@ export default class Table extends Component{
                             <Thead 
                                 selectedRows={this.state.selectedRows} 
                                 toggleAllSelection={this.toggleAllSelection} 
-                                onSort={this.onSort} data={tableData} 
+                                onHanleSort={this.onHanleSort} data={tableData} 
+                                sortState={this.state.sortState}
                                 columns={columns} columnRows={columnRows} 
                                 bodyWidth={bodyWidth}
                                 colgroup={colgroup}
@@ -476,7 +491,8 @@ export default class Table extends Component{
                             <Thead 
                                 selectedRows={this.state.selectedRows} 
                                 toggleAllSelection={this.toggleAllSelection} 
-                                onSort={this.onSort} data={tableData} 
+                                sortState={this.state.sortState}
+                                onHanleSort={this.onHanleSort} data={tableData} 
                                 columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} 
                                 colgroup={colgroup}
                             />
