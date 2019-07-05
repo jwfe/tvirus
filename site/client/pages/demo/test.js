@@ -13,86 +13,7 @@ import {
 export default class DemoLogin extends Component{
     constructor(props) {
         super(props);
-
-        const columns = [
-            {
-                width: 150,
-                title: '日期', key: 'date', fixed: 'left', align: 'center', sort: (a, b)=>{
-                    return Util.date.parse(a) - Util.date.parse(b);
-                }
-            },
-            {title: '星期', width: 120, dataIndex: 'week', key: 'week', align: 'center'},
-            {title: '预测', dataIndex: 'fc', key: 'fc', width: 200, align: 'center'},
-            {title: '去年同星期', dataIndex: 'last_year', width: 200, align: 'center'},
-            {title: '已有/实际', dataIndex: 'otb', key: 'otb', width: 200, align: 'center'},
-            {
-                title: 'vs 去年同星期实际', align: 'center',
-                
-                children: [
-                    {
-                        title: '差值',
-                        dataIndex: 'dv', 
-                        width: 200, align: 'center'
-                    },
-                    {
-                        title: '差异率',
-                        dataIndex: 'd_rate', 
-                        width: 200, align: 'center'
-                    }
-                ]
-            },
-            {
-                title: 'vs 已有/实际', align: 'center',
-                children: [
-                    {
-                        title: '差值',
-                        dataIndex: 'otb_dv', 
-                        width: 200, align: 'center'
-                    },
-                    {
-                        title: '差异率',
-                        dataIndex: 'otb_d_rate', 
-                        width: 200, align: 'center'
-                    }
-                ]
-            },
-            {
-                title: 'vs 预算', 
-                align: 'center',
-                children: [
-                    {
-                        title: '差值',
-                        dataIndex: 'budget_dv', 
-                        width: 200, align: 'center'
-                    },
-                    {
-                        title: '差异率',
-                        dataIndex: 'budget_d_rate', 
-                        width: 200, align: 'center'
-                    }
-                ]
-            }
-        ];
         
-        const data = [];
-        for (let i = 0; i < 31; i++) {
-            const index = i + 1;
-            const _date = `2019-05-${index > 9 ? i : ('0' + index)}`;
-            data.push({
-                date: _date,
-                week: '星期1',
-                fc: parseInt(Math.random() * 100),
-                last_year: parseInt(Math.random() * 100),
-                otb: '-',
-                dv: parseInt(Math.random() * 100),
-                d_rate: parseInt(Math.random() * 100),
-                otb_dv: parseInt(Math.random() * 100),
-                otb_d_rate: parseInt(Math.random() * 100),
-                budget_dv: parseInt(Math.random() * 100),
-                budget_d_rate: parseInt(Math.random() * 100)
-            });
-        }
-
         const columns2 = [
             {title: 'Full Name', width: 150, key: 'name'},
             {title: 'Age', width: 100, dataIndex: 'age', key: 'age'},
@@ -135,16 +56,46 @@ export default class DemoLogin extends Component{
         }
 
         this.state = {
-          columns,
-          data,
-          columns2,
-          data2,
+            state: 1,    
+            ...this.data1(),
+            columns2,
+            data2,
         }
-      }
+    }
+
+    data1(){
+        const columns = [{"title":"日期","dataIndex":"time","minWidth":200,"align":"center"},{"title":"回复率","dataIndex":"replyed_rate","minWidth":200,"align":"center"},{"title":"回复数","dataIndex":"replyed_cnt","minWidth":200,"align":"center"}];
+        const data = [{"replyed_rate":"100%","replyed_cnt":5,"time":1558886400},{"replyed_rate":"100%","replyed_cnt":7,"time":1559491200},{"replyed_rate":"100%","replyed_cnt":7,"time":1560096000},{"replyed_rate":"100%","replyed_cnt":7,"time":1560700800},{"replyed_rate":"100%","replyed_cnt":12,"time":1561305600}]
+
+        return {
+            columns,
+            data
+        }
+    }
+
+    data2(){
+        const columns = [{"title":"日期","dataIndex":"time","minWidth":200,"align":"center"},{"title":"回复率","dataIndex":"replyed_rate","minWidth":200,"align":"center"}] 
+        const data = [{"replyed_rate":"100%","time":1558886400},{"replyed_rate":"100%","time":1559491200},{"replyed_rate":"100%","time":1560096000},{"replyed_rate":"100%","time":1560700800},{"replyed_rate":"100%","time":1561305600}]
+
+        return {
+            columns,
+            data
+        }
+    }
+
+    sync = () => {
+        setTimeout(() => {
+            this.setState({
+                ...(this.state.state ? this.data2() : this.data1()),
+                state: !this.state.state
+            });
+        }, 2000)
+    }
       
     render() {
         return (
             <div>
+                <Button onClick={this.sync}>加载数据</Button>
                 <div style={{width: 800}}>
                     <Table
                         loading={false}
@@ -155,7 +106,7 @@ export default class DemoLogin extends Component{
                         height={250}
                     />
                 </div>
-                <div style={{width: 800, margin: 20}}>
+                {/* <div style={{width: 800, margin: 20}}>
                     <Table
                         loading={false}
                         style={{width: '100%'}}
@@ -164,7 +115,7 @@ export default class DemoLogin extends Component{
                         bordered={true}
                         height={250}
                     />
-                </div>
+                </div> */}
             </div>
         )
     }

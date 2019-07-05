@@ -165,7 +165,8 @@ export default class Table extends Component{
         return rows;
     }
     caculateWidth() {
-        const { columns, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
+        const { _columns, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
+        const columns = _columns;
         const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
     
         let bodyWidth = this.table.clientWidth;

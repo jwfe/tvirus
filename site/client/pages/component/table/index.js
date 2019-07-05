@@ -37,21 +37,21 @@ export default class TableDemo extends Component{
         ];
 
         const data2 = [];
-        // for (let i = 0; i < 100; i++) {
-        //     data2.push({
-        //         key: i,
-        //         name: `Edrward ${i}`,
-        //         age: 32,
-        //         address1: `London Park no. ${i}`,
-        //         address2: `London Park no. ${i}`,
-        //         address3: `London Park no. ${i}`,
-        //         address4: `London Park no. ${i}`,
-        //         address5: `London Park no. ${i}`,
-        //         address6: `London Park no. ${i}`,
-        //         address7: `London Park no. ${i}`,
-        //         address8: `London Park no. ${i}`
-        //     });
-        // }
+        for (let i = 0; i < 100; i++) {
+            data2.push({
+                key: i,
+                name: `Edrward ${i}`,
+                age: 32,
+                address1: `London Park no. ${i}`,
+                address2: `London Park no. ${i}`,
+                address3: `London Park no. ${i}`,
+                address4: `London Park no. ${i}`,
+                address5: `London Park no. ${i}`,
+                address6: `London Park no. ${i}`,
+                address7: `London Park no. ${i}`,
+                address8: `London Park no. ${i}`
+            });
+        }
         this.state = {
             childs: [],
             columns2,
@@ -61,6 +61,34 @@ export default class TableDemo extends Component{
 
     componentWillMount(){
         this.childs();
+        const columns2 = [
+            // {type: 'rowSelection', minWidth: 100, align: 'center'},
+            // {title: 'Full Name', minWidth: 150, key: 'name'},
+            {title: 'Age', align: 'center', minWidth: 100, dataIndex: 'age', key: 'age'},
+            {title: 'Column 1', dataIndex: 'address1', minWidth: 200},
+            // {title: 'Column 2', dataIndex: 'address2', minWidth: 200},
+            // {title: 'Column 3', dataIndex: 'address3', minWidth: 200},
+            // {title: 'Column 4', dataIndex: 'address4', minWidth: 200},
+            // {title: 'Column 5', dataIndex: 'address5', minWidth: 200},
+            // {title: 'Column 6', dataIndex: 'address6', minWidth: 200},
+            // {title: 'Column 7', dataIndex: 'address7', minWidth: 200},
+            // {title: 'Column 8', dataIndex: 'address8', minWidth: 200},
+            {
+                title: 'Action',
+                key: 'operation',
+                minWidth: 180,
+                render: function (text, record){
+                    return {
+                        children: (
+                            <span>
+                                <a style={{marginRight: 10}} href="javascript:;">Invite {record.name}</a>
+                                <a href="javascript:;">Delete</a>
+                            </span>
+                        )
+                    }
+                },
+            },
+        ]
         const data2 = [];
         for (let i = 50; i < 100; i++) {
             data2.push({
@@ -79,6 +107,7 @@ export default class TableDemo extends Component{
         }
         setTimeout(() => {
             this.setState({
+                columns2,
                 data2
             }, () => {
                 this.childs();
