@@ -1,8 +1,11 @@
 import React from 'react';
 import { Component, PropTypes, noop, Util } from '@Libs';
+
 import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
+import WeekTable from './WeekTable';
+
 import Icon from '@icon';
 import Button from '@button';
 import Popup from '@popup';
@@ -21,8 +24,8 @@ export default class Datepicker extends Component {
         format: PropTypes.string,
         /** 事件名：默认click */
         trigger: PropTypes.string,
-        /** 日期面板的状态，可以选'day', 'week', 'year', 'month' 或不设，不设时默认 day */
-        mode: PropTypes.oneOf(['day', 'week', 'year', 'month']),
+        /** 日期面板的状态，可以选'day', 'week', 'month', 'season', 'halfofyear', 'year' 或不设，不设时默认 day */
+        mode: PropTypes.oneOf(['day', 'week', 'month', 'season', 'halfofyear', 'year']),
         /** 增加自定义拓展，会放在日历面板的左侧。例：[{"text":"按日", onClick: function(index){this.update({mode: 'day'}, index)}},{"text":"按月"},{"selected":true,"text":"按周"},{"text":"按年"}] */
         expand: PropTypes.array,
         /** 默认填充的值 */
@@ -54,6 +57,76 @@ export default class Datepicker extends Component {
         }
     }
 
+
+    onChange = () => {
+        const { onChange } = this.props;
+        const { date, name, mode, expandSelectedIndex } = this.state;
+
+        if(!maxDate){
+            return;
+        }
+
+        this.setState({
+            changed: true,
+            visible: false,
+            selected: {
+                expandSelectedIndex,
+                mode,
+                date
+            }
+        }, () => {
+            let _date = date;
+            if(mode === 'week'){
+                _date = new Date(date.getTime() - (6 * 24 * 60 * 60 * 1000));
+            }
+            onChange(_date, true, name, mode);
+        })
+    }
+
+    onReset = () => {
+        const propsMode = this.props.mode;
+        const { selected: { minDate, maxDate, mode, expandSelectedIndex }, name } = this.state;
+        this.setState({
+            visible: false,
+            ...this.reset(expandSelectedIndex)
+        }, () => {
+            this.props.onChange([minDate, maxDate], false, name, mode || propsMode);
+        });
+    }
+    getView(mode){
+        const view = {};
+        ['day', 'week', 'month', 'season', 'halfofyear', 'year'].forEach((key) => {
+            view[key] = mode === key;
+        })
+        return view
+    }
+    reset(selectedIndex) {
+        const props = this.props;
+        const state = this.state || {};
+        const selected = state.selected || {}
+        const mode = selected.mode || props.mode
+        const now = new Date();
+
+        const dateStr = selected.date ? format(selected.date) : null;
+
+        let date = parse(dateStr || props.date || format(now));
+
+        let expandIndex;
+        (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
+        return {
+            expandSelectedIndex: typeof selectedIndex == 'undefined' ? expandIndex : selected.expandSelectedIndex,
+            mode,
+            format: props.format,
+            view: this.getView(mode),
+            date: parse(format(date)),
+            selected: {
+                expandSelectedIndex: selected.expandSelectedIndex,
+                mode,
+                date: parse(format(selected.date || date)),
+            }
+        }
+    }
+
     handlePopupChange = (showPopup) => {
         const { disabled } = this.props;
 
@@ -81,6 +154,73 @@ export default class Datepicker extends Component {
             date: value,
             currentDateObj: obj
         });
+    }
+
+    setOtherRange(cell, currMode, name, isClose, rangeKey){
+        const { mode } = this.state;
+        let { date } = cell;
+        const view = this.getView(mode);
+
+        if (!isClose){
+            this.setState({ 
+                visible: true, 
+                view, 
+                date
+            });
+            return;
+        };
+
+        this.setState({ 
+            visible: true, 
+            view, 
+            date
+        });
+    }
+    handleYearDate = (cell, key, name, isClose) => {
+        const { view, mode } = this.state;
+        if(mode === 'day' || mode === 'week' || mode === 'month'){
+            let date = parse(format(this.state[`date`]));
+            let { dirtyYear } = weekOfYear(format(cell));
+
+            date.setFullYear(dirtyYear);
+            // 把当前打开的辅助层关掉
+            this.setState({
+                visible: true, 
+                view: {
+                    ...view, 
+                    [mode]: true
+                },
+                date
+            });
+            return;
+        }
+
+        this.setOtherRange(cell, 'month', name, isClose, key)
+    }
+
+    handleWeekDate = (cell, rangeKey, name, isClose) => {
+        this.setOtherRange(cell, 'month', name, isClose, rangeKey)
+    }
+    handleMonthDate = (cell, rangeKey, name, isClose) => {
+        const { view, mode } = this.state;
+
+        if(mode === 'day' || mode === 'week'){
+            let date = parse(format(this.state[`date`]));
+            const { dirtyYear, month } = weekOfYear(format(cell));
+            const array  = fixedYM(dirtyYear, month - 1);
+
+            date.setFullYear(array[0]);
+            date.setMonth(array[1]);
+            return this.setState({
+                visible: true, 
+                view: {
+                    ...view, 
+                    [mode]: true
+                },
+                date
+            });
+        }
+        this.setOtherRange(cell, 'month', name, isClose, rangeKey)
     }
 
     // 上年
@@ -148,13 +288,7 @@ export default class Datepicker extends Component {
         this.setState({
             expandSelectedIndex: index,
             mode,
-            view: {
-                ['day']: mode === 'day',
-                ['year']: mode === 'year',
-                ['rightyear']: mode === 'year',
-                ['month']: mode === 'month',
-                ['week']: mode === 'week'
-            }
+            view: this.getView(mode)
         })
     }
     renderExpand(){
@@ -196,57 +330,90 @@ export default class Datepicker extends Component {
     }
 
     renderTable(){
-        const { disabledDate } = this.props;
-        const { mode, date, view } = this.state;
+        let { view, mode } = this.state;
+        let date = this.state[`date`];
+        return (
+            <div className={this.className('tv-datepicker-body')}>
+                <YearTable 
+                disabledDate={this.disabledDate} 
+                date={date} 
+                onChange={this.handleYearDate} 
+                style={{display: view['year'] ? '' : 'none'}} />
 
-        return [
-            <YearTable 
-                disabledDate={disabledDate} 
-                date={date} 
-                onChange={this.handleDate} 
-                style={{display: view === 'year' ? '' : 'none'}} />,
-            <MonthTable 
-                disabledDate={disabledDate} 
-                date={date} 
-                onChange={this.handleDate} 
-                style={{display: view === 'month' ? '' : 'none'}} />,
-            <DateTable 
-                disabledDate={disabledDate} 
-                style={{display: (view !== 'year' &&  view !== 'month') ? '' : 'none'}}
-                mode={mode} 
-                date={date} 
-                onChange={this.handleDate}
-            /> 
-        ]
+                {mode !== 'year' && <MonthTable 
+                    disabledDate={this.disabledDate} 
+                    date={date} 
+                    onChange={this.handleMonthDate} 
+                    style={{display: (view['month'] && !view['year']) ? '' : 'none'}} />}
+
+                {(mode === 'day' || mode === 'week') && <DateTable 
+                    disabledDate={this.disabledDate} 
+                    style={{display: (!view['year'] && !view['month']) ? '' : 'none'}}
+                    mode={mode}
+                    date={date} 
+                    onChange={this.handleDate}
+                />}
+            </div>
+        );
     }
+    formatShowContent(date){
+        const { mode } = this.state;
+        const defaultFormat = {
+            'day': 'yyyy-MM-dd',
+            'year': 'yyyy',
+            'month': 'yyyy-MM'
+        }
+        
+        if(mode === 'week'){
+            const _dateStr = format(date);
+            const [year] = _dateStr.split(/\W+/);
+            const obj = weekOfYear(_dateStr);
+            return `${year}年第${obj.number}周`;
+        }
 
+        return format(date, this.state.format || defaultFormat[mode]);
+    }
+    renderFooterExtra(){
+        const { footerExtra } = this.props;
+        if(footerExtra){
+            return footerExtra();
+        }
+        if(!this.state.date){
+            return null;
+        }
+        const date = this.formatShowContent(this.state.date);
+        return date
+    }
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
         const { disabled, visible, date } = this.state;
-        const content = (
-            <div className="tv-datepicker">
-                { this.renderSearch() }
-                <div className={this.className('tv-datepicker-body')}>
-                    { this.renderTable() }
+        const content = [
+            <div className="tv-datepicker-wrapper">
+                {this.renderExpand()}
+                <div className="tv-datepicker">
+                    { this.renderSearch() }
+                    <div className={this.className('tv-datepicker-body')}>
+                        { this.renderTable() }
+                    </div>
                 </div>
-                {
-                    footer && (
-                        <div className={this.className('tv-datepicker-footer')}>
-                            <div className="tv-datepicker-footer-btn">
-                                <a className="tv-datepicker-time-btn">选择时间</a>
-                                <a className="tv-datepicker-ok-btn">确 定</a>
-                            </div>
-                        </div>
-                    )
-                }
+            </div>,
+            <div className={this.classNames(['tv-datepicker-footer'])}>
+                <div className="tv-datepicker-footer-btn">
+                    <div className="tv-datepicker-footer-extra">
+                        {this.renderFooterExtra()}
+                    </div>
+                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>取 消</Button>
+                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
+                </div>
             </div>
-        )
+        ]
 
         let dateString = date ? format(date, this.state.format) : placeholder;
 
         return (
             <div className={this.className('tv-datepicker-wraper')}>
                 <Popup 
+                className="tv-datepicker-single-popup"
                 disabled={disabled}
                 showArrow={false} 
                 visible={visible} 

@@ -44,6 +44,62 @@ export default class DatepickerDemo extends Component{
 
 
         childs.push({
+            title: '单日历特殊',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Datepicker footer expand={[
+                                {
+                                    selected: true,
+                                    text: '按日',
+                                    onClick: function(index){
+                                        this.update({mode: 'day'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按月',
+                                    onClick: function(index){
+                                        this.update({mode: 'month'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按周',
+                                    onClick: function(index){
+                                        this.update({mode: 'week'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按季度',
+                                    onClick: function(index){
+                                        this.update({mode: 'season'}, index)
+                                    }
+                                },
+
+                                {
+                                    text: '按半年',
+                                    onClick: function(index){
+                                        this.update({mode: 'halfofyear'}, index)
+                                    }
+                                },
+                                {
+                                    text: '按年',
+                                    onClick: function(index){
+                                        this.update({mode: 'year'}, index)
+                                    }
+                                }
+                            ]} />
+                        </Col>
+                        <Col span={12}>
+                            {/* <Datepicker mode="week" showWeekNumber /> */}
+                        </Col>
+                    </Row>
+                </div>
+            )
+        });
+
+
+        childs.push({
             title: '范围选择',
             children: (
                 <div className="code-demo">

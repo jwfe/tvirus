@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Component, PropTypes, noop } from '@Libs';
 import Loading from '@loading';
+import Search from '@search';
 
 import Thead from './Thead';
 import Tbody from './Tbody';
@@ -9,6 +10,10 @@ import Tfooter from './Tfooter';
 
 let columnIDSeed = 1;
 let tableIDSeed = 1;
+
+function jsonDiff(a, b){
+    return JSON.stringify(a) === JSON.stringify(b);
+}
 
 export default class Table extends Component{
     static propTypes = {
@@ -49,6 +54,8 @@ export default class Table extends Component{
         gutterWidth: 0,
         tableData: [],
         columns: [],
+        columnsCopy: [],
+        colgroup: [],
         fixedColumns: [],
         rightFixedColumns: [],
         columnRows: [],
@@ -58,35 +65,36 @@ export default class Table extends Component{
         super(props);
     }
 
+    componentDidMount(){
+        // init 后渲染一个版本出来，用来计算容器宽高大小
+        this.setState(this.update(this.props))
+    }
     static getDerivedStateFromProps(nextProps, prevState){
-        if(JSON.stringify(nextProps.data) !== JSON.stringify(prevState.data)){
-            // 这里没必要返回columns
+        if(!jsonDiff(nextProps.data, prevState.tableData)){
             return {
-                _columns: nextProps.columns,
+                colgroup: [],
+                columnsCopy: [],
+                columns: nextProps.columns,
                 tableData: nextProps.data,
             }
         }
         return null;
     }
-    componentDidMount(){
-        // init 后渲染一个版本出来，用来计算容器宽高大小
-        this.setState(this.update(this.props))
+    getSnapshotBeforeUpdate(prevProps, prevState){
+        const data = this.update(this.props);
+        return data;
     }
-    componentDidUpdate(prevProps, prevState){
-        // 比对容器宽高等，来渲染一个版本
-        const full = {...this.caculateWidth(), ...this.getHeight()};
-        let flag = 0;
-        for(let key in full){
-            if(key !== 'colgroup' && full[key] !== this.state[key]){
-                flag++;
-            }
-        }
-        if(!flag && JSON.stringify(this.state.tableData) === JSON.stringify(prevState.tableData)){
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(this.state.colgroup.length){
             return;
         }
-
-        const data = this.update(this.state);
-        this.setState({...data, ...full});
+        // const full = this.caculateWidth();
+        this.setState({...snapshot}, () => {
+            this.setState({
+                ...this.caculateWidth(),
+                ...this.getHeight()
+            })
+        });
     }
 
     update(props){
@@ -94,7 +102,7 @@ export default class Table extends Component{
         if(!data.length){
             return {};
         }
-        const columnData = this.updateColumns(props._columns || props.columns);
+        const columnData = this.updateColumns(props.columns);
         const tableData = this.filterData(data, columnData.columns);
         return {
             fit: true, 
@@ -165,16 +173,15 @@ export default class Table extends Component{
         return rows;
     }
     caculateWidth() {
-        const { _columns, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
-        const columns = _columns;
-        const bodyMinWidth = columns.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
+        const { columnsCopy, fixedColumns, rightFixedColumns, fit, gutterWidth } = this.state;
+        const bodyMinWidth = columnsCopy.reduce((pre, col) => pre + (col.width || col.minWidth), 0);
     
         let bodyWidth = this.table.clientWidth;
         let scrollX;
         let fixedWidth;
         let rightFixedWidth;
     
-        const flexColumns = columns.filter(column => typeof column.width !== 'number');
+        const flexColumns = columnsCopy.filter(column => typeof column.width !== 'number');
         if (flexColumns.length && fit) {
           if (bodyMinWidth < bodyWidth - gutterWidth) {
             scrollX = false;
@@ -217,13 +224,12 @@ export default class Table extends Component{
         if (rightFixedColumns.length) {
           rightFixedWidth = rightFixedColumns.reduce((pre, col) => pre + col.realWidth, 0);
         }
-    
         return {
             scrollX,
-            bodyWidth,
-            fixedWidth,
-            rightFixedWidth,
-            colgroup: flexColumns
+            bodyWidth: isNaN(bodyWidth) ? '' : bodyWidth,
+            fixedWidth: isNaN(fixedWidth) ? '' : fixedWidth,
+            rightFixedWidth: isNaN(rightFixedWidth) ? '' : rightFixedWidth,
+            colgroup: flexColumns.length ? flexColumns : columnsCopy
         }
     }
     filterData(data, columns) {
@@ -336,7 +342,7 @@ export default class Table extends Component{
             fixedColumns,
             rightFixedColumns,
             columnRows: this.convertToRows(_columns),
-            columns: this.getLeafColumns(_columns),
+            columnsCopy: this.getLeafColumns(_columns),
             isComplex: fixedColumns.length > 0 || rightFixedColumns.length > 0,
             selectable
         });
@@ -413,7 +419,7 @@ export default class Table extends Component{
             fit,
             colgroup,
             fixedColumns, rightFixedColumns,
-            tableData, columns, columnRows, fixedWidth, rightFixedWidth, bodyWidth, bodyHeight, bodyTop 
+            tableData, columnsCopy, columnRows, fixedWidth, rightFixedWidth, bodyWidth, bodyHeight, bodyTop 
         } = this.state
         return (
             <div 
@@ -429,7 +435,7 @@ export default class Table extends Component{
                         toggleAllSelection={this.toggleAllSelection} 
                         onHanleSort={this.onHanleSort}
                         sortState={this.state.sortState}
-                        data={tableData} columns={columns} columnRows={columnRows} bodyWidth={bodyWidth}
+                        data={tableData} columns={columnsCopy} columnRows={columnRows} bodyWidth={bodyWidth}
                         colgroup={colgroup}
                     />
                 </div>
@@ -441,7 +447,7 @@ export default class Table extends Component{
                     <Tbody 
                         toggleRowSelection={this.toggleRowSelection} 
                         selectedRows={this.state.selectedRows} 
-                        data={tableData} columns={columns} 
+                        data={tableData} columns={columnsCopy} 
                         bodyWidth={bodyWidth}
                         colgroup={colgroup}
                     />
@@ -453,7 +459,7 @@ export default class Table extends Component{
                     >
                         <Tfooter 
                             firstText={sumFirstText} 
-                            onSum={onSum} data={tableData} columns={columns} bodyWidth={bodyWidth}
+                            onSum={onSum} data={tableData} columns={columnsCopy} bodyWidth={bodyWidth}
                             colgroup={colgroup}
                         />
                     </div>
@@ -467,7 +473,7 @@ export default class Table extends Component{
                                 toggleAllSelection={this.toggleAllSelection} 
                                 onHanleSort={this.onHanleSort} data={tableData} 
                                 sortState={this.state.sortState}
-                                columns={columns} columnRows={columnRows} 
+                                columns={columnsCopy} columnRows={columnRows} 
                                 bodyWidth={bodyWidth}
                                 colgroup={colgroup}
                             />
@@ -480,7 +486,7 @@ export default class Table extends Component{
                             <Tbody 
                                 toggleRowSelection={this.toggleRowSelection} 
                                 selectedRows={this.state.selectedRows} 
-                                data={tableData} columns={columns} bodyWidth={bodyWidth}
+                                data={tableData} columns={columnsCopy} bodyWidth={bodyWidth}
                                 colgroup={colgroup}
                             />
                         </div>
@@ -494,7 +500,7 @@ export default class Table extends Component{
                                 toggleAllSelection={this.toggleAllSelection} 
                                 sortState={this.state.sortState}
                                 onHanleSort={this.onHanleSort} data={tableData} 
-                                columns={columns} columnRows={columnRows} bodyWidth={bodyWidth} 
+                                columns={columnsCopy} columnRows={columnRows} bodyWidth={bodyWidth} 
                                 colgroup={colgroup}
                             />
                         </div>
@@ -506,7 +512,7 @@ export default class Table extends Component{
                             <Tbody 
                                 toggleRowSelection={this.toggleRowSelection} 
                                 selectedRows={this.state.selectedRows} 
-                                data={tableData} columns={columns} bodyWidth={bodyWidth} 
+                                data={tableData} columns={columnsCopy} bodyWidth={bodyWidth} 
                                 colgroup={colgroup}
                             />
                         </div>

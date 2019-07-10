@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Pagination } from 'tvirus';
+import { Pagination, Row, Col, Util } from 'tvirus';
+
 import './index.less'
 
 export default class PaginationDemo extends Component{
@@ -23,7 +24,14 @@ export default class PaginationDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Pagination total={500} onChange={(...arg) => {console.log(...arg)}}  />
+                    <Row>
+                        <Col span={12}>
+                            <Pagination total={500} onChange={(...arg) => {console.log(...arg)}}  />
+                        </Col>
+                        <Col span={12}>
+                            <Pagination total={500} showSizeChanger onChange={(...arg) => {console.log(...arg)}}  />
+                        </Col>
+                    </Row>
                 </div>
             )
         });

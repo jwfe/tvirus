@@ -186,7 +186,7 @@ export default class LayoutDemo extends Component{
                             })
                         }
                     </section>
-                    { this.createApi() }
+                    {/* { this.createApi() } */}
                     
                 </article>
             </section>    

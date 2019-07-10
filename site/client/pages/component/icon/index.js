@@ -60,6 +60,9 @@ const iconMaps = {
             'unlock',
             'unlock',
             'file-add',
+            'ai_model',
+            'guide_manual',
+            'robot',
             ]
         },
 

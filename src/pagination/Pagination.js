@@ -13,12 +13,17 @@ export default class Pagination extends Component {
         total: PropTypes.number,
         /** 默认选中页 */
         defaultActive: PropTypes.number,
+        /** 是否显示条目数 */
+        showSizeChanger: PropTypes.bool,
+        /** 默认的条目数 */
+        sizeChanger: PropTypes.array,
         /** size变化后的回调 */
         onSizeChange: PropTypes.func,
         /** 切换后的回调 */
         onChange: PropTypes.func
     };
     static defaultProps = {
+        showSizeChanger: false,
         size: 'medium',
         defaultActive: 1,
         pageSize: 20,
@@ -31,7 +36,7 @@ export default class Pagination extends Component {
         this.state = {
             total: props.total,
             pageSize: props.pageSize,
-            sizeChanger: ['20'],
+            sizeChanger: props.sizeChanger || ['20'],
             count: 7,
             activeIndex: props.defaultActive,
             openNodes: []    
@@ -216,7 +221,7 @@ export default class Pagination extends Component {
         })
     }
     render(){
-        const { size } = this.props;
+        const { size, showSizeChanger } = this.props;
         const { pageTotal, activeIndex } = this.state;
         return (
             <ul className={this.className('tv-pagination', {
@@ -235,14 +240,14 @@ export default class Pagination extends Component {
                      className={this.className('tv-pagination-next', {
                     'tv-pagination-disabled': activeIndex === pageTotal
                 })}><Icon type="right" /></li>
-                <li className="tv-pagination-options">
+                {showSizeChanger && <li className="tv-pagination-options">
                     <Select value={this.state.sizeChanger} onChange={this.onSelectChange}>
                         <Select.Option value="10">10条/页</Select.Option>
                         <Select.Option value="20">20条/页</Select.Option>
                         <Select.Option value="30">30条/页</Select.Option>
                         <Select.Option value="40">40条/页</Select.Option>
                     </Select>
-                </li>
+                </li>}
             </ul>    
         )
     }
