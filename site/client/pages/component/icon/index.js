@@ -10,13 +10,14 @@ const iconMaps = {
             title: '操作类',
             list: [
             'add',
-            'caret-right',
+            'delete',
             'edit',
+            'save',
+            'caret-right',
             'folder',
             'home',
             'loading',
             'paper-clip',
-            'save',
             'user',
             
             'bars',
@@ -58,7 +59,6 @@ const iconMaps = {
             'menu-unfold',
             'right',
             'unlock',
-            'unlock',
             'file-add',
             'ai_model',
             'guide_manual',
@@ -90,10 +90,20 @@ const iconMaps = {
     ],
     '实底风格': [
         {
-            title: '面性图标',
+            title: '导航图标',
             list: [
             'setup',    
             "bi", "module_management", "personal_center", "questionnaire", "opportunity", "price", "live_in", "overview", "quality_inspection", "review", "prediction", "user_group"]
+        },
+        {
+            title: '操作类',
+            list: [
+            'info_solid',
+            'success_solid',
+            'warn_solid',
+            'question_solid',
+            'error_solid'
+            ]
         }
     ]
     

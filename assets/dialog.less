@@ -115,17 +115,19 @@
     &-confirm{
         .tv-dialog-content{
             padding: 32px 32px 24px;
+            text-align: center;
             .tv-icon{
-                margin-right: 16px;
-                font-size: 21px;
+                margin-bottom: 30px;
+                font-size: 40px;
             }
             .tv-dialog-confirm-title{
+                display: block;
                 font-weight: 500;
-                font-size: 16px;
+                font-size: 18px;
                 color: @dark-color-80;
             }
             .tv-dialog-confirm-content{
-                margin-left: 38px;
+                margin-top: 10px;
             }
         }
         &-info{
@@ -148,12 +150,19 @@
 
         &-warning{
             .tv-icon{
-                color: @warning-color;
+                color: @master-color;
+            }
+        }
+        &-question{
+            .tv-icon{
+                color: @info-color;
             }
         }
         .tv-dialog-footer{
+            margin-top: 30px;
             border: 0 none;
             padding: 0;
+            text-align: center
         }
     }
 

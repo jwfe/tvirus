@@ -34,26 +34,56 @@ export default class DialogDemo extends Component{
     }
 
 
-    showAlertModal() {
-        const dom = Dialog.alert.info(
-            (
-                <div>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                </div>
-            ),
-            {
-                onClose: () => {
-                    // this.childs();
-                },
-                title: "Alert",
-                type: "alert",
-                footer: true,
-                cancel: false,
-                okText: "知道了"
-            }
-        );
+    showAlertModal(type) {
+        // const child = (
+        //     <div>
+        //         <p>Some contents...</p>
+        //         <p>Some contents...</p>
+        //         <p>Some contents...</p>
+        //     </div>
+        // );
+        const options = {
+            onClose: () => {
+                // this.childs();
+            },
+            width: 180,
+            title: "这是一个提示内容，你也可以设置child。",
+            type: "alert",
+            footer: true,
+            cancel: false,
+            okText: "知道了"
+        }
+
+        let dom;
+
+        if(type === 'info'){
+            options.cancel = true;
+            options.cancelText = '留下';
+            dom = Dialog.alert.info(
+                null,
+                options
+            );
+        }
+
+        if(type === 'success'){
+            dom = Dialog.alert.success(
+                null,
+                options
+            );
+        }
+        if(type === 'warning'){
+            dom = Dialog.alert.warning(
+                null,
+                options
+            );
+        }
+        if(type === 'error'){
+            dom = Dialog.alert.error(
+                null,
+                options
+            );
+        }
+
         this.setState({
             alertDom: dom,
         }, () => {
@@ -90,7 +120,10 @@ export default class DialogDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Button onClick={this.showAlertModal.bind(this)}>Alert</Button>
+                            <Button onClick={this.showAlertModal.bind(this, 'info')}>info</Button>
+                            <Button onClick={this.showAlertModal.bind(this, 'success')}>success</Button>
+                            <Button onClick={this.showAlertModal.bind(this, 'warning')}>warning</Button>
+                            <Button onClick={this.showAlertModal.bind(this, 'error')}>error</Button>
                         </Col>
                         <Col span={12}>
                         </Col>

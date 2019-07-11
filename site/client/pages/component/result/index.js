@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Result, Button } from 'tvirus';
+import { Result, Button, Row, Col } from 'tvirus';
 import './index.less'
 
 export default class ResultDemo extends Component{
@@ -23,9 +23,18 @@ export default class ResultDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Result type="nodata" title="404" subtitle="Sorry，页面找不到了...">
-                        <Button type="primary">返回首页</Button>
-                    </Result>
+                    <Row>
+                        <Col span={12}>
+                            <Result type="nodata" title="404" subtitle="Sorry，页面找不到了...">
+                                <Button type="primary">返回首页</Button>
+                            </Result>
+                        </Col>
+                        <Col span={12}>
+                            <Result type="loadfail" title="加载失败" subtitle="Sorry，服务器开小差了，重新刷新一下试试。">
+                                <Button type="primary">重试</Button>
+                            </Result>
+                        </Col>
+                    </Row>
                 </div>
             )
         });
@@ -40,7 +49,7 @@ export default class ResultDemo extends Component{
             keyword="result"
             className="main-result-box"
             title="Result"
-            desc="Result的说明"
+            desc="结果页"
             childs={childs}
         />
     }

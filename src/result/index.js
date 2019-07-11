@@ -8,7 +8,7 @@ const requireAll = requireContext => requireContext.keys().map(requireContext);
 const req = require.context('./svg', true, /\.svg$/);
 requireAll(req);
 
-export default class Icon extends Component {
+export default class Result extends Component {
     static propTypes = {
         /** 图标名，"badnetwork", "dev", "done", "loadfail", "nobuy", "nodata", "notbuy", "notfound", "notnotice", "taskfail"，默认为 notfound*/
         type: PropTypes.oneOf(["badnetwork", "dev", "done", "loadfail", "nobuy", "nodata", "notbuy", "notfound", "notnotice", "taskfail"]),

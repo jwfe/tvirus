@@ -4,6 +4,14 @@ import ReactDOM from 'react-dom'
 import { Component, PropTypes, Portal, noop, Animation } from '@Libs';
 import Dialog from './Dialog';
 
+const iconMaps = {
+    info: 'info_solid',
+    success: 'success_solid',
+    danger: 'error_solid',
+    warning: 'warn_solid',
+    loading: 'loading',
+}
+
 class Alert extends Component{
     constructor(props){
         super(props);
@@ -42,7 +50,7 @@ class Alert extends Component{
 const reWrite = function (contentType, content, properties) {
     const { ...props } = properties || {};
     props.contentType = contentType;
-    props.icon = contentType;
+    props.icon = iconMaps[contentType];
     let div;
     div = document.createElement('div');
     document.body.appendChild(div);

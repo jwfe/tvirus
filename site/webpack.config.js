@@ -264,6 +264,7 @@ module.exports = {
         'echarts': 'echarts'
     },
     module: {
+        noParse: [/ali-oss/],
         rules: [
             {
                 test: /\.jsx?$/,
@@ -326,37 +327,39 @@ module.exports = {
             },
         ]
     },
-    optimization: {
-        splitChunks: {
-            chunks: 'all',   // initial、async和all
-            minSize: 30000,   // 形成一个新代码块最小的体积
-            maxAsyncRequests: 5,   // 按需加载时候最大的并行请求数
-            maxInitialRequests: 3,   // 最大初始化请求数
-            automaticNameDelimiter: '~',   // 打包分割符
-            name: true,
-            cacheGroups: {
-                vendors: { // 基本框架
-                  chunks: 'all',
-                  test: /(react|react-dom|react-dom-router)/,
-                  priority: 100,
-                  name: 'vendors',
-                },
-                'tvirus': {
-                    test: /tvirus/, // 直接使用 test 来做路径匹配
-                    chunks: "initial",
-                    name: "tvirus",
-                    enforce: true,
-                },
-                commons: { // 其余同步加载包
-                  chunks: 'all',
-                  minChunks: 2,
-                  name: 'commons',
-                  priority: 80,
-                },
-              }
+    //todo: 为了解决cannot read property call of undefined,暂时去掉
+    // optimization: {
+    //     concatenateModules: false,
+    //     splitChunks: {
+    //         chunks: 'all',   // initial、async和all
+    //         minSize: 30000,   // 形成一个新代码块最小的体积
+    //         maxAsyncRequests: 5,   // 按需加载时候最大的并行请求数
+    //         maxInitialRequests: 3,   // 最大初始化请求数
+    //         automaticNameDelimiter: '~',   // 打包分割符
+    //         name: true,
+    //         cacheGroups: {
+    //             vendors: { // 基本框架
+    //               chunks: 'all',
+    //               test: /(react|react-dom|react-dom-router)/,
+    //               priority: 100,
+    //               name: 'vendors',
+    //             },
+    //             // 'tvirus': {
+    //             //     test: /tvirus/, // 直接使用 test 来做路径匹配
+    //             //     chunks: "initial",
+    //             //     name: "tvirus",
+    //             //     enforce: true,
+    //             // },
+    //             commons: { // 其余同步加载包
+    //               chunks: 'all',
+    //               minChunks: 2,
+    //               name: 'commons',
+    //               priority: 80,
+    //             },
+    //           }
 
-          },
-    },
+    //       },
+    // },
     performance: {
         hints: false
     },
