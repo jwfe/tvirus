@@ -47,9 +47,12 @@ export default class Node extends Component{
     }
     render(){
         const { node, children } = this.props;
+
         return (
             <li>
-                <div className={this.className('tv-tree-node', {
+                <div style={this.style({
+                    display: node.isHidden ? 'none' : ''
+                })} className={this.className('tv-tree-node', {
                     'expanded': this.state.expanded,
                     'selected': node.selected
                 })}>

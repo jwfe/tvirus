@@ -31,6 +31,7 @@ import { Tabs, Tabpanel } from './tabs';
 import Tag from './tag';
 import Loading from './loading';
 import Spin from './spin';
+import Result from './result';
 
 
 import '../assets/animation';
@@ -67,6 +68,7 @@ import '../assets/popup';
 import '../assets/dialog';
 import '../assets/message';
 import '../assets/chart';
+import '../assets/result';
 import '../assets/theme/default';
 import '../assets/theme/dark';
 
@@ -107,5 +109,6 @@ export {
     Tag,
     // loading
     Loading,
-    Spin
+    Spin,
+    Result
 }

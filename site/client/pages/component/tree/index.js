@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import {Tree} from 'tvirus';
+import { Tree, Row, Col, Util } from 'tvirus';
+
 import './index.less'
 
 export default class TreeDemo extends Component{
@@ -54,7 +55,14 @@ export default class TreeDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Tree expandedKeys={expandedKeys} data={gData} onChange={(...arg) => {console.log(...arg)}} />
+                    <Row>
+                        <Col span={12}>
+                            <Tree expandedKeys={expandedKeys} data={gData} onChange={(...arg) => {console.log(...arg)}} />
+                        </Col>
+                        <Col span={12}>
+                            <Tree isShowSearch expandedKeys={expandedKeys} data={gData} onChange={(...arg) => {console.log(...arg)}} />
+                        </Col>
+                    </Row>
                 </div>
             )
         });
@@ -69,7 +77,7 @@ export default class TreeDemo extends Component{
             keyword="tree"
             className="main-tree-box"
             title="Tree"
-            desc="Tree的说明"
+            desc="完整展示事物的层级关系。"
             childs={childs}
         />
     }

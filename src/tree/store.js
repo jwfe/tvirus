@@ -8,13 +8,37 @@ export default class Store{
     }
     setNode(key, objectKey, value) {
         this.flatNodes[key][objectKey] = value;
-        console.log(this.flatNodes[key], this.flatNodes[key][objectKey]);
     }
     setAllSelected(value) {
         Object.keys(this.flatNodes).forEach((key) => {
             this.flatNodes[key]['selected'] = value;
         });
     }
+    setParentHidden(node, value){
+        if(!node || !node.key){
+            return;
+        }
+        this.flatNodes[node.key].isHidden = value;
+        this.setParentHidden(node.parent, value);
+    }
+    setSelectedLabel(label) {
+        const keys = [];
+        const _keys = Object.keys(this.flatNodes);
+        _keys.forEach((key) => {
+            if(!label || this.flatNodes[key]['label'].includes(label)){
+                keys.push(key);
+            } else {
+                this.flatNodes[key]['isHidden'] = true;
+            }
+        });
+
+        keys.forEach((key) => {
+            this.setParentHidden(this.flatNodes[key], false);
+        });
+
+        return keys.length;
+    }
+
     nodeHasChildren(node) {
         return Array.isArray(node.children) && node.children.length > 0;
     }

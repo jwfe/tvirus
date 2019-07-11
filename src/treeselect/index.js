@@ -16,6 +16,8 @@ export default class TreeSelect extends Component{
         className: PropTypes.string,
         /** 展开的数据列表, [{key:'0', label:'0-label', children: [{key:'0-1', label:'1-label'}]}] */
         data: PropTypes.array,
+        /** 显示搜索 */
+        isShowSearch: PropTypes.bool,
         /** 展开的key列表 */
         expandedKeys: PropTypes.array,
         /** 禁用那些key的函数 */
@@ -25,6 +27,7 @@ export default class TreeSelect extends Component{
 
     };
     static defaultProps = {
+        isShowSearch: false,
         placeholder: '请选择',
         position: 'bottom left',
         trigger: 'click',
@@ -98,9 +101,9 @@ export default class TreeSelect extends Component{
             this.props.onChange(selected, name);
         })
     }
-    render(){
-        const { data, trigger, position, disabled, autoButton, placeholder, multiple } = this.props;
-        const { visible, selected } = this.state;
+    renderBtn(){
+        const { autoButton, placeholder, multiple } = this.props;
+        const { selected } = this.state;
 
         const isShowMultiple = selected.length && multiple ? true : false;
         const label = selected[0] && selected[0].label;
@@ -131,6 +134,19 @@ export default class TreeSelect extends Component{
                 </div>
             )
         }
+        return defaultContent;
+    }
+    renderPop(){
+        const { data, multiple, isShowSearch } = this.props;
+        return (
+            <div className="tv-select-tree-dropdown">
+                <Tree isShowSearch={isShowSearch} multiple={multiple} data={data} onChange={this.handleTree} />
+            </div>
+        )
+    }
+    render(){
+        const { data, trigger, position, disabled, multiple } = this.props;
+        const { visible } = this.state;
 
         return (
             <div className={this.className('tv-select', {
@@ -146,11 +162,11 @@ export default class TreeSelect extends Component{
                     visible={visible} 
                     trigger={trigger} 
                     position={position} 
-                    content={<div className="tv-select-tree-dropdown"><Tree multiple={multiple} data={data} onChange={this.handleTree} /></div>}
+                    content={this.renderPop()}
                     onChange={this.handlePopupChange}
                 >
                     <div className="tv-select-trigger">
-                        {defaultContent}
+                        {this.renderBtn()}
                     </div>
                 </Popup>
             </div>

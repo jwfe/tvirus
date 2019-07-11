@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
 
-export default class Tabs extends Component {
+export default class Tabpanel extends Component {
     constructor(props) {
         super(props);
     }

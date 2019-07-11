@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
 import { TreeSelect, Row, Col } from 'tvirus';
+
 import './index.less'
 
 export default class TreeselectDemo extends Component{
@@ -56,7 +57,7 @@ export default class TreeselectDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}><TreeSelect data={gData}></TreeSelect></Col>
-                        <Col span={12}><TreeSelect data={gData} multiple></TreeSelect></Col>
+                        <Col span={12}><TreeSelect isShowSearch data={gData} multiple></TreeSelect></Col>
                     </Row>
                 </div>
             )
@@ -72,7 +73,7 @@ export default class TreeselectDemo extends Component{
             keyword="treeselect"
             className="main-treeselect-box"
             title="Treeselect"
-            desc="Treeselect的说明"
+            desc="可选择的结构是个树形结构时，可使用。如：酒店树"
             childs={childs}
         />
     }

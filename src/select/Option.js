@@ -2,7 +2,7 @@ import React from 'react';
 import { Component, PropTypes } from '@Libs';
 import Icon from '@icon';
 
-export default class Select extends Component {
+export default class Option extends Component {
     static propTypes = {
         /** 自定义样式 */
         className: PropTypes.string,

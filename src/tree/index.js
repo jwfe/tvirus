@@ -3,12 +3,18 @@ import { Component, PropTypes } from '@Libs';
 
 import Store from './Store';
 import Node from './Node';
+import Input from '@input';
+import Result from '@result';
 
 export default class Tree extends Component{
-    state = {}
+    state = {
+        haveData: true
+    }
     static propTypes = {
         /** 自定义样式 */
         className: PropTypes.string,
+        /** 显示搜索 */
+        isShowSearch: PropTypes.bool,
         /** 展开的数据列表, [{key:'0', label:'0-label', children: [{key:'0-1', label:'1-label'}]}] */
         data: PropTypes.array,
         /** 展开的key列表 */
@@ -20,6 +26,7 @@ export default class Tree extends Component{
 
     };
     static defaultProps = {
+        isShowSearch: false,
         expandedKeys: []
     };
 
@@ -44,6 +51,15 @@ export default class Tree extends Component{
         store.setNode(node.key, 'selected', selected);
         this.setState({update: !this.state.update}, () => {
             onChange(node, name);
+        })
+    }
+
+    handleSearch = (value) => {
+        const { store } = this.state;
+        const haveData = store.setSelectedLabel(value);
+        this.setState({
+            haveData,
+            update: !this.state.update
         })
     }
 
@@ -80,7 +96,17 @@ export default class Tree extends Component{
         );
     }
     render(){
-        return this.renderTreeNodes(this.props.data)
+        return (
+            <div className="tv-tree-wraper">
+                {this.props.isShowSearch && <div className={this.className('tv-search')}>
+                    <Input
+                        type="text"
+                        onChange={this.handleSearch}
+                    />
+                </div>}
+                {this.state.haveData ? this.renderTreeNodes(this.props.data) : <Result type="nodata" subtitle="暂不数据" />}
+            </div>
+        )
     }
 }
 

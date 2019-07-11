@@ -83,6 +83,7 @@ export default class LayoutDemo extends Component{
         })
     }
     getCodeDemo(child, index){
+        const { keyword } = this.props;
         const { codebox } = this.state;
         const codeboxCurrent = codebox[index] || {};
         const isShow = !!codeboxCurrent.show;
@@ -112,7 +113,21 @@ export default class LayoutDemo extends Component{
             {child.children}
             <div className="language-jsx" style={{display: isShow ? '' : 'none'}}>
                 <Highlight>
-                    {child.jsx || reactElementToJSXString(child.children, {tabStop: 4})}
+                    {child.jsx || reactElementToJSXString(child.children, {
+                        displayName(...arg){
+                            const data = arg[0];
+                            let text = data.type;
+
+                            if(typeof text === 'function'){
+                                text = text.displayName;
+                            }
+                            if(text === 'Option' && keyword === 'select'){
+                                text = 'Select.Option';
+                            }
+                            return text
+                        },
+                        tabStop: 4
+                    })}
                 </Highlight>
             </div>
             <div className="code-block-control" onClick={this.onShowCode.bind(this, index)}>{isShow ? '隐藏' : '展示'}</div>
@@ -186,7 +201,7 @@ export default class LayoutDemo extends Component{
                             })
                         }
                     </section>
-                    {/* { this.createApi() } */}
+                    { this.createApi() }
                     
                 </article>
             </section>    

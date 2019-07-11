@@ -3,10 +3,11 @@ import { Component, PropTypes, Animation } from '@Libs';
 import Icon from '@icon';
 
 const iconMaps = {
-    info: 'info-circle',
-    success: 'check-circle',
+    error: 'info-circle',
+    success: 'success',
     danger: 'close-circle',
-    warning: 'exclamation-circle',
+    warning: 'exclamation-circl',
+    loading: 'loading',
 }
 
 export default class Message extends Component {
@@ -21,8 +22,8 @@ export default class Message extends Component {
         className: PropTypes.string,
         /** 消失时间，单位：毫秒 */
         duration: PropTypes.number,
-        /** 弹出层的内容类型，可选 'info', 'success', 'danger', 'warning' */
-        contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning']),
+        /** 弹出层的内容类型，可选 'info', 'success', 'danger', 'warning', 'loading' */
+        contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning', 'loading']),
     };
     static defaultProps = {
         contentType: 'info',

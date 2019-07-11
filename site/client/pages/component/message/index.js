@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Button, Message } from 'tvirus';
+import { Button, Message, Row, Col } from 'tvirus';
+
 import './index.less'
 
 export default class MessageDemo extends Component{
@@ -16,8 +17,12 @@ export default class MessageDemo extends Component{
         this.childs();
     }
 
-    onShow(){
-        Message.info(`This is a informations.`);
+    onShow(type){
+        type === 'info' && Message.info(`This is a informations.`);
+        type === 'loading' && Message.loading(`This is a loading.`);
+        type === 'warning' && Message.warning(`This is a warning.`);
+        type === 'error' && Message.error(`This is a error.`);
+        type === 'success' && Message.success(`This is a success.`);
     }
 
     childs(){
@@ -26,7 +31,15 @@ export default class MessageDemo extends Component{
             title: '正常',
             children: (
                 <div className="code-demo">
-                    <Button onClick={this.onShow.bind(this)}>基本信息</Button>
+                    <Row>
+                        <Col span={24}>
+                            <Button onClick={this.onShow.bind(this, 'info')}>info</Button>
+                            <Button onClick={this.onShow.bind(this, 'loading')}>loading</Button>
+                            <Button onClick={this.onShow.bind(this, 'warning')}>warning</Button>
+                            <Button onClick={this.onShow.bind(this, 'error')}>error</Button>
+                            <Button onClick={this.onShow.bind(this, 'success')}>success</Button>
+                        </Col>
+                    </Row>
                 </div>
             )
         });

@@ -43,7 +43,6 @@ export default class CommonMenu extends Component{
     opened(query){
         const location = this.getLocation();
         const currQuery = location.query;
-        console.log(currQuery , query)
         return currQuery === query;
     }
     createComponentMenus(){
@@ -207,6 +206,10 @@ export default class CommonMenu extends Component{
                     {
                         title: 'Spin 模块加载',
                         query: 'spin'
+                    },
+                    {
+                        title: 'Result 结果反馈',
+                        query: 'result'
                     }
                 ]
             }

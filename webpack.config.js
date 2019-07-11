@@ -73,9 +73,9 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                include: [
-                    path.resolve(__dirname, './src/icon/svg/'),
-                ],
+                // include: [
+                //     path.resolve(__dirname, './src/icon/svg/'),
+                // ],
                 use: [
                     {
                         loader: 'svg-sprite-loader',
@@ -91,7 +91,7 @@ module.exports = {
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 8192
+                            limit: 12000
                         }
                     }
                 ]
