@@ -31,7 +31,7 @@ export default {
     success: (content, mask, iconClass, onClose, duration) => (notice('success', content, mask, iconClass, onClose, duration)),
     warning: (content, mask, iconClass, onClose, duration) => (notice('warning', content, mask, iconClass, onClose, duration)),
     error: (content, mask, iconClass, onClose, duration) => (notice('error', content, mask, iconClass, onClose, duration)),
-    loading: (content) => (notice(undefined, content || '加载中...', true, 'loading', undefined, 0)),
+    loading: (content) => (notice('loading', content || '加载中...', true, 'loading', undefined, 0)),
     hide() {
         if (newNotification) {
             newNotification.destroy();

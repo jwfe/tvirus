@@ -3,7 +3,8 @@ import { Component, PropTypes, Animation } from '@Libs';
 import Icon from '@icon';
 
 const iconMaps = {
-    error: 'info-circle',
+    info: 'info-circle',
+    error: 'close-circle',
     success: 'success',
     danger: 'close-circle',
     warning: 'exclamation-circl',
@@ -30,6 +31,9 @@ export default class Message extends Component {
         duration: 5000
     };
     componentDidMount () {
+        if(this.props.duration <= 0){
+            return;
+        }
         this.closeTimer = setTimeout(() => {
             this.close();
         }, this.props.duration - 300);
