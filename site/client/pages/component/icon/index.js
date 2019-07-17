@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { Icon } from 'tvirus';
+import { Icon, Message } from 'tvirus';
 import './index.less'
 
 const iconMaps = {
@@ -10,65 +11,74 @@ const iconMaps = {
             title: '操作类',
             list: [
             'add',
+            'less',
+
             'delete',
             'edit',
             'save',
+
             'caret-right',
-            'folder',
-            'home',
-            'loading',
-            'paper-clip',
-            'user',
-            
-            'bars',
             'caret-up',
+            'caret-down',
+            'caret-left',
+
+            'right',
+            'left',
+
+            'folder',
+            'help',
+            'calendar',
+            'logout',
+            'credit-card',
+            'guide_manual',
+
+            'home',
+            'paper-clip',
+
+            'user',
+            'team',
+
+            'bars',
             'export',
             'form',
             'jpg',
-            'lock',
             'phone',
             'share-alt',
 
             'eye-open',
             'eye-close',
             
-            'calendar',
             'cloud',
             'search',
+
             'file-search',
+            'file-add',
+            'file-text',
+            
             'fullscreem-exit',
-            'key',
-            'logout',
-            'printer',
+            'fullscreem',
+
             'swap',
             
-            'caret-down',
-            'credit-card',
-            'file-text',
-            'fullscreem',
-            'left',
-            'menu-fold',
+            'loading',
             'refresh',
-            'team',
             
-            'caret-left',
             'download',
             'filter',
-            'help',
-            'less',
+            'printer',
+
+            'menu-fold',
             'menu-unfold',
-            'right',
-            'unlock',
-            'file-add',
-            'ai_model',
-            'guide_manual',
-            'robot',
+
+            'key',
+            'lock',
+            'unlock'
             ]
         },
 
         {
             title: '情感类',
-            list: ["dislike", "frown", "like", "meh", "smile"]
+            list: ["dislike", "like", "frown", "meh", "smile"]
         },
 
         {
@@ -85,15 +95,16 @@ const iconMaps = {
         },
         {
             title: '装饰类',
-            list: ["environment", "fire", "gift", "heart", "money", 'ai']
+            list: ["environment", "fire", "gift", "heart", "money", 'ai', 'robot', 'ai_model']
         }
     ],
     '实底风格': [
         {
             title: '导航图标',
-            list: [
-            'setup',    
-            "bi", "module_management", "personal_center", "questionnaire", "opportunity", "price", "live_in", "overview", "quality_inspection", "review", "prediction", "user_group"]
+            list: [  
+            "bi", "module_management", "questionnaire", "opportunity", "price", "live_in", "overview", "quality_inspection", "review", "prediction", "personal_center", "user_group",
+            'setup'
+            ]
         },
         {
             title: '操作类',
@@ -134,7 +145,15 @@ export default class IconDemo extends Component{
                                 <ul>
                                     {
                                         data.list.map((icon) => {
-                                            return <li key={icon}><Icon key={icon} type={icon} />{icon}</li>
+                                            return <li key={icon}>
+                                                <CopyToClipboard text={`<Icon type="${icon}" />`}
+                                                onCopy={() => {
+                                                    Message.info(`复制${icon}成功`)
+                                                }}>
+                                                <span><Icon key={icon} type={icon} />{icon}</span>
+                                                </CopyToClipboard>
+                                                
+                                            </li>
                                         })
                                     }
                                 </ul>

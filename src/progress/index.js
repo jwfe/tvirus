@@ -10,10 +10,10 @@ export default class Progress extends Component {
         /** 类型，类型为color时，通过 value的length 来控制进度显示 */
         type: PropTypes.string,
         /** 进度条的当前进度，注：type为color时，通过value来控制每一个色卡的颜色。 */
-        value: PropTypes.oneOfType(
+        value: PropTypes.oneOfType([
             PropTypes.array,
             PropTypes.number
-        ),
+        ]),
     };
     
     static defaultProps = {

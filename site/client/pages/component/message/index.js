@@ -19,10 +19,17 @@ export default class MessageDemo extends Component{
 
     onShow(type){
         type === 'info' && Message.info(`This is a informations.`);
-        type === 'loading' && Message.loading(`This is a loading.`);
+        type === 'success' && Message.success(`This is a success.`);
         type === 'warning' && Message.warning(`This is a warning.`);
         type === 'error' && Message.error(`This is a error.`);
-        type === 'success' && Message.success(`This is a success.`);
+        if(type === 'loading'){
+            Message.loading(`This is a loading.`);
+            setTimeout(() => {
+                Message.hide();
+                Message.info(`Loading is done.`)
+            }, 2000)
+        }
+        
     }
 
     childs(){
@@ -34,7 +41,7 @@ export default class MessageDemo extends Component{
                     <Row>
                         <Col span={24}>
                             <Button onClick={this.onShow.bind(this, 'info')}>info</Button>
-                            <Button onClick={this.onShow.bind(this, 'loading')}>loading</Button>
+                            <Button onClick={this.onShow.bind(this, 'loading')}>loading 2s</Button>
                             <Button onClick={this.onShow.bind(this, 'warning')}>warning</Button>
                             <Button onClick={this.onShow.bind(this, 'error')}>error</Button>
                             <Button onClick={this.onShow.bind(this, 'success')}>success</Button>

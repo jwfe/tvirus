@@ -10,8 +10,8 @@ requireAll(req);
 
 export default class Result extends Component {
     static propTypes = {
-        /** 图标名，"badnetwork", "dev", "done", "loadfail", "nobuy", "nodata", "notbuy", "notfound", "notnotice", "taskfail"，默认为 notfound*/
-        type: PropTypes.oneOf(["badnetwork", "dev", "done", "loadfail", "nobuy", "nodata", "notbuy", "notfound", "notnotice", "taskfail"]),
+        /** 图标名，"badnetwork", "dev", "done", "loadfail", "nodata", "notbuy", "notfound", "notnotice", "taskfail"，默认为 notfound*/
+        type: PropTypes.oneOf(["badnetwork", "dev", "done", "loadfail", "nodata", "notbuy", "notfound", "notnotice", "taskfail"]),
         /** 主标题 */
         title: PropTypes.string,
         /** 二级标题 */
@@ -19,7 +19,6 @@ export default class Result extends Component {
     };
 
     static defaultProps = {
-        spin: false
     };
 
     constructor(props) {
