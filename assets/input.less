@@ -48,6 +48,15 @@
             min-height: @inputHeight;
             vertical-align: bottom;
         }
+
+        &:disabled{
+            border-color: @dark-border-10;
+            color: @dark-color-25;
+            background-color: @light-smoke-bgc;
+            text-shadow: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
         
         .tv-input-prefix + &{
             padding-left: 30px;
@@ -92,4 +101,6 @@
     &-suffix{
         right: 10px;
     }
+
+    
 }

@@ -100,6 +100,7 @@ export default class Input extends Component {
     }
     render() {
         let { 
+            className,
             prefix, suffix, type, size, autoComplete, value, placeholder, name, onChange, onFocus, onBlur, 
             showToggle,
             autosize,
@@ -113,7 +114,7 @@ export default class Input extends Component {
 
         if(type === 'textarea'){
             return (
-                <span className={this.className('tv-input-wraper')}>
+                <span className={this.classNames(['tv-input-wraper'])}>
                     <textarea 
                         style={this.style({
                             height: textareaHeight || 'auto'
@@ -133,9 +134,9 @@ export default class Input extends Component {
         }
 
         return (
-            <span className={this.className('tv-input-wraper', {
+            <span className={this.classNames(['tv-input-wraper', {
                 'tv-input-wraper-prefix': prefix
-            })}>
+            }])}>
                 {prefix && <span className="tv-input-prefix"><Icon type={prefix} /></span>}
                 {this.addPasswdVisible()}
                 {

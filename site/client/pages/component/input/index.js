@@ -89,6 +89,22 @@ export default class InputDemo extends Component{
             )
         });
 
+        childs.push({
+            title: 'disabled',
+            children: (
+                <div className="code-demo">
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Input type="text" disabled className="test" />
+                        </Col>
+                        <Col span={12}>
+                            <Input type="textarea" autosize disabled />
+                        </Col>
+                    </Row>
+                </div>
+            )
+        });
+
         this.setState({childs})
     }
 
