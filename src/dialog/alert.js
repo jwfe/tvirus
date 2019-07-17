@@ -41,9 +41,17 @@ class Alert extends Component{
             onClose();
         });
     }
+    onOk = () => {
+        const { onOk } = this.props;
+        this.setState({
+            visible: false,
+        }, () => {
+            onOk();
+        });
+    }
     render(){
         const { children, visible, onUpdateEnd, onClose, ...other } = this.props;
-        return <Dialog type="alert" onClose={this.onClose} visible={this.state.visible} {...other}>{children}</Dialog>
+        return <Dialog type="alert" onClose={this.onClose} onOk={this.onOk} visible={this.state.visible} {...other}>{children}</Dialog>
     }
 }
 

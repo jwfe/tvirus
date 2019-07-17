@@ -64,7 +64,7 @@ export default class Dialog extends Component {
         return null;
     }
 
-    handleClose(){
+    handleClose = () => {
         const { onClose } = this.props;
         this.setState({
             visible: false
@@ -72,7 +72,7 @@ export default class Dialog extends Component {
             onClose();
         })
     }
-    handleOk(){
+    handleOk = () => {
         const { onOk } = this.props;
         this.setState({
             visible: false
@@ -80,7 +80,7 @@ export default class Dialog extends Component {
             onOk();
         })
     }
-    handleCancel(){
+    handleCancel = () => {
         const { onCancel } = this.props;
         this.handleClose();
         onCancel();
@@ -93,14 +93,14 @@ export default class Dialog extends Component {
                 <div className="tv-dialog-content" style={this.style({
                     width
                 })}>
-                    {close && <Button className="tv-dialog-close" icon="add" onClick={this.handleClose.bind(this)} />}
+                    {close && <Button className="tv-dialog-close" icon="add" onClick={this.handleClose} />}
                     {title && <div className="tv-dialog-header"><div className="tv-dialog-title">{title}</div></div>}
                     <div className="tv-dialog-body">
                         {children}
                     </div>
                     {footer && <div className="tv-dialog-footer">
-                        {cancel && <Button onClick={this.handleCancel.bind(this)}>{cancelText}</Button>}
-                        {ok && <Button type="primary" onClick={this.handleOk.bind(this)}>{okText}</Button>}
+                        {cancel && <Button onClick={this.handleCancel}>{cancelText}</Button>}
+                        {ok && <Button type="primary" onClick={this.handleOk}>{okText}</Button>}
                     </div>}
                 </div>
             </div>
