@@ -222,7 +222,7 @@ export default class Pagination extends Component {
     }
     render(){
         const { size, showSizeChanger } = this.props;
-        const { pageTotal, activeIndex } = this.state;
+        const { pageTotal, activeIndex, pageSize } = this.state;
         return (
             <ul className={this.className('tv-pagination', {
                 [`tv-pagination-size-${size}`]: size
@@ -241,7 +241,7 @@ export default class Pagination extends Component {
                     'tv-pagination-disabled': activeIndex === pageTotal
                 })}><Icon type="right" /></li>
                 {showSizeChanger && <li className="tv-pagination-options">
-                    <Select value={this.state.sizeChanger} onChange={this.onSelectChange}>
+                    <Select value={pageSize} onChange={this.onSelectChange}>
                         <Select.Option value="10">10条/页</Select.Option>
                         <Select.Option value="20">20条/页</Select.Option>
                         <Select.Option value="30">30条/页</Select.Option>
