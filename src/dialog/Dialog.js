@@ -22,6 +22,8 @@ export default class Dialog extends Component {
         contentType: PropTypes.oneOf(['info', 'success', 'danger', 'warning']),
         /** 设置style */
         style: PropTypes.object,
+        /** 设置是否限制x按钮 */
+        close: PropTypes.bool, 
         /** 设置是否限制确认按钮 */
         ok: PropTypes.bool, 
         /** 设置是否限制取消按钮 */
@@ -36,6 +38,7 @@ export default class Dialog extends Component {
 
     static defaultProps = {
         mask: true,
+        close: true, cancel: true,
         ok: true, cancel: true,
         contentType: 'info',
         width: 520,
@@ -65,13 +68,17 @@ export default class Dialog extends Component {
         const { onClose } = this.props;
         this.setState({
             visible: false
+        }, () => {
+            onClose();
         })
-        onClose();
     }
     handleOk(){
         const { onOk } = this.props;
-        this.handleClose();
-        onOk();
+        this.setState({
+            visible: false
+        }, () => {
+            onOk();
+        })
     }
     handleCancel(){
         const { onCancel } = this.props;
@@ -80,13 +87,13 @@ export default class Dialog extends Component {
     }
 
     renderModal(){
-        const { title, footer, children, ok, cancel, okText, cancelText, width } = this.props;
+        const { title, footer, children, close, ok, cancel, okText, cancelText, width } = this.props;
         return (
             <div className={this.className('tv-dialog')}>
                 <div className="tv-dialog-content" style={this.style({
                     width
                 })}>
-                    <Button className="tv-dialog-close" icon="add" onClick={this.handleClose.bind(this)} />
+                    {close && <Button className="tv-dialog-close" icon="add" onClick={this.handleClose.bind(this)} />}
                     {title && <div className="tv-dialog-header"><div className="tv-dialog-title">{title}</div></div>}
                     <div className="tv-dialog-body">
                         {children}

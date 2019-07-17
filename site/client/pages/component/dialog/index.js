@@ -25,7 +25,7 @@ export default class DialogDemo extends Component{
         });
     }
 
-    handleBaseCancel(){
+    handleBaseCancel = () => {
         this.setState({
             visible_base: false,
         }, () => {
@@ -98,8 +98,10 @@ export default class DialogDemo extends Component{
                 <div className="code-demo">
                     <Row>
                         <Col span={12}>
-                            <Button onClick={this.showBaseModal.bind(this)}>基础</Button>
-                            <Dialog title="基础" visible={this.state.visible_base} onClose={this.handleBaseCancel.bind(this)} footer={true}>
+                            <Button onClick={this.showBaseModal}>基础</Button>
+                            <Dialog title="基础" visible={this.state.visible_base} 
+                            onOk={this.handleBaseCancel}
+                            onClose={this.handleBaseCancel} footer={true}>
                                 <p>Some contents...</p>
                                 <p>Some contents...</p>
                                 <p>Some contents...</p>
