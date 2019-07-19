@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component, PropTypes } from '@Libs';
 
-import Store from './Store';
+import Store from './store';
 import Node from './Node';
 import Input from '@input';
 import Result from '@result';

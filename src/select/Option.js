@@ -24,7 +24,7 @@ export default class Option extends Component {
         super(props);
         this.state = {
             selected: props.selected
-        }
+        };
     }
 
     static getDerivedStateFromProps(nextProps, prevState){

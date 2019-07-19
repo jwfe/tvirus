@@ -7,7 +7,7 @@ export default class Pagination extends Component {
     static propTypes = {
         /** 设置分页大小，可选值 'large', 'medium', small' 或不设 */
         size: PropTypes.oneOf(['large', 'medium', 'small']),
-        /** 每页的数量 */
+        /** 每页的条数 */
         pageSize: PropTypes.number,
         /** 总条数 */
         total: PropTypes.number,
@@ -15,7 +15,7 @@ export default class Pagination extends Component {
         defaultActive: PropTypes.number,
         /** 是否显示条目数 */
         showSizeChanger: PropTypes.bool,
-        /** 默认的条目数 */
+        /** 自定义下拉菜单选项 */
         sizeChanger: PropTypes.array,
         /** size变化后的回调 */
         onSizeChange: PropTypes.func,
@@ -28,7 +28,25 @@ export default class Pagination extends Component {
         defaultActive: 1,
         pageSize: 20,
         onSizeChange: noop,
-        onChange: noop
+        onChange: noop,
+        sizeChanger: [
+            {
+                title: '10条/页',
+                value: '10'
+            },
+            {
+                title: '20条/页',
+                value: '20'
+            },
+            {
+                title: '30条/页',
+                value: '30'
+            },
+            {
+                title: '40条/页',
+                value: '40'
+            }
+        ]
     };
 
     constructor(props) {
@@ -36,10 +54,11 @@ export default class Pagination extends Component {
         this.state = {
             total: props.total,
             pageSize: props.pageSize,
-            sizeChanger: props.sizeChanger || ['20'],
+            sizeChanger: props.sizeChanger,
+            // sizeChanger: props.sizeChanger || ['20'],
             count: 7,
             activeIndex: props.defaultActive,
-            openNodes: []    
+            openNodes: []
         }
     }
 
@@ -59,7 +78,7 @@ export default class Pagination extends Component {
     getPageItem(){
         let { activeIndex, count, total, pageSize } = this.state;
 
-        const pageTotal = Math.ceil(total/pageSize);
+        const pageTotal = Math.ceil(total / pageSize);
 
         if(pageTotal < activeIndex){
             activeIndex = 1
@@ -105,16 +124,15 @@ export default class Pagination extends Component {
             showPrevMore,
             pageTotal,
             pages: array
-        })
+        });
     }
     renderItem(){
-        const { pageTotal, activeIndex, pages, showNextMore, showPrevMore } = this.state;
+        const {pageTotal, activeIndex, pages, showNextMore, showPrevMore} = this.state;
         let itemList = [];
         // 1
         pageTotal > 0 && itemList.push(
             <li
                 onClick={this.onClick.bind(this, 1)}
-                key={0}
                 className={this.className('tv-pagination-item', {
                     'tv-pagination-item-active': activeIndex === 1
                 })}
@@ -134,13 +152,13 @@ export default class Pagination extends Component {
             return (
                 <li
                     onClick={this.onClick.bind(this, item)}
-                    key={`${index}_item`}
+                    key={index + '_item'}
                     className={this.className('tv-pagination-item', {
                         'tv-pagination-item-active': activeIndex === item
                     })}
                 >{item}</li>
-            )
-        })
+            );
+        });
         itemList = itemList.concat(pageList);
         // next more
         showNextMore && itemList.push(
@@ -178,7 +196,7 @@ export default class Pagination extends Component {
             activeText = activeIndex - 1
         }
 
-        if(activeText === 'next'){
+        if(activeText === 'next') {
             activeText = activeIndex + 1
         }
 
@@ -202,32 +220,37 @@ export default class Pagination extends Component {
         })
 
     }
-    onSelectChange = (values) => {
-        let { activeIndex, count, total } = this.state;
-        const pageSize = parseInt(values[0])
-        const pageTotal = Math.ceil(total/pageSize);
+    onSelectChange = values => {
+        let {activeIndex, count, total} = this.state;
+        const pageSize = parseInt(values[0], 10)
+        const pageTotal = Math.ceil(total / pageSize);
 
-        if(pageTotal < activeIndex){
-            activeIndex = 1
+        if (pageTotal < activeIndex) {
+            activeIndex = 1;
         }
-        
+
         this.setState({
             activeIndex,
-            pageSize,
-            sizeChanger: values
+            pageSize
         }, () => {
             this.getPageItem();
             this.props.onSizeChange(activeIndex, values);
         })
     }
-    render(){
-        const { size, showSizeChanger } = this.props;
-        const { pageTotal, activeIndex, pageSize } = this.state;
+
+    renderOptionsHTML = () => {
+        const {sizeChanger} = this.state;
+        return sizeChanger.map((item, index) => <Select.Option key={index + '_item'} value={item.value}>{item.title}</Select.Option>);
+    }
+
+    render() {
+        const {size, showSizeChanger} = this.props;
+        const {pageTotal, activeIndex, pageSize} = this.state;
         return (
             <ul className={this.className('tv-pagination', {
                 [`tv-pagination-size-${size}`]: size
             })}>
-                <li 
+                <li
                     onClick={this.onClick.bind(this, 'prev')} 
                     className={this.className('tv-pagination-prev', {
                     'tv-pagination-disabled': activeIndex === 1
@@ -241,14 +264,11 @@ export default class Pagination extends Component {
                     'tv-pagination-disabled': activeIndex === pageTotal
                 })}><Icon type="right" /></li>
                 {showSizeChanger && <li className="tv-pagination-options">
-                    <Select value={pageSize} onChange={this.onSelectChange}>
-                        <Select.Option value="10">10条/页</Select.Option>
-                        <Select.Option value="20">20条/页</Select.Option>
-                        <Select.Option value="30">30条/页</Select.Option>
-                        <Select.Option value="40">40条/页</Select.Option>
+                    <Select value={[pageSize.toString()]} onChange={this.onSelectChange}>
+                        {this.renderOptionsHTML()}
                     </Select>
                 </li>}
-            </ul>    
-        )
+            </ul>
+        );
     }
 }

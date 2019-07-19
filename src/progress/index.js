@@ -13,7 +13,7 @@ export default class Progress extends Component {
         value: PropTypes.oneOfType([
             PropTypes.array,
             PropTypes.number
-        ]),
+        ])
     };
     
     static defaultProps = {
