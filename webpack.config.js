@@ -27,7 +27,8 @@ getCompoents();
 
 module.exports = {
     devtool: 'source-map',
-    mode: 'production',
+    // mode: 'production',
+    mode: 'development',
     entry: {
         tvirus: './src/index.js'
     },

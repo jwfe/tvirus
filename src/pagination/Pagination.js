@@ -59,7 +59,7 @@ export default class Pagination extends Component {
             count: 7,
             activeIndex: props.defaultActive,
             openNodes: []
-        }
+        };
     }
 
     componentDidUpdate(prevProps, prevState){
