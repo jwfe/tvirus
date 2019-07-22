@@ -32,7 +32,6 @@ export default class Loading extends Component {
 
     renderLoading = () => {
         const {show} = this.props;
-        console.log(show);
         if (show) {
             return (<div className="tv-loading-wrapper">
                         <span className={this.className('tv-loading')}>
