@@ -22,7 +22,7 @@ export default class Tree extends Component{
         /** 禁用那些key的函数 */
         expandDisabled: PropTypes.func,
         /** 关闭以后的回调 */
-        onChange: PropTypes.func,
+        onChange: PropTypes.func
 
     };
     static defaultProps = {
@@ -32,7 +32,7 @@ export default class Tree extends Component{
 
     constructor(props){
         super(props);
-
+        // TODO: data没有空判断，在未获得数据时会抛出错误
         const store = new Store(props);
         store.flattenNodes(JSON.parse(JSON.stringify(props.data)));
         this.state.store = store;

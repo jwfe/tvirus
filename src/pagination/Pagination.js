@@ -71,6 +71,14 @@ export default class Pagination extends Component {
         return true;
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (nextProps.showSizeChanger !== this.props.showSizeChanger) {
+            return true;
+        }
+
+        return false;
+    }
+
     componentWillMount(){
         this.getPageItem();
     }
