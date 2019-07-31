@@ -38,8 +38,9 @@ export default class Dialog extends Component {
 
     static defaultProps = {
         mask: true,
-        close: true, cancel: true,
-        ok: true, cancel: true,
+        close: true,
+        cancel: true,
+        ok: true,
         contentType: 'info',
         width: 520,
         okText: '确定',
@@ -72,13 +73,14 @@ export default class Dialog extends Component {
             onClose();
         })
     }
+
     handleOk = () => {
-        const { onOk } = this.props;
+        const {onOk, visible} = this.props;
         this.setState({
-            visible: false
+            visible
         }, () => {
             onOk();
-        })
+        });
     }
     handleCancel = () => {
         const { onCancel } = this.props;
