@@ -33,7 +33,9 @@ export default class Dialog extends Component {
         /** 接管取消方法 */
         onCancel: PropTypes.func,
         /** 接管点击确定按钮的方法 */
-        onOk: PropTypes.func
+        onOk: PropTypes.func,
+        /** 进制submit关闭dialog */
+        hidden: PropTypes.bool
     };
 
     static defaultProps = {
@@ -48,6 +50,7 @@ export default class Dialog extends Component {
         onClose: noop,
         onOk: noop,
         onCancel: noop,
+        hidden: false
     };
 
     constructor(props) {
@@ -75,12 +78,17 @@ export default class Dialog extends Component {
     }
 
     handleOk = () => {
-        const {onOk, visible} = this.props;
-        this.setState({
-            visible
-        }, () => {
+        const {onOk, hidden} = this.props;
+        if (!hidden) {
             onOk();
-        });
+        }
+        else {
+            this.setState({
+                visible: false
+            }, () => {
+                onOk();
+            });
+        }
     }
     handleCancel = () => {
         const { onCancel } = this.props;
