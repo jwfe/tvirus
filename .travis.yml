@@ -4,8 +4,8 @@ jobs:
       if: tag IS present
       node_js: "11"
       script: 
-        npm install
-        npm run build
+        - npm install
+        - npm run build
       deploy:
         provider: npm
         email: "$USER_EMAIL"
