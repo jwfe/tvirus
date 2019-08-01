@@ -41,10 +41,10 @@ export default class Tabs extends Component {
             let $el = tabItemNode[index];
 
             if (item.props.tabKey === this.state.activeStateKey) {
+                tabWidth = $el.clientWidth;
                 offset = $el.offsetLeft;
                 return true;
             } else {
-                tabWidth = $el.clientWidth;
                 return false;
             }
         })

@@ -77,6 +77,36 @@ export default class TabsDemo extends Component{
             )
         });
 
+        const arr = [
+            {
+                key:'1',
+                title:'本酒店预测有什么用？'
+            },
+            {
+                key:'2',
+                title:'如何使用“预测分析”提升收益'
+            }
+        ]
+
+        childs.push({
+            title: '特殊长度',
+            children: (
+                <div className="code-demo">
+                    <Tabs activeKey={arr[0].key}>
+                        {
+                             arr.map((item) => {
+                                return (
+                                    <Tabpanel key={item.key} tab={item.title} tabKey={item.keygs}>
+                                        内容区：{item.title}
+                                    </Tabpanel>
+                                )
+                            })
+                        }
+                    </Tabs>
+                </div>
+            )
+        });
+
         this.setState({childs})
     }
 
