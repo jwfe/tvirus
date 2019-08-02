@@ -96,7 +96,7 @@ export default class TabsDemo extends Component{
                         {
                              arr.map((item) => {
                                 return (
-                                    <Tabpanel key={item.key} tab={item.title} tabKey={item.keygs}>
+                                    <Tabpanel key={item.key} tab={item.title} tabKey={item.key}>
                                         内容区：{item.title}
                                     </Tabpanel>
                                 )
