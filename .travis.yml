@@ -5,7 +5,7 @@ jobs:
       node_js: "11"
       script: 
         - npm install
-        - webpack
+        - npm run build
       deploy:
         provider: npm
         email: "$USER_EMAIL"
