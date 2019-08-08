@@ -25,7 +25,7 @@ export default class Icon extends Component {
     }
 
     render() {
-        let { type, spin, className, ...otherProps } = this.props;
+        let {type, spin, className, ...otherProps} = this.props;
 
         if(type === 'loading'){
             spin = true;
