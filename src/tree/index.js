@@ -44,7 +44,7 @@ export default class Tree extends Component{
             multiple,
             name
         } = this.props;
-        const { store } = this.state;
+        const {store} = this.state;
         if(!multiple){
            store.setAllSelected(false);
         }
