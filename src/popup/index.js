@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Component, PropTypes, Portal, Animation } from '@Libs';
-
 const POSITIONS = [
     'top',
     'bottom',
@@ -78,7 +77,7 @@ export default class Popup extends Component {
         this.triggerNode = null;
         this.popupNode = null;
         popupSpeedKey++;
-
+        this.popupSpeedKey = popupSpeedKey;
         this.state = {
             positions: props.position,
             visible: props.visible,
@@ -87,7 +86,7 @@ export default class Popup extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.visible !== prevState.visible){
+        if(nextProps.visible !== prevState.visible) {
             return {
                 visible: nextProps.visible,
                 showPopup: nextProps.visible
@@ -96,9 +95,14 @@ export default class Popup extends Component {
         return null;
     }
 
+    componentDidMount() {
+        this.triggerNode = document.getElementById(`popup${this.popupSpeedKey}`);
+    }
+
     componentWillUnmount(){
         document.removeEventListener('click', this.onUnmount);
     }
+
     onUnmount = (e) => {
         const triggerNode = this.triggerNode;
         const popupNode = this.popupNode;
@@ -128,7 +132,7 @@ export default class Popup extends Component {
                     opacity: 1
                 },
                 positions
-            })
+            });
         });
     }
     handleOnClick = () => {
@@ -275,10 +279,10 @@ export default class Popup extends Component {
     }
 
     renderCloneChildren(){	
-        const { children, childrenProps, trigger } = this.props;	
+        const { children, childrenProps, trigger } = this.props;
         return React.Children.map(children, (child, i) => {	
             return (	
-                <span key={`${popupSpeedKey}_${i}`} ref={(el) => this.triggerNode = getChildNode(el)}>	
+                <span id={`popup${this.popupSpeedKey}`} key={`${this.popupSpeedKey}_${i}`}>	
                     {	
                         React.cloneElement(child, {	
                             onMouseEnter: this.handleMouseEnter,
@@ -318,16 +322,16 @@ export default class Popup extends Component {
         return (
             <React.Fragment>
                 { this.renderCloneChildren() }
-                <Portal key={popupSpeedKey}>
+                <Portal key={this.popupSpeedKey}>
                     <Animation
-                        key={popupSpeedKey}
+                        key={this.popupSpeedKey}
                         animatedIn="fadeIn" 
                         animatedOut="fadeOut" 
                         inProp={showPopup}
                         unmountOnExit={false}
                     >
                         <div 
-                        key={popupSpeedKey}
+                        key={this.popupSpeedKey}
                         style={this.style(style)}
                         ref={el => this.popupNode = el}
                         className={this.className(prefix, className, {
@@ -338,7 +342,7 @@ export default class Popup extends Component {
                         onMouseLeave={this.handleMouseLeave}
                         >
                             { showArrow && <div className={`${prefix}-arrow`} /> }
-                            <div key={popupSpeedKey} className={`${prefix}-inner`}>
+                            <div key={this.popupSpeedKey} className={`${prefix}-inner`}>
                                 {title && <h3 className={`${prefix}-title`}>{title}</h3>}
                                 <div className={`${prefix}-content`}>
                                     {content}
