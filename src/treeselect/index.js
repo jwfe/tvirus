@@ -114,7 +114,7 @@ export default class TreeSelect extends Component{
                 'tv-select-placeholder': !label
             }])}>
                 <span>{ label || placeholder }</span> 
-                <Icon type="down" /> 
+                <Icon type="down" />
             </div>
         );
 
