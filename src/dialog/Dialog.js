@@ -160,7 +160,7 @@ export default class Dialog extends Component {
     render() {
         const {mask} = this.props;
         const {visible} = this.state;
-        visible ? this.body.style.overflow = 'hidden' : this.body.style.overflow = 'auto';
+        visible ? this.body.style.overflow = 'hidden' : this.body.style.overflow = 'inherit';
 
         return (
             <Portal>
