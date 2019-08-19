@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component, PropTypes, Portal, noop, Animation } from '@Libs';
+import {Component, PropTypes, Portal, noop, Animation} from '@Libs';
 import Button from '@button';
 import Icon from '@icon';
 
@@ -55,12 +55,13 @@ export default class Dialog extends Component {
 
     constructor(props) {
         super(props);
+        this.body = document.getElementsByTagName('body')[0];
         this.state = {
             visible: props.visible
-        }
+        };
     }
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.visible !== prevState.visible){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.visible !== prevState.visible) {
             return {
                 visible: nextProps.visible
             };
@@ -91,13 +92,15 @@ export default class Dialog extends Component {
         }
     }
     handleCancel = () => {
-        const { onCancel } = this.props;
+        const {onCancel} = this.props;
         this.handleClose();
         onCancel();
     }
 
+
+
     renderModal(){
-        const { title, footer, children, close, ok, cancel, okText, cancelText, width } = this.props;
+        const {title, footer, children, close, ok, cancel, okText, cancelText, width} = this.props;
         return (
             <div className={this.className('tv-dialog')}>
                 <div className="tv-dialog-content" style={this.style({
@@ -114,11 +117,11 @@ export default class Dialog extends Component {
                     </div>}
                 </div>
             </div>
-        )
+        );
     }
 
-    renderAlertModal(){
-        const { title, footer, children, ok, cancel, okText, cancelText, icon, contentType, width } = this.props;
+    renderAlertModal() {
+        const {title, footer, children, ok, cancel, okText, cancelText, icon, contentType, width} = this.props;
         return (
             <div className={this.className('tv-dialog', {
                 'tv-dialog-confirm': true,
@@ -140,23 +143,25 @@ export default class Dialog extends Component {
                     </div>}
                 </div>
             </div>
-        )
+        );
     }
 
-    renderItem(){
-        const { type } = this.props;
-        if(!type){
+    renderItem() {
+        const {type} = this.props;
+        if (!type) {
             return this.renderModal();
         }
-        if(type === 'alert'){
+        if (type === 'alert') {
             return this.renderAlertModal();
         }
         return null;
     }
 
-    render(){
-        const { mask } = this.props;
-        const { visible } = this.state;
+    render() {
+        const {mask} = this.props;
+        const {visible} = this.state;
+        visible ? this.body.style.overflow = 'hidden' : this.body.style.overflow = 'auto';
+
         return (
             <Portal>
                 {
@@ -168,7 +173,6 @@ export default class Dialog extends Component {
                     { this.renderItem() }
                 </Animation>
             </Portal>
-        )
+        );
     }
-    
 }

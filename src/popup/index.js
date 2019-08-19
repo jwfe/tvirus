@@ -330,7 +330,7 @@ export default class Popup extends Component {
                         inProp={showPopup}
                         unmountOnExit={false}
                     >
-                        <div 
+                        <div
                         key={this.popupSpeedKey}
                         style={this.style(style)}
                         ref={el => this.popupNode = el}
