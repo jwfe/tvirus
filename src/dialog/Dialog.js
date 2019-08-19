@@ -74,6 +74,7 @@ export default class Dialog extends Component {
         this.setState({
             visible: false
         }, () => {
+            this.body.style.overflow = 'inherit';
             onClose();
         })
     }
@@ -81,12 +82,14 @@ export default class Dialog extends Component {
     handleOk = () => {
         const {onOk, hidden} = this.props;
         if (!hidden) {
+            this.body.style.overflow = 'inherit';
             onOk();
         }
         else {
             this.setState({
                 visible: false
             }, () => {
+                this.body.style.overflow = 'inherit';
                 onOk();
             });
         }
