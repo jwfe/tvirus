@@ -3,8 +3,8 @@ const path = require('path');
 const glob = require('glob');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const PurifyCSSPlugin = require('purifycss-webpack')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const PurifyCSSPlugin = require('purifycss-webpack');
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const tvirus = {};
 
@@ -27,8 +27,8 @@ getCompoents();
 
 module.exports = {
     devtool: 'source-map',
-    mode: 'production',
-    // mode: 'development',
+    // mode: 'production',
+    mode: 'development',
     entry: {
         tvirus: './src/index.js'
     },
@@ -60,7 +60,7 @@ module.exports = {
         'echarts': 'echarts'
     },
     resolve: {
-        extensions: [".js", ".json", ".less"],
+        extensions: [".ts", ".tsx", ".js", ".json", ".less"],
         alias: Object.assign({
             '@Libs': `../../libs`
         }, tvirus)
@@ -103,7 +103,16 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'less-loader']
-                  })
+                })
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "awesome-typescript-loader"
+            },
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
             }
         ]
     },
@@ -111,20 +120,20 @@ module.exports = {
         new PurifyCSSPlugin({
             paths: glob.sync(path.join(__dirname, 'src/*.html'))
         }),
-        // new WebpackParallelUglifyPlugin({
-        //     uglifyJS: {
-        //         output: {
-        //             beautify: false, //不需要格式化
-        //             comments: false //不保留注释
-        //         },
-        //         compress: {
-        //             warnings: false, // 在UglifyJs删除没有用到的代码时不输出警告
-        //             drop_console: true, // 删除所有的 `console` 语句，可以兼容ie浏览器
-        //             collapse_vars: true, // 内嵌定义了但是只用到一次的变量
-        //             reduce_vars: true // 提取出出现多次但是没有定义成变量去引用的静态值
-        //         }
-        //     }
-        // }),
+        /* new WebpackParallelUglifyPlugin({
+            uglifyJS: {
+                output: {
+                    beautify: false, //不需要格式化
+                    comments: false //不保留注释
+                },
+                compress: {
+                    warnings: false, // 在UglifyJs删除没有用到的代码时不输出警告
+                    drop_console: true, // 删除所有的 `console` 语句，可以兼容ie浏览器
+                    collapse_vars: true, // 内嵌定义了但是只用到一次的变量
+                    reduce_vars: true // 提取出出现多次但是没有定义成变量去引用的静态值
+                }
+            }
+        }), */
         new ExtractTextPlugin({filename: '[name].css'}),
         new OptimizeCSSPlugin({
             cssProcessorOptions: {safe: true}
