@@ -55,7 +55,9 @@ export default class Select extends Component {
         /** 默认展示 */
         placeholder: PropTypes.string,
         /** 数据变化后的回调 */
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        /**最小可选择的个数 */
+        minLength: PropTypes.number
     };
 
     static defaultProps = {
@@ -65,7 +67,8 @@ export default class Select extends Component {
         placeholder: '请选择',
         position: 'bottom left',
         trigger: 'click',
-        onChange: noop
+        onChange: noop,
+        minLength: 0
     };
 
     constructor(props) {
@@ -92,6 +95,8 @@ export default class Select extends Component {
     handleOptionClick(value, title) {
         let {selectedVals, selectedTitle} = this.state;
         const {multiple, name} = this.props;
+
+        console.log(selectedVals,'--------1111111')
         if (multiple) {
             const selectedIndex = selectedVals.indexOf(value);
             if (selectedIndex === -1) {
@@ -159,6 +164,7 @@ export default class Select extends Component {
         let {selectedVals, selectedTitle, visible} = this.state;
         // 取消
         if (!index) {
+            
             selectedVals.shift(0);
             selectedTitle.shift(0);
         } else if (selectedVals.length - 1 === index) {
@@ -210,7 +216,7 @@ export default class Select extends Component {
             childrenClassName,
             trigger
         } = this.props;
-        const {data, visible, selectedTitle} = this.state;
+        const {data, visible, selectedTitle, selectedVals} = this.state;
         const childrens = this.renderOptionsData();
         const isShowMultiple =
             selectedTitle && selectedTitle.length && multiple ? true : false;
@@ -264,7 +270,7 @@ export default class Select extends Component {
                     {selectedTitle.length
                         ? selectedTitle.map((title, index) => (
                             <Tag
-                                closable
+                                closable = {selectedVals.length == this.props.minLength?false:true}
                                 onChange={this.onHandleTagChange.bind(this, index)}
                                 key={index}
                             >
