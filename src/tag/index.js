@@ -31,12 +31,10 @@ export default class Tag extends Component {
         if (!this.props.type) {
             this.setState({visible: false});
         }
-        console.log('children', this.props.children, this.state.visible)
         this.props.onChange(this.node);
     }
     render(){
         const {children, closable} = this.props;
-        console.log('children', children, this.state.visible)
         return (
             <div 
             ref={(el) => {this.node = el}}
