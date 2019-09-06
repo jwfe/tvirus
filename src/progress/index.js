@@ -13,7 +13,9 @@ export default class Progress extends Component {
         value: PropTypes.oneOfType([
             PropTypes.array,
             PropTypes.number
-        ])
+        ]),
+        /** 是否要圆角 */
+        circular:PropTypes.bool
     };
     
     static defaultProps = {
@@ -21,7 +23,7 @@ export default class Progress extends Component {
     }
 
     render(){
-        const { type, status, value } = this.props;
+        const { type, status, value, circular } = this.props;
         if(type === 'color'){
             const percentage = 100/value.length;
             return (
@@ -38,7 +40,7 @@ export default class Progress extends Component {
             <div className="tv-progress">
                 <div className={this.className("tv-progress-inner", {
                     [`tv-progress-inner-${status}`]: status
-                })} style={{width: `${value}%`}}></div>
+                })} style={{width: `${value}%`,'border-radius-left':`${circular?'0 3px 3px 0':'0'}`}}></div>
             </div>
         )
     }
