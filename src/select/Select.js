@@ -160,7 +160,7 @@ export default class Select extends Component {
         });
     }
 
-    onHandleTagChange(index) {
+    onHandleTagChange = index => {
         let {selectedVals, selectedTitle, visible} = this.state;
         // 取消
         if (!index) {
@@ -186,7 +186,7 @@ export default class Select extends Component {
         );
     }
 
-    handlePopupChange(showPopup) {
+    handlePopupChange = showPopup => {
         const {disabled, multiple} = this.props;
 
         if (disabled) {
@@ -271,7 +271,7 @@ export default class Select extends Component {
                         ? selectedTitle.map((title, index) => (
                             <Tag
                                 closable = {selectedVals.length == this.props.minLength?false:true}
-                                onChange={this.onHandleTagChange.bind(this, index)}
+                                onChange={this.onHandleTagChange}
                                 key={index}
                             >
                                 {title}
@@ -301,7 +301,7 @@ export default class Select extends Component {
                     trigger={trigger}
                     position={position}
                     content={renderOptions}
-                    onChange={this.handlePopupChange.bind(this)}
+                    onChange={this.handlePopupChange}
                 >
                     <div className='tv-select-trigger'>{defaultContent}</div>
                 </Popup>
