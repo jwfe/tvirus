@@ -41,7 +41,6 @@ export default class Option extends Component {
         if(disabled){
             return;
         }
-        console.log(55555,value,'index');
         this.setState({
             selected: true
         }, () => {
