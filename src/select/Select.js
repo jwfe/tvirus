@@ -68,7 +68,7 @@ export default class Select extends Component {
         position: 'bottom left',
         trigger: 'click',
         onChange: noop,
-        minLength: 0
+        minLength: 0,
     };
 
     constructor(props) {
@@ -95,8 +95,6 @@ export default class Select extends Component {
     handleOptionClick(value, title) {
         let {selectedVals, selectedTitle} = this.state;
         const {multiple, name} = this.props;
-
-        console.log(selectedVals,'--------1111111')
         if (multiple) {
             const selectedIndex = selectedVals.indexOf(value);
             if (selectedIndex === -1) {
@@ -164,7 +162,6 @@ export default class Select extends Component {
         let {selectedVals, selectedTitle, visible} = this.state;
         // 取消
         if (!index) {
-            
             selectedVals.shift(0);
             selectedTitle.shift(0);
         } else if (selectedVals.length - 1 === index) {
@@ -239,7 +236,7 @@ export default class Select extends Component {
                         onSearch={this.handleSearch.bind(this)}
                     >
                         搜索
-          </Search>
+                    </Search>
                 )}
                 {!isShowSearch && <span>{selectedTitle[0] || placeholder}</span>}
                 {!isShowSearch && <Icon type='down' />}
@@ -269,13 +266,15 @@ export default class Select extends Component {
                 >
                     {selectedTitle.length
                         ? selectedTitle.map((title, index) => (
-                            <Tag
-                                closable = {selectedVals.length == this.props.minLength?false:true}
-                                onChange={this.onHandleTagChange}
-                                key={index}
-                            >
-                                {title}
-                            </Tag>
+                                <Tag
+                                    closable = {selectedVals.length == this.props.minLength?false:true}
+                                    onChange={() => this.onHandleTagChange(index)}
+                                    key={index}
+                                    type={true}
+                                >
+                                    {title}
+                                </Tag>
+                            
                         ))
                         : placeholder}
                 </div>

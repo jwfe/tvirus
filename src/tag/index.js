@@ -14,20 +14,29 @@ export default class Tag extends Component {
         closable: PropTypes.bool,
         /** 关闭以后的回调 */
         onChange: PropTypes.func,
+        /** select中使用的props*/
+        type: PropTypes.any
 
     };
+
     static defaultProps = {
         closable: false
     };
+
     state = {
         visible: true
     }
+
     onHandleChange = () => {
-        this.setState({ visible: false })
+        if (!this.props.type) {
+            this.setState({visible: false});
+        }
+        console.log('children', this.props.children, this.state.visible)
         this.props.onChange(this.node);
     }
     render(){
-        const { children, closable } = this.props;
+        const {children, closable} = this.props;
+        console.log('children', children, this.state.visible)
         return (
             <div 
             ref={(el) => {this.node = el}}
@@ -36,7 +45,7 @@ export default class Tag extends Component {
             })} 
             >
                 {children}
-                { closable && <Icon type="add" onClick={this.onHandleChange} /> }
+                {closable && <Icon type="add" onClick={this.onHandleChange} /> }
             </div>
         )
     }
