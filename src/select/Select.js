@@ -57,7 +57,9 @@ export default class Select extends Component {
         /** 数据变化后的回调 */
         onChange: PropTypes.func,
         /**最小可选择的个数 */
-        minLength: PropTypes.number
+        minLength: PropTypes.number,
+        /**筛选是否可关闭 */
+        tagClose: PropTypes.bool
     };
 
     static defaultProps = {
@@ -69,6 +71,7 @@ export default class Select extends Component {
         trigger: 'click',
         onChange: noop,
         minLength: 0,
+        tagClose:true
     };
 
     constructor(props) {
@@ -103,11 +106,15 @@ export default class Select extends Component {
             } else {
                 // 取消
                 if (selectedVals.length === 1 || !selectedIndex) {
-                    selectedVals.shift(0);
-                    selectedTitle.shift(0);
+                    // selectedVals.shift(0);
+                    // selectedTitle.shift(0);
+                    selectedVals.splice(selectedIndex,1);
+                    selectedTitle.splice(selectedIndex,1);
                 } else if (selectedVals.length - 1 === selectedIndex) {
-                    selectedVals.pop();
-                    selectedTitle.pop();
+                    // selectedVals.pop();
+                    // selectedTitle.pop();
+                    selectedVals.splice(selectedIndex,1);
+                    selectedTitle.splice(selectedIndex,1);
                 } else {
                     selectedVals.splice(selectedIndex, selectedIndex);
                     selectedTitle.splice(selectedIndex, selectedIndex);
@@ -162,8 +169,8 @@ export default class Select extends Component {
         let {selectedVals, selectedTitle, visible} = this.state;
         // 取消
         if (!index) {
-            selectedVals.shift(0);
-            selectedTitle.shift(0);
+            selectedVals.splice(0,1);
+            selectedTitle.splice(0,1);
         } else if (selectedVals.length - 1 === index) {
             selectedVals.pop();
             selectedTitle.pop();
@@ -213,7 +220,7 @@ export default class Select extends Component {
             childrenClassName,
             trigger
         } = this.props;
-        const {data, visible, selectedTitle, selectedVals} = this.state;
+        const {data, visible, selectedTitle, selectedVals, tagClose} = this.state;
         const childrens = this.renderOptionsData();
         const isShowMultiple =
             selectedTitle && selectedTitle.length && multiple ? true : false;
@@ -267,7 +274,7 @@ export default class Select extends Component {
                     {selectedTitle.length
                         ? selectedTitle.map((title, index) => (
                                 <Tag
-                                    closable = {selectedVals.length == this.props.minLength?false:true}
+                                    closable = {!tagClose?false:(selectedVals.length == this.props.minLength?false:true)}
                                     onChange={() => this.onHandleTagChange(index)}
                                     key={index}
                                     type={true}
