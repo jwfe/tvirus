@@ -40,7 +40,7 @@ export default class Progress extends Component {
             <div className="tv-progress">
                 <div className={this.className("tv-progress-inner", {
                     [`tv-progress-inner-${status}`]: status
-                })} style={{width: `${value}%`,'border-radius':`${circular?'0 3px 3px 0':'0'}`}}></div>
+                })} style={{width: `${value}%`,'borderRadius':`${circular?'0 6px 6px 0':'0'}`}}></div>
             </div>
         )
     }

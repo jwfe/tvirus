@@ -20,12 +20,14 @@ export default class MonthTable extends Component {
         key: PropTypes.string,
         date: PropTypes.instanceOf(Date),
         disabledDate: PropTypes.func,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        lang: PropTypes.string,
     };
 
     static defaultProps = {
         disabled: false,
-        disabledDate: noop
+        disabledDate: noop,
+        lang: 'zh'
     };
 
     constructor(props) {
@@ -52,12 +54,11 @@ export default class MonthTable extends Component {
     }
 
     getRowsDays(){
-        const { date, disabledDate, rangeKey, minDate, maxDate, range } = this.props
+        const { date, disabledDate, rangeKey, minDate, maxDate, range, langConfig, lang } = this.props
         const [year, month] = format(date).split(/\W+/);
 
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
-
         const monthTables = [];
 
         for(let i=0; i<12; i++){
@@ -70,7 +71,13 @@ export default class MonthTable extends Component {
             const _date = new Date(time);
             _date.setMonth(i);
             _date.setDate(1);
-
+            
+            let text = '';
+            if(lang == 'zh'){
+                text = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][i] + '月'
+            } else {
+                text = langConfig['MonthNum'][i]
+            }
             monthTables[rowIndex].push({
                 inRange: range !== RANGE ? false : (_date >= min && _date <= max),
                 year,
@@ -78,7 +85,7 @@ export default class MonthTable extends Component {
                 disabled: disabledDate(_date, rangeKey),
                 date: _date,
                 month: i + 1,
-                text: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'][i] + '月'
+                text: text
             });
         }
         return monthTables;
@@ -168,7 +175,7 @@ export default class MonthTable extends Component {
                                             key={index2}
                                             onMouseMove={this.handleMouseMove.bind(this, cell)}
                                             onClick={this.handleClick.bind(this, cell)}
-                                            title={`${cell.year}年`} 
+                                            title={`${cell.year} 年`} 
                                             className={this.className('tv-datepicker-cell', {
                                                 'tv-datepicker-cell-in-range': cell.inRange,
                                                 'tv-datepicker-cell-selected': cell.selected,

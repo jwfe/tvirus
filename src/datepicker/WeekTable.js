@@ -172,6 +172,7 @@ export default class WeekTable extends Component {
     render(){
         const { rows } = this.getRow();
 
+        const { lang, langConfig } = this.props;
         return (
             <div className={this.className('tv-datepicker-week-table')} style={this.style()}>
                 {
@@ -179,6 +180,10 @@ export default class WeekTable extends Component {
                         const data = row[0];
                         const first = format(row[0].date, 'yyyy-MM-dd');
                         const last = format(row[6].date, 'yyyy-MM-dd');
+                        let text = `第${data.week}周${first} ~ ${last}`
+                        if(lang == 'en'){
+                            text = `${data.week} week ${first} ~ ${last}`
+                        }
                         return (
                             <div key={index} className={this.classNames(['tv-datepicker-week-item', {
                                 'isDisabled': data.disabled,
@@ -188,7 +193,7 @@ export default class WeekTable extends Component {
                             onMouseMove={this.handleMouseMove.bind(this, data)}
                             onClick={this.handleClick.bind(this, row[6].date, row[6].date)}
                             >
-                                第{data.week}周{first} ~ {last}
+                            {text}
                             </div>
                         )
                     })

@@ -4,11 +4,16 @@ import DateTable from './DateTable';
 import YearTable from './YearTable';
 import MonthTable from './MonthTable';
 import WeekTable from './WeekTable';
+import zhCN from './lang/zh.js';  //导入 i18n 配置文件,需要手动创建并填入语言转换信息
+import enUS from './lang/en.js';
 import Button from '@button';
 import Icon from '@icon';
 
 import Popup from '@popup';
-
+const langMap = {
+    'zh': zhCN,
+    'en': enUS
+};
 const { weekOfYear, parse, fixedYM, format, nextMonth } = Util.date;
 
 export default class Range extends Component {
@@ -31,14 +36,17 @@ export default class Range extends Component {
         /** 禁用某些规则的日期，该方法可以接收一个日期对象，需要返回true/false */
         disabledDate: PropTypes.func,
         /** 数据变化的回调 onChange([最新日期, 最大日期], 确定或者取消的标记：true是确定、false是取消, name, mode: 'day', 'week', 'year', 'month'); */
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        /**接受语言 zh中文，en英文 默认中文 */
+        lang:PropTypes.string
     };
 
     static defaultProps = {
         mode: 'day',
         trigger: 'click',
         position: "bottom left",
-        onChange: noop
+        onChange: noop,
+        lang:'zh'
     };
 
     constructor(props) {
@@ -187,6 +195,7 @@ export default class Range extends Component {
         let expandIndex;
         (props.expand || []).forEach((item,index) => { item.selected && (expandIndex = index)});
         const max = parse(props.maxDate || format(left_date));
+        const langConfig = langMap[props.lang];
         return {
             expandSelectedIndex: typeof selectedIndex == 'undefined' ? expandIndex : selected.expandSelectedIndex,
             currSelectKey: undefined,
@@ -206,7 +215,9 @@ export default class Range extends Component {
             rangeState: {
                 endDate: null,
                 selecting: false,
-            }
+            },
+            langConfig,
+            lang:props.lang
         }
     }
     
@@ -426,15 +437,16 @@ export default class Range extends Component {
         const isHideRight = key === 'left';
         const isHideLeft = key === 'right';
         const isHideMonth = !view[`${key}year`];
-
+        const _year = this.state.langConfig['年'];
+        const _month = this.state.langConfig['月'];
         return (
             <div className={this.className('tv-datepicker-header')}>
                 <div className="tv-datepicker-header-wraper">
                     {!isHideLeft && <a className="tv-datepicker-prev-year-btn" title="上一年" onClick={this.handlePrevYearClick.bind(this, key)}></a>}
                     {(!isHideLeft && isHideMonth) && <a className="tv-datepicker-prev-month-btn" title="上个月" onClick={this.handlePrevMonthClick.bind(this, key)}></a>}
                     <span className="tv-datepicker-ym-select">
-                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this, key)}>{array[0]}年</a>
-                        <a style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}月</a>
+                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showYearPicker.bind(this, key)}>{array[0]}{_year}</a>
+                        <a style={{display: (!view[key + 'year'] && !view[key + 'month']) ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showMonthPicker.bind(this, key)}>{array[1]}{_month}</a>
                     </span>
                     {(!isHideRight && isHideMonth) && <a className="tv-datepicker-next-month-btn" title="下个月" onClick={this.handleNextMonthClick.bind(this, key)}></a>}
                     {!isHideRight && <a className="tv-datepicker-next-year-btn" title="下一年" onClick={this.handleNextYearClick.bind(this, key)}></a>}
@@ -453,7 +465,7 @@ export default class Range extends Component {
 
     renderTable(key){
         let rangeMode = 'range';
-        let { view, rangeState, minDate, maxDate, mode } = this.state;
+        let { view, rangeState, minDate, maxDate, mode,lang, langConfig } = this.state;
         let date = this.state[`${key}_date`];
         const monthMode = this.isSigle();
         const yearMode = mode !== 'year' ? 'sigle' : rangeMode;
@@ -468,6 +480,8 @@ export default class Range extends Component {
                 rangeKey={key} 
                 date={date} 
                 onChange={this.handleYearDate} 
+                lang={lang}
+                langConfig={langConfig}
                 style={{display: view[key + 'year'] ? '' : 'none'}} />
 
                 {mode !== 'year' && <MonthTable 
@@ -480,6 +494,8 @@ export default class Range extends Component {
                     date={date} 
                     onChange={this.handleMonthDate} 
                     onMoveRange={this.handleMoveRange}
+                    lang={lang}
+                    langConfig={langConfig}
                     style={{display: (view[key + 'month'] && !view[key + 'year']) ? '' : 'none'}} />}
 
                 {mode === 'week' && <WeekTable 
@@ -493,6 +509,8 @@ export default class Range extends Component {
                     maxDate={maxDate}
                     onMoveRange={this.handleMoveRange}
                     onChange={this.handleWeekDate}
+                    lang={lang}
+                    langConfig={langConfig}
                 />}
 
                 {mode === 'day' && <DateTable 
@@ -506,6 +524,8 @@ export default class Range extends Component {
                     maxDate={maxDate}
                     onMoveRange={this.handleMoveRange}
                     onChange={this.handleDate}
+                    lang={lang}
+                    langConfig={langConfig}
                 />}
             </div>
         );
@@ -538,7 +558,7 @@ export default class Range extends Component {
     }
 
     formatShowContent(date){
-        const { mode } = this.state;
+        const { mode, lang } = this.state;
         const defaultFormat = {
             'day': 'yyyy-MM-dd',
             'year': 'yyyy',
@@ -549,7 +569,12 @@ export default class Range extends Component {
             const _dateStr = format(date);
             const [year] = _dateStr.split(/\W+/);
             const obj = weekOfYear(_dateStr);
-            return `${year}年第${obj.number}周`;
+            if(lang == 'zh'){
+                return `${year}年第${obj.number}周`;
+            } else {
+                return `${obj.number} week ${year}`;
+            }
+            
         }
 
         return format(date, this.state.format || defaultFormat[mode]);
@@ -571,7 +596,7 @@ export default class Range extends Component {
     }
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
-        const { disabled, visible, selected } = this.state;
+        const { disabled, visible, selected, langConfig } = this.state;
         const { minDate, maxDate } = selected;
 
         const content = [
@@ -595,8 +620,8 @@ export default class Range extends Component {
                     <div className="tv-datepicker-footer-extra">
                         {this.renderFooterExtra()}
                     </div>
-                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>取 消</Button>
-                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
+                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>{langConfig['取 消']}</Button>
+                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>{langConfig['确 定']}</Button>
                 </div>
             </div>
         ];

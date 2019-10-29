@@ -6,9 +6,15 @@ import YearTable from './YearTable';
 import MonthTable from './MonthTable';
 import WeekTable from './WeekTable';
 
+import zhCN from './lang/zh.js';  //导入 中英文配置文件
+import enUS from './lang/en.js';
 import Icon from '@icon';
 import Button from '@button';
 import Popup from '@popup';
+const langMap = {
+    'zh': zhCN,
+    'en': enUS
+};
 
 const { fixedYM, weekOfYear, parse, format } = Util.date;
 /**
@@ -35,25 +41,31 @@ export default class Datepicker extends Component {
         /** 禁用某些规则的日期，该方法可以接收一个日期对象，需要返回true/false */
         disabledDate: PropTypes.func,
         /** 数据变化的回调 */
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        /**接受语言 zh中文，en英文 默认中文 */
+        lang:PropTypes.string
     };
 
     static defaultProps = {
         position: "bottom left",
         mode: 'day',
         trigger: 'click',
-        disabledDate: noop
+        disabledDate: noop,
+        lang:'zh'
     };
 
     constructor(props) {
         super(props);
         const date = props.value ? parse(props.value) : parse(format(new Date()));
+        console.log(date)
         this.state = {
             mode: props.mode,
             format: props.format,
             view: 'day',
             date: date,
-            currentDateObj: weekOfYear(format(date))
+            currentDateObj: weekOfYear(format(date)),
+            lang:props.lang,
+            langConfig:langMap[props.lang]
         }
     }
 
@@ -311,7 +323,7 @@ export default class Datepicker extends Component {
     }
 
     renderSearch(){
-        const { date, view } = this.state;
+        const { date, view, langConfig } = this.state;
         const { year, month } = weekOfYear(format(date));
         return (
             <div className={this.className('tv-datepicker-header')}>
@@ -319,8 +331,8 @@ export default class Datepicker extends Component {
                     <a className="tv-datepicker-prev-year-btn" title="上一年" onClick={this.handlePrevYearClick.bind(this)}></a>
                     <a className="tv-datepicker-prev-month-btn" title="上个月" onClick={this.handlePrevMonthClick.bind(this)}></a>
                     <span className="tv-datepicker-ym-select">
-                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showPicker.bind(this, 'year')}>{year}年</a>
-                        <a style={{display: view === 'day' ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showPicker.bind(this, 'month')}>{month}月</a>
+                        <a className="tv-datepicker-year-select" title="选择年份" onClick={this.showPicker.bind(this, 'year')}>{year}{langConfig['年']}</a>
+                        <a style={{display: view === 'day' ? '' : 'none'}} className="tv-datepicker-month-select" title="选择月份" onClick={this.showPicker.bind(this, 'month')}>{month}{langConfig['月']}</a>
                     </span>
                     <a className="tv-datepicker-next-month-btn" title="下个月" onClick={this.handleNextMonthClick.bind(this)}></a>
                     <a className="tv-datepicker-next-year-btn" title="下一年" onClick={this.handleNextYearClick.bind(this)}></a>
@@ -330,7 +342,7 @@ export default class Datepicker extends Component {
     }
 
     renderTable(){
-        let { view, mode } = this.state;
+        let { view, mode, lang, langConfig } = this.state;
         let date = this.state[`date`];
         return (
             <div className={this.className('tv-datepicker-body')}>
@@ -338,12 +350,16 @@ export default class Datepicker extends Component {
                 disabledDate={this.disabledDate} 
                 date={date} 
                 onChange={this.handleYearDate} 
+                lang={lang}
+                langConfig={langConfig}
                 style={{display: view['year'] ? '' : 'none'}} />
 
                 {mode !== 'year' && <MonthTable 
                     disabledDate={this.disabledDate} 
                     date={date} 
                     onChange={this.handleMonthDate} 
+                    lang={lang}
+                    langConfig={langConfig}
                     style={{display: (view['month'] && !view['year']) ? '' : 'none'}} />}
 
                 {(mode === 'day' || mode === 'week') && <DateTable 
@@ -351,6 +367,8 @@ export default class Datepicker extends Component {
                     style={{display: (!view['year'] && !view['month']) ? '' : 'none'}}
                     mode={mode}
                     date={date} 
+                    lang={lang}
+                    langConfig={langConfig}
                     onChange={this.handleDate}
                 />}
             </div>
@@ -368,7 +386,13 @@ export default class Datepicker extends Component {
             const _dateStr = format(date);
             const [year] = _dateStr.split(/\W+/);
             const obj = weekOfYear(_dateStr);
-            return `${year}年第${obj.number}周`;
+            let lang = this.state.lang == 'zh';
+            if(lang){
+                return `${year}年第${obj.number}周`;
+            } else {
+                return `${obj.number} week ${year}`;
+            }
+            
         }
 
         return format(date, this.state.format || defaultFormat[mode]);
@@ -386,7 +410,7 @@ export default class Datepicker extends Component {
     }
     render(){
         const { position, placeholder, footer, children, trigger } = this.props;
-        const { disabled, visible, date } = this.state;
+        const { disabled, visible, date, langConfig } = this.state;
         const content = [
             <div className="tv-datepicker-wrapper">
                 {this.renderExpand()}
@@ -402,8 +426,8 @@ export default class Datepicker extends Component {
                     <div className="tv-datepicker-footer-extra">
                         {this.renderFooterExtra()}
                     </div>
-                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>取 消</Button>
-                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>确 定</Button>
+                    <Button size="small" className="tv-datepicker-cancel-btn" onClick={this.onReset}>{langConfig['取 消']}</Button>
+                    <Button type="primary" size="small" className="tv-datepicker-ok-btn" onClick={this.onChange}>{langConfig['确 定']}</Button>
                 </div>
             </div>
         ]

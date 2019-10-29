@@ -44,7 +44,7 @@ export default class YearTable extends Component {
     }
 
     getRowsDays(){
-        const { date, disabledDate, rangeKey } = this.props
+        const { date, disabledDate, rangeKey, langConfig } = this.props
 
         const yearTables = [];
         const { year } = weekOfYear(format(date));
@@ -78,7 +78,7 @@ export default class YearTable extends Component {
                 disabled: disabledDate(_date, rangeKey),
                 year: value,
                 date: _date,
-                text: value + '年'
+                text: value + langConfig['年']
             });
         }
         return yearTables;
@@ -117,6 +117,8 @@ export default class YearTable extends Component {
     }
 
     render(){
+
+        let { langConfig } = this.props;
         return (
             <table className="tv-datepicker-year-table" style={this.style()}>
                 <tbody>
@@ -130,7 +132,7 @@ export default class YearTable extends Component {
                                                 <td 
                                                 key={index2}
                                                 onClick={this.handleClick.bind(this, cell)}
-                                                title={`${cell.year}年`} 
+                                                title={`${cell.year} ${langConfig['年']}`} 
                                                 className={this.className('tv-datepicker-cell', {
                                                     'tv-datepicker-cell-selected': cell.selected,
                                                     'tv-datepicker-cell-today': cell.today,

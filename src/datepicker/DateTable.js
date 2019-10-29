@@ -86,7 +86,7 @@ export default class DateTable extends Component {
         return result;
     }
     getRowsDays(){
-        let { date, disabledDate, showWeekNumber, minDate, maxDate, mode } = this.props;
+        let { date, disabledDate, showWeekNumber, minDate, maxDate, mode, lang, langConfig } = this.props;
         const min = clearHours(minDate);
         const max = clearHours(maxDate);
 
@@ -113,7 +113,7 @@ export default class DateTable extends Component {
             dateObj.week = number;
             dateObj.season = season;
             if(dateObj.today){
-                dateObj.text = '今天'
+                dateObj.text = langConfig['今天']
             }
 
             const time = clearHours(dateObj.date);
@@ -226,7 +226,7 @@ export default class DateTable extends Component {
     }
 
     renderHead(head){
-        const { mode } = this.props;
+        const { mode, langConfig } = this.props;
 
         if(mode === modes.WEEK){
             head.unshift(' ');
@@ -239,7 +239,7 @@ export default class DateTable extends Component {
                     head.map((item, index) => {
                         return (
                             <th key={index.toString()} title={`周${item}`} className="tv-datepicker-column-header">
-                                <span key={index.toString()} className="tv-datepicker-column-header-inner">{item}</span>
+                                <span key={index.toString()} className="tv-datepicker-column-header-inner">{langConfig['WeekNum'][index]}</span>
                             </th>
                         )
                     })
@@ -250,7 +250,7 @@ export default class DateTable extends Component {
     }
 
     render(){
-        const { mode } = this.props;
+        const { mode, lang, langConfig } = this.props;
         const isWeek = mode === modes.WEEK;
         const { head, rows } = this.getRow();
         return (
