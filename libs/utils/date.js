@@ -174,7 +174,6 @@ export const weekOfYear = (dirtyDateString, lang='zh', weekStart=1) => {
     if(firstMonthWeek !== 0){
         let firstMonthDay = (7 - firstMonthWeek) + weekStart;
         firstMonthDay = firstMonthDay < 10 ? ('0' + firstMonthDay) : firstMonthDay;
-        firstMonth = parse(`${dirtyDate.getFullYear()}-01-${firstMonthDay}`);
         if((dirtyDate - firstMonth) < 0){
             firstMonth = parse(`${dirtyDate.getFullYear() - 1}-01-01`);
         }
