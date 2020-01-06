@@ -63,6 +63,7 @@ export default class WeekTable extends Component {
         const max = clearHours(maxDate);
 
         const dateArray = getMonthDaysArray(date);
+        // 处理第一周逻辑
         if (dateArray[0].year < dateArray[1].year) {
             dateArray[0].year = dateArray[1].year;
             dateArray[0].month = 1;
