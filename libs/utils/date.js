@@ -152,7 +152,7 @@ const getWeekOfYear = function(date, weekStart) {
         weekStart = 0;
     var year = date.getFullYear();  
     var firstDay = new Date(year, 0, 1);  
-    var firstWeekDays = 7 - firstDay.getDay() + weekStart;  
+    var firstWeekDays = 7 - firstDay.getDay() + weekStart;
     var dayOfYear = (((new Date(year, date.getMonth(), date.getDate())) - firstDay) / (24 * 3600 * 1000)) + 1;  
     return Math.ceil((dayOfYear - firstWeekDays) / 7) + 1;  
 }
@@ -194,7 +194,7 @@ export const weekOfYear = (dirtyDateString, lang='zh', weekStart=1) => {
     const weekArr = weekObj[lang] || [];
     return {
         year: firstMonth.getFullYear(),
-        number: number + 1,
+        number: number,
         month: month,
         season: season[month],
         week,day,
@@ -229,7 +229,6 @@ export const now = (dirtyDate) => {
     if(is(str)){
         str = format(dirtyDate);
     }
-
     return weekOfYear(str)
 }
 
@@ -265,7 +264,6 @@ export function getMonthDaysArray (dirtyDateString, lang="zh"){
 
     let firstDayInWeek = weekOfYear(`${year}-${month}-01`).week;
     let lastDayInWeek = weekOfYear(`${year}-${month}-${days}`).week;
-
     firstDayInWeek = firstDayInWeek || 7;
     lastDayInWeek = lastDayInWeek || 7;
 
