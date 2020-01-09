@@ -17,6 +17,8 @@ export default class Switch extends Component {
         checked: PropTypes.bool,
         /** 变化后回调 */
         onChange: PropTypes.func,
+        /** 选中颜色 */
+        activeColor: PropTypes.string
     };
     static defaultProps = {
         size: 'medium'
@@ -35,7 +37,8 @@ export default class Switch extends Component {
         return (
             <button 
             onClick={this.handleClick.bind(this)}
-            type="button" 
+            type="button"
+            style={{background: checked ? this.props.activeColor : ''}}
             className={this.className('tv-switch', {
                 'tv-switch-checked': checked,
                 [`tv-switch-${size}`]: size
