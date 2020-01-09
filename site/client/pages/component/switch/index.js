@@ -51,6 +51,19 @@ export default class SwitchDemo extends Component{
             )
         });
 
+        childs.push({
+            title: '变更高亮颜色',
+            children: (
+                <div className="code-demo">
+                    <Row>
+                        <Col span={12}>
+                            <Switch activeColor="#000" />
+                        </Col>                        
+                    </Row>
+                </div>
+            )
+        });
+
         this.setState({childs})
     }
 

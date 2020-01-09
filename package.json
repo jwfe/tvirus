@@ -1,6 +1,6 @@
 {
   "name": "tvirus",
-  "version": "1.0.62",
+  "version": "1.0.63",
   "description": "一套完善的组件化方案",
   "main": "dist/tvirus.js",
   "peerDependencies": {
