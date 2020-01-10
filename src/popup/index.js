@@ -106,6 +106,7 @@ export default class Popup extends Component {
     onUnmount = (e) => {
         const triggerNode = this.triggerNode;
         const popupNode = this.popupNode;
+        // TODO: 临时解决了 contains 竟然抽筋了的问题 
         const popupNodeStr =  popupNode.innerHTML;
         const targetStr = e.target.innerHTML;
         const hasPopupNode = popupNodeStr.indexOf(targetStr) !== -1;
