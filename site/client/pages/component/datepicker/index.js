@@ -147,7 +147,9 @@ export default class DatepickerDemo extends Component{
                                         this.update({mode: 'year'}, index)
                                     }
                                 }
-                            ]} />
+                            ]}
+                            disabled={false}
+                            />
                         </Col>
 
                         <Col span={12}>
