@@ -46,7 +46,8 @@ export default class Range extends Component {
         trigger: 'click',
         position: "bottom left",
         onChange: noop,
-        lang:'zh'
+        lang:'zh',
+        disabled: false
     };
 
     constructor(props) {
@@ -217,7 +218,8 @@ export default class Range extends Component {
                 selecting: false,
             },
             langConfig,
-            lang:props.lang
+            lang:props.lang,
+            disabled: props.disabled
         }
     }
     

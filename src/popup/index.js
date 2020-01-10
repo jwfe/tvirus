@@ -106,12 +106,22 @@ export default class Popup extends Component {
     onUnmount = (e) => {
         const triggerNode = this.triggerNode;
         const popupNode = this.popupNode;
+        const popupNodeStr =  popupNode.innerHTML;
+        const targetStr = e.target.innerHTML;
+        const hasPopupNode = popupNodeStr.indexOf(targetStr) !== -1;
+        // if (!e.target || !triggerNode || !popupNode 
+        // || triggerNode.contains(e.target) || popupNode.contains(e.target)) {
+        //     return false;
+        // };
         if (!e.target || !triggerNode || !popupNode 
-            || triggerNode.contains(e.target) || popupNode.contains(e.target)) {
+        || triggerNode.contains(e.target) || hasPopupNode) {
             return false;
         };
+
         this.setPopupState(false);
     }
+
+
     setPopupState(showPopup){
         const { onChange, disabled } = this.props;
         if(disabled || !this.triggerNode){
