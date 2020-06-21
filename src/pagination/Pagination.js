@@ -19,7 +19,7 @@ export default class Pagination extends Component {
         sizeChanger: PropTypes.array,
         /** size变化后的回调 */
         onSizeChange: PropTypes.func,
-        /** 切换后的回调 */
+        /** 切换后的回调 */ 
         onChange: PropTypes.func
     };
     static defaultProps = {
@@ -72,7 +72,7 @@ export default class Pagination extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.showSizeChanger !== this.props.showSizeChanger) {
+        if (nextProps.showSizeChanger !== this.props.showSizeChanger || nextProps.activeIndex !== this.props.activeIndex || nextState.activeIndex != this.state.activeIndex) {
             return true;
         }
 
@@ -218,7 +218,6 @@ export default class Pagination extends Component {
                 activeText = pageTotal;
             }
         }
-        
         this.setState({
             activeIndex: activeText
         }, () => {
