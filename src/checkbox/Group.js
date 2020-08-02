@@ -26,6 +26,14 @@ export default class Group extends Component {
             defaultValue: props.value
         }
     }
+    componentDidUpdate(preProps) {
+        if (preProps.value != this.props.value) {
+            this.setState({
+                defaultValue:this.props.value
+            })
+        }
+    }
+
     handleChange = (value, checked, key) => {
         const { onChange } = this.props;
         let { defaultValue } = this.state;

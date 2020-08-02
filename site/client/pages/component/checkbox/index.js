@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Layout from '../../../common/webcomponent';
 
-import { Checkbox, Row, Col } from 'tvirus';
+import {Checkbox, Row, Col } from 'tvirus';
 import './index.less'
-
 export default class CheckboxDemo extends Component{
     constructor(props){
         super(props);
         this.state = {
-            childs: []
+            childs: [],
         }
     }
 
@@ -35,17 +34,16 @@ export default class CheckboxDemo extends Component{
             )
         });
 
-
         childs.push({
             title: '组合',
             children: (
                 <div className="code-demo">
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Checkbox.Group value={['1','2','3','4']} name="test1">
-                                <Checkbox value="1">Checkbox 1</Checkbox>
+                            <Checkbox.Group value={["1", "3"]} name="test1">
+                                <Checkbox value="1" checked>Checkbox 1</Checkbox>
                                 <Checkbox value="2">Checkbox 2</Checkbox>
-                                <Checkbox value="3">Checkbox 3</Checkbox>
+                                <Checkbox value="3" checked>Checkbox 3</Checkbox>
                                 <Checkbox value="4">Checkbox 4</Checkbox>
                             </Checkbox.Group>
                         </Col>
@@ -65,7 +63,6 @@ export default class CheckboxDemo extends Component{
 
     render() {
         const {childs} = this.state;
-
         return <Layout {...this.props} 
 			keyword="checkbox"
             className="main-checkbox-box"
